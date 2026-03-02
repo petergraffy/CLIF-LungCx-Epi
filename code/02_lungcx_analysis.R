@@ -315,17 +315,67 @@ save_plot(p1, "traj_phys_rs_area", w=11, h=7)
 
 
 
+analysis_ready <- analysis_ready %>%
+  left_join(traj_assign, by = "hospitalization_id")
 
 
+library(nnet)
+
+analysis_ready <- analysis_ready %>%
+  mutate(
+    traj_cluster = factor(traj_cluster),
+    pm25_5y_z = scale(pm25_5y),
+    no2_5y_z  = scale(no2_5y)
+  )
+
+m_traj <- multinom(
+  traj_cluster ~ pm25_5y_z + no2_5y_z +
+    age_years + sex_category + race_category,
+  data = analysis_ready
+)
+
+summary(m_traj)
 
 
+m_mort <- glm(
+  death_or_hospice ~ pm25_5y_z + no2_5y_z +
+    traj_cluster +
+    age_years + sex_category + race_category,
+  data = analysis_ready,
+  family = binomial()
+)
 
+summary(m_mort)
+exp(cbind(OR = coef(m_mort), confint(m_mort)))
 
+m_int <- glm(
+  death_or_hospice ~ pm25_5y_z * traj_cluster +
+    no2_5y_z +
+    age_years + sex_category + race_category,
+  data = analysis_ready,
+  family = binomial()
+)
 
+summary(m_int)
 
+m_int2 <- glm(
+  death_or_hospice ~ no2_5y_z * traj_cluster +
+    pm25_5y_z +
+    age_years + sex_category + race_category,
+  data = analysis_ready,
+  family = binomial()
+)
 
+summary(m_int2)
 
+m_los <- glm(
+  icu_los_hours ~ pm25_5y_z + no2_5y_z +
+    traj_cluster +
+    age_years + sex_category + race_category,
+  data = analysis_ready,
+  family = quasipoisson(link = "log")
+)
 
-
+summary(m_los)
 
 

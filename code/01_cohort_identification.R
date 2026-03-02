@@ -125,7 +125,7 @@ base_no_ext <- tools::file_path_sans_ext(tolower(bn))
 base_norm <- ifelse(looks_clif, base_no_ext, paste0("clif_", base_no_ext))
 found_map <- stats::setNames(all_files, base_norm)
 
-required_raw <- c("patient","hospitalization","adt","hospital_diagnosis","patient_procedures","respiratory_support")
+required_raw <- c("patient","hospitalization","adt","hospital_diagnosis","patient_procedures","respiratory_support", "labs", "vitals")
 required_files <- paste0("clif_", required_raw)
 missing <- setdiff(required_files, names(found_map))
 if (length(missing) > 0) {
@@ -174,6 +174,26 @@ codes <- codes %>%
     code_system = toupper(str_replace_all(`code type`, "[^A-Z0-9]", "")),
     code = norm_code(code)
   )
+
+# ---------- Resection-only procedure codes (curated) ----------
+# CPT lung resections (+ related thoracoscopic)
+resection_cpt <- c(
+  "32480","32482","32663","32484","32505","32666","32669","32440","32442"
+)
+
+# ICD-10-PCS lung resections (lobes + pneumonectomy approaches) from your table
+resection_icd10pcs <- c(
+  "0BTC0ZZ","0BTC4ZZ","0BTD0ZZ","0BTD4ZZ","0BTG0ZZ","0BTG4ZZ",
+  "0BTH0ZZ","0BTH4ZZ","0BTJ0ZZ","0BTJ4ZZ","0BTK0ZZ","0BTK4ZZ"
+)
+
+resection_proc_codes <- tibble(
+  code_system = c(rep("CPT", length(resection_cpt)),
+                  rep("ICD10PCS", length(resection_icd10pcs))),
+  procedure_code = c(resection_cpt, resection_icd10pcs)
+) %>%
+  mutate(procedure_code = norm_code(procedure_code))
+
 
 # Split codes for dx vs procedure
 lung_dx_prefixes <- codes %>%
@@ -275,16 +295,54 @@ lung_poa <- hospital_dx %>%
   distinct(hospitalization_id) %>%
   mutate(has_lung_cancer_poa = TRUE)
 
-# ---------- Lung resection procedures ----------
+# ---------- Lung resection procedures (resection-only inclusion list) ----------
+
+surgery_from_code <- function(code_system, procedure_code) {
+  dplyr::case_when(
+    code_system == "CPT" & procedure_code %in% c("32440","32442") ~ "Pneumonectomy",
+    code_system == "CPT" & procedure_code %in% c("32480","32482","32663") ~ "Lobectomy",
+    code_system == "CPT" & procedure_code %in% c("32484","32669") ~ "Segmentectomy",
+    code_system == "CPT" & procedure_code %in% c("32505","32666") ~ "Wedge",
+    code_system == "ICD10PCS" & str_starts(procedure_code, "0BTJ") ~ "Pneumonectomy",
+    code_system == "ICD10PCS" & str_starts(procedure_code, "0BTC") ~ "Lobectomy",
+    code_system == "ICD10PCS" & str_starts(procedure_code, "0BTD") ~ "Lobectomy",
+    code_system == "ICD10PCS" & str_starts(procedure_code, "0BTG") ~ "Lobectomy",
+    code_system == "ICD10PCS" & str_starts(procedure_code, "0BTH") ~ "Lobectomy",
+    code_system == "ICD10PCS" & str_starts(procedure_code, "0BTK") ~ "Pneumonectomy",
+    TRUE ~ "Other"
+  )
+}
+
+resection_proc_codes <- resection_proc_codes %>%
+  distinct(code_system, procedure_code)
+
 lung_resection <- patient_proc %>%
   filter(!is.na(proc_time)) %>%
-  filter(procedure_code %in% lung_proc_codes) %>%
+  mutate(
+    # normalize to a small set of code systems
+    code_system = case_when(
+      str_detect(procedure_code_type, "CPT") ~ "CPT",
+      str_detect(procedure_code_type, "ICD10") & str_detect(procedure_code_type, "PCS") ~ "ICD10PCS",
+      str_detect(procedure_code_type, "ICD9")  & str_detect(procedure_code_type, "PCS") ~ "ICD9PCS",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(code_system)) %>%
+  filter(code_system %in% c("CPT","ICD10PCS")) %>%
+  inner_join(
+    resection_proc_codes,
+    by = c("code_system", "procedure_code")
+  ) %>%
   transmute(
     hospitalization_id,
     proc_time,
     procedure_code,
-    procedure_code_format
+    code_system,
+    procedure_code_type,
+    procedure_code_format,
+    surgery_category = surgery_from_code(code_system, procedure_code)
   )
+
 
 # ---------- ICU admissions (all segments) ----------
 icu_adm <- icu_segments %>%
@@ -306,7 +364,13 @@ proc_icu_pairs <- lung_resection %>%
   filter(is.infinite(PROC_TO_ICU_MAX_H) | proc_to_icu_h <= PROC_TO_ICU_MAX_H) %>%
   group_by(hospitalization_id) %>%
   slice_min(proc_to_icu_h, n = 1, with_ties = FALSE) %>%
-  ungroup()
+  ungroup() %>%
+  # label the selected procedure
+  left_join(proc_labels, by = c("procedure_code" = "procedure_code", "code_system" = "code_system")) %>%
+  mutate(
+    surgery_category = coalesce(surgery_category, "Other")
+  )
+
 
 # ---------- Cohort builder (single cohort) ----------
 build_lung_resection_icu <- function(base_df) {
@@ -347,8 +411,12 @@ build_lung_resection_icu <- function(base_df) {
       proc_time, icu_in_time, icu_out_time,
       proc_to_icu_h,
       procedure_code, procedure_code_format,
+      code_system,
+      surgery_category,
+      definition,
       t0
     )
+  
   
   exclusions <- df %>%
     filter(!include) %>%
@@ -517,6 +585,19 @@ rs_at_t0 <- rs_at_t0 %>%
   mutate(rs_group = factor(rs_group, levels = rs_levels))
 
 # ---------- 1) Bar chart: device category at ICU entry ----------
+
+# # ---------- Save outputs ----------
+SITE_NAME   <- sanitize_tag(site_name)
+SYSTEM_DATE <- format(Sys.Date(), "%Y%m%d")
+
+make_name <- function(result_name, ext = "csv") {
+  paste0(result_name, "_", SITE_NAME, "_", SYSTEM_DATE, ".", ext)
+}
+
+out_dir <- file.path(repo, "output", paste0("run_", SITE_NAME, "_", SYSTEM_DATE))
+if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+
+
 rs_summary <- rs_at_t0 %>%
   count(rs_group, name = "n") %>%
   mutate(pct = n / sum(n))
@@ -538,46 +619,7 @@ save_plot(p1, "fig_rs_at_icu_entry_bar.png", width = 9.5, height = 5.5)
 # Also export the table used for the plot
 readr::write_csv(rs_summary, file.path(out_dir, "table_rs_at_icu_entry.csv"))
 
-# ---------- 2) By exposure quantile (if exposure exists in cohort_lung) ----------
-# Expected column names (edit to your actual exposure columns):
-#   pm25_1y, no2_1y, pm25, no2, etc.
-# exposure_candidates <- c("pm25_1y","no2_1y","pm25","no2","pm2_5","no2_ppb")
-# expo_name <- exposure_candidates[exposure_candidates %in% names(cohort_lung)][1]
-# 
-# if (!is.na(expo_name)) {
-#   
-#   dat_expo <- rs_at_t0 %>%
-#     inner_join(cohort_lung %>% select(hospitalization_id, all_of(expo_name)),
-#                by = "hospitalization_id") %>%
-#     mutate(
-#       exposure = suppressWarnings(as.numeric(.data[[expo_name]])),
-#       expo_q = ntile(exposure, 4),
-#       expo_q = factor(expo_q, levels = 1:4,
-#                       labels = c("Q1 (lowest)","Q2","Q3","Q4 (highest)"))
-#     ) %>%
-#     filter(!is.na(exposure))
-#   
-#   rs_by_q <- dat_expo %>%
-#     count(expo_q, rs_group) %>%
-#     group_by(expo_q) %>%
-#     mutate(prop = n / sum(n)) %>%
-#     ungroup()
-#   
-#   p2 <- ggplot(rs_by_q, aes(x = expo_q, y = prop, fill = rs_group)) +
-#     geom_col(position = "fill") +
-#     scale_y_continuous(labels = percent_format()) +
-#     labs(
-#       title = glue("Respiratory support at ICU admission by {expo_name} quartile"),
-#       x = NULL, y = "Proportion", fill = "Resp support"
-#     ) +
-#     theme_pub(14)
-#   
-#   save_plot(p2, glue("fig_rs_by_{expo_name}_quartile_stacked.png"), width = 9.5, height = 5.8)
-#   readr::write_csv(rs_by_q, file.path(out_dir, glue("table_rs_by_{expo_name}_quartile.csv")))
-#   
-# } else {
-#   message("No exposure column found in cohort_lung for stratified plot. Skipping p2.")
-# }
+
 
 # ---------- 3) Heatmap: rs_group x FiO2 at t0 (if FiO2 available) ----------
 # FiO2 often stored as 0-1 or 21-100; we’ll standardize to percent.
@@ -708,16 +750,7 @@ message("Respiratory support visualizations complete.")
 
 
 
-# # ---------- Save outputs ----------
-# SITE_NAME   <- sanitize_tag(site_name)
-# SYSTEM_DATE <- format(Sys.Date(), "%Y%m%d")
-# 
-# make_name <- function(result_name, ext = "csv") {
-#   paste0(result_name, "_", SITE_NAME, "_", SYSTEM_DATE, ".", ext)
-# }
-# 
-# out_dir <- file.path(repo, "output", paste0("run_", SITE_NAME, "_", SYSTEM_DATE))
-# if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+
 # 
 # write_csv(cohort_lung,   file.path(out_dir, make_name("cohort_lung_resection_icu")))
 # write_csv(excluded_lung, file.path(out_dir, make_name("exclusion_lung_resection_icu")))

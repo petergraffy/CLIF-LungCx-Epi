@@ -312,7 +312,7 @@ base <- hospitalization %>%
     ),
     has_demo = !(is.na(age_years) | is.na(sex_category) | is.na(race_category)),
     adult    = !is.na(age_years) & age_years >= ADULT_AGE_YEARS,
-    has_geo  = !is.na(census_tract) | !is.na(zipcode_nine_digit) | !is.na(zipcode_five_digit) | !is.na(county_code)
+    has_geo  = !is.na(census_tract) | !is.na(county_code)
   )
 
 # B) Lung cancer dx POA=1
@@ -879,7 +879,353 @@ for (nm in names(federated_counts)) {
 }
 
 
+# ==========================
+# ADD-ON ANALYSES: lung function biomarkers vs air pollution
+# ==========================
 
+# --------------------------
+# 0) Parameters + utilities
+# --------------------------
+# Choose exposure variable for stratification (edit if you want 3y)
+EXPO_VAR <- "pm25_1y"   # or "no2_1y", "pm25_3y", "no2_3y"
+
+# Anchor for time-from-ICU; prefer ICU-in for post-op ICU recovery
+ANCHOR_TIME <- "icu_in_time"  # must be in dat2
+
+# Privacy: bin time into 2-hour bins for any exported/pooled time-series summaries
+BIN_H <- 2
+
+as_num <- function(x) suppressWarnings(as.numeric(as.character(x)))
+
+# Create site-local generic id (consistent across outputs)
+id_map <- dat2 %>%
+  arrange(hospitalization_id) %>%
+  mutate(site_patient_id = as.integer(factor(hospitalization_id))) %>%
+  select(hospitalization_id, site_patient_id)
+
+# Exposure strata
+dat2 <- dat2 %>%
+  mutate(
+    expo = as_num(.data[[EXPO_VAR]]),
+    expo_tertile = ifelse(is.na(expo), NA_integer_, ntile(expo, 3)),
+    expo_tertile = factor(expo_tertile, levels = 1:3,
+                          labels = c("T1 (low)", "T2", "T3 (high)"))
+  )
+
+save_csv(
+  dat2 %>% summarise(
+    n = n(),
+    expo_missing = mean(is.na(expo)),
+    expo_min = min(expo, na.rm=TRUE),
+    expo_med = median(expo, na.rm=TRUE),
+    expo_max = max(expo, na.rm=TRUE)
+  ),
+  paste0("qc_exposure_", EXPO_VAR)
+)
+
+# --------------------------
+# 1) Pull candidate biomarkers
+# --------------------------
+labs_raw <- clif_tables[["clif_labs"]] %>%
+  rename_with(tolower) %>%
+  mutate(
+    lab_collect_dttm = safe_posix(lab_collect_dttm),
+    lab_result_dttm  = safe_posix(lab_result_dttm),
+    t = coalesce(lab_collect_dttm, lab_result_dttm),
+    lab_name = as.character(lab_name),
+    lab_order_name = as.character(lab_order_name),
+    lab_category = as.character(lab_category),
+    lab_value_numeric = as_num(lab_value_numeric),
+    lab_value = as.character(lab_value)
+  )
+
+vitals_raw <- clif_tables[["clif_vitals"]] %>%
+  rename_with(tolower) %>%
+  mutate(
+    recorded_dttm = safe_posix(recorded_dttm),
+    vital_name = as.character(vital_name),
+    vital_category = as.character(vital_category),
+    vital_value = as_num(vital_value)
+  )
+
+rs_raw <- clif_tables[["clif_respiratory_support"]] %>%
+  rename_with(tolower) %>%
+  mutate(
+    recorded_dttm = safe_posix(recorded_dttm),
+    device_category = as.character(device_category),
+    fio2_set = as_num(fio2_set)
+  )
+
+# Cohort time anchor
+t0_tbl <- dat2 %>%
+  select(hospitalization_id, expo_tertile, expo, all_of(ANCHOR_TIME)) %>%
+  rename(t0 = all_of(ANCHOR_TIME)) %>%
+  mutate(t0 = safe_posix(t0)) %>%
+  filter(!is.na(t0))
+
+# --------------------------
+# 2) Define biomarker dictionaries (robust name matching)
+# --------------------------
+# These are deliberately permissive; each site’s naming differs.
+# You can tighten later once you see what's present.
+lab_patterns <- list(
+  pao2  = "(^|\\b)pa\\s*o2(\\b|$)|pao2",
+  paco2 = "(^|\\b)pa\\s*co2(\\b|$)|paco2",
+  ph    = "(^|\\b)ph(\\b|$)",
+  hco3  = "hco3|bicarb",
+  lact  = "lactate",
+  wbc   = "(^|\\b)wbc(\\b|$)|white\\s*blood",
+  cr    = "(^|\\b)creat(\\b|$)|creatinine"
+)
+
+vital_patterns <- list(
+  spo2 = "(^|\\b)spo2(\\b|$)|o2\\s*sat|oxygen\\s*saturation",
+  rr   = "resp(\\b|\\s*rate)|rr(\\b|$)"
+)
+
+# Helper to find rows matching a pattern in lab_name or lab_order_name
+pick_lab <- function(df, pattern) {
+  df %>%
+    filter(
+      str_detect(tolower(coalesce(lab_name,"")), tolower(pattern)) |
+        str_detect(tolower(coalesce(lab_order_name,"")), tolower(pattern))
+    )
+}
+
+pick_vital <- function(df, pattern) {
+  df %>%
+    filter(str_detect(tolower(coalesce(vital_name,"")), tolower(pattern)))
+}
+
+# --------------------------
+# 3) Build time-series (0–72h) for biomarkers
+# --------------------------
+# Labs
+lab_ts <- purrr::imap_dfr(lab_patterns, function(pat, nm) {
+  pick_lab(labs_raw, pat) %>%
+    transmute(
+      hospitalization_id,
+      t,
+      biomarker = nm,
+      value = coalesce(lab_value_numeric, as_num(lab_value))
+    )
+}) %>%
+  inner_join(t0_tbl, by = "hospitalization_id") %>%
+  mutate(
+    dt_h = as.numeric(difftime(t, t0, units = "hours"))
+  ) %>%
+  filter(!is.na(dt_h), dt_h >= 0, dt_h <= 72, !is.na(value)) %>%
+  # privacy + stability
+  mutate(
+    dt_bin = floor(dt_h / BIN_H) * BIN_H
+  )
+
+# Vitals
+vital_ts <- purrr::imap_dfr(vital_patterns, function(pat, nm) {
+  pick_vital(vitals_raw, pat) %>%
+    transmute(
+      hospitalization_id,
+      t = recorded_dttm,
+      biomarker = nm,
+      value = vital_value
+    )
+}) %>%
+  inner_join(t0_tbl, by = "hospitalization_id") %>%
+  mutate(
+    dt_h = as.numeric(difftime(t, t0, units = "hours"))
+  ) %>%
+  filter(!is.na(dt_h), dt_h >= 0, dt_h <= 72, !is.na(value)) %>%
+  mutate(
+    dt_bin = floor(dt_h / BIN_H) * BIN_H
+  )
+
+# FiO2 (respiratory_support)
+fio2_ts <- rs_raw %>%
+  inner_join(t0_tbl, by = "hospitalization_id") %>%
+  mutate(
+    dt_h = as.numeric(difftime(recorded_dttm, t0, units = "hours")),
+    fio2 = case_when(
+      is.na(fio2_set) ~ NA_real_,
+      fio2_set <= 1 ~ fio2_set * 100,
+      TRUE ~ fio2_set
+    ),
+    dt_bin = floor(dt_h / BIN_H) * BIN_H
+  ) %>%
+  filter(!is.na(dt_h), dt_h >= 0, dt_h <= 72, !is.na(fio2)) %>%
+  transmute(hospitalization_id, expo_tertile, expo, dt_bin, fio2)
+
+# --------------------------
+# 4) Derive oxygenation ratios (PF, SF) on binned time
+# --------------------------
+# Summarize per patient x time bin (take worst / or median)
+lab_bin <- lab_ts %>%
+  group_by(hospitalization_id, expo_tertile, expo, biomarker, dt_bin) %>%
+  summarise(value = median(value, na.rm=TRUE), .groups="drop")
+
+vital_bin <- vital_ts %>%
+  group_by(hospitalization_id, expo_tertile, expo, biomarker, dt_bin) %>%
+  summarise(value = median(value, na.rm=TRUE), .groups="drop")
+
+pao2_bin <- lab_bin %>%
+  filter(biomarker == "pao2") %>%
+  select(hospitalization_id, expo_tertile, expo, dt_bin, pao2 = value)
+
+spo2_bin <- vital_bin %>%
+  filter(biomarker == "spo2") %>%
+  select(hospitalization_id, expo_tertile, expo, dt_bin, spo2 = value)
+
+oxy_bin <- fio2_ts %>%
+  full_join(pao2_bin, by = c("hospitalization_id","expo_tertile","expo","dt_bin")) %>%
+  full_join(spo2_bin, by = c("hospitalization_id","expo_tertile","expo","dt_bin")) %>%
+  mutate(
+    pf = ifelse(!is.na(pao2) & !is.na(fio2) & fio2 > 0, pao2 / (fio2/100), NA_real_),
+    sf = ifelse(!is.na(spo2) & !is.na(fio2) & fio2 > 0, spo2 / (fio2/100), NA_real_)
+  )
+
+# --------------------------
+# 5) Window summaries (0–24h, 24–72h): worst PF/SF, worst SpO2, peak RR, etc.
+# --------------------------
+window_summary <- function(df, value_col, fun, nm) {
+  value_col <- rlang::ensym(value_col)
+  df %>%
+    mutate(window = case_when(
+      dt_bin >= 0  & dt_bin <= 24 ~ "0–24h",
+      dt_bin > 24 & dt_bin <= 72 ~ "24–72h",
+      TRUE ~ NA_character_
+    )) %>%
+    filter(!is.na(window)) %>%
+    group_by(hospitalization_id, expo_tertile, expo, window) %>%
+    summarise(!!nm := fun(!!value_col, na.rm=TRUE), .groups="drop")
+}
+
+# PF/SF
+pf_worst <- window_summary(oxy_bin, pf, min, "pf_worst")
+sf_worst <- window_summary(oxy_bin, sf, min, "sf_worst")
+
+# Vitals: RR peak, SpO2 nadir
+rr_peak <- vital_bin %>%
+  filter(biomarker == "rr") %>%
+  rename(rr = value) %>%
+  window_summary(rr, max, "rr_peak")
+
+spo2_nadir <- vital_bin %>%
+  filter(biomarker == "spo2") %>%
+  rename(spo2 = value) %>%
+  window_summary(spo2, min, "spo2_nadir")
+
+# Labs: PaCO2 peak, lactate peak
+paco2_peak <- lab_bin %>%
+  filter(biomarker == "paco2") %>%
+  rename(paco2 = value) %>%
+  window_summary(paco2, max, "paco2_peak")
+
+lact_peak <- lab_bin %>%
+  filter(biomarker == "lact") %>%
+  rename(lact = value) %>%
+  window_summary(lact, max, "lact_peak")
+
+lungfx_features <- pf_worst %>%
+  full_join(sf_worst, by=c("hospitalization_id","expo_tertile","expo","window")) %>%
+  full_join(rr_peak, by=c("hospitalization_id","expo_tertile","expo","window")) %>%
+  full_join(spo2_nadir, by=c("hospitalization_id","expo_tertile","expo","window")) %>%
+  full_join(paco2_peak, by=c("hospitalization_id","expo_tertile","expo","window")) %>%
+  full_join(lact_peak, by=c("hospitalization_id","expo_tertile","expo","window")) %>%
+  left_join(id_map, by="hospitalization_id") %>%
+  select(-hospitalization_id)
+
+save_csv(lungfx_features, paste0("lungfx_features_by_window_", EXPO_VAR))
+
+# --------------------------
+# 6) Plot median trajectories by exposure tertile (PF and SF)
+# --------------------------
+traj_plot <- function(df, y, title) {
+  y <- rlang::ensym(y)
+  df %>%
+    group_by(expo_tertile, dt_bin) %>%
+    summarise(
+      med = median(!!y, na.rm=TRUE),
+      q25 = quantile(!!y, 0.25, na.rm=TRUE),
+      q75 = quantile(!!y, 0.75, na.rm=TRUE),
+      n = sum(!is.na(!!y)),
+      .groups="drop"
+    ) %>%
+    filter(n >= 3) %>%  # avoid plotting bins with tiny support
+    ggplot(aes(x=dt_bin, y=med, group=expo_tertile, color=expo_tertile)) +
+    geom_line(linewidth=1) +
+    geom_ribbon(aes(ymin=q25, ymax=q75, fill=expo_tertile), alpha=0.15, color=NA) +
+    labs(title=title, x=paste0("Hours from ICU admission (binned to ", BIN_H, "h)"),
+         y=NULL, color="Exposure", fill="Exposure") +
+    theme_pub()
+}
+
+p_pf <- traj_plot(oxy_bin, pf, paste0("P/F trajectory (0–72h) by ", EXPO_VAR, " tertile"))
+p_sf <- traj_plot(oxy_bin, sf, paste0("S/F trajectory (0–72h) by ", EXPO_VAR, " tertile"))
+
+save_plot(p_pf, paste0("fig_pf_trajectory_by_", EXPO_VAR, ".png"), w=10, h=6)
+save_plot(p_sf, paste0("fig_sf_trajectory_by_", EXPO_VAR, ".png"), w=10, h=6)
+
+# --------------------------
+# 7) Simple inference: trend tests across tertiles (per window)
+# --------------------------
+# For federated, export the contingency and ranks rather than patient-level raw (optional).
+# Here we run at-site and export site-level results table.
+
+run_kw <- function(df, outcome) {
+  outcome <- rlang::ensym(outcome)
+  df %>%
+    filter(!is.na(expo_tertile), !is.na(!!outcome)) %>%
+    group_by(window) %>%
+    summarise(
+      n = n(),
+      kw_p = tryCatch(kruskal.test(as.numeric(!!outcome) ~ expo_tertile)$p.value, error=function(e) NA_real_),
+      .groups="drop"
+    )
+}
+
+kw_pf <- run_kw(lungfx_features, pf_worst) %>% mutate(outcome="pf_worst")
+kw_sf <- run_kw(lungfx_features, sf_worst) %>% mutate(outcome="sf_worst")
+kw_rr <- run_kw(lungfx_features, rr_peak)  %>% mutate(outcome="rr_peak")
+kw_sp <- run_kw(lungfx_features, spo2_nadir) %>% mutate(outcome="spo2_nadir")
+kw_pc <- run_kw(lungfx_features, paco2_peak) %>% mutate(outcome="paco2_peak")
+kw_lc <- run_kw(lungfx_features, lact_peak) %>% mutate(outcome="lact_peak")
+
+kw_all <- bind_rows(kw_pf, kw_sf, kw_rr, kw_sp, kw_pc, kw_lc) %>%
+  mutate(exposure = EXPO_VAR)
+
+save_csv(kw_all, paste0("stats_kruskal_by_tertile_", EXPO_VAR))
+
+# --------------------------
+# 8) Federated-safe exports
+# --------------------------
+# 8a) Patient-level features: already de-identified via site_patient_id, no timestamps.
+#     (lungfx_features)
+#
+# 8b) Optional: binned aggregate trajectories (site-level only, no patient rows)
+
+pf_site_agg <- oxy_bin %>%
+  group_by(expo_tertile, dt_bin) %>%
+  summarise(
+    n = sum(!is.na(pf)),
+    pf_median = median(pf, na.rm=TRUE),
+    pf_q25 = quantile(pf, 0.25, na.rm=TRUE),
+    pf_q75 = quantile(pf, 0.75, na.rm=TRUE),
+    .groups="drop"
+  ) %>% mutate(exposure = EXPO_VAR)
+
+sf_site_agg <- oxy_bin %>%
+  group_by(expo_tertile, dt_bin) %>%
+  summarise(
+    n = sum(!is.na(sf)),
+    sf_median = median(sf, na.rm=TRUE),
+    sf_q25 = quantile(sf, 0.25, na.rm=TRUE),
+    sf_q75 = quantile(sf, 0.75, na.rm=TRUE),
+    .groups="drop"
+  ) %>% mutate(exposure = EXPO_VAR)
+
+save_csv(pf_site_agg, paste0("federated_site_agg_pf_traj_", EXPO_VAR))
+save_csv(sf_site_agg, paste0("federated_site_agg_sf_traj_", EXPO_VAR))
+
+message("Lung function biomarker analyses complete.")
 
 
 
