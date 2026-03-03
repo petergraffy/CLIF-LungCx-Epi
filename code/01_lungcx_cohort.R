@@ -24,6 +24,8 @@ suppressPackageStartupMessages({
   library(fst)
   library(arrow)
   library(scales)
+  library(data.table)
+  library(dplyr)
 })
 
 # --------------------------- Config ---------------------------
@@ -163,7 +165,11 @@ base_no_ext <- tools::file_path_sans_ext(tolower(bn))
 base_norm <- ifelse(looks_clif, base_no_ext, paste0("clif_", base_no_ext))
 found_map <- stats::setNames(all_files, base_norm)
 
-required_raw <- c("patient","hospitalization","adt","hospital_diagnosis","respiratory_support", "vitals", "labs")
+required_raw <- c(
+  "patient","hospitalization","adt",
+  "hospital_diagnosis","respiratory_support", "labs",
+  "vitals","medication_admin_continuous"
+)
 required_files <- paste0("clif_", required_raw)
 missing <- setdiff(required_files, names(found_map))
 if (length(missing) > 0) {

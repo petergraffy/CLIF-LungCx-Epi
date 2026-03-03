@@ -748,11 +748,357 @@ contrast_no2 <- newdat_no2 %>%
 
 contrast_no2
 
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(lubridate)
+  library(ggplot2)
+})
+
+H_MAX <- 72L
+
+# Ensure cluster is present
+stopifnot("traj_cluster_ra" %in% names(analysis_ready))
+
+# Build the per-hour panel with collapsed RS + ARF subtype and cluster assignment
+sig_panel <- rs_panel %>%
+  transmute(
+    hospitalization_id = as.character(hospitalization_id),
+    h = as.integer(h),
+    rs = as.character(rs_state_collapsed)
+  ) %>%
+  left_join(
+    arf_hourly %>%
+      transmute(hospitalization_id = as.character(hospitalization_id),
+                h = as.integer(h),
+                arf = as.character(arf_subtype_h)),
+    by = c("hospitalization_id","h")
+  ) %>%
+  left_join(
+    analysis_ready %>% transmute(hospitalization_id = as.character(hospitalization_id),
+                                 traj_cluster_ra),
+    by = "hospitalization_id"
+  ) %>%
+  mutate(
+    rs  = toupper(coalesce(rs, "OTHER")),
+    arf = toupper(coalesce(arf, "NO_ARF")),
+    traj_cluster_ra = forcats::fct_drop(traj_cluster_ra)
+  ) %>%
+  filter(!is.na(traj_cluster_ra), !is.na(h), h >= 0, h <= H_MAX)
+
+# Quick QC
+sig_panel %>% count(rs, sort = TRUE) %>% print(n = 50)
+sig_panel %>% count(arf, sort = TRUE) %>% print(n = 50)
+
+# RS signature: proportions by hour within each cluster
+sig_rs <- sig_panel %>%
+  count(traj_cluster_ra, h, rs) %>%
+  group_by(traj_cluster_ra, h) %>%
+  mutate(p = n / sum(n)) %>%
+  ungroup()
+
+# Set RS order (severity-ish)
+rs_levels <- c("ROOM AIR", "LOW_O2", "NIV", "IMV", "OTHER")
+sig_rs$rs <- factor(sig_rs$rs, levels = rs_levels)
+
+p_rs <- ggplot(sig_rs, aes(x = h, y = p, fill = rs)) +
+  geom_area() +
+  facet_wrap(~ traj_cluster_ra, ncol = 2) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Trajectory signatures by cluster: Respiratory support (collapsed tiers)",
+    x = "Hour from ICU t0",
+    y = "Within-cluster proportion"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_rs
+save_plot(p_rs, "sig_rs_area_by_cluster", w = 12, h = 8)
 
 
+# RS signature: proportions by hour within each cluster
+sig_rs <- sig_panel %>%
+  count(traj_cluster_ra, h, rs) %>%
+  group_by(traj_cluster_ra, h) %>%
+  mutate(p = n / sum(n)) %>%
+  ungroup()
+
+# Set RS order (severity-ish)
+rs_levels <- c("ROOM AIR", "LOW_O2", "NIV", "IMV", "OTHER")
+sig_rs$rs <- factor(sig_rs$rs, levels = rs_levels)
+
+p_rs <- ggplot(sig_rs, aes(x = h, y = p, fill = rs)) +
+  geom_area() +
+  facet_wrap(~ traj_cluster_ra, ncol = 2) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Trajectory signatures by cluster: Respiratory support (collapsed tiers)",
+    x = "Hour from ICU t0",
+    y = "Within-cluster proportion"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_rs
+save_plot(p_rs, "sig_rs_area_by_cluster", w = 12, h = 8)
+
+# patient-level first-hit times
+first_hits <- sig_panel %>%
+  group_by(hospitalization_id, traj_cluster_ra) %>%
+  summarize(
+    t_imv = suppressWarnings(min(h[rs == "IMV"], na.rm = TRUE)),
+    t_arf = suppressWarnings(min(h[arf != "NO_ARF"], na.rm = TRUE)),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    t_imv = ifelse(is.infinite(t_imv), NA, t_imv),
+    t_arf = ifelse(is.infinite(t_arf), NA, t_arf)
+  )
+
+# helper: cumulative incidence curve
+cum_curve <- function(df, time_var, label) {
+  df %>%
+    filter(!is.na(.data[[time_var]])) %>%
+    count(traj_cluster_ra, t = .data[[time_var]]) %>%
+    group_by(traj_cluster_ra) %>%
+    arrange(t) %>%
+    mutate(cum = cumsum(n) / sum(n),
+           outcome = label) %>%
+    ungroup()
+}
+
+cc_imv <- cum_curve(first_hits, "t_imv", "IMV start")
+cc_arf <- cum_curve(first_hits, "t_arf", "Any ARF onset")
+
+cc <- bind_rows(cc_imv, cc_arf)
+
+p_cc <- ggplot(cc, aes(x = t, y = cum, color = traj_cluster_ra)) +
+  geom_step(linewidth = 1) +
+  facet_wrap(~ outcome, ncol = 1) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Timing signatures by cluster",
+    x = "Hour from ICU t0",
+    y = "Cumulative proportion with event",
+    color = "Cluster"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_cc
+save_plot(p_cc, "sig_timing_cuminc_by_cluster", w = 10, h = 8)
 
 
+# Save previously created marginal-effect plots
+save_plot(p_pm,  "marginal_pm25_by_cluster", w = 10, h = 7)
+save_plot(p_no2, "marginal_no2_by_cluster",  w = 10, h = 7)
 
+# Prediction grid: PM2.5
+newdat_pm <- tidyr::expand_grid(
+  traj_cluster_ra = levels(analysis_ready$traj_cluster_ra),
+  pm25_5y_z = seq(-2, 2, by = 0.1),
+  no2_5y_z = 0,
+  age_years = mean(analysis_ready$age_years, na.rm = TRUE),
+  sex_category = "Female",
+  race_category = "White"
+)
+newdat_pm$pred_prob <- predict(m_int_pm, newdata = newdat_pm, type = "response")
+
+p_pm <- ggplot(newdat_pm, aes(x = pm25_5y_z, y = pred_prob, color = traj_cluster_ra)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    title = "Cluster-specific predicted mortality by PM2.5 (5y z-score)",
+    x = "PM2.5 (SD units)",
+    y = "Predicted probability of death/hospice",
+    color = "Cluster"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_pm
+save_plot(p_pm, "marginal_pm25_by_cluster", w = 10, h = 7)
+
+# Prediction grid: NO2
+newdat_no2 <- tidyr::expand_grid(
+  traj_cluster_ra = levels(analysis_ready$traj_cluster_ra),
+  no2_5y_z = seq(-2, 2, by = 0.1),
+  pm25_5y_z = 0,
+  age_years = mean(analysis_ready$age_years, na.rm = TRUE),
+  sex_category = "Female",
+  race_category = "White"
+)
+newdat_no2$pred_prob <- predict(m_int_no2, newdata = newdat_no2, type = "response")
+
+p_no2 <- ggplot(newdat_no2, aes(x = no2_5y_z, y = pred_prob, color = traj_cluster_ra)) +
+  geom_line(linewidth = 1.1) +
+  labs(
+    title = "Cluster-specific predicted mortality by NO2 (5y z-score)",
+    x = "NO2 (SD units)",
+    y = "Predicted probability of death/hospice",
+    color = "Cluster"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_no2
+save_plot(p_no2, "marginal_no2_by_cluster", w = 10, h = 7)
+
+contrast_pm <- newdat_pm %>%
+  filter(pm25_5y_z %in% c(-1, 1)) %>%
+  mutate(pm25_label = ifelse(pm25_5y_z == -1, "low", "high")) %>%
+  dplyr::select(traj_cluster_ra, pm25_label, pred_prob) %>%
+  pivot_wider(names_from = pm25_label, values_from = pred_prob) %>%
+  mutate(risk_diff = high - low, risk_ratio = high / low)
+
+save_csv(contrast_pm, "contrast_pm25_low_vs_high_by_cluster")
+
+contrast_no2 <- newdat_no2 %>%
+  filter(no2_5y_z %in% c(-1, 1)) %>%
+  mutate(no2_label = ifelse(no2_5y_z == -1, "low", "high")) %>%
+  dplyr::select(traj_cluster_ra, no2_label, pred_prob) %>%
+  pivot_wider(names_from = no2_label, values_from = pred_prob) %>%
+  mutate(risk_diff = high - low, risk_ratio = high / low)
+
+save_csv(contrast_no2, "contrast_no2_low_vs_high_by_cluster")
+
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(ggplot2)
+})
+
+# Prediction grid (hold covariates constant)
+newdat_pm <- tidyr::expand_grid(
+  traj_cluster_ra = levels(droplevels(analysis_ready$traj_cluster_ra)),
+  pm25_5y_z = seq(-2, 2, by = 0.1),
+  no2_5y_z = 0,
+  age_years = mean(analysis_ready$age_years, na.rm = TRUE),
+  sex_category = "Female",
+  race_category = "White"
+)
+
+newdat_pm$pred <- predict(m_int_pm, newdata = newdat_pm, type = "response")
+
+p_int_pm <- ggplot(newdat_pm, aes(x = pm25_5y_z, y = pred, color = traj_cluster_ra)) +
+  geom_line(linewidth = 1.2) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Interaction: PM2.5 × Trajectory cluster (predicted mortality)",
+    x = "PM2.5 (5y z-score)",
+    y = "Predicted probability of death/hospice",
+    color = "Cluster"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_int_pm
+save_plot(p_int_pm, "interaction_pm25_by_cluster_predprob", w = 10, h = 7)
+
+newdat_no2 <- tidyr::expand_grid(
+  traj_cluster_ra = levels(droplevels(analysis_ready$traj_cluster_ra)),
+  no2_5y_z = seq(-2, 2, by = 0.1),
+  pm25_5y_z = 0,
+  age_years = mean(analysis_ready$age_years, na.rm = TRUE),
+  sex_category = "Female",
+  race_category = "White"
+)
+
+newdat_no2$pred <- predict(m_int_no2, newdata = newdat_no2, type = "response")
+
+p_int_no2 <- ggplot(newdat_no2, aes(x = no2_5y_z, y = pred, color = traj_cluster_ra)) +
+  geom_line(linewidth = 1.2) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Interaction: NO2 × Trajectory cluster (predicted mortality)",
+    x = "NO2 (5y z-score)",
+    y = "Predicted probability of death/hospice",
+    color = "Cluster"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_int_no2
+save_plot(p_int_no2, "interaction_no2_by_cluster_predprob", w = 10, h = 7)
+
+contrast_pm <- newdat_pm %>%
+  filter(pm25_5y_z %in% c(-1, 1)) %>%
+  mutate(level = ifelse(pm25_5y_z == -1, "Low (-1 SD)", "High (+1 SD)")) %>%
+  select(traj_cluster_ra, level, pred) %>%
+  pivot_wider(names_from = level, values_from = pred) %>%
+  mutate(
+    risk_diff = `High (+1 SD)` - `Low (-1 SD)`,
+    risk_ratio = `High (+1 SD)` / `Low (-1 SD)`
+  )
+
+p_diff_pm <- ggplot(contrast_pm, aes(x = traj_cluster_ra, y = risk_diff)) +
+  geom_col() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 0.1)) +
+  labs(
+    title = "PM2.5 interaction summarized: Δ predicted mortality (+1 SD vs -1 SD)",
+    x = "Trajectory cluster",
+    y = "Absolute risk difference"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_diff_pm
+save_plot(p_diff_pm, "interaction_pm25_riskdiff_bar", w = 9, h = 6)
+save_csv(contrast_pm, "interaction_pm25_contrast_table")
+
+contrast_no2 <- newdat_no2 %>%
+  filter(no2_5y_z %in% c(-1, 1)) %>%
+  mutate(level = ifelse(no2_5y_z == -1, "Low (-1 SD)", "High (+1 SD)")) %>%
+  select(traj_cluster_ra, level, pred) %>%
+  pivot_wider(names_from = level, values_from = pred) %>%
+  mutate(
+    risk_diff = `High (+1 SD)` - `Low (-1 SD)`,
+    risk_ratio = `High (+1 SD)` / `Low (-1 SD)`
+  )
+
+p_diff_no2 <- ggplot(contrast_no2, aes(x = traj_cluster_ra, y = risk_diff)) +
+  geom_col() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 0.1)) +
+  labs(
+    title = "NO2 interaction summarized: Δ predicted mortality (+1 SD vs -1 SD)",
+    x = "Trajectory cluster",
+    y = "Absolute risk difference"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_diff_no2
+save_plot(p_diff_no2, "interaction_no2_riskdiff_bar", w = 9, h = 6)
+save_csv(contrast_no2, "interaction_no2_contrast_table")
+
+heat_pm <- newdat_pm %>%
+  mutate(pm_bin = round(pm25_5y_z, 1))
+
+p_heat_pm <- ggplot(heat_pm, aes(x = pm_bin, y = traj_cluster_ra, fill = pred)) +
+  geom_tile() +
+  scale_fill_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Predicted mortality heatmap: PM2.5 × cluster",
+    x = "PM2.5 (5y z-score)",
+    y = "Trajectory cluster",
+    fill = "Pred. death"
+  ) +
+  theme_minimal(base_size = 14)
+
+p_heat_pm
+save_plot(p_heat_pm, "interaction_pm25_heatmap", w = 10, h = 5.5)
+
+## adjust for confounders 
+
+# Always:
+#   
+# - age, sex, race/ethnicity
+# 
+# - year of ICU admission (or spline of date)
+# 
+# - site (if pooled)
+# 
+# Add:
+#   
+# - SES proxy: tract-level deprivation index or median income
+# 
+# - smoking/lung disease proxy: COPD POA (± asthma/ILD)
+# 
+# - comorbidity burden: Charlson-like count from POA dx (or just CHF/CKD/DM)
+# 
+# - cancer severity proxy: metastatic/advanced cancer POA flag
+
+
+## expand follow up window to 1 week
 
 
 
