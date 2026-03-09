@@ -1,46 +1,55 @@
- ## Code directory
+## Code Directory
 
-Update this README with the specific project workflow instructions.
-This directory contains scripts for the project workflow. The general workflow consists of three main steps: cohort identification, quality control, and analysis. Scripts can be implemented in R or Python, depending on project requirements. Please note that this workflow is just a suggestion, and you may change the structure to suit your project needs.
+This directory contains the scripts used to run the CLIF lung cancer ICU trajectory analysis. Each site should run the scripts locally in the order listed below.
 
-### General Workflow
+### Workflow
 
-1. Run the cohort_identification script
-   This script should:
-   - Apply inclusion and exclusion criteria
-   - Select required fields from each table
-   - Filter tables to include only required observations
+1. **Restore the R environment**
 
-   Expected outputs:
-   - cohort_ids: a list of unique identifiers for the study cohort
-   - cohort_data: the filtered study cohort data
-   - cohort_summary: a summary table describing the study cohort
+Run `00_renv_restore.R`
 
-   Examples of cohort identification scripts:
-   - [`code/templates/Python/01_cohort_identification_template.py`](templates/Python/01_cohort_identification_template.py)
-   - [`code/templates/R/01_cohort_identification_template.R`](templates/R/01_cohort_identification_template.R)
+This script restores the project environment using **renv** and installs all required R packages.
 
-2. Run the quality_control script
-   This script should:
-   - Perform project-specific quality control checks on the filtered cohort data
-   - Handle outliers using predefined thresholds as given in `outlier-thresholds` directory. 
-   - Clean and preprocess the data for analysis
+---
 
-   Script: [`code/templates/R/02_project_quality_checks_template.R`](templates/R/02_project_quality_checks_template.R) & [`code/templates/R/03_outlier_handling_template.R`](templates/R/03_outlier_handling_template.R) 
+2. **Build the lung cancer ICU cohort**
 
-   Input: cohort_data 
+Run `01_lungcx_cohort.R`
 
-   Output: cleaned_cohort_data 
+This script:
 
-3. Run the analysis script(s)
-   This script (or set of scripts) should contain the main analysis code for the project.
-   It may be broken down into multiple scripts if necessary.
-   
-   Script: [`code/templates/R/04_project_analysis_template.R`](templates/R/04_project_analysis_template.R) 
+- Identifies ICU admissions
+- Applies lung cancer diagnosis and resection criteria
+- Defines the ICU index time (`t0`)
+- Constructs ARF physiologic flags
+- Assigns air pollution exposure
+- Produces the analysis-ready cohort dataset
 
-   Input: cleaned_cohort_data 
+Outputs include:
 
-   Output: [List of expected result files, e.g., statistical_results, figures, tables saved in the [`output/final`](../output/README.md) directory] 
+- `cohort_lung`
+- `analysis_ready`
 
+---
 
+3. **Run federated clustering and modeling**
 
+Run `02_federated_clusters.R`
+
+This script:
+
+- Builds 72-hour respiratory trajectories
+- Performs sequence clustering to identify trajectory phenotypes
+- Characterizes clusters using severity and comorbidity metrics
+- Fits pollution exposure models
+- Generates PHI-safe federated outputs
+
+---
+
+### Output
+
+Final results are written to:
+
+`output/final`
+
+These outputs include cluster summaries, model results, and figures suitable for federated pooling across CLIF sites.
