@@ -9,7 +9,7 @@
 
 This project evaluates whether **long-term ambient air pollution exposure (PM₂.₅ and NO₂)** is associated with **early physiologic trajectories of acute respiratory failure (ARF)** and clinical outcomes among patients with lung cancer admitted to the ICU.
 
-Using high-resolution physiologic data from the **Critical Care Informatics Framework (CLIF)**, the study reconstructs **hourly respiratory and physiologic trajectories during the first 72 hours of ICU care**. These trajectories are then grouped into phenotypic clusters representing distinct patterns of respiratory failure evolution.
+Using high-resolution physiologic data from the **Common Longitudinal ICU data Format (CLIF)**, the study reconstructs **hourly respiratory and physiologic trajectories during the first 72 hours of ICU care**. These trajectories are then grouped into phenotypic clusters representing distinct patterns of respiratory failure evolution.
 
 The analysis evaluates whether chronic environmental exposure is associated with:
 
