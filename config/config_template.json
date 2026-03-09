@@ -1,5 +1,6 @@
 {
-    "site_name": "Your_Site_Name",
-    "tables_path": "/path/to/tables/",
+    "site_name": "name",
+    "repo": "path/to/repo",
+    "tables_path": "path/to/clif/tables",
     "file_type": "csv/parquet/fst"
 }
