@@ -1294,6 +1294,7 @@ med_admin_df <- get_min("medication_admin_continuous", c(
   "hospitalization_id",
   "admin_dttm",
   "med_group",
+  "med_category",
   "mar_action_group",
   "med_name",
   "med_dose",
@@ -1311,16 +1312,16 @@ scores_df <- clif_tables[["clif_patient_assessments"]] %>%
   mutate(
     hospitalization_id = as.character(hospitalization_id),
     recorded_dttm = safe_posix(recorded_dttm),
-    assessment_cat = as.character(assessment_category),
+    assessment_category = as.character(assessment_category),
     numerical_value = as.numeric(numerical_value)
   ) %>%
   filter(
-    !is.na(recorded_dttm), assessment_cat == "gcs_total"
+    !is.na(recorded_dttm) & assessment_category == "gcs_total"
   ) %>%
   select(
     hospitalization_id,
     recorded_dttm,
-    assessment_cat,
+    assessment_category,
     numerical_value
   )
 
@@ -1400,11 +1401,432 @@ cluster_sofa <- analysis_ready %>%
 save_csv(cluster_sofa, "cluster_sofa_summary")
 
 
+analysis_ready %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    n = n(),
+    sofa_mean = mean(sofa_total, na.rm = TRUE),
+    sofa_resp = mean(sofa_resp, na.rm = TRUE),
+    sofa_cv = mean(sofa_cv, na.rm = TRUE),
+    charlson = mean(charlson_score, na.rm = TRUE),
+    advanced_cancer = mean(advanced_cancer_any_poa, na.rm = TRUE),
+    mortality = mean(death_or_hospice, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+ggplot(analysis_ready, aes(traj_cluster_ra, sofa_total)) +
+  geom_boxplot() +
+  labs(
+    x = "Trajectory cluster",
+    y = "First 24h SOFA score",
+    title = "Baseline ICU severity across respiratory trajectory clusters"
+  ) +
+  theme_pub()
+
+analysis_ready$admit_year <- year(analysis_ready$admission_dttm)
 
 
+m_mort_adj <- glm(
+  death_or_hospice ~ pm25_5y_z + no2_5y_z + traj_cluster_ra +
+    age_years + sex_category + race_category +
+    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  family = binomial()
+)
+
+summary(m_mort_adj)
+
+m_int_no2_adj <- glm(
+  death_or_hospice ~ no2_5y_z * traj_cluster_ra + pm25_5y_z +
+    age_years + sex_category + race_category +
+    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  family = binomial()
+)
+
+summary(m_int_no2_adj)
+
+analysis_ready %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    n = n(),
+    sofa_total = mean(sofa_total, na.rm = TRUE),
+    sofa_resp = mean(sofa_resp, na.rm = TRUE),
+    sofa_cv = mean(sofa_cv, na.rm = TRUE),
+    sofa_renal = mean(sofa_renal, na.rm = TRUE),
+    sofa_liver = mean(sofa_liver, na.rm = TRUE),
+    sofa_coag = mean(sofa_coag, na.rm = TRUE),
+    sofa_cns = mean(sofa_cns, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(sofa_cns))
+
+ggplot(analysis_ready, aes(traj_cluster_ra, sofa_cns)) +
+  geom_boxplot() +
+  labs(
+    x = "Trajectory cluster",
+    y = "SOFA CNS score",
+    title = "CNS organ dysfunction by trajectory cluster"
+  ) +
+  theme_pub()
+
+gcs_cluster <- scores_df %>%
+  left_join(
+    analysis_ready %>% select(hospitalization_id, traj_cluster_ra),
+    by = "hospitalization_id"
+  )
+
+gcs_cluster %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    median_gcs = median(numerical_value, na.rm = TRUE),
+    mean_gcs = mean(numerical_value, na.rm = TRUE),
+    pct_gcs_lt8 = mean(numerical_value < 8, na.rm = TRUE),
+    pct_gcs_lt13 = mean(numerical_value < 13, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+analysis_ready %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    imv_rate = mean(any_imv_72h, na.rm = TRUE),
+    imv_hours = mean(imv_hours_72h, na.rm = TRUE),
+    sofa_cns = mean(sofa_cns, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+neuro_prefix <- c(
+  "I61", "I62", "I63", "I64",   # stroke
+  "G93",                       # encephalopathy
+  "C79.3"                      # brain metastasis
+)
+
+neuro_flags <- hospital_dx %>%
+  filter(poa_present == 1) %>%
+  mutate(code = norm_code(diagnosis_code)) %>%
+  filter(code_matches_any_prefix(code, neuro_prefix)) %>%
+  distinct(hospitalization_id) %>%
+  mutate(neuro_dx = TRUE)
+
+analysis_ready %>%
+  left_join(neuro_flags, by = "hospitalization_id") %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    neuro_dx_pct = mean(neuro_dx, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+cluster_domains <- analysis_ready %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    resp = mean(sofa_resp, na.rm = TRUE),
+    cv = mean(sofa_cv, na.rm = TRUE),
+    renal = mean(sofa_renal, na.rm = TRUE),
+    liver = mean(sofa_liver, na.rm = TRUE),
+    coag = mean(sofa_coag, na.rm = TRUE),
+    cns = mean(sofa_cns, na.rm = TRUE)
+  ) %>%
+  pivot_longer(-traj_cluster_ra)
+
+ggplot(cluster_domains, aes(name, value, fill = traj_cluster_ra)) +
+  geom_col(position = "dodge") +
+  labs(
+    x = "SOFA domain",
+    y = "Mean score",
+    title = "Organ dysfunction signature by trajectory cluster"
+  ) +
+  theme_pub()
 
 
+cluster_severity <- analysis_ready %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    mortality = mean(death_or_hospice, na.rm=TRUE),
+    sofa = mean(sofa_total, na.rm=TRUE),
+    imv_rate = mean(any_imv_72h, na.rm=TRUE),
+    icu_los = median(icu_los_hours, na.rm=TRUE),
+    .groups="drop"
+  )
 
+cluster_severity
+
+cluster_severity <- cluster_severity %>%
+  mutate(
+    severity_rank = rank(
+      mortality + sofa/10 + imv_rate,
+      ties.method="first"
+    )
+  )
+
+library(MASS)
+
+analysis_ready <- analysis_ready %>%
+  left_join(
+    cluster_severity %>%
+      dplyr::select(traj_cluster_ra, severity_rank),
+    by="traj_cluster_ra"
+  )
+
+analysis_ready$severity_rank <- factor(
+  analysis_ready$severity_rank,
+  ordered=TRUE
+)
+
+m_severity <- polr(
+  severity_rank ~ pm25_5y_z + no2_5y_z +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  Hess=TRUE
+)
+
+summary(m_severity)
+
+m_traj_adj <- nnet::multinom(
+  traj_cluster_ra ~ pm25_5y_z + no2_5y_z +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready
+)
+
+summary(m_traj_adj)
+
+m_int_adj <- glm(
+  death_or_hospice ~ no2_5y_z * traj_cluster_ra +
+    pm25_5y_z +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  family = binomial()
+)
+
+summary(m_int_adj)
+
+library(survival)
+
+landmark72 <- analysis_ready %>%
+  mutate(
+    t0_72 = admission_dttm + dhours(72),
+    eligible72 = !is.na(discharge_dttm) & discharge_dttm > t0_72,
+    event_after72 = death_or_hospice & discharge_dttm > t0_72,
+    time_from72_h = as.numeric(difftime(discharge_dttm, t0_72, units = "hours"))
+  ) %>%
+  filter(eligible72, !is.na(traj_cluster_ra), !is.na(time_from72_h), time_from72_h >= 0)
+
+cox72 <- coxph(
+  Surv(time_from72_h, event_after72) ~
+    traj_cluster_ra +
+    pm25_5y_z + no2_5y_z +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = landmark72
+)
+
+summary(cox72)
+
+cox72_int <- coxph(
+  Surv(time_from72_h, event_after72) ~ traj_cluster_ra * no2_5y_z + pm25_5y_z +
+    age_years + sex_category + race_category + charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = landmark72
+)
+
+summary(cox72_int)
+
+cor.test(analysis_ready$pm25_5y, analysis_ready$sofa_total)
+cor.test(analysis_ready$no2_5y, analysis_ready$sofa_total)
+
+analysis_ready %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    gcs = mean(sofa_cns),
+    imv = mean(any_imv_72h),
+    brain_met = mean(metastatic_cancer_poa)
+  )
+
+# ---------------------------------
+# Predicted mortality by cluster x NO2
+# ---------------------------------
+
+library(tidyverse)
+library(ggplot2)
+
+# Make sure factor levels are stable
+analysis_ready <- analysis_ready %>%
+  mutate(
+    traj_cluster_ra = droplevels(factor(traj_cluster_ra))
+  )
+
+# Set reference covariate profile
+ref_age <- mean(analysis_ready$age_years, na.rm = TRUE)
+ref_charlson <- mean(analysis_ready$charlson_score, na.rm = TRUE)
+ref_sofa <- mean(analysis_ready$sofa_total, na.rm = TRUE)
+
+# choose common categories present in your data
+ref_sex <- analysis_ready %>%
+  count(sex_category, sort = TRUE) %>%
+  slice(1) %>%
+  pull(sex_category)
+
+ref_race <- analysis_ready %>%
+  count(race_category, sort = TRUE) %>%
+  slice(1) %>%
+  pull(race_category)
+
+ref_adv <- FALSE
+if ("advanced_cancer_any_poa" %in% names(analysis_ready)) {
+  ref_adv <- FALSE
+}
+
+newdat_no2 <- tidyr::expand_grid(
+  traj_cluster_ra = levels(analysis_ready$traj_cluster_ra),
+  no2_5y_z = seq(-2, 2, by = 0.1)
+) %>%
+  mutate(
+    pm25_5y_z = 0,
+    age_years = ref_age,
+    sex_category = ref_sex,
+    race_category = ref_race,
+    charlson_score = ref_charlson,
+    sofa_total = ref_sofa,
+    advanced_cancer_any_poa = ref_adv
+  )
+
+# predicted probability
+newdat_no2 <- newdat_no2 %>%
+  mutate(
+    pred_prob = predict(m_int_adj, newdata = ., type = "response")
+  )
+
+p_no2_cluster <- ggplot(newdat_no2,
+                        aes(x = no2_5y_z, y = pred_prob, color = traj_cluster_ra)) +
+  geom_line(linewidth = 1.2) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Predicted mortality by trajectory cluster and NO2 exposure",
+    x = "NO2 (5-year exposure, z-score)",
+    y = "Predicted probability of in-hospital death/hospice",
+    color = "Trajectory cluster"
+  ) +
+  theme_pub()
+
+p_no2_cluster
+save_plot(p_no2_cluster, "predicted_mortality_by_cluster_no2", w = 10, h = 7)
+
+# ---------------------------------
+# Contrast: NO2 = -1 SD vs +1 SD
+# ---------------------------------
+
+contrast_no2 <- newdat_no2 %>%
+  filter(no2_5y_z %in% c(-1, 1)) %>%
+  mutate(no2_level = ifelse(no2_5y_z == -1, "low", "high")) %>%
+  select(traj_cluster_ra, no2_level, pred_prob) %>%
+  pivot_wider(names_from = no2_level, values_from = pred_prob) %>%
+  mutate(
+    risk_diff = high - low,
+    risk_ratio = high / low
+  )
+
+contrast_no2
+save_csv(contrast_no2, "contrast_no2_low_vs_high_by_cluster")
+
+p_no2_diff <- ggplot(contrast_no2, aes(x = traj_cluster_ra, y = risk_diff, fill = traj_cluster_ra)) +
+  geom_col() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 0.1)) +
+  labs(
+    title = "Absolute mortality increase from low to high NO2 by trajectory cluster",
+    x = "Trajectory cluster",
+    y = "Risk difference: high NO2 - low NO2",
+    fill = "Trajectory cluster"
+  ) +
+  theme_pub() +
+  theme(legend.position = "none")
+
+p_no2_diff
+save_plot(p_no2_diff, "risk_difference_no2_by_cluster", w = 9, h = 6)
+
+
+m_total_no2 <- glm(
+  death_or_hospice ~ no2_5y_z + pm25_5y_z +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  family = binomial()
+)
+
+summary(m_total_no2)
+
+m_direct_no2 <- glm(
+  death_or_hospice ~ no2_5y_z + pm25_5y_z + severity_rank +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  family = binomial()
+)
+
+summary(m_direct_no2)
+
+beta_total_no2  <- coef(m_total_no2)[["no2_5y_z"]]
+beta_direct_no2 <- coef(m_direct_no2)[["no2_5y_z"]]
+
+mediation_decomp <- tibble(
+  exposure = "NO2_5y_z",
+  beta_total = beta_total_no2,
+  beta_direct = beta_direct_no2,
+  beta_indirect_approx = beta_total_no2 - beta_direct_no2,
+  pct_mediated_approx = (beta_total_no2 - beta_direct_no2) / beta_total_no2
+)
+
+mediation_decomp
+save_csv(mediation_decomp, "mediation_style_decomposition_no2")
+
+m_total_no2_cluster <- glm(
+  death_or_hospice ~ no2_5y_z + pm25_5y_z +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  family = binomial()
+)
+
+m_direct_no2_cluster <- glm(
+  death_or_hospice ~ no2_5y_z + pm25_5y_z + traj_cluster_ra +
+    age_years + sex_category + race_category +
+    charlson_score + sofa_total + advanced_cancer_any_poa,
+  data = analysis_ready,
+  family = binomial()
+)
+
+beta_total_no2_cluster  <- coef(m_total_no2_cluster)[["no2_5y_z"]]
+beta_direct_no2_cluster <- coef(m_direct_no2_cluster)[["no2_5y_z"]]
+
+mediation_decomp_cluster <- tibble(
+  exposure = "NO2_5y_z",
+  beta_total = beta_total_no2_cluster,
+  beta_direct = beta_direct_no2_cluster,
+  beta_indirect_approx = beta_total_no2_cluster - beta_direct_no2_cluster,
+  pct_mediated_approx = (beta_total_no2_cluster - beta_direct_no2_cluster) / beta_total_no2_cluster
+)
+
+mediation_decomp_cluster
+save_csv(mediation_decomp_cluster, "mediation_style_decomposition_no2_cluster")
+
+analysis_ready <- analysis_ready %>%
+  mutate(
+    no2_q = ntile(no2_5y, 4)
+  )
+
+p_sev_no2 <- ggplot(analysis_ready, aes(x = factor(no2_q), fill = severity_rank)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(
+    title = "Trajectory severity distribution across NO2 quartiles",
+    x = "NO2 quartile",
+    y = "Proportion",
+    fill = "Severity rank"
+  ) +
+  theme_pub()
+
+p_sev_no2
+save_plot(p_sev_no2, "severity_distribution_by_no2_quartile", w = 9, h = 6)
 
 
 
