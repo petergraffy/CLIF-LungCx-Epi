@@ -1100,6 +1100,322 @@ save_plot(p_heat_pm, "interaction_pm25_heatmap", w = 10, h = 5.5)
 
 ## expand follow up window to 1 week
 
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(stringr)
+  library(comorbidity)
+})
+
+dx_charlson <- hospital_dx %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    diagnosis_code = as.character(diagnosis_code),
+    diagnosis_code_format = toupper(coalesce(as.character(diagnosis_code_format), "")),
+    poa_present = suppressWarnings(as.integer(poa_present))
+  ) %>%
+  filter(
+    poa_present == 1,
+    !is.na(diagnosis_code),
+    diagnosis_code != ""
+  ) %>%
+  mutate(
+    code_clean = gsub("[^A-Za-z0-9]", "", diagnosis_code),
+    icd_version = case_when(
+      str_detect(diagnosis_code_format, "10") ~ "icd10",
+      str_detect(diagnosis_code_format, "9")  ~ "icd9",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(icd_version))
+
+charlson_icd10 <- dx_charlson %>%
+  filter(icd_version == "icd10") %>%
+  select(id = hospitalization_id, code = code_clean) %>%
+  comorbidity(
+    id = "id",
+    code = "code",
+    map = "charlson_icd10_quan",
+    assign0 = FALSE
+  )
+
+charlson_icd10$charlson_score <- score(charlson_icd10, weights = "charlson", assign0 = FALSE)
+
+charlson_all <- charlson_icd10 %>% select(id, charlson_score) %>%
+  group_by(id) %>%
+  summarize(
+    charlson_score = max(charlson_score, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  rename(hospitalization_id = id)
+
+analysis_ready <- analysis_ready %>%
+  mutate(hospitalization_id = as.character(hospitalization_id)) %>%
+  left_join(
+    charlson_all %>% select(hospitalization_id, charlson_score),
+    by = "hospitalization_id"
+  )
+
+cluster_charlson <- analysis_ready %>%
+  filter(!is.na(traj_cluster_ra)) %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    n = n(),
+    charlson_mean = mean(charlson_score, na.rm = TRUE),
+    charlson_median = median(charlson_score, na.rm = TRUE),
+    charlson_sd = sd(charlson_score, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+save_csv(cluster_charlson, "cluster_charlson_summary")
+
+
+ ## lung cancer severity
+
+metastatic_prefixes_icd10 <- c("C77", "C78", "C79", "C80")
+metastatic_prefixes_icd9  <- c("196", "197", "198", "199")
+
+pleural_effusion_icd10 <- c("J91", "C785")   # refine as needed
+pleural_effusion_icd9  <- c("51181")
+
+cachexia_icd10 <- c("R64")
+cachexia_icd9  <- c("7994")
+
+advanced_cancer_flags <- hospital_dx %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    diagnosis_code = norm_code(diagnosis_code),
+    diagnosis_code_format = toupper(coalesce(as.character(diagnosis_code_format), "")),
+    poa_present = suppressWarnings(as.integer(poa_present)),
+    icd10 = str_detect(diagnosis_code_format, "10"),
+    icd9  = str_detect(diagnosis_code_format, "9")
+  ) %>%
+  filter(poa_present == 1) %>%
+  group_by(hospitalization_id) %>%
+  summarize(
+    metastatic_cancer_poa = any(
+      (icd10 & code_matches_any_prefix(diagnosis_code, metastatic_prefixes_icd10)) |
+        (icd9  & code_matches_any_prefix(diagnosis_code, metastatic_prefixes_icd9)),
+      na.rm = TRUE
+    ),
+    malignant_pleural_effusion_poa = any(
+      (icd10 & code_matches_any_prefix(diagnosis_code, pleural_effusion_icd10)) |
+        (icd9  & code_matches_any_prefix(diagnosis_code, pleural_effusion_icd9)),
+      na.rm = TRUE
+    ),
+    cachexia_poa = any(
+      (icd10 & code_matches_any_prefix(diagnosis_code, cachexia_icd10)) |
+        (icd9  & code_matches_any_prefix(diagnosis_code, cachexia_icd9)),
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    advanced_cancer_any_poa =
+      metastatic_cancer_poa |
+      malignant_pleural_effusion_poa |
+      cachexia_poa
+  )
+
+analysis_ready <- analysis_ready %>%
+  left_join(advanced_cancer_flags, by = "hospitalization_id")
+
+analysis_ready %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    metastatic_pct = mean(metastatic_cancer_poa, na.rm = TRUE),
+    pleural_effusion_pct = mean(malignant_pleural_effusion_poa, na.rm = TRUE),
+    cachexia_pct = mean(cachexia_poa, na.rm = TRUE),
+    advanced_any_pct = mean(advanced_cancer_any_poa, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# ================================================================================================
+# First-24h SOFA for lung cancer ICU trajectory cohort
+# Uses existing utils/sofa_calculator.R
+# ================================================================================================
+
+# Load SOFA calculator
+source(file.path("utils", "sofa_calculator.R"))
+
+# ---------------------------
+# 1) ICU admission times for this cohort
+# ---------------------------
+icu_admit_times <- icu_segments %>%
+  semi_join(cohort_lung, by = "hospitalization_id") %>%
+  group_by(hospitalization_id) %>%
+  summarize(
+    icu_admit_time = min(icu_in_time, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    icu_admit_time = safe_posix(icu_admit_time)
+  )
+
+# ---------------------------
+# 2) SOFA cohort input
+# ---------------------------
+sofa_cohort <- cohort_lung %>%
+  transmute(
+    hospitalization_id = as.character(hospitalization_id)
+  ) %>%
+  inner_join(icu_admit_times, by = "hospitalization_id")
+
+# ---------------------------
+# 3) Prepare CLIF inputs for calculator
+# ---------------------------
+
+# Vitals
+vitals_df <- clif_tables[["clif_vitals"]] %>%
+  rename_with(tolower) %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    recorded_dttm = safe_posix(recorded_dttm)
+  )
+
+# Labs
+labs_df <- clif_tables[["clif_labs"]] %>%
+  rename_with(tolower) %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    lab_result_dttm = safe_posix(lab_result_dttm)
+  )
+
+# Respiratory / support table
+support_df <- rs_raw %>%
+  rename_with(tolower) %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    recorded_dttm = safe_posix(recorded_dttm)
+  )
+
+# Continuous med admin (for vasoactives in SOFA CV domain)
+med_admin_df <- get_min("medication_admin_continuous", c(
+  "hospitalization_id",
+  "admin_dttm",
+  "med_group",
+  "mar_action_group",
+  "med_name",
+  "med_dose",
+  "med_dose_unit"
+)) %>%
+  rename_with(tolower) %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    admin_dttm = safe_posix(admin_dttm)
+  )
+
+# Patient assessments / scores (for CNS / GCS if calculator uses them)
+scores_df <- clif_tables[["clif_patient_assessments"]] %>%
+ rename_with(tolower) %>%
+  mutate(
+    hospitalization_id = as.character(hospitalization_id),
+    recorded_dttm = safe_posix(recorded_dttm),
+    assessment_cat = as.character(assessment_category),
+    numerical_value = as.numeric(numerical_value)
+  ) %>%
+  filter(
+    !is.na(recorded_dttm), assessment_cat == "gcs_total"
+  ) %>%
+  select(
+    hospitalization_id,
+    recorded_dttm,
+    assessment_cat,
+    numerical_value
+  )
+
+# ---------------------------
+# 4) Safe timestamp helper
+# ---------------------------
+safe_ts <- function(x) {
+  safe_posix(x)
+}
+
+# ---------------------------
+# 5) Calculate SOFA for first 24h after ICU admit
+# ---------------------------
+sofa_scores <- calculate_sofa(
+  cohort_data  = sofa_cohort,
+  vitals_df    = vitals_df,
+  labs_df      = labs_df,
+  support_df   = support_df,
+  med_admin_df = med_admin_df,
+  scores_df    = scores_df,
+  window_hours = 24,
+  safe_ts      = safe_ts
+)
+
+# ---------------------------
+# 6) Join SOFA into analysis dataset
+# ---------------------------
+analysis_ready <- analysis_ready %>%
+  mutate(hospitalization_id = as.character(hospitalization_id)) %>%
+  left_join(
+    sofa_scores %>%
+      transmute(
+        hospitalization_id = as.character(hospitalization_id),
+        sofa_total,
+        sofa_cv,
+        sofa_coag,
+        sofa_liver,
+        sofa_renal,
+        sofa_resp,
+        sofa_cns
+      ),
+    by = "hospitalization_id"
+  ) %>%
+  mutate(
+    across(starts_with("sofa_"), ~ coalesce(.x, 0))
+  )
+
+# ---------------------------
+# 7) Quick SOFA summary
+# ---------------------------
+cat("\nSOFA score summary for lung cancer ICU cohort:\n")
+print(
+  analysis_ready %>%
+    select(starts_with("sofa_")) %>%
+    summary()
+)
+
+# ---------------------------
+# 8) SOFA by trajectory cluster
+# ---------------------------
+cluster_sofa <- analysis_ready %>%
+  filter(!is.na(traj_cluster_ra)) %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    n = n(),
+    sofa_total_mean   = mean(sofa_total, na.rm = TRUE),
+    sofa_total_median = median(sofa_total, na.rm = TRUE),
+    sofa_resp_mean    = mean(sofa_resp, na.rm = TRUE),
+    sofa_cv_mean      = mean(sofa_cv, na.rm = TRUE),
+    sofa_renal_mean   = mean(sofa_renal, na.rm = TRUE),
+    sofa_liver_mean   = mean(sofa_liver, na.rm = TRUE),
+    sofa_coag_mean    = mean(sofa_coag, na.rm = TRUE),
+    sofa_cns_mean     = mean(sofa_cns, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+save_csv(cluster_sofa, "cluster_sofa_summary")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

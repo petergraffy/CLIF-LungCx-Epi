@@ -168,7 +168,7 @@ found_map <- stats::setNames(all_files, base_norm)
 required_raw <- c(
   "patient","hospitalization","adt",
   "hospital_diagnosis","respiratory_support", "labs",
-  "vitals","medication_admin_continuous"
+  "vitals","medication_admin_continuous", "patient_assessments"
 )
 required_files <- paste0("clif_", required_raw)
 missing <- setdiff(required_files, names(found_map))
