@@ -1047,14 +1047,14 @@ analysis_ready <- analysis_ready %>%
 m_traj_ra <- nnet::multinom(
   traj_cluster_ra ~ pm25_5y_z + no2_5y_z +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready
 )
 
 m_mort_ra <- glm(
   death_or_hospice ~ pm25_5y_z + no2_5y_z + traj_cluster_ra +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   family = binomial()
 )
@@ -1062,7 +1062,7 @@ m_mort_ra <- glm(
 m_int_pm <- glm(
   death_or_hospice ~ pm25_5y_z * traj_cluster_ra + no2_5y_z +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   family = binomial()
 )
@@ -1070,7 +1070,7 @@ m_int_pm <- glm(
 m_int_no2 <- glm(
   death_or_hospice ~ no2_5y_z * traj_cluster_ra + pm25_5y_z +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   family = binomial()
 )
@@ -1078,7 +1078,7 @@ m_int_no2 <- glm(
 m_los_ra <- glm(
   icu_los_hours ~ pm25_5y_z + no2_5y_z + traj_cluster_ra +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   family = quasipoisson(link = "log")
 )
@@ -1086,7 +1086,7 @@ m_los_ra <- glm(
 m_severity <- MASS::polr(
   severity_rank ~ pm25_5y_z + no2_5y_z +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   Hess = TRUE
 )
@@ -1106,14 +1106,14 @@ cox72 <- coxph(
   Surv(time_from72_h, event_after72) ~ traj_cluster_ra +
     pm25_5y_z + no2_5y_z +
     age_years + sex_category + race_category +
-    charlson_score + sofa_total + advanced_cancer_any_poa,
+    charlson_score + advanced_cancer_any_poa,
   data = landmark72
 )
 
 cox72_int <- coxph(
   Surv(time_from72_h, event_after72) ~ traj_cluster_ra * no2_5y_z + pm25_5y_z +
     age_years + sex_category + race_category +
-    charlson_score + sofa_total + advanced_cancer_any_poa,
+    charlson_score + advanced_cancer_any_poa,
   data = landmark72
 )
 
@@ -1121,7 +1121,7 @@ cox72_int <- coxph(
 m_total_no2 <- glm(
   death_or_hospice ~ no2_5y_z + pm25_5y_z +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   family = binomial()
 )
@@ -1129,7 +1129,7 @@ m_total_no2 <- glm(
 m_direct_no2 <- glm(
   death_or_hospice ~ no2_5y_z + pm25_5y_z + severity_rank +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   family = binomial()
 )
@@ -1137,7 +1137,7 @@ m_direct_no2 <- glm(
 m_direct_no2_cluster <- glm(
   death_or_hospice ~ no2_5y_z + pm25_5y_z + traj_cluster_ra +
     age_years + sex_category + race_category +
-    admit_year + charlson_score + sofa_total + advanced_cancer_any_poa,
+    admit_year + charlson_score + advanced_cancer_any_poa,
   data = analysis_ready,
   family = binomial()
 )
@@ -1240,7 +1240,6 @@ save_csv(mediation_decomp_cluster, "mediation_style_decomposition_no2_cluster")
 
 ref_age <- mean(analysis_ready$age_years, na.rm = TRUE)
 ref_charlson <- mean(analysis_ready$charlson_score, na.rm = TRUE)
-ref_sofa <- mean(analysis_ready$sofa_total, na.rm = TRUE)
 ref_year <- round(mean(analysis_ready$admit_year, na.rm = TRUE))
 ref_sex <- analysis_ready %>% count(sex_category, sort = TRUE) %>% slice(1) %>% pull(sex_category)
 ref_race <- analysis_ready %>% count(race_category, sort = TRUE) %>% slice(1) %>% pull(race_category)
@@ -1258,7 +1257,6 @@ newdat_pm <- tidyr::expand_grid(
     race_category = ref_race,
     admit_year = ref_year,
     charlson_score = ref_charlson,
-    sofa_total = ref_sofa,
     advanced_cancer_any_poa = ref_adv
   ) %>%
   mutate(pred_prob = predict(m_int_pm, newdata = ., type = "response"))
@@ -1287,7 +1285,6 @@ newdat_no2 <- tidyr::expand_grid(
     race_category = ref_race,
     admit_year = ref_year,
     charlson_score = ref_charlson,
-    sofa_total = ref_sofa,
     advanced_cancer_any_poa = ref_adv
   ) %>%
   mutate(pred_prob = predict(m_int_no2, newdata = ., type = "response"))
