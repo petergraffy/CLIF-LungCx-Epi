@@ -1,0 +1,6 @@
+pooled_cluster,pooled_cluster_label,n_sites,n_patients,mortality,pm25_mean,no2_mean
+1,Cluster 1: Room air / No ARF,9,17262,0.10954698180975553,7.767632706627185,7.372730889386456
+2,Cluster 2: Low-flow oxygen / No ARF,9,23361,0.18792003766962032,7.751505503767601,7.461756609332638
+3,Cluster 3: Noninvasive ventilation / No ARF,9,11475,0.32453159041394336,7.783853654853646,7.44891586775832
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,9,19824,0.4536420500403551,7.806784226302458,7.435437000705872
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,9,14620,0.38611491108071133,7.724130967165349,7.596957707870916

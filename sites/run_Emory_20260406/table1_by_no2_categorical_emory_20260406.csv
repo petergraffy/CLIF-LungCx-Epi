@@ -1,0 +1,221 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+emory,Q1,sex_category,Female,categorical,1037,2205,0.4702947845804989
+emory,Q1,sex_category,Male,categorical,1166,2205,0.5287981859410431
+emory,Q1,sex_category,Unknown,categorical,2,2205,9.070294784580499e-4
+emory,Q2,sex_category,Female,categorical,1093,2205,0.49569160997732425
+emory,Q2,sex_category,Male,categorical,1112,2205,0.5043083900226757
+emory,Q3,sex_category,Female,categorical,1058,2205,0.4798185941043084
+emory,Q3,sex_category,Male,categorical,1147,2205,0.5201814058956916
+emory,Q4,sex_category,Female,categorical,1039,2205,0.4712018140589569
+emory,Q4,sex_category,Male,categorical,1166,2205,0.5287981859410431
+emory,Q1,race_category,American Indian or Alaska Native,categorical,7,2205,0.0031746031746031746
+emory,Q1,race_category,Asian,categorical,69,2205,0.031292517006802724
+emory,Q1,race_category,Black or African American,categorical,709,2205,0.32154195011337866
+emory,Q1,race_category,Native Hawaiian or Other Pacific Islander,categorical,1,2205,4.5351473922902497e-4
+emory,Q1,race_category,Other,categorical,39,2205,0.017687074829931974
+emory,Q1,race_category,Unknown,categorical,257,2205,0.1165532879818594
+emory,Q1,race_category,White,categorical,1123,2205,0.509297052154195
+emory,Q2,race_category,American Indian or Alaska Native,categorical,11,2205,0.004988662131519274
+emory,Q2,race_category,Asian,categorical,128,2205,0.058049886621315196
+emory,Q2,race_category,Black or African American,categorical,1215,2205,0.5510204081632653
+emory,Q2,race_category,Native Hawaiian or Other Pacific Islander,categorical,1,2205,4.5351473922902497e-4
+emory,Q2,race_category,Other,categorical,61,2205,0.027664399092970523
+emory,Q2,race_category,Unknown,categorical,85,2205,0.03854875283446712
+emory,Q2,race_category,White,categorical,704,2205,0.31927437641723355
+emory,Q3,race_category,American Indian or Alaska Native,categorical,4,2205,0.0018140589569160999
+emory,Q3,race_category,Asian,categorical,78,2205,0.03537414965986395
+emory,Q3,race_category,Black or African American,categorical,1406,2205,0.6376417233560091
+emory,Q3,race_category,Native Hawaiian or Other Pacific Islander,categorical,1,2205,4.5351473922902497e-4
+emory,Q3,race_category,Other,categorical,49,2205,0.022222222222222223
+emory,Q3,race_category,Unknown,categorical,66,2205,0.029931972789115645
+emory,Q3,race_category,White,categorical,601,2205,0.272562358276644
+emory,Q4,race_category,American Indian or Alaska Native,categorical,5,2205,0.0022675736961451248
+emory,Q4,race_category,Asian,categorical,68,2205,0.030839002267573697
+emory,Q4,race_category,Black or African American,categorical,1515,2205,0.6870748299319728
+emory,Q4,race_category,Other,categorical,61,2205,0.027664399092970523
+emory,Q4,race_category,Unknown,categorical,71,2205,0.03219954648526077
+emory,Q4,race_category,White,categorical,485,2205,0.2199546485260771
+emory,Q1,ethnicity_category,Hispanic,categorical,75,2205,0.034013605442176874
+emory,Q1,ethnicity_category,Non-Hispanic,categorical,1834,2205,0.8317460317460318
+emory,Q1,ethnicity_category,Unknown,categorical,296,2205,0.13424036281179139
+emory,Q2,ethnicity_category,Hispanic,categorical,81,2205,0.036734693877551024
+emory,Q2,ethnicity_category,Non-Hispanic,categorical,2005,2205,0.909297052154195
+emory,Q2,ethnicity_category,Unknown,categorical,119,2205,0.05396825396825397
+emory,Q3,ethnicity_category,Hispanic,categorical,63,2205,0.02857142857142857
+emory,Q3,ethnicity_category,Non-Hispanic,categorical,2033,2205,0.9219954648526077
+emory,Q3,ethnicity_category,Unknown,categorical,109,2205,0.04943310657596372
+emory,Q4,ethnicity_category,Hispanic,categorical,79,2205,0.03582766439909297
+emory,Q4,ethnicity_category,Non-Hispanic,categorical,2021,2205,0.9165532879818594
+emory,Q4,ethnicity_category,Unknown,categorical,105,2205,0.047619047619047616
+emory,Q1,device_t0,CPAP,categorical,31,2205,0.014058956916099773
+emory,Q1,device_t0,FACE MASK,categorical,14,2205,0.006349206349206349
+emory,Q1,device_t0,HIGH FLOW NC,categorical,238,2205,0.10793650793650794
+emory,Q1,device_t0,IMV,categorical,799,2205,0.36235827664399095
+emory,Q1,device_t0,NASAL CANNULA,categorical,463,2205,0.20997732426303856
+emory,Q1,device_t0,NIPPV,categorical,43,2205,0.019501133786848073
+emory,Q1,device_t0,OTHER,categorical,152,2205,0.06893424036281179
+emory,Q1,device_t0,ROOM AIR,categorical,124,2205,0.05623582766439909
+emory,Q1,device_t0,TRACH COLLAR,categorical,3,2205,0.0013605442176870747
+emory,Q1,device_t0,UNK,categorical,229,2205,0.10385487528344671
+emory,Q1,device_t0,NA,categorical,109,2205,0.04943310657596372
+emory,Q2,device_t0,CPAP,categorical,34,2205,0.015419501133786848
+emory,Q2,device_t0,FACE MASK,categorical,16,2205,0.0072562358276643995
+emory,Q2,device_t0,HIGH FLOW NC,categorical,273,2205,0.12380952380952381
+emory,Q2,device_t0,IMV,categorical,557,2205,0.2526077097505669
+emory,Q2,device_t0,NASAL CANNULA,categorical,571,2205,0.2589569160997732
+emory,Q2,device_t0,NIPPV,categorical,94,2205,0.042630385487528344
+emory,Q2,device_t0,OTHER,categorical,162,2205,0.07346938775510205
+emory,Q2,device_t0,ROOM AIR,categorical,154,2205,0.06984126984126984
+emory,Q2,device_t0,TRACH COLLAR,categorical,7,2205,0.0031746031746031746
+emory,Q2,device_t0,UNK,categorical,216,2205,0.09795918367346938
+emory,Q2,device_t0,NA,categorical,121,2205,0.05487528344671202
+emory,Q3,device_t0,CPAP,categorical,61,2205,0.027664399092970523
+emory,Q3,device_t0,FACE MASK,categorical,22,2205,0.009977324263038548
+emory,Q3,device_t0,HIGH FLOW NC,categorical,232,2205,0.10521541950113379
+emory,Q3,device_t0,IMV,categorical,603,2205,0.27346938775510204
+emory,Q3,device_t0,NASAL CANNULA,categorical,527,2205,0.23900226757369614
+emory,Q3,device_t0,NIPPV,categorical,63,2205,0.02857142857142857
+emory,Q3,device_t0,OTHER,categorical,172,2205,0.07800453514739229
+emory,Q3,device_t0,ROOM AIR,categorical,151,2205,0.06848072562358276
+emory,Q3,device_t0,TRACH COLLAR,categorical,5,2205,0.0022675736961451248
+emory,Q3,device_t0,UNK,categorical,220,2205,0.09977324263038549
+emory,Q3,device_t0,NA,categorical,149,2205,0.06757369614512472
+emory,Q4,device_t0,CPAP,categorical,46,2205,0.020861678004535148
+emory,Q4,device_t0,FACE MASK,categorical,21,2205,0.009523809523809525
+emory,Q4,device_t0,HIGH FLOW NC,categorical,226,2205,0.10249433106575964
+emory,Q4,device_t0,IMV,categorical,655,2205,0.29705215419501135
+emory,Q4,device_t0,NASAL CANNULA,categorical,526,2205,0.2385487528344671
+emory,Q4,device_t0,NIPPV,categorical,53,2205,0.024036281179138322
+emory,Q4,device_t0,OTHER,categorical,172,2205,0.07800453514739229
+emory,Q4,device_t0,ROOM AIR,categorical,122,2205,0.055328798185941046
+emory,Q4,device_t0,TRACH COLLAR,categorical,4,2205,0.0018140589569160999
+emory,Q4,device_t0,UNK,categorical,241,2205,0.10929705215419501
+emory,Q4,device_t0,NA,categorical,139,2205,0.06303854875283446
+emory,Q1,traj_cluster_ra,1,categorical,502,2205,0.2276643990929705
+emory,Q1,traj_cluster_ra,2,categorical,410,2205,0.18594104308390022
+emory,Q1,traj_cluster_ra,3,categorical,347,2205,0.15736961451247167
+emory,Q1,traj_cluster_ra,4,categorical,568,2205,0.2575963718820862
+emory,Q1,traj_cluster_ra,5,categorical,344,2205,0.15600907029478459
+emory,Q1,traj_cluster_ra,NA,categorical,34,2205,0.015419501133786848
+emory,Q2,traj_cluster_ra,1,categorical,650,2205,0.2947845804988662
+emory,Q2,traj_cluster_ra,2,categorical,486,2205,0.22040816326530613
+emory,Q2,traj_cluster_ra,3,categorical,385,2205,0.1746031746031746
+emory,Q2,traj_cluster_ra,4,categorical,413,2205,0.1873015873015873
+emory,Q2,traj_cluster_ra,5,categorical,237,2205,0.10748299319727891
+emory,Q2,traj_cluster_ra,NA,categorical,34,2205,0.015419501133786848
+emory,Q3,traj_cluster_ra,1,categorical,595,2205,0.2698412698412698
+emory,Q3,traj_cluster_ra,2,categorical,508,2205,0.23038548752834467
+emory,Q3,traj_cluster_ra,3,categorical,366,2205,0.16598639455782313
+emory,Q3,traj_cluster_ra,4,categorical,462,2205,0.20952380952380953
+emory,Q3,traj_cluster_ra,5,categorical,229,2205,0.10385487528344671
+emory,Q3,traj_cluster_ra,NA,categorical,45,2205,0.02040816326530612
+emory,Q4,traj_cluster_ra,1,categorical,612,2205,0.27755102040816326
+emory,Q4,traj_cluster_ra,2,categorical,445,2205,0.2018140589569161
+emory,Q4,traj_cluster_ra,3,categorical,368,2205,0.16689342403628118
+emory,Q4,traj_cluster_ra,4,categorical,500,2205,0.22675736961451248
+emory,Q4,traj_cluster_ra,5,categorical,232,2205,0.10521541950113379
+emory,Q4,traj_cluster_ra,NA,categorical,48,2205,0.021768707482993196
+emory,Q1,severity_rank,1,categorical,502,2205,0.2276643990929705
+emory,Q1,severity_rank,2,categorical,410,2205,0.18594104308390022
+emory,Q1,severity_rank,3,categorical,347,2205,0.15736961451247167
+emory,Q1,severity_rank,4,categorical,344,2205,0.15600907029478459
+emory,Q1,severity_rank,5,categorical,568,2205,0.2575963718820862
+emory,Q1,severity_rank,NA,categorical,34,2205,0.015419501133786848
+emory,Q2,severity_rank,1,categorical,650,2205,0.2947845804988662
+emory,Q2,severity_rank,2,categorical,486,2205,0.22040816326530613
+emory,Q2,severity_rank,3,categorical,385,2205,0.1746031746031746
+emory,Q2,severity_rank,4,categorical,237,2205,0.10748299319727891
+emory,Q2,severity_rank,5,categorical,413,2205,0.1873015873015873
+emory,Q2,severity_rank,NA,categorical,34,2205,0.015419501133786848
+emory,Q3,severity_rank,1,categorical,595,2205,0.2698412698412698
+emory,Q3,severity_rank,2,categorical,508,2205,0.23038548752834467
+emory,Q3,severity_rank,3,categorical,366,2205,0.16598639455782313
+emory,Q3,severity_rank,4,categorical,229,2205,0.10385487528344671
+emory,Q3,severity_rank,5,categorical,462,2205,0.20952380952380953
+emory,Q3,severity_rank,NA,categorical,45,2205,0.02040816326530612
+emory,Q4,severity_rank,1,categorical,612,2205,0.27755102040816326
+emory,Q4,severity_rank,2,categorical,445,2205,0.2018140589569161
+emory,Q4,severity_rank,3,categorical,368,2205,0.16689342403628118
+emory,Q4,severity_rank,4,categorical,232,2205,0.10521541950113379
+emory,Q4,severity_rank,5,categorical,500,2205,0.22675736961451248
+emory,Q4,severity_rank,NA,categorical,48,2205,0.021768707482993196
+emory,Q1,death_in_hosp,0,categorical,1738,2205,0.7882086167800454
+emory,Q1,death_in_hosp,1,categorical,467,2205,0.21179138321995464
+emory,Q2,death_in_hosp,0,categorical,1844,2205,0.836281179138322
+emory,Q2,death_in_hosp,1,categorical,361,2205,0.163718820861678
+emory,Q3,death_in_hosp,0,categorical,1814,2205,0.8226757369614512
+emory,Q3,death_in_hosp,1,categorical,391,2205,0.17732426303854876
+emory,Q4,death_in_hosp,0,categorical,1745,2205,0.7913832199546486
+emory,Q4,death_in_hosp,1,categorical,460,2205,0.20861678004535147
+emory,Q1,hospice_discharge,0,categorical,2116,2205,0.9596371882086168
+emory,Q1,hospice_discharge,1,categorical,89,2205,0.04036281179138322
+emory,Q2,hospice_discharge,0,categorical,2144,2205,0.9723356009070295
+emory,Q2,hospice_discharge,1,categorical,61,2205,0.027664399092970523
+emory,Q3,hospice_discharge,0,categorical,2117,2205,0.9600907029478458
+emory,Q3,hospice_discharge,1,categorical,88,2205,0.039909297052154194
+emory,Q4,hospice_discharge,0,categorical,2136,2205,0.9687074829931973
+emory,Q4,hospice_discharge,1,categorical,69,2205,0.031292517006802724
+emory,Q1,death_or_hospice,0,categorical,1649,2205,0.7478458049886622
+emory,Q1,death_or_hospice,1,categorical,556,2205,0.25215419501133784
+emory,Q2,death_or_hospice,0,categorical,1783,2205,0.8086167800453514
+emory,Q2,death_or_hospice,1,categorical,422,2205,0.19138321995464852
+emory,Q3,death_or_hospice,0,categorical,1726,2205,0.7827664399092971
+emory,Q3,death_or_hospice,1,categorical,479,2205,0.21723356009070294
+emory,Q4,death_or_hospice,0,categorical,1676,2205,0.7600907029478458
+emory,Q4,death_or_hospice,1,categorical,529,2205,0.2399092970521542
+emory,Q1,any_imv_icu,0,categorical,1058,2205,0.4798185941043084
+emory,Q1,any_imv_icu,1,categorical,1147,2205,0.5201814058956916
+emory,Q2,any_imv_icu,0,categorical,1370,2205,0.6213151927437641
+emory,Q2,any_imv_icu,1,categorical,835,2205,0.3786848072562358
+emory,Q3,any_imv_icu,0,categorical,1344,2205,0.6095238095238096
+emory,Q3,any_imv_icu,1,categorical,861,2205,0.3904761904761905
+emory,Q4,any_imv_icu,0,categorical,1310,2205,0.5941043083900227
+emory,Q4,any_imv_icu,1,categorical,895,2205,0.40589569160997735
+emory,Q1,any_imv_72h,0,categorical,1144,2205,0.5188208616780046
+emory,Q1,any_imv_72h,1,categorical,1061,2205,0.4811791383219955
+emory,Q2,any_imv_72h,0,categorical,1433,2205,0.6498866213151927
+emory,Q2,any_imv_72h,1,categorical,772,2205,0.35011337868480724
+emory,Q3,any_imv_72h,0,categorical,1399,2205,0.6344671201814059
+emory,Q3,any_imv_72h,1,categorical,806,2205,0.3655328798185941
+emory,Q4,any_imv_72h,0,categorical,1354,2205,0.6140589569160998
+emory,Q4,any_imv_72h,1,categorical,851,2205,0.3859410430839002
+emory,Q1,vaso_any_72h,0,categorical,1150,2205,0.5215419501133787
+emory,Q1,vaso_any_72h,1,categorical,1055,2205,0.47845804988662133
+emory,Q2,vaso_any_72h,0,categorical,1351,2205,0.6126984126984127
+emory,Q2,vaso_any_72h,1,categorical,854,2205,0.3873015873015873
+emory,Q3,vaso_any_72h,0,categorical,1375,2205,0.6235827664399093
+emory,Q3,vaso_any_72h,1,categorical,830,2205,0.3764172335600907
+emory,Q4,vaso_any_72h,0,categorical,1359,2205,0.6163265306122448
+emory,Q4,vaso_any_72h,1,categorical,846,2205,0.3836734693877551
+emory,Q1,advanced_cancer_any_poa,0,categorical,1865,2205,0.8458049886621315
+emory,Q1,advanced_cancer_any_poa,1,categorical,340,2205,0.15419501133786848
+emory,Q2,advanced_cancer_any_poa,0,categorical,1850,2205,0.8390022675736961
+emory,Q2,advanced_cancer_any_poa,1,categorical,355,2205,0.16099773242630386
+emory,Q3,advanced_cancer_any_poa,0,categorical,1854,2205,0.8408163265306122
+emory,Q3,advanced_cancer_any_poa,1,categorical,351,2205,0.15918367346938775
+emory,Q4,advanced_cancer_any_poa,0,categorical,1909,2205,0.8657596371882086
+emory,Q4,advanced_cancer_any_poa,1,categorical,296,2205,0.13424036281179139
+emory,Q1,metastatic_cancer_poa,0,categorical,1951,2205,0.8848072562358277
+emory,Q1,metastatic_cancer_poa,1,categorical,254,2205,0.11519274376417234
+emory,Q2,metastatic_cancer_poa,0,categorical,1956,2205,0.8870748299319728
+emory,Q2,metastatic_cancer_poa,1,categorical,249,2205,0.11292517006802721
+emory,Q3,metastatic_cancer_poa,0,categorical,1966,2205,0.8916099773242631
+emory,Q3,metastatic_cancer_poa,1,categorical,239,2205,0.10839002267573696
+emory,Q4,metastatic_cancer_poa,0,categorical,2028,2205,0.9197278911564626
+emory,Q4,metastatic_cancer_poa,1,categorical,177,2205,0.08027210884353742
+emory,Q1,malignant_pleural_effusion_poa,0,categorical,2115,2205,0.9591836734693877
+emory,Q1,malignant_pleural_effusion_poa,1,categorical,90,2205,0.04081632653061224
+emory,Q2,malignant_pleural_effusion_poa,0,categorical,2094,2205,0.9496598639455782
+emory,Q2,malignant_pleural_effusion_poa,1,categorical,111,2205,0.050340136054421766
+emory,Q3,malignant_pleural_effusion_poa,0,categorical,2133,2205,0.9673469387755103
+emory,Q3,malignant_pleural_effusion_poa,1,categorical,72,2205,0.0326530612244898
+emory,Q4,malignant_pleural_effusion_poa,0,categorical,2148,2205,0.9741496598639455
+emory,Q4,malignant_pleural_effusion_poa,1,categorical,57,2205,0.02585034013605442
+emory,Q1,cachexia_poa,0,categorical,2135,2205,0.9682539682539683
+emory,Q1,cachexia_poa,1,categorical,70,2205,0.031746031746031744
+emory,Q2,cachexia_poa,0,categorical,2121,2205,0.9619047619047619
+emory,Q2,cachexia_poa,1,categorical,84,2205,0.0380952380952381
+emory,Q3,cachexia_poa,0,categorical,2107,2205,0.9555555555555556
+emory,Q3,cachexia_poa,1,categorical,98,2205,0.044444444444444446
+emory,Q4,cachexia_poa,0,categorical,2092,2205,0.9487528344671202
+emory,Q4,cachexia_poa,1,categorical,113,2205,0.05124716553287982

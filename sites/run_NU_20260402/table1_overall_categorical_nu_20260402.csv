@@ -1,0 +1,57 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+nu,Overall,sex_category,Female,categorical,8040,18005,0.4465426270480422
+nu,Overall,sex_category,Male,categorical,9964,18005,0.5534018328242155
+nu,Overall,sex_category,Unknown,categorical,1,18005,5.554012774229381e-5
+nu,Overall,race_category,American Indian or Alaska Native,categorical,41,18005,0.002277145237434046
+nu,Overall,race_category,Asian,categorical,701,18005,0.038933629547347956
+nu,Overall,race_category,Black or African American,categorical,2592,18005,0.14396001110802556
+nu,Overall,race_category,Native Hawaiian or Other Pacific Islander,categorical,27,18005,0.0014995834490419328
+nu,Overall,race_category,Other,categorical,1224,18005,0.06798111635656762
+nu,Overall,race_category,Unknown,categorical,477,18005,0.026492640933074147
+nu,Overall,race_category,White,categorical,12943,18005,0.7188558733685088
+nu,Overall,ethnicity_category,Hispanic,categorical,1735,18005,0.09636212163287976
+nu,Overall,ethnicity_category,Non-Hispanic,categorical,15738,18005,0.8740905304082199
+nu,Overall,ethnicity_category,Unknown,categorical,532,18005,0.029547347958900304
+nu,Overall,device_t0,CPAP,categorical,48,18005,0.0026659261316301025
+nu,Overall,device_t0,FACE MASK,categorical,958,18005,0.05320744237711747
+nu,Overall,device_t0,HIGH FLOW NC,categorical,2008,18005,0.11152457650652596
+nu,Overall,device_t0,IMV,categorical,5872,18005,0.32613163010274926
+nu,Overall,device_t0,NASAL CANNULA,categorical,3381,18005,0.18778117189669535
+nu,Overall,device_t0,NIPPV,categorical,2016,18005,0.11196889752846431
+nu,Overall,device_t0,OTHER,categorical,41,18005,0.002277145237434046
+nu,Overall,device_t0,ROOM AIR,categorical,1172,18005,0.06509302971396834
+nu,Overall,device_t0,TRACH COLLAR,categorical,66,18005,0.003665648430991391
+nu,Overall,device_t0,UNK,categorical,2168,18005,0.12041099694529298
+nu,Overall,device_t0,NA,categorical,275,18005,0.015273535129130798
+nu,Overall,traj_cluster_ra,1,categorical,3503,18005,0.1945570674812552
+nu,Overall,traj_cluster_ra,2,categorical,3350,18005,0.18605942793668426
+nu,Overall,traj_cluster_ra,3,categorical,3770,18005,0.20938628158844766
+nu,Overall,traj_cluster_ra,4,categorical,4289,18005,0.23821160788669815
+nu,Overall,traj_cluster_ra,5,categorical,2970,18005,0.1649541793946126
+nu,Overall,traj_cluster_ra,NA,categorical,123,18005,0.0068314357123021386
+nu,Overall,severity_rank,1,categorical,4289,18005,0.23821160788669815
+nu,Overall,severity_rank,2,categorical,2970,18005,0.1649541793946126
+nu,Overall,severity_rank,3,categorical,3350,18005,0.18605942793668426
+nu,Overall,severity_rank,4,categorical,3503,18005,0.1945570674812552
+nu,Overall,severity_rank,5,categorical,3770,18005,0.20938628158844766
+nu,Overall,severity_rank,NA,categorical,123,18005,0.0068314357123021386
+nu,Overall,death_in_hosp,0,categorical,13813,18005,0.7671757845043043
+nu,Overall,death_in_hosp,1,categorical,4192,18005,0.23282421549569565
+nu,Overall,hospice_discharge,0,categorical,16602,18005,0.9220772007775618
+nu,Overall,hospice_discharge,1,categorical,1403,18005,0.07792279922243821
+nu,Overall,death_or_hospice,0,categorical,12410,18005,0.6892529852818662
+nu,Overall,death_or_hospice,1,categorical,5595,18005,0.3107470147181339
+nu,Overall,any_imv_icu,0,categorical,8621,18005,0.4788114412663149
+nu,Overall,any_imv_icu,1,categorical,9384,18005,0.5211885587336851
+nu,Overall,any_imv_72h,0,categorical,9218,18005,0.5119688975284643
+nu,Overall,any_imv_72h,1,categorical,8787,18005,0.4880311024715357
+nu,Overall,vaso_any_72h,0,categorical,10655,18005,0.5917800610941405
+nu,Overall,vaso_any_72h,1,categorical,7350,18005,0.4082199389058595
+nu,Overall,advanced_cancer_any_poa,0,categorical,14907,18005,0.8279366842543738
+nu,Overall,advanced_cancer_any_poa,1,categorical,3098,18005,0.17206331574562622
+nu,Overall,metastatic_cancer_poa,0,categorical,15832,18005,0.8793113024159955
+nu,Overall,metastatic_cancer_poa,1,categorical,2173,18005,0.12068869758400444
+nu,Overall,malignant_pleural_effusion_poa,0,categorical,17133,18005,0.9515690086087198
+nu,Overall,malignant_pleural_effusion_poa,1,categorical,872,18005,0.0484309913912802
+nu,Overall,cachexia_poa,0,categorical,17234,18005,0.9571785615106915
+nu,Overall,cachexia_poa,1,categorical,771,18005,0.04282143848930853

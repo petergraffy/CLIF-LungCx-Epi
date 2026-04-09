@@ -1,0 +1,254 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+UCMC,1,sex_category,Female,categorical,550,1164,0.4725085910652921
+UCMC,1,sex_category,Male,categorical,614,1164,0.5274914089347079
+UCMC,2,sex_category,Female,categorical,610,1288,0.47360248447204967
+UCMC,2,sex_category,Male,categorical,678,1288,0.5263975155279503
+UCMC,3,sex_category,Female,categorical,275,783,0.351213282247765
+UCMC,3,sex_category,Male,categorical,508,783,0.648786717752235
+UCMC,4,sex_category,Female,categorical,1279,3247,0.3939020634431783
+UCMC,4,sex_category,Male,categorical,1968,3247,0.6060979365568216
+UCMC,5,sex_category,Female,categorical,350,707,0.49504950495049505
+UCMC,5,sex_category,Male,categorical,357,707,0.504950495049505
+UCMC,NA,sex_category,Female,categorical,275,593,0.463743676222597
+UCMC,NA,sex_category,Male,categorical,318,593,0.5362563237774031
+UCMC,1,race_category,American Indian or Alaska Native,categorical,6,1164,0.005154639175257732
+UCMC,1,race_category,Asian,categorical,10,1164,0.00859106529209622
+UCMC,1,race_category,Black or African American,categorical,823,1164,0.7070446735395189
+UCMC,1,race_category,Native Hawaiian or Other Pacific Islander,categorical,2,1164,0.001718213058419244
+UCMC,1,race_category,Other,categorical,19,1164,0.01632302405498282
+UCMC,1,race_category,Unknown,categorical,68,1164,0.058419243986254296
+UCMC,1,race_category,White,categorical,236,1164,0.2027491408934708
+UCMC,2,race_category,American Indian or Alaska Native,categorical,2,1288,0.0015527950310559005
+UCMC,2,race_category,Asian,categorical,30,1288,0.023291925465838508
+UCMC,2,race_category,Black or African American,categorical,854,1288,0.6630434782608695
+UCMC,2,race_category,Native Hawaiian or Other Pacific Islander,categorical,3,1288,0.002329192546583851
+UCMC,2,race_category,Other,categorical,39,1288,0.030279503105590064
+UCMC,2,race_category,Unknown,categorical,67,1288,0.05201863354037267
+UCMC,2,race_category,White,categorical,293,1288,0.22748447204968944
+UCMC,3,race_category,American Indian or Alaska Native,categorical,1,783,0.001277139208173691
+UCMC,3,race_category,Asian,categorical,11,783,0.0140485312899106
+UCMC,3,race_category,Black or African American,categorical,458,783,0.5849297573435505
+UCMC,3,race_category,Native Hawaiian or Other Pacific Islander,categorical,1,783,0.001277139208173691
+UCMC,3,race_category,Other,categorical,30,783,0.038314176245210725
+UCMC,3,race_category,Unknown,categorical,80,783,0.10217113665389528
+UCMC,3,race_category,White,categorical,202,783,0.25798212005108556
+UCMC,4,race_category,American Indian or Alaska Native,categorical,4,3247,0.0012319063751154912
+UCMC,4,race_category,Asian,categorical,37,3247,0.011395133969818293
+UCMC,4,race_category,Black or African American,categorical,2156,3247,0.6639975361872498
+UCMC,4,race_category,Native Hawaiian or Other Pacific Islander,categorical,2,3247,6.159531875577456e-4
+UCMC,4,race_category,Other,categorical,85,3247,0.02617801047120419
+UCMC,4,race_category,Unknown,categorical,368,3247,0.11333538651062519
+UCMC,4,race_category,White,categorical,595,3247,0.18324607329842932
+UCMC,5,race_category,American Indian or Alaska Native,categorical,1,707,0.0014144271570014145
+UCMC,5,race_category,Asian,categorical,7,707,0.009900990099009901
+UCMC,5,race_category,Black or African American,categorical,523,707,0.7397454031117398
+UCMC,5,race_category,Native Hawaiian or Other Pacific Islander,categorical,1,707,0.0014144271570014145
+UCMC,5,race_category,Other,categorical,14,707,0.019801980198019802
+UCMC,5,race_category,Unknown,categorical,30,707,0.042432814710042434
+UCMC,5,race_category,White,categorical,131,707,0.18528995756718528
+UCMC,NA,race_category,American Indian or Alaska Native,categorical,2,593,0.003372681281618887
+UCMC,NA,race_category,Asian,categorical,8,593,0.013490725126475547
+UCMC,NA,race_category,Black or African American,categorical,370,593,0.6239460370994941
+UCMC,NA,race_category,Other,categorical,13,593,0.021922428330522766
+UCMC,NA,race_category,Unknown,categorical,57,593,0.09612141652613827
+UCMC,NA,race_category,White,categorical,143,593,0.2411467116357504
+UCMC,1,ethnicity_category,Hispanic,categorical,48,1164,0.041237113402061855
+UCMC,1,ethnicity_category,Non-Hispanic,categorical,1083,1164,0.9304123711340206
+UCMC,1,ethnicity_category,Unknown,categorical,33,1164,0.028350515463917526
+UCMC,2,ethnicity_category,Hispanic,categorical,82,1288,0.06366459627329192
+UCMC,2,ethnicity_category,Non-Hispanic,categorical,1165,1288,0.9045031055900621
+UCMC,2,ethnicity_category,Unknown,categorical,41,1288,0.03183229813664596
+UCMC,3,ethnicity_category,Hispanic,categorical,53,783,0.06768837803320563
+UCMC,3,ethnicity_category,Non-Hispanic,categorical,671,783,0.8569604086845466
+UCMC,3,ethnicity_category,Unknown,categorical,59,783,0.07535121328224777
+UCMC,4,ethnicity_category,Hispanic,categorical,214,3247,0.06590699106867878
+UCMC,4,ethnicity_category,Non-Hispanic,categorical,2780,3247,0.8561749307052664
+UCMC,4,ethnicity_category,Unknown,categorical,253,3247,0.07791807822605482
+UCMC,5,ethnicity_category,Hispanic,categorical,30,707,0.042432814710042434
+UCMC,5,ethnicity_category,Non-Hispanic,categorical,665,707,0.9405940594059405
+UCMC,5,ethnicity_category,Unknown,categorical,12,707,0.016973125884016973
+UCMC,NA,ethnicity_category,Hispanic,categorical,31,593,0.05227655986509275
+UCMC,NA,ethnicity_category,Non-Hispanic,categorical,526,593,0.8870151770657673
+UCMC,NA,ethnicity_category,Unknown,categorical,36,593,0.06070826306913996
+UCMC,1,device_t0,CPAP,categorical,6,1164,0.005154639175257732
+UCMC,1,device_t0,FACE MASK,categorical,70,1164,0.06013745704467354
+UCMC,1,device_t0,HIGH FLOW NC,categorical,50,1164,0.0429553264604811
+UCMC,1,device_t0,IMV,categorical,223,1164,0.19158075601374572
+UCMC,1,device_t0,NASAL CANNULA,categorical,123,1164,0.1056701030927835
+UCMC,1,device_t0,NIPPV,categorical,146,1164,0.1254295532646048
+UCMC,1,device_t0,OTHER,categorical,1,1164,8.59106529209622e-4
+UCMC,1,device_t0,ROOM AIR,categorical,10,1164,0.00859106529209622
+UCMC,1,device_t0,TRACH COLLAR,categorical,10,1164,0.00859106529209622
+UCMC,1,device_t0,UNK,categorical,506,1164,0.43470790378006874
+UCMC,1,device_t0,NA,categorical,19,1164,0.01632302405498282
+UCMC,2,device_t0,CPAP,categorical,11,1288,0.008540372670807454
+UCMC,2,device_t0,FACE MASK,categorical,33,1288,0.02562111801242236
+UCMC,2,device_t0,HIGH FLOW NC,categorical,176,1288,0.13664596273291926
+UCMC,2,device_t0,IMV,categorical,134,1288,0.10403726708074534
+UCMC,2,device_t0,NASAL CANNULA,categorical,26,1288,0.020186335403726708
+UCMC,2,device_t0,NIPPV,categorical,270,1288,0.2096273291925466
+UCMC,2,device_t0,OTHER,categorical,3,1288,0.002329192546583851
+UCMC,2,device_t0,ROOM AIR,categorical,1,1288,7.763975155279503e-4
+UCMC,2,device_t0,UNK,categorical,621,1288,0.48214285714285715
+UCMC,2,device_t0,NA,categorical,13,1288,0.010093167701863354
+UCMC,3,device_t0,FACE MASK,categorical,4,783,0.005108556832694764
+UCMC,3,device_t0,HIGH FLOW NC,categorical,14,783,0.017879948914431672
+UCMC,3,device_t0,IMV,categorical,469,783,0.598978288633461
+UCMC,3,device_t0,NASAL CANNULA,categorical,2,783,0.002554278416347382
+UCMC,3,device_t0,NIPPV,categorical,30,783,0.038314176245210725
+UCMC,3,device_t0,ROOM AIR,categorical,2,783,0.002554278416347382
+UCMC,3,device_t0,TRACH COLLAR,categorical,1,783,0.001277139208173691
+UCMC,3,device_t0,UNK,categorical,249,783,0.31800766283524906
+UCMC,3,device_t0,NA,categorical,12,783,0.01532567049808429
+UCMC,4,device_t0,CPAP,categorical,3,3247,9.239297813366184e-4
+UCMC,4,device_t0,FACE MASK,categorical,7,3247,0.0021558361564521095
+UCMC,4,device_t0,HIGH FLOW NC,categorical,12,3247,0.0036957191253464737
+UCMC,4,device_t0,IMV,categorical,1890,3247,0.5820757622420696
+UCMC,4,device_t0,NASAL CANNULA,categorical,19,3247,0.005851555281798583
+UCMC,4,device_t0,NIPPV,categorical,62,3247,0.019094548814290114
+UCMC,4,device_t0,OTHER,categorical,2,3247,6.159531875577456e-4
+UCMC,4,device_t0,ROOM AIR,categorical,2,3247,6.159531875577456e-4
+UCMC,4,device_t0,TRACH COLLAR,categorical,2,3247,6.159531875577456e-4
+UCMC,4,device_t0,UNK,categorical,1210,3247,0.3726516784724361
+UCMC,4,device_t0,NA,categorical,38,3247,0.011703110563597166
+UCMC,5,device_t0,CPAP,categorical,1,707,0.0014144271570014145
+UCMC,5,device_t0,FACE MASK,categorical,28,707,0.039603960396039604
+UCMC,5,device_t0,HIGH FLOW NC,categorical,14,707,0.019801980198019802
+UCMC,5,device_t0,IMV,categorical,194,707,0.2743988684582744
+UCMC,5,device_t0,NASAL CANNULA,categorical,118,707,0.1669024045261669
+UCMC,5,device_t0,NIPPV,categorical,90,707,0.1272984441301273
+UCMC,5,device_t0,OTHER,categorical,1,707,0.0014144271570014145
+UCMC,5,device_t0,ROOM AIR,categorical,67,707,0.09476661951909476
+UCMC,5,device_t0,UNK,categorical,177,707,0.25035360678925034
+UCMC,5,device_t0,NA,categorical,17,707,0.024045261669024046
+UCMC,NA,device_t0,UNK,categorical,467,593,0.7875210792580101
+UCMC,NA,device_t0,NA,categorical,126,593,0.21247892074198987
+UCMC,1,traj_cluster_ra,1,categorical,1164,1164,1
+UCMC,2,traj_cluster_ra,2,categorical,1288,1288,1
+UCMC,3,traj_cluster_ra,3,categorical,783,783,1
+UCMC,4,traj_cluster_ra,4,categorical,3247,3247,1
+UCMC,5,traj_cluster_ra,5,categorical,707,707,1
+UCMC,NA,traj_cluster_ra,NA,categorical,593,593,1
+UCMC,1,severity_rank,2,categorical,1164,1164,1
+UCMC,2,severity_rank,3,categorical,1288,1288,1
+UCMC,3,severity_rank,5,categorical,783,783,1
+UCMC,4,severity_rank,4,categorical,3247,3247,1
+UCMC,5,severity_rank,1,categorical,707,707,1
+UCMC,NA,severity_rank,NA,categorical,593,593,1
+UCMC,1,death_in_hosp,0,categorical,1046,1164,0.8986254295532646
+UCMC,1,death_in_hosp,1,categorical,118,1164,0.1013745704467354
+UCMC,2,death_in_hosp,0,categorical,962,1288,0.7468944099378882
+UCMC,2,death_in_hosp,1,categorical,326,1288,0.2531055900621118
+UCMC,3,death_in_hosp,0,categorical,374,783,0.4776500638569604
+UCMC,3,death_in_hosp,1,categorical,409,783,0.5223499361430396
+UCMC,4,death_in_hosp,0,categorical,1914,3247,0.5894672004927626
+UCMC,4,death_in_hosp,1,categorical,1333,3247,0.4105327995072374
+UCMC,5,death_in_hosp,0,categorical,654,707,0.925035360678925
+UCMC,5,death_in_hosp,1,categorical,53,707,0.07496463932107496
+UCMC,NA,death_in_hosp,0,categorical,472,593,0.7959527824620574
+UCMC,NA,death_in_hosp,1,categorical,121,593,0.20404721753794267
+UCMC,1,hospice_discharge,0,categorical,1095,1164,0.9407216494845361
+UCMC,1,hospice_discharge,1,categorical,69,1164,0.059278350515463915
+UCMC,2,hospice_discharge,0,categorical,1211,1288,0.9402173913043478
+UCMC,2,hospice_discharge,1,categorical,77,1288,0.059782608695652176
+UCMC,3,hospice_discharge,0,categorical,772,783,0.9859514687100894
+UCMC,3,hospice_discharge,1,categorical,11,783,0.0140485312899106
+UCMC,4,hospice_discharge,0,categorical,3141,3247,0.9673544810594394
+UCMC,4,hospice_discharge,1,categorical,106,3247,0.03264551894056052
+UCMC,5,hospice_discharge,0,categorical,687,707,0.9717114568599717
+UCMC,5,hospice_discharge,1,categorical,20,707,0.028288543140028287
+UCMC,NA,hospice_discharge,0,categorical,559,593,0.9426644182124789
+UCMC,NA,hospice_discharge,1,categorical,34,593,0.05733558178752108
+UCMC,1,death_or_hospice,0,categorical,977,1164,0.8393470790378007
+UCMC,1,death_or_hospice,1,categorical,187,1164,0.16065292096219932
+UCMC,2,death_or_hospice,0,categorical,885,1288,0.687111801242236
+UCMC,2,death_or_hospice,1,categorical,403,1288,0.31288819875776397
+UCMC,3,death_or_hospice,0,categorical,363,783,0.46360153256704983
+UCMC,3,death_or_hospice,1,categorical,420,783,0.5363984674329502
+UCMC,4,death_or_hospice,0,categorical,1808,3247,0.556821681552202
+UCMC,4,death_or_hospice,1,categorical,1439,3247,0.443178318447798
+UCMC,5,death_or_hospice,0,categorical,634,707,0.8967468175388967
+UCMC,5,death_or_hospice,1,categorical,73,707,0.10325318246110325
+UCMC,NA,death_or_hospice,0,categorical,438,593,0.7386172006745363
+UCMC,NA,death_or_hospice,1,categorical,155,593,0.26138279932546377
+UCMC,1,any_imv_icu,0,categorical,724,1164,0.6219931271477663
+UCMC,1,any_imv_icu,1,categorical,440,1164,0.37800687285223367
+UCMC,2,any_imv_icu,0,categorical,771,1288,0.5986024844720497
+UCMC,2,any_imv_icu,1,categorical,517,1288,0.40139751552795033
+UCMC,3,any_imv_icu,1,categorical,783,783,1
+UCMC,4,any_imv_icu,0,categorical,9,3247,0.002771789344009855
+UCMC,4,any_imv_icu,1,categorical,3238,3247,0.9972282106559901
+UCMC,5,any_imv_icu,0,categorical,415,707,0.5869872701555869
+UCMC,5,any_imv_icu,1,categorical,292,707,0.413012729844413
+UCMC,NA,any_imv_icu,0,categorical,531,593,0.8954468802698144
+UCMC,NA,any_imv_icu,1,categorical,62,593,0.1045531197301855
+UCMC,1,any_imv_72h,0,categorical,779,1164,0.6692439862542955
+UCMC,1,any_imv_72h,1,categorical,385,1164,0.33075601374570446
+UCMC,2,any_imv_72h,0,categorical,934,1288,0.7251552795031055
+UCMC,2,any_imv_72h,1,categorical,354,1288,0.2748447204968944
+UCMC,3,any_imv_72h,1,categorical,783,783,1
+UCMC,4,any_imv_72h,0,categorical,9,3247,0.002771789344009855
+UCMC,4,any_imv_72h,1,categorical,3238,3247,0.9972282106559901
+UCMC,5,any_imv_72h,0,categorical,435,707,0.6152758132956153
+UCMC,5,any_imv_72h,1,categorical,272,707,0.38472418670438474
+UCMC,NA,any_imv_72h,0,categorical,593,593,1
+UCMC,1,vaso_any_72h,0,categorical,935,1164,0.8032646048109966
+UCMC,1,vaso_any_72h,1,categorical,229,1164,0.19673539518900343
+UCMC,2,vaso_any_72h,0,categorical,1014,1288,0.7872670807453416
+UCMC,2,vaso_any_72h,1,categorical,274,1288,0.2127329192546584
+UCMC,3,vaso_any_72h,0,categorical,130,783,0.16602809706257982
+UCMC,3,vaso_any_72h,1,categorical,653,783,0.8339719029374202
+UCMC,4,vaso_any_72h,0,categorical,1180,3247,0.3634123806590699
+UCMC,4,vaso_any_72h,1,categorical,2067,3247,0.6365876193409301
+UCMC,5,vaso_any_72h,0,categorical,576,707,0.8147100424328148
+UCMC,5,vaso_any_72h,1,categorical,131,707,0.18528995756718528
+UCMC,NA,vaso_any_72h,0,categorical,385,593,0.6492411467116358
+UCMC,NA,vaso_any_72h,1,categorical,208,593,0.35075885328836426
+UCMC,1,advanced_cancer_any_poa,0,categorical,913,1164,0.7843642611683849
+UCMC,1,advanced_cancer_any_poa,1,categorical,251,1164,0.21563573883161513
+UCMC,2,advanced_cancer_any_poa,0,categorical,1012,1288,0.7857142857142857
+UCMC,2,advanced_cancer_any_poa,1,categorical,276,1288,0.21428571428571427
+UCMC,3,advanced_cancer_any_poa,0,categorical,702,783,0.896551724137931
+UCMC,3,advanced_cancer_any_poa,1,categorical,81,783,0.10344827586206896
+UCMC,4,advanced_cancer_any_poa,0,categorical,2884,3247,0.8882044964582692
+UCMC,4,advanced_cancer_any_poa,1,categorical,363,3247,0.11179550354173083
+UCMC,5,advanced_cancer_any_poa,0,categorical,585,707,0.8274398868458275
+UCMC,5,advanced_cancer_any_poa,1,categorical,122,707,0.17256011315417255
+UCMC,NA,advanced_cancer_any_poa,0,categorical,400,593,0.67453625632377745
+UCMC,NA,advanced_cancer_any_poa,1,categorical,193,593,0.3254637436762226
+UCMC,1,metastatic_cancer_poa,0,categorical,989,1164,0.8496563573883161
+UCMC,1,metastatic_cancer_poa,1,categorical,175,1164,0.15034364261168384
+UCMC,2,metastatic_cancer_poa,0,categorical,1103,1288,0.8563664596273292
+UCMC,2,metastatic_cancer_poa,1,categorical,185,1288,0.14363354037267081
+UCMC,3,metastatic_cancer_poa,0,categorical,732,783,0.9348659003831418
+UCMC,3,metastatic_cancer_poa,1,categorical,51,783,0.06513409961685823
+UCMC,4,metastatic_cancer_poa,0,categorical,3028,3247,0.9325531259624269
+UCMC,4,metastatic_cancer_poa,1,categorical,219,3247,0.06744687403757314
+UCMC,5,metastatic_cancer_poa,0,categorical,610,707,0.8628005657708628
+UCMC,5,metastatic_cancer_poa,1,categorical,97,707,0.1371994342291372
+UCMC,NA,metastatic_cancer_poa,0,categorical,458,593,0.7723440134907251
+UCMC,NA,metastatic_cancer_poa,1,categorical,135,593,0.22765598650927488
+UCMC,1,malignant_pleural_effusion_poa,0,categorical,1083,1164,0.9304123711340206
+UCMC,1,malignant_pleural_effusion_poa,1,categorical,81,1164,0.06958762886597938
+UCMC,2,malignant_pleural_effusion_poa,0,categorical,1192,1288,0.9254658385093167
+UCMC,2,malignant_pleural_effusion_poa,1,categorical,96,1288,0.07453416149068323
+UCMC,3,malignant_pleural_effusion_poa,0,categorical,754,783,0.9629629629629629
+UCMC,3,malignant_pleural_effusion_poa,1,categorical,29,783,0.037037037037037035
+UCMC,4,malignant_pleural_effusion_poa,0,categorical,3180,3247,0.9793655682168155
+UCMC,4,malignant_pleural_effusion_poa,1,categorical,67,3247,0.020634431783184477
+UCMC,5,malignant_pleural_effusion_poa,0,categorical,688,707,0.9731258840169731
+UCMC,5,malignant_pleural_effusion_poa,1,categorical,19,707,0.026874115983026876
+UCMC,NA,malignant_pleural_effusion_poa,0,categorical,556,593,0.9376053962900506
+UCMC,NA,malignant_pleural_effusion_poa,1,categorical,37,593,0.06239460370994941
+UCMC,1,cachexia_poa,0,categorical,1088,1164,0.9347079037800687
+UCMC,1,cachexia_poa,1,categorical,76,1164,0.06529209621993128
+UCMC,2,cachexia_poa,0,categorical,1206,1288,0.9363354037267081
+UCMC,2,cachexia_poa,1,categorical,82,1288,0.06366459627329192
+UCMC,3,cachexia_poa,0,categorical,756,783,0.9655172413793104
+UCMC,3,cachexia_poa,1,categorical,27,783,0.034482758620689655
+UCMC,4,cachexia_poa,0,categorical,3093,3247,0.9525716045580536
+UCMC,4,cachexia_poa,1,categorical,154,3247,0.047428395441946415
+UCMC,5,cachexia_poa,0,categorical,684,707,0.9674681753889675
+UCMC,5,cachexia_poa,1,categorical,23,707,0.03253182461103253
+UCMC,NA,cachexia_poa,0,categorical,530,593,0.893760539629005
+UCMC,NA,cachexia_poa,1,categorical,63,593,0.10623946037099494

@@ -1,0 +1,4 @@
+site_name,reason,n
+ohsu,Missing geo code,302476
+ohsu,No ICU stay (no ADT segment with ICU location_category),5371
+ohsu,No lung cancer dx POA=1 matching prefixes,418409

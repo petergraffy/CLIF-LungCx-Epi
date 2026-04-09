@@ -1,0 +1,5 @@
+site_name,reason,n
+Michigan,Missing demographics,743
+Michigan,Missing geo code,1069
+Michigan,No ICU stay (no ADT segment with ICU location_category),5
+Michigan,No lung cancer dx POA=1 matching prefixes,35502

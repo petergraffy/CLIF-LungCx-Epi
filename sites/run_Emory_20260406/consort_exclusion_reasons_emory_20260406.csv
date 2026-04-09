@@ -1,0 +1,5 @@
+site_name,reason,n
+emory,Missing demographics,1529
+emory,Missing geo code,90491
+emory,No ICU stay (no ADT segment with ICU location_category),11202
+emory,No lung cancer dx POA=1 matching prefixes,821787

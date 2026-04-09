@@ -1,0 +1,96 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+pooled,Overall,advanced_cancer_any_poa,0,categorical,67564,81302,0.8310250670340213
+pooled,Overall,advanced_cancer_any_poa,1,categorical,13738,81302,0.1689749329659787
+pooled,Overall,any_imv_72h,0,categorical,42180,81302,0.5188064254261888
+pooled,Overall,any_imv_72h,1,categorical,39122,81302,0.48119357457381123
+pooled,Overall,any_imv_icu,0,categorical,39441,81302,0.4851172172886276
+pooled,Overall,any_imv_icu,1,categorical,41861,81302,0.5148827827113724
+pooled,Overall,cachexia_poa,0,categorical,76943,81302,0.9463850827777914
+pooled,Overall,cachexia_poa,1,categorical,4359,81302,0.053614917222208555
+pooled,Overall,death_in_hosp,0,categorical,62566,81302,0.7695505645617574
+pooled,Overall,death_in_hosp,1,categorical,18736,81302,0.2304494354382426
+pooled,Overall,death_or_hospice,0,categorical,58124,81302,0.7149147622444713
+pooled,Overall,death_or_hospice,1,categorical,23178,81302,0.28508523775552874
+pooled,Overall,device_t0,CPAP,categorical,313,81302,0.0038498437922806325
+pooled,Overall,device_t0,FACE MASK,categorical,4707,81302,0.057895254729280955
+pooled,Overall,device_t0,HIGH FLOW NC,categorical,6919,81302,0.08510245750412045
+pooled,Overall,device_t0,IMV,categorical,26212,81302,0.3224028929177634
+pooled,Overall,device_t0,NASAL CANNULA,categorical,15996,81302,0.1967479274802588
+pooled,Overall,device_t0,NIPPV,categorical,8374,81302,0.10299869621903521
+pooled,Overall,device_t0,Other,categorical,821,77584,0.010582078779129717
+pooled,Overall,device_t0,ROOM AIR,categorical,5614,81302,0.06905119185259895
+pooled,Overall,device_t0,TRACH COLLAR,categorical,322,81302,0.003960542176084229
+pooled,Overall,device_t0,Unknown,categorical,10282,81302,0.12646675358539766
+pooled,Overall,device_t0,,categorical,1742,81302,0.021426287176207228
+pooled,Overall,ethnicity_category,Hispanic,categorical,4993,81302,0.06141300337015079
+pooled,Overall,ethnicity_category,Non-Hispanic,categorical,73673,81302,0.906164669995818
+pooled,Overall,ethnicity_category,Unknown,categorical,2636,67919,0.03881093655678087
+pooled,Overall,hospice_discharge,0,categorical,76860,81302,0.9453641976827138
+pooled,Overall,hospice_discharge,1,categorical,4442,81302,0.05463580231728617
+pooled,Overall,malignant_pleural_effusion_poa,0,categorical,78051,81302,0.9600132838060564
+pooled,Overall,malignant_pleural_effusion_poa,1,categorical,3251,81302,0.03998671619394357
+pooled,Overall,metastatic_cancer_poa,0,categorical,72104,81302,0.8868662517527244
+pooled,Overall,metastatic_cancer_poa,1,categorical,9198,81302,0.1131337482472756
+pooled,Overall,pooled_cluster,1,categorical,1849,86542,0.021365348616856555
+pooled,Overall,pooled_cluster,1,categorical,970,86542,0.011208430588615932
+pooled,Overall,pooled_cluster,1,categorical,3180,86542,0.03674516419773058
+pooled,Overall,pooled_cluster,1,categorical,2970,86542,0.03431859675071064
+pooled,Overall,pooled_cluster,1,categorical,1337,86542,0.01544914607936031
+pooled,Overall,pooled_cluster,1,categorical,4509,86542,0.052101869612442515
+pooled,Overall,pooled_cluster,1,categorical,1275,86542,0.014732730928335375
+pooled,Overall,pooled_cluster,1,categorical,707,86542,0.008169443738300478
+pooled,Overall,pooled_cluster,1,categorical,465,86542,0.005373113632687019
+pooled,Overall,pooled_cluster,2,categorical,2359,86542,0.027258440988190705
+pooled,Overall,pooled_cluster,2,categorical,1713,86542,0.019793857317834115
+pooled,Overall,pooled_cluster,2,categorical,4199,86542,0.04851979385731783
+pooled,Overall,pooled_cluster,2,categorical,4289,86542,0.049559751334612094
+pooled,Overall,pooled_cluster,2,categorical,780,86542,0.009012964803216936
+pooled,Overall,pooled_cluster,2,categorical,6980,86542,0.08065447990571052
+pooled,Overall,pooled_cluster,2,categorical,1240,86542,0.014328303020498718
+pooled,Overall,pooled_cluster,2,categorical,1164,86542,0.013450116706339119
+pooled,Overall,pooled_cluster,2,categorical,637,86542,0.007360587922627164
+pooled,Overall,pooled_cluster,3,categorical,1466,86542,0.01693975179681542
+pooled,Overall,pooled_cluster,3,categorical,656,86542,0.007580134501167063
+pooled,Overall,pooled_cluster,3,categorical,1490,86542,0.017217073790760557
+pooled,Overall,pooled_cluster,3,categorical,3350,86542,0.03870952832150863
+pooled,Overall,pooled_cluster,3,categorical,267,86542,0.0030852071826396434
+pooled,Overall,pooled_cluster,3,categorical,2294,86542,0.026507360587922628
+pooled,Overall,pooled_cluster,3,categorical,322,86542,0.0037207367520972474
+pooled,Overall,pooled_cluster,3,categorical,1288,86542,0.01488294700838899
+pooled,Overall,pooled_cluster,3,categorical,342,86542,0.003951838413718194
+pooled,Overall,pooled_cluster,4,categorical,1943,86542,0.022451526426475008
+pooled,Overall,pooled_cluster,4,categorical,1567,86542,0.018106815188001203
+pooled,Overall,pooled_cluster,4,categorical,3128,86542,0.03614429987751612
+pooled,Overall,pooled_cluster,4,categorical,3770,86542,0.04356266321554852
+pooled,Overall,pooled_cluster,4,categorical,868,86542,0.010029812114349102
+pooled,Overall,pooled_cluster,4,categorical,4035,86542,0.046624760232026066
+pooled,Overall,pooled_cluster,4,categorical,686,86542,0.007926786993598485
+pooled,Overall,pooled_cluster,4,categorical,3247,86542,0.03751935476416075
+pooled,Overall,pooled_cluster,4,categorical,580,86542,0.006701948187007464
+pooled,Overall,pooled_cluster,5,categorical,1042,86542,0.01204039657045134
+pooled,Overall,pooled_cluster,5,categorical,1521,86542,0.017575281366273024
+pooled,Overall,pooled_cluster,5,categorical,1351,86542,0.015610917242494974
+pooled,Overall,pooled_cluster,5,categorical,3503,86542,0.04047745603290888
+pooled,Overall,pooled_cluster,5,categorical,393,86542,0.004541147650851609
+pooled,Overall,pooled_cluster,5,categorical,5510,86542,0.06366850777657092
+pooled,Overall,pooled_cluster,5,categorical,194,86542,0.0022416861177231863
+pooled,Overall,pooled_cluster,5,categorical,783,86542,0.009047630052460077
+pooled,Overall,pooled_cluster,5,categorical,323,86542,0.003732291835178295
+pooled,Overall,race_category,American Indian or Alaska Native,categorical,463,81302,0.005694816855673907
+pooled,Overall,race_category,Asian,categorical,3845,81302,0.04729280952498093
+pooled,Overall,race_category,Black or African American,categorical,24196,81302,0.29760645494575777
+pooled,Overall,race_category,Native Hawaiian or Other Pacific Islander,categorical,199,81302,0.002447664264101744
+pooled,Overall,race_category,Other,categorical,3660,81302,0.0450173427467959
+pooled,Overall,race_category,Unknown,categorical,3682,81302,0.04528793879609358
+pooled,Overall,race_category,White,categorical,45257,81302,0.5566529728665961
+pooled,Overall,severity_rank,1,categorical,17016,81302,0.20929374431133305
+pooled,Overall,severity_rank,2,categorical,20411,81302,0.25105163464613417
+pooled,Overall,severity_rank,3,categorical,11332,81302,0.13938156502915058
+pooled,Overall,severity_rank,4,categorical,18072,81302,0.2222823546776217
+pooled,Overall,severity_rank,5,categorical,13284,81302,0.1633908144941084
+pooled,Overall,severity_rank,,categorical,1187,81302,0.014599886841652112
+pooled,Overall,sex_category,Female,categorical,36776,81302,0.4523381958623404
+pooled,Overall,sex_category,Male,categorical,44517,81302,0.547551105753856
+pooled,Overall,sex_category,Unknown,categorical,9,52605,1.7108639863130882e-4
+pooled,Overall,vaso_any_72h,0,categorical,48432,81302,0.5957049027084205
+pooled,Overall,vaso_any_72h,1,categorical,32870,81302,0.40429509729157953

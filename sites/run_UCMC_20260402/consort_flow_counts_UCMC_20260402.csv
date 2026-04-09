@@ -1,0 +1,7 @@
+site_name,step,step_order,n_remaining,n_excluded_at_step
+UCMC,Hospitalizations in date window,1,166799,0
+UCMC,>= 18 years,2,166799,0
+UCMC,Demographics present,3,166799,0
+UCMC,Geography present,4,165347,1452
+UCMC,Lung cancer dx POA present,5,11490,153857
+UCMC,Any ICU segment present,6,7782,3708

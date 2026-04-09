@@ -1,0 +1,1826 @@
+pooled_cluster,pooled_cluster_label,h,rs,n,prop
+1,Cluster 1: Room air / No ARF,0,Invasive ventilation,3431,0.21059415664129635
+1,Cluster 1: Room air / No ARF,0,Low-flow oxygen,5750,0.35293395531549226
+1,Cluster 1: Room air / No ARF,0,Noninvasive ventilation,2831,0.17376626565185366
+1,Cluster 1: Room air / No ARF,0,Other support,244,0.01497667566904002
+1,Cluster 1: Room air / No ARF,0,Room air,4036,0.2477289467223177
+1,Cluster 1: Room air / No ARF,1,Invasive ventilation,3404,0.20893690154677141
+1,Cluster 1: Room air / No ARF,1,Low-flow oxygen,5752,0.35305671495212376
+1,Cluster 1: Room air / No ARF,1,Noninvasive ventilation,2654,0.1629020378099681
+1,Cluster 1: Room air / No ARF,1,Other support,255,0.015651853670513135
+1,Cluster 1: Room air / No ARF,1,Room air,4227,0.2594524920206236
+1,Cluster 1: Room air / No ARF,2,Invasive ventilation,3346,0.20537687208445862
+1,Cluster 1: Room air / No ARF,2,Low-flow oxygen,5753,0.3531180947704395
+1,Cluster 1: Room air / No ARF,2,Noninvasive ventilation,2498,0.153326786152713
+1,Cluster 1: Room air / No ARF,2,Other support,235,0.01442425730419838
+1,Cluster 1: Room air / No ARF,2,Room air,4460,0.27375398968819054
+1,Cluster 1: Room air / No ARF,3,Invasive ventilation,3298,0.2024306408053032
+1,Cluster 1: Room air / No ARF,3,Low-flow oxygen,5785,0.3550822489565431
+1,Cluster 1: Room air / No ARF,3,Noninvasive ventilation,2320,0.14240117849251166
+1,Cluster 1: Room air / No ARF,3,Other support,244,0.01497667566904002
+1,Cluster 1: Room air / No ARF,3,Room air,4645,0.28510925607660204
+1,Cluster 1: Room air / No ARF,4,Invasive ventilation,3233,0.19844095261478026
+1,Cluster 1: Room air / No ARF,4,Low-flow oxygen,5805,0.35630984532285787
+1,Cluster 1: Room air / No ARF,4,Noninvasive ventilation,2125,0.13043211392094278
+1,Cluster 1: Room air / No ARF,4,Other support,251,0.015406334397250185
+1,Cluster 1: Room air / No ARF,4,Room air,4878,0.2994107537441689
+1,Cluster 1: Room air / No ARF,5,Invasive ventilation,3158,0.19383746624109993
+1,Cluster 1: Room air / No ARF,5,Low-flow oxygen,5826,0.35759882150748834
+1,Cluster 1: Room air / No ARF,5,Noninvasive ventilation,1950,0.11969064571568869
+1,Cluster 1: Room air / No ARF,5,Other support,233,0.014301497667566904
+1,Cluster 1: Room air / No ARF,5,Room air,5125,0.3145715688681561
+1,Cluster 1: Room air / No ARF,6,Invasive ventilation,3082,0.18917260004910386
+1,Cluster 1: Room air / No ARF,6,Low-flow oxygen,5823,0.3574146820525411
+1,Cluster 1: Room air / No ARF,6,Noninvasive ventilation,1780,0.10925607660201325
+1,Cluster 1: Room air / No ARF,6,Other support,220,0.013503560029462312
+1,Cluster 1: Room air / No ARF,6,Room air,5387,0.3306530812668794
+1,Cluster 1: Room air / No ARF,7,Invasive ventilation,2972,0.1824208200343727
+1,Cluster 1: Room air / No ARF,7,Low-flow oxygen,5817,0.3570464031426467
+1,Cluster 1: Room air / No ARF,7,Noninvasive ventilation,1619,0.09937392585317947
+1,Cluster 1: Room air / No ARF,7,Other support,223,0.013687699484409526
+1,Cluster 1: Room air / No ARF,7,Room air,5661,0.3474711514853916
+1,Cluster 1: Room air / No ARF,8,Invasive ventilation,2871,0.1762214583844832
+1,Cluster 1: Room air / No ARF,8,Low-flow oxygen,5791,0.3554505278664375
+1,Cluster 1: Room air / No ARF,8,Noninvasive ventilation,1481,0.09090351092560767
+1,Cluster 1: Room air / No ARF,8,Other support,219,0.013442180211146576
+1,Cluster 1: Room air / No ARF,8,Room air,5930,0.36398232261232505
+1,Cluster 1: Room air / No ARF,9,Invasive ventilation,2745,0.16848760127670023
+1,Cluster 1: Room air / No ARF,9,Low-flow oxygen,5787,0.35520500859317455
+1,Cluster 1: Room air / No ARF,9,Noninvasive ventilation,1363,0.0836606923643506
+1,Cluster 1: Room air / No ARF,9,Other support,222,0.013626319666093789
+1,Cluster 1: Room air / No ARF,9,Room air,6175,0.3790203780996808
+1,Cluster 1: Room air / No ARF,10,Invasive ventilation,2617,0.16063098453228578
+1,Cluster 1: Room air / No ARF,10,Low-flow oxygen,5728,0.351583599312546
+1,Cluster 1: Room air / No ARF,10,Noninvasive ventilation,1243,0.07629511416646206
+1,Cluster 1: Room air / No ARF,10,Other support,209,0.012828382027989197
+1,Cluster 1: Room air / No ARF,10,Room air,6495,0.3986619199607169
+1,Cluster 1: Room air / No ARF,11,Invasive ventilation,2492,0.15295850724281856
+1,Cluster 1: Room air / No ARF,11,Low-flow oxygen,5667,0.34783943039528603
+1,Cluster 1: Room air / No ARF,11,Noninvasive ventilation,1117,0.0685612570586791
+1,Cluster 1: Room air / No ARF,11,Other support,222,0.013626319666093789
+1,Cluster 1: Room air / No ARF,11,Room air,6794,0.4170144856371225
+1,Cluster 1: Room air / No ARF,12,Invasive ventilation,2332,0.1431377363123005
+1,Cluster 1: Room air / No ARF,12,Low-flow oxygen,5539,0.3399828136508716
+1,Cluster 1: Room air / No ARF,12,Noninvasive ventilation,1034,0.06346673213847287
+1,Cluster 1: Room air / No ARF,12,Other support,222,0.013626319666093789
+1,Cluster 1: Room air / No ARF,12,Room air,7165,0.43978639823226123
+1,Cluster 1: Room air / No ARF,13,Invasive ventilation,2186,0.1341762828382028
+1,Cluster 1: Room air / No ARF,13,Low-flow oxygen,5429,0.33323103363614043
+1,Cluster 1: Room air / No ARF,13,Noninvasive ventilation,946,0.05806530812668795
+1,Cluster 1: Room air / No ARF,13,Other support,224,0.013749079302725264
+1,Cluster 1: Room air / No ARF,13,Room air,7507,0.46077829609624354
+1,Cluster 1: Room air / No ARF,14,Invasive ventilation,2031,0.12466241099926344
+1,Cluster 1: Room air / No ARF,14,Low-flow oxygen,5380,0.33022342253866926
+1,Cluster 1: Room air / No ARF,14,Noninvasive ventilation,859,0.05272526393321876
+1,Cluster 1: Room air / No ARF,14,Other support,204,0.012521482936410509
+1,Cluster 1: Room air / No ARF,14,Room air,7818,0.479867419592438
+1,Cluster 1: Room air / No ARF,15,Invasive ventilation,1918,0.11772649152958507
+1,Cluster 1: Room air / No ARF,15,Low-flow oxygen,5216,0.3201571323348883
+1,Cluster 1: Room air / No ARF,15,Noninvasive ventilation,791,0.048551436287748585
+1,Cluster 1: Room air / No ARF,15,Other support,194,0.01190768475325313
+1,Cluster 1: Room air / No ARF,15,Room air,8173,0.501657255094525
+1,Cluster 1: Room air / No ARF,16,Invasive ventilation,1747,0.10723054259759392
+1,Cluster 1: Room air / No ARF,16,Low-flow oxygen,5109,0.31358949177510437
+1,Cluster 1: Room air / No ARF,16,Noninvasive ventilation,680,0.04173827645470169
+1,Cluster 1: Room air / No ARF,16,Other support,195,0.011969064571568868
+1,Cluster 1: Room air / No ARF,16,Room air,8561,0.5254726246010312
+1,Cluster 1: Room air / No ARF,17,Invasive ventilation,1602,0.09833046894181194
+1,Cluster 1: Room air / No ARF,17,Low-flow oxygen,4980,0.3056714952123742
+1,Cluster 1: Room air / No ARF,17,Noninvasive ventilation,657,0.040326540633439725
+1,Cluster 1: Room air / No ARF,17,Other support,176,0.01080284802356985
+1,Cluster 1: Room air / No ARF,17,Room air,8877,0.5448686471888043
+1,Cluster 1: Room air / No ARF,18,Invasive ventilation,1457,0.08943039528602996
+1,Cluster 1: Room air / No ARF,18,Low-flow oxygen,4886,0.2999017922906948
+1,Cluster 1: Room air / No ARF,18,Noninvasive ventilation,590,0.03621409280628529
+1,Cluster 1: Room air / No ARF,18,Other support,175,0.010741468205254113
+1,Cluster 1: Room air / No ARF,18,Room air,9184,0.5637122514117359
+1,Cluster 1: Room air / No ARF,19,Invasive ventilation,1297,0.0796096243555119
+1,Cluster 1: Room air / No ARF,19,Low-flow oxygen,4773,0.29296587282101644
+1,Cluster 1: Room air / No ARF,19,Noninvasive ventilation,549,0.03369752025534004
+1,Cluster 1: Room air / No ARF,19,Other support,166,0.010189049840412473
+1,Cluster 1: Room air / No ARF,19,Room air,9507,0.5835379327277191
+1,Cluster 1: Room air / No ARF,20,Invasive ventilation,1178,0.07230542597593911
+1,Cluster 1: Room air / No ARF,20,Low-flow oxygen,4644,0.28504787625828626
+1,Cluster 1: Room air / No ARF,20,Noninvasive ventilation,511,0.03136508715934201
+1,Cluster 1: Room air / No ARF,20,Other support,180,0.011048367296832801
+1,Cluster 1: Room air / No ARF,20,Room air,9779,0.6002332433095998
+1,Cluster 1: Room air / No ARF,21,Invasive ventilation,1073,0.06586054505278664
+1,Cluster 1: Room air / No ARF,21,Low-flow oxygen,4458,0.27363123005155904
+1,Cluster 1: Room air / No ARF,21,Noninvasive ventilation,487,0.0298919715197643
+1,Cluster 1: Room air / No ARF,21,Other support,166,0.010189049840412473
+1,Cluster 1: Room air / No ARF,21,Room air,10108,0.6204272035354775
+1,Cluster 1: Room air / No ARF,22,Invasive ventilation,989,0.06070464031426467
+1,Cluster 1: Room air / No ARF,22,Low-flow oxygen,4363,0.267800147311564
+1,Cluster 1: Room air / No ARF,22,Noninvasive ventilation,464,0.028480235698502332
+1,Cluster 1: Room air / No ARF,22,Other support,161,0.009882150748833784
+1,Cluster 1: Room air / No ARF,22,Room air,10315,0.6331328259268353
+1,Cluster 1: Room air / No ARF,23,Invasive ventilation,904,0.05548735575742696
+1,Cluster 1: Room air / No ARF,23,Low-flow oxygen,4168,0.2558310827399951
+1,Cluster 1: Room air / No ARF,23,Noninvasive ventilation,460,0.028234716425239382
+1,Cluster 1: Room air / No ARF,23,Other support,182,0.011171126933464276
+1,Cluster 1: Room air / No ARF,23,Room air,10578,0.6492757181438743
+1,Cluster 1: Room air / No ARF,24,Invasive ventilation,817,0.05014731156395777
+1,Cluster 1: Room air / No ARF,24,Low-flow oxygen,4027,0.24717652835747606
+1,Cluster 1: Room air / No ARF,24,Noninvasive ventilation,452,0.02774367787871348
+1,Cluster 1: Room air / No ARF,24,Other support,173,0.010618708568622636
+1,Cluster 1: Room air / No ARF,24,Room air,10823,0.66431377363123
+1,Cluster 1: Room air / No ARF,25,Invasive ventilation,729,0.04474588755217285
+1,Cluster 1: Room air / No ARF,25,Low-flow oxygen,3909,0.239933709796219
+1,Cluster 1: Room air / No ARF,25,Noninvasive ventilation,437,0.026822980603977413
+1,Cluster 1: Room air / No ARF,25,Other support,150,0.009206972747360667
+1,Cluster 1: Room air / No ARF,25,Room air,11067,0.67929044930027
+1,Cluster 1: Room air / No ARF,26,Invasive ventilation,665,0.040817579179965625
+1,Cluster 1: Room air / No ARF,26,Low-flow oxygen,3741,0.22962190031917507
+1,Cluster 1: Room air / No ARF,26,Noninvasive ventilation,441,0.027068499877240363
+1,Cluster 1: Room air / No ARF,26,Other support,159,0.009759391112202307
+1,Cluster 1: Room air / No ARF,26,Room air,11286,0.6927326295114167
+1,Cluster 1: Room air / No ARF,27,Invasive ventilation,612,0.03756444880923152
+1,Cluster 1: Room air / No ARF,27,Low-flow oxygen,3632,0.22293150012275964
+1,Cluster 1: Room air / No ARF,27,Noninvasive ventilation,428,0.02627056223913577
+1,Cluster 1: Room air / No ARF,27,Other support,155,0.009513871838939357
+1,Cluster 1: Room air / No ARF,27,Room air,11465,0.7037196169899337
+1,Cluster 1: Room air / No ARF,28,Invasive ventilation,569,0.0349251166216548
+1,Cluster 1: Room air / No ARF,28,Low-flow oxygen,3480,0.2136017677387675
+1,Cluster 1: Room air / No ARF,28,Noninvasive ventilation,402,0.02467468696292659
+1,Cluster 1: Room air / No ARF,28,Other support,152,0.009329732383992144
+1,Cluster 1: Room air / No ARF,28,Room air,11689,0.717468696292659
+1,Cluster 1: Room air / No ARF,29,Invasive ventilation,527,0.03234716425239381
+1,Cluster 1: Room air / No ARF,29,Low-flow oxygen,3342,0.20513135281119568
+1,Cluster 1: Room air / No ARF,29,Noninvasive ventilation,361,0.02215811441198134
+1,Cluster 1: Room air / No ARF,29,Other support,153,0.00939111220230788
+1,Cluster 1: Room air / No ARF,29,Room air,11909,0.7309722563221213
+1,Cluster 1: Room air / No ARF,30,Invasive ventilation,484,0.02970783206481709
+1,Cluster 1: Room air / No ARF,30,Low-flow oxygen,3192,0.195924380063835
+1,Cluster 1: Room air / No ARF,30,Noninvasive ventilation,340,0.020869138227350845
+1,Cluster 1: Room air / No ARF,30,Other support,152,0.009329732383992144
+1,Cluster 1: Room air / No ARF,30,Room air,12124,0.7441689172600049
+1,Cluster 1: Room air / No ARF,31,Invasive ventilation,439,0.026945740240608886
+1,Cluster 1: Room air / No ARF,31,Low-flow oxygen,3074,0.18868156150257795
+1,Cluster 1: Room air / No ARF,31,Noninvasive ventilation,327,0.020071200589246257
+1,Cluster 1: Room air / No ARF,31,Other support,130,0.007979376381045912
+1,Cluster 1: Room air / No ARF,31,Room air,12322,0.756322121286521
+1,Cluster 1: Room air / No ARF,32,Invasive ventilation,404,0.024797446599558064
+1,Cluster 1: Room air / No ARF,32,Low-flow oxygen,2968,0.18217530076110974
+1,Cluster 1: Room air / No ARF,32,Noninvasive ventilation,306,0.01878222440461576
+1,Cluster 1: Room air / No ARF,32,Other support,118,0.007242818561257059
+1,Cluster 1: Room air / No ARF,32,Room air,12496,0.7670022096734593
+1,Cluster 1: Room air / No ARF,33,Invasive ventilation,371,0.022771912595138718
+1,Cluster 1: Room air / No ARF,33,Low-flow oxygen,2835,0.17401178492511662
+1,Cluster 1: Room air / No ARF,33,Noninvasive ventilation,283,0.017370488583353792
+1,Cluster 1: Room air / No ARF,33,Other support,110,0.006751780014731156
+1,Cluster 1: Room air / No ARF,33,Room air,12693,0.7790940338816598
+1,Cluster 1: Room air / No ARF,34,Invasive ventilation,345,0.021176037318929537
+1,Cluster 1: Room air / No ARF,34,Low-flow oxygen,2665,0.1635772158114412
+1,Cluster 1: Room air / No ARF,34,Noninvasive ventilation,254,0.015590473852197398
+1,Cluster 1: Room air / No ARF,34,Other support,106,0.006506260741468205
+1,Cluster 1: Room air / No ARF,34,Room air,12922,0.7931500122759637
+1,Cluster 1: Room air / No ARF,35,Invasive ventilation,323,0.019825681315983303
+1,Cluster 1: Room air / No ARF,35,Low-flow oxygen,2483,0.1524060888779769
+1,Cluster 1: Room air / No ARF,35,Noninvasive ventilation,247,0.015160815123987233
+1,Cluster 1: Room air / No ARF,35,Other support,104,0.006383501104836729
+1,Cluster 1: Room air / No ARF,35,Room air,13135,0.8062239135772158
+1,Cluster 1: Room air / No ARF,36,Invasive ventilation,280,0.01718634912840658
+1,Cluster 1: Room air / No ARF,36,Low-flow oxygen,2343,0.14381291431377363
+1,Cluster 1: Room air / No ARF,36,Noninvasive ventilation,217,0.013319420574515099
+1,Cluster 1: Room air / No ARF,36,Other support,103,0.006322121286520992
+1,Cluster 1: Room air / No ARF,36,Room air,13349,0.8193591946967836
+1,Cluster 1: Room air / No ARF,37,Invasive ventilation,245,0.015038055487355758
+1,Cluster 1: Room air / No ARF,37,Low-flow oxygen,2150,0.13196660937883622
+1,Cluster 1: Room air / No ARF,37,Noninvasive ventilation,209,0.012828382027989197
+1,Cluster 1: Room air / No ARF,37,Other support,104,0.006383501104836729
+1,Cluster 1: Room air / No ARF,37,Room air,13584,0.833783452000982
+1,Cluster 1: Room air / No ARF,38,Invasive ventilation,217,0.013319420574515099
+1,Cluster 1: Room air / No ARF,38,Low-flow oxygen,1963,0.12048858335379327
+1,Cluster 1: Room air / No ARF,38,Noninvasive ventilation,197,0.012091824208200343
+1,Cluster 1: Room air / No ARF,38,Other support,97,0.005953842376626565
+1,Cluster 1: Room air / No ARF,38,Room air,13818,0.8481463294868647
+1,Cluster 1: Room air / No ARF,39,Invasive ventilation,195,0.011969064571568868
+1,Cluster 1: Room air / No ARF,39,Low-flow oxygen,1799,0.11042229315001227
+1,Cluster 1: Room air / No ARF,39,Noninvasive ventilation,183,0.011232506751780015
+1,Cluster 1: Room air / No ARF,39,Other support,91,0.005585563466732138
+1,Cluster 1: Room air / No ARF,39,Room air,14024,0.8607905720599067
+1,Cluster 1: Room air / No ARF,40,Invasive ventilation,180,0.011048367296832801
+1,Cluster 1: Room air / No ARF,40,Low-flow oxygen,1649,0.1012153204026516
+1,Cluster 1: Room air / No ARF,40,Noninvasive ventilation,174,0.010680088386938374
+1,Cluster 1: Room air / No ARF,40,Other support,82,0.005033145101890499
+1,Cluster 1: Room air / No ARF,40,Room air,14207,0.8720230788116867
+1,Cluster 1: Room air / No ARF,41,Invasive ventilation,165,0.010127670022096734
+1,Cluster 1: Room air / No ARF,41,Low-flow oxygen,1554,0.09538423766265652
+1,Cluster 1: Room air / No ARF,41,Noninvasive ventilation,176,0.01080284802356985
+1,Cluster 1: Room air / No ARF,41,Other support,73,0.0044807267370488586
+1,Cluster 1: Room air / No ARF,41,Room air,14324,0.879204517554628
+1,Cluster 1: Room air / No ARF,42,Invasive ventilation,143,0.008777314019150504
+1,Cluster 1: Room air / No ARF,42,Low-flow oxygen,1438,0.08826417873803094
+1,Cluster 1: Room air / No ARF,42,Noninvasive ventilation,180,0.011048367296832801
+1,Cluster 1: Room air / No ARF,42,Other support,62,0.003805548735575743
+1,Cluster 1: Room air / No ARF,42,Room air,14469,0.88810459121041
+1,Cluster 1: Room air / No ARF,43,Invasive ventilation,126,0.007733857107782961
+1,Cluster 1: Room air / No ARF,43,Low-flow oxygen,1330,0.08163515835993125
+1,Cluster 1: Room air / No ARF,43,Noninvasive ventilation,183,0.011232506751780015
+1,Cluster 1: Room air / No ARF,43,Other support,63,0.0038669285538914804
+1,Cluster 1: Room air / No ARF,43,Room air,14590,0.8955315492266143
+1,Cluster 1: Room air / No ARF,44,Invasive ventilation,111,0.0068131598330468945
+1,Cluster 1: Room air / No ARF,44,Low-flow oxygen,1230,0.07549717652835748
+1,Cluster 1: Room air / No ARF,44,Noninvasive ventilation,182,0.011171126933464276
+1,Cluster 1: Room air / No ARF,44,Other support,62,0.003805548735575743
+1,Cluster 1: Room air / No ARF,44,Room air,14707,0.9027129879695556
+1,Cluster 1: Room air / No ARF,45,Invasive ventilation,101,0.006199361649889516
+1,Cluster 1: Room air / No ARF,45,Low-flow oxygen,1155,0.07089369015467714
+1,Cluster 1: Room air / No ARF,45,Noninvasive ventilation,186,0.011416646206727228
+1,Cluster 1: Room air / No ARF,45,Other support,57,0.003498649643997054
+1,Cluster 1: Room air / No ARF,45,Room air,14793,0.907991652344709
+1,Cluster 1: Room air / No ARF,46,Invasive ventilation,98,0.006015222194942303
+1,Cluster 1: Room air / No ARF,46,Low-flow oxygen,1093,0.0670881414191014
+1,Cluster 1: Room air / No ARF,46,Noninvasive ventilation,170,0.010434569113675423
+1,Cluster 1: Room air / No ARF,46,Other support,45,0.0027620918242082003
+1,Cluster 1: Room air / No ARF,46,Room air,14886,0.9136999754480727
+1,Cluster 1: Room air / No ARF,47,Invasive ventilation,96,0.0058924625583108275
+1,Cluster 1: Room air / No ARF,47,Low-flow oxygen,1062,0.06518536705131353
+1,Cluster 1: Room air / No ARF,47,Noninvasive ventilation,182,0.011171126933464276
+1,Cluster 1: Room air / No ARF,47,Other support,47,0.002884851460839676
+1,Cluster 1: Room air / No ARF,47,Room air,14905,0.9148661919960717
+1,Cluster 1: Room air / No ARF,48,Invasive ventilation,89,0.005462803830100663
+1,Cluster 1: Room air / No ARF,48,Low-flow oxygen,992,0.060888779769211886
+1,Cluster 1: Room air / No ARF,48,Noninvasive ventilation,170,0.010434569113675423
+1,Cluster 1: Room air / No ARF,48,Other support,48,0.0029462312791554137
+1,Cluster 1: Room air / No ARF,48,Room air,14993,0.9202676160078567
+1,Cluster 1: Room air / No ARF,49,Invasive ventilation,81,0.00497176528357476
+1,Cluster 1: Room air / No ARF,49,Low-flow oxygen,982,0.0602749815860545
+1,Cluster 1: Room air / No ARF,49,Noninvasive ventilation,180,0.011048367296832801
+1,Cluster 1: Room air / No ARF,49,Other support,42,0.002577952369260987
+1,Cluster 1: Room air / No ARF,49,Room air,15007,0.921126933464277
+1,Cluster 1: Room air / No ARF,50,Invasive ventilation,79,0.004849005646943285
+1,Cluster 1: Room air / No ARF,50,Low-flow oxygen,951,0.058372207218266636
+1,Cluster 1: Room air / No ARF,50,Noninvasive ventilation,193,0.011846304934937393
+1,Cluster 1: Room air / No ARF,50,Other support,38,0.002332433095998036
+1,Cluster 1: Room air / No ARF,50,Room air,15031,0.9226000491038546
+1,Cluster 1: Room air / No ARF,51,Invasive ventilation,76,0.004664866191996072
+1,Cluster 1: Room air / No ARF,51,Low-flow oxygen,936,0.057451509943530564
+1,Cluster 1: Room air / No ARF,51,Noninvasive ventilation,204,0.012521482936410509
+1,Cluster 1: Room air / No ARF,51,Other support,33,0.002025534004419347
+1,Cluster 1: Room air / No ARF,51,Room air,15043,0.9233366069236435
+1,Cluster 1: Room air / No ARF,52,Invasive ventilation,77,0.0047262460103118095
+1,Cluster 1: Room air / No ARF,52,Low-flow oxygen,911,0.05591701448563712
+1,Cluster 1: Room air / No ARF,52,Noninvasive ventilation,191,0.011723545298305917
+1,Cluster 1: Room air / No ARF,52,Other support,35,0.0021482936410508226
+1,Cluster 1: Room air / No ARF,52,Room air,15078,0.9254849005646943
+1,Cluster 1: Room air / No ARF,53,Invasive ventilation,80,0.004910385465259023
+1,Cluster 1: Room air / No ARF,53,Low-flow oxygen,895,0.054934937392585315
+1,Cluster 1: Room air / No ARF,53,Noninvasive ventilation,186,0.011416646206727228
+1,Cluster 1: Room air / No ARF,53,Other support,36,0.00220967345936656
+1,Cluster 1: Room air / No ARF,53,Room air,15095,0.9265283574760619
+1,Cluster 1: Room air / No ARF,54,Invasive ventilation,79,0.004849005646943285
+1,Cluster 1: Room air / No ARF,54,Low-flow oxygen,872,0.05352320157132335
+1,Cluster 1: Room air / No ARF,54,Noninvasive ventilation,172,0.0105573287503069
+1,Cluster 1: Room air / No ARF,54,Other support,31,0.0019027743677878714
+1,Cluster 1: Room air / No ARF,54,Room air,15138,0.9291676896636386
+1,Cluster 1: Room air / No ARF,55,Invasive ventilation,80,0.004910385465259023
+1,Cluster 1: Room air / No ARF,55,Low-flow oxygen,857,0.052602504296587284
+1,Cluster 1: Room air / No ARF,55,Noninvasive ventilation,158,0.00969801129388657
+1,Cluster 1: Room air / No ARF,55,Other support,35,0.0021482936410508226
+1,Cluster 1: Room air / No ARF,55,Room air,15162,0.9306408053032164
+1,Cluster 1: Room air / No ARF,56,Invasive ventilation,80,0.004910385465259023
+1,Cluster 1: Room air / No ARF,56,Low-flow oxygen,869,0.05333906211637614
+1,Cluster 1: Room air / No ARF,56,Noninvasive ventilation,158,0.00969801129388657
+1,Cluster 1: Room air / No ARF,56,Other support,30,0.0018413945494721335
+1,Cluster 1: Room air / No ARF,56,Room air,15155,0.9302111465750061
+1,Cluster 1: Room air / No ARF,57,Invasive ventilation,85,0.005217284556837711
+1,Cluster 1: Room air / No ARF,57,Low-flow oxygen,858,0.05266388411490302
+1,Cluster 1: Room air / No ARF,57,Noninvasive ventilation,146,0.008961453474097717
+1,Cluster 1: Room air / No ARF,57,Other support,30,0.0018413945494721335
+1,Cluster 1: Room air / No ARF,57,Room air,15173,0.9313159833046895
+1,Cluster 1: Room air / No ARF,58,Invasive ventilation,88,0.005401424011784925
+1,Cluster 1: Room air / No ARF,58,Low-flow oxygen,837,0.05137490793027252
+1,Cluster 1: Room air / No ARF,58,Noninvasive ventilation,139,0.008531794745887552
+1,Cluster 1: Room air / No ARF,58,Other support,29,0.0017800147311563957
+1,Cluster 1: Room air / No ARF,58,Room air,15199,0.9329118585808986
+1,Cluster 1: Room air / No ARF,59,Invasive ventilation,91,0.005585563466732138
+1,Cluster 1: Room air / No ARF,59,Low-flow oxygen,820,0.05033145101890498
+1,Cluster 1: Room air / No ARF,59,Noninvasive ventilation,142,0.008715934200834765
+1,Cluster 1: Room air / No ARF,59,Other support,32,0.001964154186103609
+1,Cluster 1: Room air / No ARF,59,Room air,15207,0.9334028971274245
+1,Cluster 1: Room air / No ARF,60,Invasive ventilation,90,0.005524183648416401
+1,Cluster 1: Room air / No ARF,60,Low-flow oxygen,809,0.04965627301743187
+1,Cluster 1: Room air / No ARF,60,Noninvasive ventilation,131,0.00804075619936165
+1,Cluster 1: Room air / No ARF,60,Other support,31,0.0019027743677878714
+1,Cluster 1: Room air / No ARF,60,Room air,15231,0.9348760127670022
+1,Cluster 1: Room air / No ARF,61,Invasive ventilation,90,0.005524183648416401
+1,Cluster 1: Room air / No ARF,61,Low-flow oxygen,785,0.04818315737785416
+1,Cluster 1: Room air / No ARF,61,Noninvasive ventilation,127,0.007795236926098699
+1,Cluster 1: Room air / No ARF,61,Other support,34,0.0020869138227350846
+1,Cluster 1: Room air / No ARF,61,Room air,15256,0.9364105082248957
+1,Cluster 1: Room air / No ARF,62,Invasive ventilation,94,0.005769702921679352
+1,Cluster 1: Room air / No ARF,62,Low-flow oxygen,783,0.048060397741222685
+1,Cluster 1: Room air / No ARF,62,Noninvasive ventilation,119,0.007304198379572796
+1,Cluster 1: Room air / No ARF,62,Other support,35,0.0021482936410508226
+1,Cluster 1: Room air / No ARF,62,Room air,15261,0.9367174073164743
+1,Cluster 1: Room air / No ARF,63,Invasive ventilation,96,0.0058924625583108275
+1,Cluster 1: Room air / No ARF,63,Low-flow oxygen,776,0.04763073901301252
+1,Cluster 1: Room air / No ARF,63,Noninvasive ventilation,108,0.006629020378099681
+1,Cluster 1: Room air / No ARF,63,Other support,33,0.002025534004419347
+1,Cluster 1: Room air / No ARF,63,Room air,15279,0.9378222440461577
+1,Cluster 1: Room air / No ARF,64,Invasive ventilation,98,0.006015222194942303
+1,Cluster 1: Room air / No ARF,64,Low-flow oxygen,786,0.0482445371961699
+1,Cluster 1: Room air / No ARF,64,Noninvasive ventilation,98,0.006015222194942303
+1,Cluster 1: Room air / No ARF,64,Other support,34,0.0020869138227350846
+1,Cluster 1: Room air / No ARF,64,Room air,15276,0.9376381045912104
+1,Cluster 1: Room air / No ARF,65,Invasive ventilation,98,0.006015222194942303
+1,Cluster 1: Room air / No ARF,65,Low-flow oxygen,779,0.04781487846795973
+1,Cluster 1: Room air / No ARF,65,Noninvasive ventilation,101,0.006199361649889516
+1,Cluster 1: Room air / No ARF,65,Other support,37,0.002271053277682298
+1,Cluster 1: Room air / No ARF,65,Room air,15277,0.9376994844095261
+1,Cluster 1: Room air / No ARF,66,Invasive ventilation,98,0.006015222194942303
+1,Cluster 1: Room air / No ARF,66,Low-flow oxygen,780,0.047876258286275473
+1,Cluster 1: Room air / No ARF,66,Noninvasive ventilation,99,0.006076602013258041
+1,Cluster 1: Room air / No ARF,66,Other support,44,0.0027007120058924624
+1,Cluster 1: Room air / No ARF,66,Room air,15271,0.9373312054996317
+1,Cluster 1: Room air / No ARF,67,Invasive ventilation,100,0.006137981831573778
+1,Cluster 1: Room air / No ARF,67,Low-flow oxygen,783,0.048060397741222685
+1,Cluster 1: Room air / No ARF,67,Noninvasive ventilation,107,0.006567640559783943
+1,Cluster 1: Room air / No ARF,67,Other support,47,0.002884851460839676
+1,Cluster 1: Room air / No ARF,67,Room air,15255,0.9363491284065799
+1,Cluster 1: Room air / No ARF,68,Invasive ventilation,101,0.006199361649889516
+1,Cluster 1: Room air / No ARF,68,Low-flow oxygen,816,0.050085931745642034
+1,Cluster 1: Room air / No ARF,68,Noninvasive ventilation,101,0.006199361649889516
+1,Cluster 1: Room air / No ARF,68,Other support,48,0.0029462312791554137
+1,Cluster 1: Room air / No ARF,68,Room air,15226,0.9345691136754235
+1,Cluster 1: Room air / No ARF,69,Invasive ventilation,103,0.006322121286520992
+1,Cluster 1: Room air / No ARF,69,Low-flow oxygen,824,0.050576970292167935
+1,Cluster 1: Room air / No ARF,69,Noninvasive ventilation,102,0.006260741468205254
+1,Cluster 1: Room air / No ARF,69,Other support,43,0.002639332187576725
+1,Cluster 1: Room air / No ARF,69,Room air,15220,0.9342008347655291
+1,Cluster 1: Room air / No ARF,70,Invasive ventilation,107,0.006567640559783943
+1,Cluster 1: Room air / No ARF,70,Low-flow oxygen,828,0.05082248956543089
+1,Cluster 1: Room air / No ARF,70,Noninvasive ventilation,117,0.0071814387429413205
+1,Cluster 1: Room air / No ARF,70,Other support,45,0.0027620918242082003
+1,Cluster 1: Room air / No ARF,70,Room air,15195,0.93266633930763565
+1,Cluster 1: Room air / No ARF,71,Invasive ventilation,110,0.006751780014731156
+1,Cluster 1: Room air / No ARF,71,Low-flow oxygen,850,0.05217284556837712
+1,Cluster 1: Room air / No ARF,71,Noninvasive ventilation,129,0.007917996562730175
+1,Cluster 1: Room air / No ARF,71,Other support,46,0.0028234716425239383
+1,Cluster 1: Room air / No ARF,71,Room air,15157,0.9303339062116376
+1,Cluster 1: Room air / No ARF,72,Invasive ventilation,107,0.006567640559783943
+1,Cluster 1: Room air / No ARF,72,Low-flow oxygen,871,0.053461821753007614
+1,Cluster 1: Room air / No ARF,72,Noninvasive ventilation,123,0.007549717652835747
+1,Cluster 1: Room air / No ARF,72,Other support,43,0.002639332187576725
+1,Cluster 1: Room air / No ARF,72,Room air,15148,0.9297814878467959
+2,Cluster 2: Low-flow oxygen / No ARF,0,Invasive ventilation,2342,0.10818551367331855
+2,Cluster 2: Low-flow oxygen / No ARF,0,Low-flow oxygen,11608,0.5362158167036216
+2,Cluster 2: Low-flow oxygen / No ARF,0,Noninvasive ventilation,6233,0.2879249815225425
+2,Cluster 2: Low-flow oxygen / No ARF,0,Other support,487,0.02249630450849963
+2,Cluster 2: Low-flow oxygen / No ARF,0,Room air,978,0.045177383592017735
+2,Cluster 2: Low-flow oxygen / No ARF,1,Invasive ventilation,2315,0.10693828529194382
+2,Cluster 2: Low-flow oxygen / No ARF,1,Low-flow oxygen,11766,0.5435144124168514
+2,Cluster 2: Low-flow oxygen / No ARF,1,Noninvasive ventilation,6147,0.2839523281596452
+2,Cluster 2: Low-flow oxygen / No ARF,1,Other support,479,0.022126755358462674
+2,Cluster 2: Low-flow oxygen / No ARF,1,Room air,941,0.04346821877309682
+2,Cluster 2: Low-flow oxygen / No ARF,2,Invasive ventilation,2303,0.1063839615668884
+2,Cluster 2: Low-flow oxygen / No ARF,2,Low-flow oxygen,11965,0.5527069475240207
+2,Cluster 2: Low-flow oxygen / No ARF,2,Noninvasive ventilation,5999,0.27711566888396155
+2,Cluster 2: Low-flow oxygen / No ARF,2,Other support,488,0.02254249815225425
+2,Cluster 2: Low-flow oxygen / No ARF,2,Room air,893,0.041250923872875093
+2,Cluster 2: Low-flow oxygen / No ARF,3,Invasive ventilation,2253,0.10407427937915743
+2,Cluster 2: Low-flow oxygen / No ARF,3,Low-flow oxygen,12187,0.5629619364375462
+2,Cluster 2: Low-flow oxygen / No ARF,3,Noninvasive ventilation,5864,0.27087952697708795
+2,Cluster 2: Low-flow oxygen / No ARF,3,Other support,487,0.02249630450849963
+2,Cluster 2: Low-flow oxygen / No ARF,3,Room air,857,0.039587952697708796
+2,Cluster 2: Low-flow oxygen / No ARF,4,Invasive ventilation,2206,0.10190317812269031
+2,Cluster 2: Low-flow oxygen / No ARF,4,Low-flow oxygen,12457,0.5754342202512934
+2,Cluster 2: Low-flow oxygen / No ARF,4,Noninvasive ventilation,5627,0.2599316334072432
+2,Cluster 2: Low-flow oxygen / No ARF,4,Other support,483,0.022311529933481154
+2,Cluster 2: Low-flow oxygen / No ARF,4,Room air,875,0.040419438285291945
+2,Cluster 2: Low-flow oxygen / No ARF,5,Invasive ventilation,2172,0.10033259423503325
+2,Cluster 2: Low-flow oxygen / No ARF,5,Low-flow oxygen,12658,0.5847191426459719
+2,Cluster 2: Low-flow oxygen / No ARF,5,Noninvasive ventilation,5481,0.2531873614190687
+2,Cluster 2: Low-flow oxygen / No ARF,5,Other support,473,0.02184959349593496
+2,Cluster 2: Low-flow oxygen / No ARF,5,Room air,864,0.03991130820399113
+2,Cluster 2: Low-flow oxygen / No ARF,6,Invasive ventilation,2122,0.09802291204730229
+2,Cluster 2: Low-flow oxygen / No ARF,6,Low-flow oxygen,12938,0.5976533628972653
+2,Cluster 2: Low-flow oxygen / No ARF,6,Noninvasive ventilation,5260,0.24297856614929786
+2,Cluster 2: Low-flow oxygen / No ARF,6,Other support,480,0.022172949002217297
+2,Cluster 2: Low-flow oxygen / No ARF,6,Room air,848,0.03917220990391722
+2,Cluster 2: Low-flow oxygen / No ARF,7,Invasive ventilation,2064,0.09534368070953436
+2,Cluster 2: Low-flow oxygen / No ARF,7,Low-flow oxygen,13147,0.6073078344419808
+2,Cluster 2: Low-flow oxygen / No ARF,7,Noninvasive ventilation,5101,0.23563377679231337
+2,Cluster 2: Low-flow oxygen / No ARF,7,Other support,476,0.021988174427198817
+2,Cluster 2: Low-flow oxygen / No ARF,7,Room air,860,0.03972653362897265
+2,Cluster 2: Low-flow oxygen / No ARF,8,Invasive ventilation,2002,0.09247967479674797
+2,Cluster 2: Low-flow oxygen / No ARF,8,Low-flow oxygen,13391,0.6185790835181079
+2,Cluster 2: Low-flow oxygen / No ARF,8,Noninvasive ventilation,4928,0.22764227642276422
+2,Cluster 2: Low-flow oxygen / No ARF,8,Other support,472,0.02180339985218034
+2,Cluster 2: Low-flow oxygen / No ARF,8,Room air,855,0.03949556541019956
+2,Cluster 2: Low-flow oxygen / No ARF,9,Invasive ventilation,1940,0.08961566888396157
+2,Cluster 2: Low-flow oxygen / No ARF,9,Low-flow oxygen,13653,0.6306818181818182
+2,Cluster 2: Low-flow oxygen / No ARF,9,Noninvasive ventilation,4712,0.21766444937176643
+2,Cluster 2: Low-flow oxygen / No ARF,9,Other support,476,0.021988174427198817
+2,Cluster 2: Low-flow oxygen / No ARF,9,Room air,867,0.040049889135254986
+2,Cluster 2: Low-flow oxygen / No ARF,10,Invasive ventilation,1888,0.08721359940872137
+2,Cluster 2: Low-flow oxygen / No ARF,10,Low-flow oxygen,13876,0.6409830007390983
+2,Cluster 2: Low-flow oxygen / No ARF,10,Noninvasive ventilation,4521,0.20884146341463414
+2,Cluster 2: Low-flow oxygen / No ARF,10,Other support,482,0.022265336289726535
+2,Cluster 2: Low-flow oxygen / No ARF,10,Room air,881,0.04069660014781966
+2,Cluster 2: Low-flow oxygen / No ARF,11,Invasive ventilation,1825,0.08430339985218034
+2,Cluster 2: Low-flow oxygen / No ARF,11,Low-flow oxygen,14156,0.6539172209903917
+2,Cluster 2: Low-flow oxygen / No ARF,11,Noninvasive ventilation,4293,0.19830931263858093
+2,Cluster 2: Low-flow oxygen / No ARF,11,Other support,479,0.022126755358462674
+2,Cluster 2: Low-flow oxygen / No ARF,11,Room air,895,0.04134331116038433
+2,Cluster 2: Low-flow oxygen / No ARF,12,Invasive ventilation,1769,0.08171655580192165
+2,Cluster 2: Low-flow oxygen / No ARF,12,Low-flow oxygen,14396,0.6650036954915004
+2,Cluster 2: Low-flow oxygen / No ARF,12,Noninvasive ventilation,4071,0.18805432372505543
+2,Cluster 2: Low-flow oxygen / No ARF,12,Other support,483,0.022311529933481154
+2,Cluster 2: Low-flow oxygen / No ARF,12,Room air,929,0.04291389504804139
+2,Cluster 2: Low-flow oxygen / No ARF,13,Invasive ventilation,1709,0.0789449371766445
+2,Cluster 2: Low-flow oxygen / No ARF,13,Low-flow oxygen,14618,0.6752586844050259
+2,Cluster 2: Low-flow oxygen / No ARF,13,Noninvasive ventilation,3882,0.17932372505543237
+2,Cluster 2: Low-flow oxygen / No ARF,13,Other support,485,0.02240391722099039
+2,Cluster 2: Low-flow oxygen / No ARF,13,Room air,954,0.04406873614190687
+2,Cluster 2: Low-flow oxygen / No ARF,14,Invasive ventilation,1633,0.07543422025129343
+2,Cluster 2: Low-flow oxygen / No ARF,14,Low-flow oxygen,14889,0.6877771618625277
+2,Cluster 2: Low-flow oxygen / No ARF,14,Noninvasive ventilation,3699,0.17087028824833703
+2,Cluster 2: Low-flow oxygen / No ARF,14,Other support,480,0.022172949002217297
+2,Cluster 2: Low-flow oxygen / No ARF,14,Room air,947,0.04374538063562454
+2,Cluster 2: Low-flow oxygen / No ARF,15,Invasive ventilation,1564,0.07224685883222469
+2,Cluster 2: Low-flow oxygen / No ARF,15,Low-flow oxygen,15134,0.6990946045824095
+2,Cluster 2: Low-flow oxygen / No ARF,15,Noninvasive ventilation,3476,0.16056910569105692
+2,Cluster 2: Low-flow oxygen / No ARF,15,Other support,511,0.023604951958610496
+2,Cluster 2: Low-flow oxygen / No ARF,15,Room air,963,0.04448447893569845
+2,Cluster 2: Low-flow oxygen / No ARF,16,Invasive ventilation,1492,0.0689209164818921
+2,Cluster 2: Low-flow oxygen / No ARF,16,Low-flow oxygen,15328,0.7080561714708056
+2,Cluster 2: Low-flow oxygen / No ARF,16,Noninvasive ventilation,3325,0.1535938654841094
+2,Cluster 2: Low-flow oxygen / No ARF,16,Other support,501,0.023143015521064302
+2,Cluster 2: Low-flow oxygen / No ARF,16,Room air,1002,0.046286031042128604
+2,Cluster 2: Low-flow oxygen / No ARF,17,Invasive ventilation,1408,0.06504065040650407
+2,Cluster 2: Low-flow oxygen / No ARF,17,Low-flow oxygen,15492,0.7156319290465631
+2,Cluster 2: Low-flow oxygen / No ARF,17,Noninvasive ventilation,3180,0.14689578713968957
+2,Cluster 2: Low-flow oxygen / No ARF,17,Other support,513,0.023697339246119734
+2,Cluster 2: Low-flow oxygen / No ARF,17,Room air,1055,0.04873429416112343
+2,Cluster 2: Low-flow oxygen / No ARF,18,Invasive ventilation,1332,0.061529933481152994
+2,Cluster 2: Low-flow oxygen / No ARF,18,Low-flow oxygen,15713,0.7258407243163341
+2,Cluster 2: Low-flow oxygen / No ARF,18,Noninvasive ventilation,3022,0.1395971914264597
+2,Cluster 2: Low-flow oxygen / No ARF,18,Other support,504,0.02328159645232816
+2,Cluster 2: Low-flow oxygen / No ARF,18,Room air,1077,0.049750554323725056
+2,Cluster 2: Low-flow oxygen / No ARF,19,Invasive ventilation,1237,0.057141537324464156
+2,Cluster 2: Low-flow oxygen / No ARF,19,Low-flow oxygen,15870,0.7330931263858093
+2,Cluster 2: Low-flow oxygen / No ARF,19,Noninvasive ventilation,2950,0.13627124907612712
+2,Cluster 2: Low-flow oxygen / No ARF,19,Other support,485,0.02240391722099039
+2,Cluster 2: Low-flow oxygen / No ARF,19,Room air,1106,0.051090169992609014
+2,Cluster 2: Low-flow oxygen / No ARF,20,Invasive ventilation,1152,0.05321507760532151
+2,Cluster 2: Low-flow oxygen / No ARF,20,Low-flow oxygen,16101,0.7437638580931264
+2,Cluster 2: Low-flow oxygen / No ARF,20,Noninvasive ventilation,2825,0.1304970436067997
+2,Cluster 2: Low-flow oxygen / No ARF,20,Other support,475,0.021941980783444198
+2,Cluster 2: Low-flow oxygen / No ARF,20,Room air,1095,0.050582039911308205
+2,Cluster 2: Low-flow oxygen / No ARF,21,Invasive ventilation,1065,0.04919623059866962
+2,Cluster 2: Low-flow oxygen / No ARF,21,Low-flow oxygen,16247,0.7505081300813008
+2,Cluster 2: Low-flow oxygen / No ARF,21,Noninvasive ventilation,2724,0.12583148558758314
+2,Cluster 2: Low-flow oxygen / No ARF,21,Other support,480,0.022172949002217297
+2,Cluster 2: Low-flow oxygen / No ARF,21,Room air,1132,0.05229120473022912
+2,Cluster 2: Low-flow oxygen / No ARF,22,Invasive ventilation,993,0.04587028824833703
+2,Cluster 2: Low-flow oxygen / No ARF,22,Low-flow oxygen,16375,0.7564209164818921
+2,Cluster 2: Low-flow oxygen / No ARF,22,Noninvasive ventilation,2656,0.12269031781226904
+2,Cluster 2: Low-flow oxygen / No ARF,22,Other support,491,0.02268107908351811
+2,Cluster 2: Low-flow oxygen / No ARF,22,Room air,1133,0.05233739837398374
+2,Cluster 2: Low-flow oxygen / No ARF,23,Invasive ventilation,919,0.042451958610495194
+2,Cluster 2: Low-flow oxygen / No ARF,23,Low-flow oxygen,16569,0.7653824833702882
+2,Cluster 2: Low-flow oxygen / No ARF,23,Noninvasive ventilation,2554,0.11797856614929786
+2,Cluster 2: Low-flow oxygen / No ARF,23,Other support,506,0.023373983739837397
+2,Cluster 2: Low-flow oxygen / No ARF,23,Room air,1100,0.0508130081300813
+2,Cluster 2: Low-flow oxygen / No ARF,24,Invasive ventilation,861,0.03977272727272727
+2,Cluster 2: Low-flow oxygen / No ARF,24,Low-flow oxygen,16653,0.7692627494456763
+2,Cluster 2: Low-flow oxygen / No ARF,24,Noninvasive ventilation,2517,0.11626940133037694
+2,Cluster 2: Low-flow oxygen / No ARF,24,Other support,513,0.023697339246119734
+2,Cluster 2: Low-flow oxygen / No ARF,24,Room air,1104,0.050997782705099776
+2,Cluster 2: Low-flow oxygen / No ARF,25,Invasive ventilation,817,0.03774020694752402
+2,Cluster 2: Low-flow oxygen / No ARF,25,Low-flow oxygen,16757,0.7740668883961567
+2,Cluster 2: Low-flow oxygen / No ARF,25,Noninvasive ventilation,2508,0.11585365853658537
+2,Cluster 2: Low-flow oxygen / No ARF,25,Other support,475,0.021941980783444198
+2,Cluster 2: Low-flow oxygen / No ARF,25,Room air,1091,0.05039726533628973
+2,Cluster 2: Low-flow oxygen / No ARF,26,Invasive ventilation,761,0.03515336289726534
+2,Cluster 2: Low-flow oxygen / No ARF,26,Low-flow oxygen,16844,0.7780857354028086
+2,Cluster 2: Low-flow oxygen / No ARF,26,Noninvasive ventilation,2485,0.11479120473022912
+2,Cluster 2: Low-flow oxygen / No ARF,26,Other support,484,0.022357723577235773
+2,Cluster 2: Low-flow oxygen / No ARF,26,Room air,1074,0.0496119733924612
+2,Cluster 2: Low-flow oxygen / No ARF,27,Invasive ventilation,721,0.03330561714708056
+2,Cluster 2: Low-flow oxygen / No ARF,27,Low-flow oxygen,16921,0.7816426459719142
+2,Cluster 2: Low-flow oxygen / No ARF,27,Noninvasive ventilation,2437,0.1125739098300074
+2,Cluster 2: Low-flow oxygen / No ARF,27,Other support,499,0.023050628233555064
+2,Cluster 2: Low-flow oxygen / No ARF,27,Room air,1070,0.04942719881744272
+2,Cluster 2: Low-flow oxygen / No ARF,28,Invasive ventilation,686,0.03168883961566889
+2,Cluster 2: Low-flow oxygen / No ARF,28,Low-flow oxygen,16998,0.7851995565410199
+2,Cluster 2: Low-flow oxygen / No ARF,28,Noninvasive ventilation,2374,0.10966371027346637
+2,Cluster 2: Low-flow oxygen / No ARF,28,Other support,509,0.023512564671101258
+2,Cluster 2: Low-flow oxygen / No ARF,28,Room air,1081,0.04993532889874353
+2,Cluster 2: Low-flow oxygen / No ARF,29,Invasive ventilation,647,0.02988728750923873
+2,Cluster 2: Low-flow oxygen / No ARF,29,Low-flow oxygen,17078,0.7888950480413895
+2,Cluster 2: Low-flow oxygen / No ARF,29,Noninvasive ventilation,2322,0.10726164079822616
+2,Cluster 2: Low-flow oxygen / No ARF,29,Other support,502,0.02318920916481892
+2,Cluster 2: Low-flow oxygen / No ARF,29,Room air,1099,0.05076681448632668
+2,Cluster 2: Low-flow oxygen / No ARF,30,Invasive ventilation,602,0.027808573540280858
+2,Cluster 2: Low-flow oxygen / No ARF,30,Low-flow oxygen,17208,0.79490022172949
+2,Cluster 2: Low-flow oxygen / No ARF,30,Noninvasive ventilation,2264,0.10458240946045824
+2,Cluster 2: Low-flow oxygen / No ARF,30,Other support,499,0.023050628233555064
+2,Cluster 2: Low-flow oxygen / No ARF,30,Room air,1075,0.04965816703621582
+2,Cluster 2: Low-flow oxygen / No ARF,31,Invasive ventilation,561,0.025914634146341462
+2,Cluster 2: Low-flow oxygen / No ARF,31,Low-flow oxygen,17295,0.7989190687361419
+2,Cluster 2: Low-flow oxygen / No ARF,31,Noninvasive ventilation,2199,0.10157982261640798
+2,Cluster 2: Low-flow oxygen / No ARF,31,Other support,501,0.023143015521064302
+2,Cluster 2: Low-flow oxygen / No ARF,31,Room air,1092,0.05044345898004435
+2,Cluster 2: Low-flow oxygen / No ARF,32,Invasive ventilation,532,0.0245750184774575
+2,Cluster 2: Low-flow oxygen / No ARF,32,Low-flow oxygen,17345,0.8012287509238729
+2,Cluster 2: Low-flow oxygen / No ARF,32,Noninvasive ventilation,2153,0.0994549150036955
+2,Cluster 2: Low-flow oxygen / No ARF,32,Other support,497,0.022958240946045823
+2,Cluster 2: Low-flow oxygen / No ARF,32,Room air,1121,0.051783074648928305
+2,Cluster 2: Low-flow oxygen / No ARF,33,Invasive ventilation,502,0.02318920916481892
+2,Cluster 2: Low-flow oxygen / No ARF,33,Low-flow oxygen,17376,0.802660753880266
+2,Cluster 2: Low-flow oxygen / No ARF,33,Noninvasive ventilation,2066,0.0954360679970436
+2,Cluster 2: Low-flow oxygen / No ARF,33,Other support,510,0.023558758314855877
+2,Cluster 2: Low-flow oxygen / No ARF,33,Room air,1194,0.05515521064301552
+2,Cluster 2: Low-flow oxygen / No ARF,34,Invasive ventilation,464,0.021433850702143386
+2,Cluster 2: Low-flow oxygen / No ARF,34,Low-flow oxygen,17436,0.8054323725055432
+2,Cluster 2: Low-flow oxygen / No ARF,34,Noninvasive ventilation,2009,0.0928030303030303
+2,Cluster 2: Low-flow oxygen / No ARF,34,Other support,528,0.024390243902439025
+2,Cluster 2: Low-flow oxygen / No ARF,34,Room air,1211,0.05594050258684405
+2,Cluster 2: Low-flow oxygen / No ARF,35,Invasive ventilation,427,0.01972468588322247
+2,Cluster 2: Low-flow oxygen / No ARF,35,Low-flow oxygen,17558,0.8110679970436068
+2,Cluster 2: Low-flow oxygen / No ARF,35,Noninvasive ventilation,1914,0.08841463414634146
+2,Cluster 2: Low-flow oxygen / No ARF,35,Other support,508,0.02346637102734664
+2,Cluster 2: Low-flow oxygen / No ARF,35,Room air,1241,0.05732631189948263
+2,Cluster 2: Low-flow oxygen / No ARF,36,Invasive ventilation,396,0.018292682926829267
+2,Cluster 2: Low-flow oxygen / No ARF,36,Low-flow oxygen,17633,0.8145325203252033
+2,Cluster 2: Low-flow oxygen / No ARF,36,Noninvasive ventilation,1811,0.08365668883961568
+2,Cluster 2: Low-flow oxygen / No ARF,36,Other support,516,0.02383592017738359
+2,Cluster 2: Low-flow oxygen / No ARF,36,Room air,1292,0.05968218773096822
+2,Cluster 2: Low-flow oxygen / No ARF,37,Invasive ventilation,367,0.016953067257945306
+2,Cluster 2: Low-flow oxygen / No ARF,37,Low-flow oxygen,17682,0.8167960088691796
+2,Cluster 2: Low-flow oxygen / No ARF,37,Noninvasive ventilation,1728,0.07982261640798226
+2,Cluster 2: Low-flow oxygen / No ARF,37,Other support,519,0.02397450110864745
+2,Cluster 2: Low-flow oxygen / No ARF,37,Room air,1352,0.06245380635624538
+2,Cluster 2: Low-flow oxygen / No ARF,38,Invasive ventilation,336,0.015521064301552107
+2,Cluster 2: Low-flow oxygen / No ARF,38,Low-flow oxygen,17726,0.8188285291943829
+2,Cluster 2: Low-flow oxygen / No ARF,38,Noninvasive ventilation,1615,0.07460273466371027
+2,Cluster 2: Low-flow oxygen / No ARF,38,Other support,550,0.02540650406504065
+2,Cluster 2: Low-flow oxygen / No ARF,38,Room air,1421,0.06564116777531412
+2,Cluster 2: Low-flow oxygen / No ARF,39,Invasive ventilation,298,0.01376570583887657
+2,Cluster 2: Low-flow oxygen / No ARF,39,Low-flow oxygen,17840,0.8240946045824095
+2,Cluster 2: Low-flow oxygen / No ARF,39,Noninvasive ventilation,1506,0.06956762749445676
+2,Cluster 2: Low-flow oxygen / No ARF,39,Other support,522,0.024113082039911308
+2,Cluster 2: Low-flow oxygen / No ARF,39,Room air,1482,0.0684589800443459
+2,Cluster 2: Low-flow oxygen / No ARF,40,Invasive ventilation,263,0.012148928307464894
+2,Cluster 2: Low-flow oxygen / No ARF,40,Low-flow oxygen,17898,0.8267738359201774
+2,Cluster 2: Low-flow oxygen / No ARF,40,Noninvasive ventilation,1446,0.06679600886917961
+2,Cluster 2: Low-flow oxygen / No ARF,40,Other support,503,0.02323540280857354
+2,Cluster 2: Low-flow oxygen / No ARF,40,Room air,1538,0.07104582409460458
+2,Cluster 2: Low-flow oxygen / No ARF,41,Invasive ventilation,235,0.01085550628233555
+2,Cluster 2: Low-flow oxygen / No ARF,41,Low-flow oxygen,17971,0.8301459719142646
+2,Cluster 2: Low-flow oxygen / No ARF,41,Noninvasive ventilation,1380,0.06374722838137473
+2,Cluster 2: Low-flow oxygen / No ARF,41,Other support,507,0.023420177383592016
+2,Cluster 2: Low-flow oxygen / No ARF,41,Room air,1555,0.07183111603843312
+2,Cluster 2: Low-flow oxygen / No ARF,42,Invasive ventilation,206,0.009515890613451589
+2,Cluster 2: Low-flow oxygen / No ARF,42,Low-flow oxygen,17956,0.8294530672579453
+2,Cluster 2: Low-flow oxygen / No ARF,42,Noninvasive ventilation,1339,0.06185328898743533
+2,Cluster 2: Low-flow oxygen / No ARF,42,Other support,520,0.02402069475240207
+2,Cluster 2: Low-flow oxygen / No ARF,42,Room air,1627,0.0751570583887657
+2,Cluster 2: Low-flow oxygen / No ARF,43,Invasive ventilation,181,0.008361049519586106
+2,Cluster 2: Low-flow oxygen / No ARF,43,Low-flow oxygen,17933,0.828390613451589
+2,Cluster 2: Low-flow oxygen / No ARF,43,Noninvasive ventilation,1291,0.0596359940872136
+2,Cluster 2: Low-flow oxygen / No ARF,43,Other support,543,0.025083148558758313
+2,Cluster 2: Low-flow oxygen / No ARF,43,Room air,1700,0.07852919438285291
+2,Cluster 2: Low-flow oxygen / No ARF,44,Invasive ventilation,169,0.007806725794530673
+2,Cluster 2: Low-flow oxygen / No ARF,44,Low-flow oxygen,17881,0.8259885439763488
+2,Cluster 2: Low-flow oxygen / No ARF,44,Noninvasive ventilation,1271,0.058712121212121215
+2,Cluster 2: Low-flow oxygen / No ARF,44,Other support,532,0.0245750184774575
+2,Cluster 2: Low-flow oxygen / No ARF,44,Room air,1795,0.08291759053954176
+2,Cluster 2: Low-flow oxygen / No ARF,45,Invasive ventilation,146,0.006744271988174427
+2,Cluster 2: Low-flow oxygen / No ARF,45,Low-flow oxygen,17888,0.8263118994826312
+2,Cluster 2: Low-flow oxygen / No ARF,45,Noninvasive ventilation,1238,0.057187730968218775
+2,Cluster 2: Low-flow oxygen / No ARF,45,Other support,524,0.024205469327420546
+2,Cluster 2: Low-flow oxygen / No ARF,45,Room air,1852,0.08555062823355507
+2,Cluster 2: Low-flow oxygen / No ARF,46,Invasive ventilation,120,0.005543237250554324
+2,Cluster 2: Low-flow oxygen / No ARF,46,Low-flow oxygen,17841,0.824140798226164
+2,Cluster 2: Low-flow oxygen / No ARF,46,Noninvasive ventilation,1237,0.057141537324464156
+2,Cluster 2: Low-flow oxygen / No ARF,46,Other support,535,0.02471359940872136
+2,Cluster 2: Low-flow oxygen / No ARF,46,Room air,1915,0.08846082779009608
+2,Cluster 2: Low-flow oxygen / No ARF,47,Invasive ventilation,116,0.0053584626755358465
+2,Cluster 2: Low-flow oxygen / No ARF,47,Low-flow oxygen,17744,0.819660014781966
+2,Cluster 2: Low-flow oxygen / No ARF,47,Noninvasive ventilation,1250,0.0577420546932742
+2,Cluster 2: Low-flow oxygen / No ARF,47,Other support,548,0.025314116777531412
+2,Cluster 2: Low-flow oxygen / No ARF,47,Room air,1990,0.09192535107169253
+2,Cluster 2: Low-flow oxygen / No ARF,48,Invasive ventilation,96,0.004434589800443459
+2,Cluster 2: Low-flow oxygen / No ARF,48,Low-flow oxygen,17641,0.8149020694752402
+2,Cluster 2: Low-flow oxygen / No ARF,48,Noninvasive ventilation,1298,0.059959349593495935
+2,Cluster 2: Low-flow oxygen / No ARF,48,Other support,551,0.02545269770879527
+2,Cluster 2: Low-flow oxygen / No ARF,48,Room air,2062,0.09525129342202512
+2,Cluster 2: Low-flow oxygen / No ARF,49,Invasive ventilation,91,0.004203621581670362
+2,Cluster 2: Low-flow oxygen / No ARF,49,Low-flow oxygen,17614,0.8136548410938654
+2,Cluster 2: Low-flow oxygen / No ARF,49,Noninvasive ventilation,1322,0.0610679970436068
+2,Cluster 2: Low-flow oxygen / No ARF,49,Other support,520,0.02402069475240207
+2,Cluster 2: Low-flow oxygen / No ARF,49,Room air,2101,0.09705284552845528
+2,Cluster 2: Low-flow oxygen / No ARF,50,Invasive ventilation,87,0.004018847006651885
+2,Cluster 2: Low-flow oxygen / No ARF,50,Low-flow oxygen,17572,0.8117147080561715
+2,Cluster 2: Low-flow oxygen / No ARF,50,Noninvasive ventilation,1327,0.0612989652623799
+2,Cluster 2: Low-flow oxygen / No ARF,50,Other support,556,0.025683665927568367
+2,Cluster 2: Low-flow oxygen / No ARF,50,Room air,2106,0.09728381374722839
+2,Cluster 2: Low-flow oxygen / No ARF,51,Invasive ventilation,84,0.003880266075388027
+2,Cluster 2: Low-flow oxygen / No ARF,51,Low-flow oxygen,17498,0.8082963784183297
+2,Cluster 2: Low-flow oxygen / No ARF,51,Noninvasive ventilation,1347,0.062222838137472286
+2,Cluster 2: Low-flow oxygen / No ARF,51,Other support,542,0.025036954915003694
+2,Cluster 2: Low-flow oxygen / No ARF,51,Room air,2177,0.10056356245380636
+2,Cluster 2: Low-flow oxygen / No ARF,52,Invasive ventilation,82,0.003787878787878788
+2,Cluster 2: Low-flow oxygen / No ARF,52,Low-flow oxygen,17451,0.8061252771618626
+2,Cluster 2: Low-flow oxygen / No ARF,52,Noninvasive ventilation,1352,0.06245380635624538
+2,Cluster 2: Low-flow oxygen / No ARF,52,Other support,533,0.02462121212121212
+2,Cluster 2: Low-flow oxygen / No ARF,52,Room air,2230,0.10301182557280118
+2,Cluster 2: Low-flow oxygen / No ARF,53,Invasive ventilation,77,0.003556910569105691
+2,Cluster 2: Low-flow oxygen / No ARF,53,Low-flow oxygen,17359,0.8018754619364376
+2,Cluster 2: Low-flow oxygen / No ARF,53,Noninvasive ventilation,1380,0.06374722838137473
+2,Cluster 2: Low-flow oxygen / No ARF,53,Other support,535,0.02471359940872136
+2,Cluster 2: Low-flow oxygen / No ARF,53,Room air,2297,0.10610679970436068
+2,Cluster 2: Low-flow oxygen / No ARF,54,Invasive ventilation,71,0.003279748706577975
+2,Cluster 2: Low-flow oxygen / No ARF,54,Low-flow oxygen,17219,0.7954083518107908
+2,Cluster 2: Low-flow oxygen / No ARF,54,Noninvasive ventilation,1413,0.06527161862527717
+2,Cluster 2: Low-flow oxygen / No ARF,54,Other support,574,0.026515151515151516
+2,Cluster 2: Low-flow oxygen / No ARF,54,Room air,2371,0.10952512934220252
+2,Cluster 2: Low-flow oxygen / No ARF,55,Invasive ventilation,72,0.0033259423503325942
+2,Cluster 2: Low-flow oxygen / No ARF,55,Low-flow oxygen,17112,0.7904656319290465
+2,Cluster 2: Low-flow oxygen / No ARF,55,Noninvasive ventilation,1440,0.06651884700665188
+2,Cluster 2: Low-flow oxygen / No ARF,55,Other support,563,0.026007021433850704
+2,Cluster 2: Low-flow oxygen / No ARF,55,Room air,2461,0.11368255728011825
+2,Cluster 2: Low-flow oxygen / No ARF,56,Invasive ventilation,72,0.0033259423503325942
+2,Cluster 2: Low-flow oxygen / No ARF,56,Low-flow oxygen,17064,0.7882483370288248
+2,Cluster 2: Low-flow oxygen / No ARF,56,Noninvasive ventilation,1390,0.06420916481892092
+2,Cluster 2: Low-flow oxygen / No ARF,56,Other support,563,0.026007021433850704
+2,Cluster 2: Low-flow oxygen / No ARF,56,Room air,2559,0.11820953436807095
+2,Cluster 2: Low-flow oxygen / No ARF,57,Invasive ventilation,76,0.003510716925351072
+2,Cluster 2: Low-flow oxygen / No ARF,57,Low-flow oxygen,16977,0.7842294900221729
+2,Cluster 2: Low-flow oxygen / No ARF,57,Noninvasive ventilation,1333,0.06157612712490761
+2,Cluster 2: Low-flow oxygen / No ARF,57,Other support,551,0.02545269770879527
+2,Cluster 2: Low-flow oxygen / No ARF,57,Room air,2711,0.1252309682187731
+2,Cluster 2: Low-flow oxygen / No ARF,58,Invasive ventilation,74,0.003418329637841833
+2,Cluster 2: Low-flow oxygen / No ARF,58,Low-flow oxygen,16886,0.7800258684405026
+2,Cluster 2: Low-flow oxygen / No ARF,58,Noninvasive ventilation,1309,0.06046747967479675
+2,Cluster 2: Low-flow oxygen / No ARF,58,Other support,539,0.024898373983739838
+2,Cluster 2: Low-flow oxygen / No ARF,58,Room air,2840,0.131189948263119
+2,Cluster 2: Low-flow oxygen / No ARF,59,Invasive ventilation,81,0.0037416851441241686
+2,Cluster 2: Low-flow oxygen / No ARF,59,Low-flow oxygen,16786,0.7754065040650406
+2,Cluster 2: Low-flow oxygen / No ARF,59,Noninvasive ventilation,1269,0.05861973392461197
+2,Cluster 2: Low-flow oxygen / No ARF,59,Other support,508,0.02346637102734664
+2,Cluster 2: Low-flow oxygen / No ARF,59,Room air,3004,0.13876570583887657
+2,Cluster 2: Low-flow oxygen / No ARF,60,Invasive ventilation,88,0.0040650406504065045
+2,Cluster 2: Low-flow oxygen / No ARF,60,Low-flow oxygen,16675,0.7702790096082779
+2,Cluster 2: Low-flow oxygen / No ARF,60,Noninvasive ventilation,1222,0.056448632668144864
+2,Cluster 2: Low-flow oxygen / No ARF,60,Other support,520,0.02402069475240207
+2,Cluster 2: Low-flow oxygen / No ARF,60,Room air,3143,0.14518662232076865
+2,Cluster 2: Low-flow oxygen / No ARF,61,Invasive ventilation,99,0.004573170731707317
+2,Cluster 2: Low-flow oxygen / No ARF,61,Low-flow oxygen,16538,0.763950480413895
+2,Cluster 2: Low-flow oxygen / No ARF,61,Noninvasive ventilation,1218,0.05626385809312639
+2,Cluster 2: Low-flow oxygen / No ARF,61,Other support,528,0.024390243902439025
+2,Cluster 2: Low-flow oxygen / No ARF,61,Room air,3265,0.15082224685883222
+2,Cluster 2: Low-flow oxygen / No ARF,62,Invasive ventilation,101,0.004665558019216556
+2,Cluster 2: Low-flow oxygen / No ARF,62,Low-flow oxygen,16416,0.7583148558758315
+2,Cluster 2: Low-flow oxygen / No ARF,62,Noninvasive ventilation,1211,0.05594050258684405
+2,Cluster 2: Low-flow oxygen / No ARF,62,Other support,534,0.02466740576496674
+2,Cluster 2: Low-flow oxygen / No ARF,62,Room air,3386,0.15641167775314116
+2,Cluster 2: Low-flow oxygen / No ARF,63,Invasive ventilation,101,0.004665558019216556
+2,Cluster 2: Low-flow oxygen / No ARF,63,Low-flow oxygen,16297,0.7528178122690318
+2,Cluster 2: Low-flow oxygen / No ARF,63,Noninvasive ventilation,1177,0.05436991869918699
+2,Cluster 2: Low-flow oxygen / No ARF,63,Other support,531,0.024528824833702882
+2,Cluster 2: Low-flow oxygen / No ARF,63,Room air,3542,0.16361788617886178
+2,Cluster 2: Low-flow oxygen / No ARF,64,Invasive ventilation,108,0.004988913525498891
+2,Cluster 2: Low-flow oxygen / No ARF,64,Low-flow oxygen,16182,0.7475055432372506
+2,Cluster 2: Low-flow oxygen / No ARF,64,Noninvasive ventilation,1144,0.052845528455284556
+2,Cluster 2: Low-flow oxygen / No ARF,64,Other support,515,0.02378972653362897
+2,Cluster 2: Low-flow oxygen / No ARF,64,Room air,3699,0.17087028824833703
+2,Cluster 2: Low-flow oxygen / No ARF,65,Invasive ventilation,115,0.005312269031781227
+2,Cluster 2: Low-flow oxygen / No ARF,65,Low-flow oxygen,16047,0.7412694013303769
+2,Cluster 2: Low-flow oxygen / No ARF,65,Noninvasive ventilation,1131,0.0522450110864745
+2,Cluster 2: Low-flow oxygen / No ARF,65,Other support,532,0.0245750184774575
+2,Cluster 2: Low-flow oxygen / No ARF,65,Room air,3823,0.17659830007390984
+2,Cluster 2: Low-flow oxygen / No ARF,66,Invasive ventilation,127,0.00586659275683666
+2,Cluster 2: Low-flow oxygen / No ARF,66,Low-flow oxygen,15891,0.7340631929046563
+2,Cluster 2: Low-flow oxygen / No ARF,66,Noninvasive ventilation,1144,0.052845528455284556
+2,Cluster 2: Low-flow oxygen / No ARF,66,Other support,522,0.024113082039911308
+2,Cluster 2: Low-flow oxygen / No ARF,66,Room air,3964,0.18311160384331115
+2,Cluster 2: Low-flow oxygen / No ARF,67,Invasive ventilation,141,0.006513303769401331
+2,Cluster 2: Low-flow oxygen / No ARF,67,Low-flow oxygen,15713,0.7258407243163341
+2,Cluster 2: Low-flow oxygen / No ARF,67,Noninvasive ventilation,1139,0.052614560236511454
+2,Cluster 2: Low-flow oxygen / No ARF,67,Other support,528,0.024390243902439025
+2,Cluster 2: Low-flow oxygen / No ARF,67,Room air,4127,0.19064116777531412
+2,Cluster 2: Low-flow oxygen / No ARF,68,Invasive ventilation,150,0.006929046563192905
+2,Cluster 2: Low-flow oxygen / No ARF,68,Low-flow oxygen,15541,0.7178954175905395
+2,Cluster 2: Low-flow oxygen / No ARF,68,Noninvasive ventilation,1169,0.05400036954915004
+2,Cluster 2: Low-flow oxygen / No ARF,68,Other support,516,0.02383592017738359
+2,Cluster 2: Low-flow oxygen / No ARF,68,Room air,4272,0.1973392461197339
+2,Cluster 2: Low-flow oxygen / No ARF,69,Invasive ventilation,167,0.007714338507021434
+2,Cluster 2: Low-flow oxygen / No ARF,69,Low-flow oxygen,15392,0.7110125646711013
+2,Cluster 2: Low-flow oxygen / No ARF,69,Noninvasive ventilation,1184,0.05469327420546933
+2,Cluster 2: Low-flow oxygen / No ARF,69,Other support,524,0.024205469327420546
+2,Cluster 2: Low-flow oxygen / No ARF,69,Room air,4381,0.20237435328898742
+2,Cluster 2: Low-flow oxygen / No ARF,70,Invasive ventilation,174,0.00803769401330377
+2,Cluster 2: Low-flow oxygen / No ARF,70,Low-flow oxygen,15274,0.7055617147080562
+2,Cluster 2: Low-flow oxygen / No ARF,70,Noninvasive ventilation,1207,0.05575572801182557
+2,Cluster 2: Low-flow oxygen / No ARF,70,Other support,518,0.023928307464892832
+2,Cluster 2: Low-flow oxygen / No ARF,70,Room air,4475,0.20671655580192166
+2,Cluster 2: Low-flow oxygen / No ARF,71,Invasive ventilation,175,0.008083887657058388
+2,Cluster 2: Low-flow oxygen / No ARF,71,Low-flow oxygen,15168,0.7006651884700665
+2,Cluster 2: Low-flow oxygen / No ARF,71,Noninvasive ventilation,1223,0.05649482631189948
+2,Cluster 2: Low-flow oxygen / No ARF,71,Other support,513,0.023697339246119734
+2,Cluster 2: Low-flow oxygen / No ARF,71,Room air,4569,0.21105875831485588
+2,Cluster 2: Low-flow oxygen / No ARF,72,Invasive ventilation,183,0.008453436807095344
+2,Cluster 2: Low-flow oxygen / No ARF,72,Low-flow oxygen,14970,0.6915188470066519
+2,Cluster 2: Low-flow oxygen / No ARF,72,Noninvasive ventilation,1286,0.0594050258684405
+2,Cluster 2: Low-flow oxygen / No ARF,72,Other support,528,0.024390243902439025
+2,Cluster 2: Low-flow oxygen / No ARF,72,Room air,4681,0.21623244641537326
+3,Cluster 3: Noninvasive ventilation / No ARF,0,Invasive ventilation,543,0.05018948146778815
+3,Cluster 3: Noninvasive ventilation / No ARF,0,Low-flow oxygen,1633,0.15093816434051205
+3,Cluster 3: Noninvasive ventilation / No ARF,0,Noninvasive ventilation,8338,0.7706812089841945
+3,Cluster 3: Noninvasive ventilation / No ARF,0,Other support,149,0.013772067658748497
+3,Cluster 3: Noninvasive ventilation / No ARF,0,Room air,156,0.014419077548756817
+3,Cluster 3: Noninvasive ventilation / No ARF,1,Invasive ventilation,537,0.049634901562066736
+3,Cluster 3: Noninvasive ventilation / No ARF,1,Low-flow oxygen,1470,0.13587207690174694
+3,Cluster 3: Noninvasive ventilation / No ARF,1,Noninvasive ventilation,8489,0.7846381366115168
+3,Cluster 3: Noninvasive ventilation / No ARF,1,Other support,162,0.014973657454478232
+3,Cluster 3: Noninvasive ventilation / No ARF,1,Room air,161,0.01488122747019133
+3,Cluster 3: Noninvasive ventilation / No ARF,2,Invasive ventilation,538,0.049727331546353636
+3,Cluster 3: Noninvasive ventilation / No ARF,2,Low-flow oxygen,1368,0.12644421850448284
+3,Cluster 3: Noninvasive ventilation / No ARF,2,Noninvasive ventilation,8581,0.7931416951659118
+3,Cluster 3: Noninvasive ventilation / No ARF,2,Other support,167,0.015435807375912746
+3,Cluster 3: Noninvasive ventilation / No ARF,2,Room air,165,0.015250947407338941
+3,Cluster 3: Noninvasive ventilation / No ARF,3,Invasive ventilation,535,0.04945004159349293
+3,Cluster 3: Noninvasive ventilation / No ARF,3,Low-flow oxygen,1334,0.12330159903872816
+3,Cluster 3: Noninvasive ventilation / No ARF,3,Noninvasive ventilation,8635,0.7981329143174045
+3,Cluster 3: Noninvasive ventilation / No ARF,3,Other support,160,0.014788797485904427
+3,Cluster 3: Noninvasive ventilation / No ARF,3,Room air,155,0.014326647564469915
+3,Cluster 3: Noninvasive ventilation / No ARF,4,Invasive ventilation,532,0.04917275164063222
+3,Cluster 3: Noninvasive ventilation / No ARF,4,Low-flow oxygen,1270,0.11738608004436639
+3,Cluster 3: Noninvasive ventilation / No ARF,4,Noninvasive ventilation,8687,0.8029392735003235
+3,Cluster 3: Noninvasive ventilation / No ARF,4,Other support,163,0.015066087438765136
+3,Cluster 3: Noninvasive ventilation / No ARF,4,Room air,167,0.015435807375912746
+3,Cluster 3: Noninvasive ventilation / No ARF,5,Invasive ventilation,523,0.0483408817820501
+3,Cluster 3: Noninvasive ventilation / No ARF,5,Low-flow oxygen,1250,0.11553748035862833
+3,Cluster 3: Noninvasive ventilation / No ARF,5,Noninvasive ventilation,8721,0.8060818929660782
+3,Cluster 3: Noninvasive ventilation / No ARF,5,Other support,158,0.014603937517330622
+3,Cluster 3: Noninvasive ventilation / No ARF,5,Room air,167,0.015435807375912746
+3,Cluster 3: Noninvasive ventilation / No ARF,6,Invasive ventilation,521,0.048156021813476294
+3,Cluster 3: Noninvasive ventilation / No ARF,6,Low-flow oxygen,1208,0.11165542101857842
+3,Cluster 3: Noninvasive ventilation / No ARF,6,Noninvasive ventilation,8757,0.8094093724004067
+3,Cluster 3: Noninvasive ventilation / No ARF,6,Other support,161,0.01488122747019133
+3,Cluster 3: Noninvasive ventilation / No ARF,6,Room air,172,0.01589795729734726
+3,Cluster 3: Noninvasive ventilation / No ARF,7,Invasive ventilation,507,0.04686200203345965
+3,Cluster 3: Noninvasive ventilation / No ARF,7,Low-flow oxygen,1176,0.10869766152139754
+3,Cluster 3: Noninvasive ventilation / No ARF,7,Noninvasive ventilation,8795,0.812921711803309
+3,Cluster 3: Noninvasive ventilation / No ARF,7,Other support,171,0.015805527313060355
+3,Cluster 3: Noninvasive ventilation / No ARF,7,Room air,170,0.015713097328773455
+3,Cluster 3: Noninvasive ventilation / No ARF,8,Invasive ventilation,501,0.04630742212773824
+3,Cluster 3: Noninvasive ventilation / No ARF,8,Low-flow oxygen,1149,0.10620205194565117
+3,Cluster 3: Noninvasive ventilation / No ARF,8,Noninvasive ventilation,8853,0.8182826508919494
+3,Cluster 3: Noninvasive ventilation / No ARF,8,Other support,158,0.014603937517330622
+3,Cluster 3: Noninvasive ventilation / No ARF,8,Room air,158,0.014603937517330622
+3,Cluster 3: Noninvasive ventilation / No ARF,9,Invasive ventilation,493,0.045567982253443017
+3,Cluster 3: Noninvasive ventilation / No ARF,9,Low-flow oxygen,1129,0.10435345225991312
+3,Cluster 3: Noninvasive ventilation / No ARF,9,Noninvasive ventilation,8871,0.8199463906091136
+3,Cluster 3: Noninvasive ventilation / No ARF,9,Other support,166,0.015343377391625843
+3,Cluster 3: Noninvasive ventilation / No ARF,9,Room air,160,0.014788797485904427
+3,Cluster 3: Noninvasive ventilation / No ARF,10,Invasive ventilation,487,0.0450134023477216
+3,Cluster 3: Noninvasive ventilation / No ARF,10,Low-flow oxygen,1097,0.10139569276273223
+3,Cluster 3: Noninvasive ventilation / No ARF,10,Noninvasive ventilation,8883,0.8210555504205564
+3,Cluster 3: Noninvasive ventilation / No ARF,10,Other support,192,0.01774655698308531
+3,Cluster 3: Noninvasive ventilation / No ARF,10,Room air,160,0.014788797485904427
+3,Cluster 3: Noninvasive ventilation / No ARF,11,Invasive ventilation,476,0.043996672520565674
+3,Cluster 3: Noninvasive ventilation / No ARF,11,Low-flow oxygen,1083,0.10010167298271559
+3,Cluster 3: Noninvasive ventilation / No ARF,11,Noninvasive ventilation,8903,0.8229041501062945
+3,Cluster 3: Noninvasive ventilation / No ARF,11,Other support,182,0.016822257140216287
+3,Cluster 3: Noninvasive ventilation / No ARF,11,Room air,175,0.01617524725020797
+3,Cluster 3: Noninvasive ventilation / No ARF,12,Invasive ventilation,460,0.042517792771975225
+3,Cluster 3: Noninvasive ventilation / No ARF,12,Low-flow oxygen,1040,0.09612718365837877
+3,Cluster 3: Noninvasive ventilation / No ARF,12,Noninvasive ventilation,8986,0.8305758388021074
+3,Cluster 3: Noninvasive ventilation / No ARF,12,Other support,164,0.015158517423052038
+3,Cluster 3: Noninvasive ventilation / No ARF,12,Room air,169,0.015620667344486552
+3,Cluster 3: Noninvasive ventilation / No ARF,13,Invasive ventilation,444,0.041038913023384783
+3,Cluster 3: Noninvasive ventilation / No ARF,13,Low-flow oxygen,1036,0.09575746372123117
+3,Cluster 3: Noninvasive ventilation / No ARF,13,Noninvasive ventilation,9005,0.8323320085035586
+3,Cluster 3: Noninvasive ventilation / No ARF,13,Other support,172,0.01589795729734726
+3,Cluster 3: Noninvasive ventilation / No ARF,13,Room air,162,0.014973657454478232
+3,Cluster 3: Noninvasive ventilation / No ARF,14,Invasive ventilation,427,0.03946760329050744
+3,Cluster 3: Noninvasive ventilation / No ARF,14,Low-flow oxygen,1026,0.094833163878362145
+3,Cluster 3: Noninvasive ventilation / No ARF,14,Noninvasive ventilation,9040,0.8355670579536002
+3,Cluster 3: Noninvasive ventilation / No ARF,14,Other support,164,0.015158517423052038
+3,Cluster 3: Noninvasive ventilation / No ARF,14,Room air,162,0.014973657454478232
+3,Cluster 3: Noninvasive ventilation / No ARF,15,Invasive ventilation,417,0.03854330344763841
+3,Cluster 3: Noninvasive ventilation / No ARF,15,Low-flow oxygen,1026,0.094833163878362145
+3,Cluster 3: Noninvasive ventilation / No ARF,15,Noninvasive ventilation,9040,0.8355670579536002
+3,Cluster 3: Noninvasive ventilation / No ARF,15,Other support,173,0.015990387281634162
+3,Cluster 3: Noninvasive ventilation / No ARF,15,Room air,163,0.015066087438765136
+3,Cluster 3: Noninvasive ventilation / No ARF,16,Invasive ventilation,399,0.036879563730474164
+3,Cluster 3: Noninvasive ventilation / No ARF,16,Low-flow oxygen,982,0.09076624456973842
+3,Cluster 3: Noninvasive ventilation / No ARF,16,Noninvasive ventilation,9093,0.840465847120806
+3,Cluster 3: Noninvasive ventilation / No ARF,16,Other support,179,0.01654496718735558
+3,Cluster 3: Noninvasive ventilation / No ARF,16,Room air,166,0.015343377391625843
+3,Cluster 3: Noninvasive ventilation / No ARF,17,Invasive ventilation,379,0.035030964044736115
+3,Cluster 3: Noninvasive ventilation / No ARF,17,Low-flow oxygen,951,0.08790091505684444
+3,Cluster 3: Noninvasive ventilation / No ARF,17,Noninvasive ventilation,9131,0.8439781865237083
+3,Cluster 3: Noninvasive ventilation / No ARF,17,Other support,176,0.01626767723449487
+3,Cluster 3: Noninvasive ventilation / No ARF,17,Room air,182,0.016822257140216287
+3,Cluster 3: Noninvasive ventilation / No ARF,18,Invasive ventilation,362,0.033459654311858766
+3,Cluster 3: Noninvasive ventilation / No ARF,18,Low-flow oxygen,903,0.08346427581107312
+3,Cluster 3: Noninvasive ventilation / No ARF,18,Noninvasive ventilation,9188,0.8492466956280618
+3,Cluster 3: Noninvasive ventilation / No ARF,18,Other support,181,0.016729827155929383
+3,Cluster 3: Noninvasive ventilation / No ARF,18,Room air,185,0.017099547093076994
+3,Cluster 3: Noninvasive ventilation / No ARF,19,Invasive ventilation,346,0.031980774563268324
+3,Cluster 3: Noninvasive ventilation / No ARF,19,Low-flow oxygen,896,0.0828172659210648
+3,Cluster 3: Noninvasive ventilation / No ARF,19,Noninvasive ventilation,9202,0.8505407154080784
+3,Cluster 3: Noninvasive ventilation / No ARF,19,Other support,179,0.01654496718735558
+3,Cluster 3: Noninvasive ventilation / No ARF,19,Room air,196,0.018116276920232925
+3,Cluster 3: Noninvasive ventilation / No ARF,20,Invasive ventilation,338,0.031241334688973103
+3,Cluster 3: Noninvasive ventilation / No ARF,20,Low-flow oxygen,895,0.08272483593677789
+3,Cluster 3: Noninvasive ventilation / No ARF,20,Noninvasive ventilation,9223,0.8524817450781034
+3,Cluster 3: Noninvasive ventilation / No ARF,20,Other support,165,0.015250947407338941
+3,Cluster 3: Noninvasive ventilation / No ARF,20,Room air,198,0.01830113688880673
+3,Cluster 3: Noninvasive ventilation / No ARF,21,Invasive ventilation,331,0.030594324798964786
+3,Cluster 3: Noninvasive ventilation / No ARF,21,Low-flow oxygen,885,0.08180053609390886
+3,Cluster 3: Noninvasive ventilation / No ARF,21,Noninvasive ventilation,9231,0.8532211849523985
+3,Cluster 3: Noninvasive ventilation / No ARF,21,Other support,165,0.015250947407338941
+3,Cluster 3: Noninvasive ventilation / No ARF,21,Room air,207,0.019133006747388853
+3,Cluster 3: Noninvasive ventilation / No ARF,22,Invasive ventilation,316,0.029207875034661244
+3,Cluster 3: Noninvasive ventilation / No ARF,22,Low-flow oxygen,887,0.08198539606248267
+3,Cluster 3: Noninvasive ventilation / No ARF,22,Noninvasive ventilation,9238,0.8538681948424068
+3,Cluster 3: Noninvasive ventilation / No ARF,22,Other support,174,0.016082817265921066
+3,Cluster 3: Noninvasive ventilation / No ARF,22,Room air,204,0.018855716794528146
+3,Cluster 3: Noninvasive ventilation / No ARF,23,Invasive ventilation,301,0.027821425270357705
+3,Cluster 3: Noninvasive ventilation / No ARF,23,Low-flow oxygen,871,0.08050651631389223
+3,Cluster 3: Noninvasive ventilation / No ARF,23,Noninvasive ventilation,9249,0.8548849246695628
+3,Cluster 3: Noninvasive ventilation / No ARF,23,Other support,196,0.018116276920232925
+3,Cluster 3: Noninvasive ventilation / No ARF,23,Room air,202,0.01867085682595434
+3,Cluster 3: Noninvasive ventilation / No ARF,24,Invasive ventilation,282,0.026065255568906553
+3,Cluster 3: Noninvasive ventilation / No ARF,24,Low-flow oxygen,861,0.0795822164710232
+3,Cluster 3: Noninvasive ventilation / No ARF,24,Noninvasive ventilation,9282,0.8579351141510306
+3,Cluster 3: Noninvasive ventilation / No ARF,24,Other support,192,0.01774655698308531
+3,Cluster 3: Noninvasive ventilation / No ARF,24,Room air,202,0.01867085682595434
+3,Cluster 3: Noninvasive ventilation / No ARF,25,Invasive ventilation,270,0.02495609575746372
+3,Cluster 3: Noninvasive ventilation / No ARF,25,Low-flow oxygen,879,0.08124595618818745
+3,Cluster 3: Noninvasive ventilation / No ARF,25,Noninvasive ventilation,9297,0.8593215639153341
+3,Cluster 3: Noninvasive ventilation / No ARF,25,Other support,174,0.016082817265921066
+3,Cluster 3: Noninvasive ventilation / No ARF,25,Room air,199,0.018393566873093632
+3,Cluster 3: Noninvasive ventilation / No ARF,26,Invasive ventilation,271,0.025048525741750625
+3,Cluster 3: Noninvasive ventilation / No ARF,26,Low-flow oxygen,872,0.08059894629817912
+3,Cluster 3: Noninvasive ventilation / No ARF,26,Noninvasive ventilation,9282,0.8579351141510306
+3,Cluster 3: Noninvasive ventilation / No ARF,26,Other support,185,0.017099547093076994
+3,Cluster 3: Noninvasive ventilation / No ARF,26,Room air,209,0.019317866715962657
+3,Cluster 3: Noninvasive ventilation / No ARF,27,Invasive ventilation,264,0.024401515851742304
+3,Cluster 3: Noninvasive ventilation / No ARF,27,Low-flow oxygen,819,0.07570015713097329
+3,Cluster 3: Noninvasive ventilation / No ARF,27,Noninvasive ventilation,9350,0.86422035308254
+3,Cluster 3: Noninvasive ventilation / No ARF,27,Other support,186,0.017191977077363897
+3,Cluster 3: Noninvasive ventilation / No ARF,27,Room air,200,0.018485996857380536
+3,Cluster 3: Noninvasive ventilation / No ARF,28,Invasive ventilation,249,0.023015066087438765
+3,Cluster 3: Noninvasive ventilation / No ARF,28,Low-flow oxygen,803,0.07422127738238285
+3,Cluster 3: Noninvasive ventilation / No ARF,28,Noninvasive ventilation,9375,0.8665311026897126
+3,Cluster 3: Noninvasive ventilation / No ARF,28,Other support,183,0.01691468712450319
+3,Cluster 3: Noninvasive ventilation / No ARF,28,Room air,209,0.019317866715962657
+3,Cluster 3: Noninvasive ventilation / No ARF,29,Invasive ventilation,244,0.02255291616600425
+3,Cluster 3: Noninvasive ventilation / No ARF,29,Low-flow oxygen,816,0.07542286717811258
+3,Cluster 3: Noninvasive ventilation / No ARF,29,Noninvasive ventilation,9356,0.8647749329882614
+3,Cluster 3: Noninvasive ventilation / No ARF,29,Other support,171,0.015805527313060355
+3,Cluster 3: Noninvasive ventilation / No ARF,29,Room air,232,0.02144375635456142
+3,Cluster 3: Noninvasive ventilation / No ARF,30,Invasive ventilation,230,0.021258896385987613
+3,Cluster 3: Noninvasive ventilation / No ARF,30,Low-flow oxygen,854,0.07893520658101488
+3,Cluster 3: Noninvasive ventilation / No ARF,30,Noninvasive ventilation,9313,0.8608004436639246
+3,Cluster 3: Noninvasive ventilation / No ARF,30,Other support,182,0.016822257140216287
+3,Cluster 3: Noninvasive ventilation / No ARF,30,Room air,240,0.02218319622885664
+3,Cluster 3: Noninvasive ventilation / No ARF,31,Invasive ventilation,221,0.02042702652740549
+3,Cluster 3: Noninvasive ventilation / No ARF,31,Low-flow oxygen,843,0.07791847675385895
+3,Cluster 3: Noninvasive ventilation / No ARF,31,Noninvasive ventilation,9302,0.8597837138367687
+3,Cluster 3: Noninvasive ventilation / No ARF,31,Other support,199,0.018393566873093632
+3,Cluster 3: Noninvasive ventilation / No ARF,31,Room air,254,0.02347721600887328
+3,Cluster 3: Noninvasive ventilation / No ARF,32,Invasive ventilation,210,0.01941029670024956
+3,Cluster 3: Noninvasive ventilation / No ARF,32,Low-flow oxygen,852,0.07875034661244108
+3,Cluster 3: Noninvasive ventilation / No ARF,32,Noninvasive ventilation,9304,0.8599685738053424
+3,Cluster 3: Noninvasive ventilation / No ARF,32,Other support,185,0.017099547093076994
+3,Cluster 3: Noninvasive ventilation / No ARF,32,Room air,268,0.024771235788889914
+3,Cluster 3: Noninvasive ventilation / No ARF,33,Invasive ventilation,204,0.018855716794528146
+3,Cluster 3: Noninvasive ventilation / No ARF,33,Low-flow oxygen,849,0.07847305665958036
+3,Cluster 3: Noninvasive ventilation / No ARF,33,Noninvasive ventilation,9302,0.8597837138367687
+3,Cluster 3: Noninvasive ventilation / No ARF,33,Other support,202,0.01867085682595434
+3,Cluster 3: Noninvasive ventilation / No ARF,33,Room air,262,0.0242166558831685
+3,Cluster 3: Noninvasive ventilation / No ARF,34,Invasive ventilation,189,0.017469267030224604
+3,Cluster 3: Noninvasive ventilation / No ARF,34,Low-flow oxygen,896,0.0828172659210648
+3,Cluster 3: Noninvasive ventilation / No ARF,34,Noninvasive ventilation,9264,0.8562713744338664
+3,Cluster 3: Noninvasive ventilation / No ARF,34,Other support,198,0.01830113688880673
+3,Cluster 3: Noninvasive ventilation / No ARF,34,Room air,272,0.025140955726037528
+3,Cluster 3: Noninvasive ventilation / No ARF,35,Invasive ventilation,183,0.01691468712450319
+3,Cluster 3: Noninvasive ventilation / No ARF,35,Low-flow oxygen,910,0.08411128570108144
+3,Cluster 3: Noninvasive ventilation / No ARF,35,Noninvasive ventilation,9234,0.8534984749052593
+3,Cluster 3: Noninvasive ventilation / No ARF,35,Other support,204,0.018855716794528146
+3,Cluster 3: Noninvasive ventilation / No ARF,35,Room air,288,0.02661983547462797
+3,Cluster 3: Noninvasive ventilation / No ARF,36,Invasive ventilation,172,0.01589795729734726
+3,Cluster 3: Noninvasive ventilation / No ARF,36,Low-flow oxygen,940,0.08688418522968851
+3,Cluster 3: Noninvasive ventilation / No ARF,36,Noninvasive ventilation,9206,0.850910435345226
+3,Cluster 3: Noninvasive ventilation / No ARF,36,Other support,201,0.018578426841667436
+3,Cluster 3: Noninvasive ventilation / No ARF,36,Room air,300,0.027728995286070802
+3,Cluster 3: Noninvasive ventilation / No ARF,37,Invasive ventilation,163,0.015066087438765136
+3,Cluster 3: Noninvasive ventilation / No ARF,37,Low-flow oxygen,950,0.087808485072557535
+3,Cluster 3: Noninvasive ventilation / No ARF,37,Noninvasive ventilation,9188,0.8492466956280618
+3,Cluster 3: Noninvasive ventilation / No ARF,37,Other support,210,0.01941029670024956
+3,Cluster 3: Noninvasive ventilation / No ARF,37,Room air,308,0.028468435160366023
+3,Cluster 3: Noninvasive ventilation / No ARF,38,Invasive ventilation,144,0.013309917737313985
+3,Cluster 3: Noninvasive ventilation / No ARF,38,Low-flow oxygen,992,0.09169054441260745
+3,Cluster 3: Noninvasive ventilation / No ARF,38,Noninvasive ventilation,9146,0.8453646362880118
+3,Cluster 3: Noninvasive ventilation / No ARF,38,Other support,224,0.0207043164802662
+3,Cluster 3: Noninvasive ventilation / No ARF,38,Room air,313,0.028930585081800537
+3,Cluster 3: Noninvasive ventilation / No ARF,39,Invasive ventilation,145,0.013402347721600887
+3,Cluster 3: Noninvasive ventilation / No ARF,39,Low-flow oxygen,1022,0.09446344394121453
+3,Cluster 3: Noninvasive ventilation / No ARF,39,Noninvasive ventilation,9094,0.8405582771050929
+3,Cluster 3: Noninvasive ventilation / No ARF,39,Other support,218,0.02014973657454478
+3,Cluster 3: Noninvasive ventilation / No ARF,39,Room air,340,0.03142619465754691
+3,Cluster 3: Noninvasive ventilation / No ARF,40,Invasive ventilation,146,0.01349477770588779
+3,Cluster 3: Noninvasive ventilation / No ARF,40,Low-flow oxygen,1025,0.09474073389407524
+3,Cluster 3: Noninvasive ventilation / No ARF,40,Noninvasive ventilation,9062,0.837600517607912
+3,Cluster 3: Noninvasive ventilation / No ARF,40,Other support,225,0.020796746464553102
+3,Cluster 3: Noninvasive ventilation / No ARF,40,Room air,361,0.033367224327571866
+3,Cluster 3: Noninvasive ventilation / No ARF,41,Invasive ventilation,139,0.012847767815879471
+3,Cluster 3: Noninvasive ventilation / No ARF,41,Low-flow oxygen,1071,0.09899251317127276
+3,Cluster 3: Noninvasive ventilation / No ARF,41,Noninvasive ventilation,9027,0.8343654681578704
+3,Cluster 3: Noninvasive ventilation / No ARF,41,Other support,219,0.020242166558831685
+3,Cluster 3: Noninvasive ventilation / No ARF,41,Room air,363,0.033552084296145666
+3,Cluster 3: Noninvasive ventilation / No ARF,42,Invasive ventilation,143,0.013217487753027082
+3,Cluster 3: Noninvasive ventilation / No ARF,42,Low-flow oxygen,1134,0.10481560218134763
+3,Cluster 3: Noninvasive ventilation / No ARF,42,Noninvasive ventilation,8956,0.8278029392735003
+3,Cluster 3: Noninvasive ventilation / No ARF,42,Other support,202,0.01867085682595434
+3,Cluster 3: Noninvasive ventilation / No ARF,42,Room air,384,0.03549311396617062
+3,Cluster 3: Noninvasive ventilation / No ARF,43,Invasive ventilation,158,0.014603937517330622
+3,Cluster 3: Noninvasive ventilation / No ARF,43,Low-flow oxygen,1148,0.10610962196136427
+3,Cluster 3: Noninvasive ventilation / No ARF,43,Noninvasive ventilation,8907,0.8232738700434421
+3,Cluster 3: Noninvasive ventilation / No ARF,43,Other support,210,0.01941029670024956
+3,Cluster 3: Noninvasive ventilation / No ARF,43,Room air,396,0.03660227377761346
+3,Cluster 3: Noninvasive ventilation / No ARF,44,Invasive ventilation,157,0.01451150753304372
+3,Cluster 3: Noninvasive ventilation / No ARF,44,Low-flow oxygen,1173,0.10842037156853683
+3,Cluster 3: Noninvasive ventilation / No ARF,44,Noninvasive ventilation,8860,0.8189296607819576
+3,Cluster 3: Noninvasive ventilation / No ARF,44,Other support,216,0.019964876605970978
+3,Cluster 3: Noninvasive ventilation / No ARF,44,Room air,413,0.038173583510490806
+3,Cluster 3: Noninvasive ventilation / No ARF,45,Invasive ventilation,155,0.014326647564469915
+3,Cluster 3: Noninvasive ventilation / No ARF,45,Low-flow oxygen,1214,0.11221000092429985
+3,Cluster 3: Noninvasive ventilation / No ARF,45,Noninvasive ventilation,8802,0.8135687216933173
+3,Cluster 3: Noninvasive ventilation / No ARF,45,Other support,227,0.020981606433126906
+3,Cluster 3: Noninvasive ventilation / No ARF,45,Room air,421,0.03891302338478603
+3,Cluster 3: Noninvasive ventilation / No ARF,46,Invasive ventilation,156,0.014419077548756817
+3,Cluster 3: Noninvasive ventilation / No ARF,46,Low-flow oxygen,1200,0.11091598114428321
+3,Cluster 3: Noninvasive ventilation / No ARF,46,Noninvasive ventilation,8816,0.8148627414733339
+3,Cluster 3: Noninvasive ventilation / No ARF,46,Other support,217,0.02005730659025788
+3,Cluster 3: Noninvasive ventilation / No ARF,46,Room air,430,0.03974489324336815
+3,Cluster 3: Noninvasive ventilation / No ARF,47,Invasive ventilation,156,0.014419077548756817
+3,Cluster 3: Noninvasive ventilation / No ARF,47,Low-flow oxygen,1230,0.11368888067289029
+3,Cluster 3: Noninvasive ventilation / No ARF,47,Noninvasive ventilation,8757,0.8094093724004067
+3,Cluster 3: Noninvasive ventilation / No ARF,47,Other support,232,0.02144375635456142
+3,Cluster 3: Noninvasive ventilation / No ARF,47,Room air,444,0.041038913023384783
+3,Cluster 3: Noninvasive ventilation / No ARF,48,Invasive ventilation,169,0.015620667344486552
+3,Cluster 3: Noninvasive ventilation / No ARF,48,Low-flow oxygen,1239,0.11452075053147241
+3,Cluster 3: Noninvasive ventilation / No ARF,48,Noninvasive ventilation,8720,0.8059894629817913
+3,Cluster 3: Noninvasive ventilation / No ARF,48,Other support,236,0.02181347629170903
+3,Cluster 3: Noninvasive ventilation / No ARF,48,Room air,455,0.04205564285054072
+3,Cluster 3: Noninvasive ventilation / No ARF,49,Invasive ventilation,180,0.01663739717164248
+3,Cluster 3: Noninvasive ventilation / No ARF,49,Low-flow oxygen,1236,0.1142434605786117
+3,Cluster 3: Noninvasive ventilation / No ARF,49,Noninvasive ventilation,8703,0.804418153248914
+3,Cluster 3: Noninvasive ventilation / No ARF,49,Other support,238,0.021998336260282837
+3,Cluster 3: Noninvasive ventilation / No ARF,49,Room air,462,0.04270265274054903
+3,Cluster 3: Noninvasive ventilation / No ARF,50,Invasive ventilation,190,0.017561697014511508
+3,Cluster 3: Noninvasive ventilation / No ARF,50,Low-flow oxygen,1262,0.11664664017007118
+3,Cluster 3: Noninvasive ventilation / No ARF,50,Noninvasive ventilation,8651,0.799611794065995
+3,Cluster 3: Noninvasive ventilation / No ARF,50,Other support,240,0.02218319622885664
+3,Cluster 3: Noninvasive ventilation / No ARF,50,Room air,476,0.043996672520565674
+3,Cluster 3: Noninvasive ventilation / No ARF,51,Invasive ventilation,196,0.018116276920232925
+3,Cluster 3: Noninvasive ventilation / No ARF,51,Low-flow oxygen,1263,0.11673907015435807
+3,Cluster 3: Noninvasive ventilation / No ARF,51,Noninvasive ventilation,8623,0.7970237545059617
+3,Cluster 3: Noninvasive ventilation / No ARF,51,Other support,260,0.024031795914594693
+3,Cluster 3: Noninvasive ventilation / No ARF,51,Room air,477,0.044089102504852574
+3,Cluster 3: Noninvasive ventilation / No ARF,52,Invasive ventilation,208,0.019225436731675757
+3,Cluster 3: Noninvasive ventilation / No ARF,52,Low-flow oxygen,1273,0.1176633699972271
+3,Cluster 3: Noninvasive ventilation / No ARF,52,Noninvasive ventilation,8582,0.7932341251501988
+3,Cluster 3: Noninvasive ventilation / No ARF,52,Other support,261,0.024124225898881597
+3,Cluster 3: Noninvasive ventilation / No ARF,52,Room air,495,0.045752842222016823
+3,Cluster 3: Noninvasive ventilation / No ARF,53,Invasive ventilation,220,0.020334596543118588
+3,Cluster 3: Noninvasive ventilation / No ARF,53,Low-flow oxygen,1284,0.11868009982438303
+3,Cluster 3: Noninvasive ventilation / No ARF,53,Noninvasive ventilation,8539,0.7892596358258619
+3,Cluster 3: Noninvasive ventilation / No ARF,53,Other support,262,0.0242166558831685
+3,Cluster 3: Noninvasive ventilation / No ARF,53,Room air,514,0.04750901192346797
+3,Cluster 3: Noninvasive ventilation / No ARF,54,Invasive ventilation,223,0.020611886495979295
+3,Cluster 3: Noninvasive ventilation / No ARF,54,Low-flow oxygen,1310,0.1210832794158425
+3,Cluster 3: Noninvasive ventilation / No ARF,54,Noninvasive ventilation,8499,0.7855624364543858
+3,Cluster 3: Noninvasive ventilation / No ARF,54,Other support,262,0.0242166558831685
+3,Cluster 3: Noninvasive ventilation / No ARF,54,Room air,525,0.0485257417506239
+3,Cluster 3: Noninvasive ventilation / No ARF,55,Invasive ventilation,230,0.021258896385987613
+3,Cluster 3: Noninvasive ventilation / No ARF,55,Low-flow oxygen,1329,0.12283944911729365
+3,Cluster 3: Noninvasive ventilation / No ARF,55,Noninvasive ventilation,8446,0.78066364728718
+3,Cluster 3: Noninvasive ventilation / No ARF,55,Other support,266,0.02458637582031611
+3,Cluster 3: Noninvasive ventilation / No ARF,55,Room air,548,0.050651631389222664
+3,Cluster 3: Noninvasive ventilation / No ARF,56,Invasive ventilation,245,0.022645346150291155
+3,Cluster 3: Noninvasive ventilation / No ARF,56,Low-flow oxygen,1373,0.12690636842591738
+3,Cluster 3: Noninvasive ventilation / No ARF,56,Noninvasive ventilation,8382,0.7747481282928181
+3,Cluster 3: Noninvasive ventilation / No ARF,56,Other support,258,0.02384693594602089
+3,Cluster 3: Noninvasive ventilation / No ARF,56,Room air,561,0.0518532211849524
+3,Cluster 3: Noninvasive ventilation / No ARF,57,Invasive ventilation,252,0.023292356040299472
+3,Cluster 3: Noninvasive ventilation / No ARF,57,Low-flow oxygen,1378,0.12736851834735188
+3,Cluster 3: Noninvasive ventilation / No ARF,57,Noninvasive ventilation,8341,0.7709584989370551
+3,Cluster 3: Noninvasive ventilation / No ARF,57,Other support,252,0.023292356040299472
+3,Cluster 3: Noninvasive ventilation / No ARF,57,Room air,596,0.05508827063499399
+3,Cluster 3: Noninvasive ventilation / No ARF,58,Invasive ventilation,262,0.0242166558831685
+3,Cluster 3: Noninvasive ventilation / No ARF,58,Low-flow oxygen,1429,0.13208244754598392
+3,Cluster 3: Noninvasive ventilation / No ARF,58,Noninvasive ventilation,8277,0.7650429799426934
+3,Cluster 3: Noninvasive ventilation / No ARF,58,Other support,235,0.021721046307422127
+3,Cluster 3: Noninvasive ventilation / No ARF,58,Room air,616,0.056936870320732046
+3,Cluster 3: Noninvasive ventilation / No ARF,59,Invasive ventilation,276,0.02551067566318514
+3,Cluster 3: Noninvasive ventilation / No ARF,59,Low-flow oxygen,1437,0.13282188742027914
+3,Cluster 3: Noninvasive ventilation / No ARF,59,Noninvasive ventilation,8194,0.7573712912468805
+3,Cluster 3: Noninvasive ventilation / No ARF,59,Other support,261,0.024124225898881597
+3,Cluster 3: Noninvasive ventilation / No ARF,59,Room air,651,0.06017191977077364
+3,Cluster 3: Noninvasive ventilation / No ARF,60,Invasive ventilation,299,0.0276365653017839
+3,Cluster 3: Noninvasive ventilation / No ARF,60,Low-flow oxygen,1460,0.1349477770588779
+3,Cluster 3: Noninvasive ventilation / No ARF,60,Noninvasive ventilation,8152,0.7534892319068306
+3,Cluster 3: Noninvasive ventilation / No ARF,60,Other support,249,0.023015066087438765
+3,Cluster 3: Noninvasive ventilation / No ARF,60,Room air,659,0.06091135964506886
+3,Cluster 3: Noninvasive ventilation / No ARF,61,Invasive ventilation,313,0.028930585081800537
+3,Cluster 3: Noninvasive ventilation / No ARF,61,Low-flow oxygen,1481,0.13688880672890286
+3,Cluster 3: Noninvasive ventilation / No ARF,61,Noninvasive ventilation,8098,0.7484980127553378
+3,Cluster 3: Noninvasive ventilation / No ARF,61,Other support,243,0.022460486181717348
+3,Cluster 3: Noninvasive ventilation / No ARF,61,Room air,684,0.06322210925224142
+3,Cluster 3: Noninvasive ventilation / No ARF,62,Invasive ventilation,329,0.03040946483039098
+3,Cluster 3: Noninvasive ventilation / No ARF,62,Low-flow oxygen,1523,0.14077086606895275
+3,Cluster 3: Noninvasive ventilation / No ARF,62,Noninvasive ventilation,8013,0.7406414640909511
+3,Cluster 3: Noninvasive ventilation / No ARF,62,Other support,242,0.022368056197430448
+3,Cluster 3: Noninvasive ventilation / No ARF,62,Room air,712,0.0658101488122747
+3,Cluster 3: Noninvasive ventilation / No ARF,63,Invasive ventilation,340,0.03142619465754691
+3,Cluster 3: Noninvasive ventilation / No ARF,63,Low-flow oxygen,1587,0.14668638506331455
+3,Cluster 3: Noninvasive ventilation / No ARF,63,Noninvasive ventilation,7919,0.7319530455679822
+3,Cluster 3: Noninvasive ventilation / No ARF,63,Other support,237,0.021905906275995934
+3,Cluster 3: Noninvasive ventilation / No ARF,63,Room air,736,0.06802846843516036
+3,Cluster 3: Noninvasive ventilation / No ARF,64,Invasive ventilation,364,0.03364451428043257
+3,Cluster 3: Noninvasive ventilation / No ARF,64,Low-flow oxygen,1619,0.14964414456049543
+3,Cluster 3: Noninvasive ventilation / No ARF,64,Noninvasive ventilation,7846,0.7252056567150383
+3,Cluster 3: Noninvasive ventilation / No ARF,64,Other support,240,0.02218319622885664
+3,Cluster 3: Noninvasive ventilation / No ARF,64,Room air,750,0.069322488215177
+3,Cluster 3: Noninvasive ventilation / No ARF,65,Invasive ventilation,372,0.034383954154727794
+3,Cluster 3: Noninvasive ventilation / No ARF,65,Low-flow oxygen,1666,0.15398835382197984
+3,Cluster 3: Noninvasive ventilation / No ARF,65,Noninvasive ventilation,7757,0.716979388113504
+3,Cluster 3: Noninvasive ventilation / No ARF,65,Other support,236,0.02181347629170903
+3,Cluster 3: Noninvasive ventilation / No ARF,65,Room air,788,0.0728348276180793
+3,Cluster 3: Noninvasive ventilation / No ARF,66,Invasive ventilation,391,0.03614012385617894
+3,Cluster 3: Noninvasive ventilation / No ARF,66,Low-flow oxygen,1714,0.15842499306775118
+3,Cluster 3: Noninvasive ventilation / No ARF,66,Noninvasive ventilation,7656,0.7076439597005268
+3,Cluster 3: Noninvasive ventilation / No ARF,66,Other support,249,0.023015066087438765
+3,Cluster 3: Noninvasive ventilation / No ARF,66,Room air,809,0.07477585728810426
+3,Cluster 3: Noninvasive ventilation / No ARF,67,Invasive ventilation,415,0.038358443479064606
+3,Cluster 3: Noninvasive ventilation / No ARF,67,Low-flow oxygen,1791,0.16554210185784268
+3,Cluster 3: Noninvasive ventilation / No ARF,67,Noninvasive ventilation,7543,0.6971993714761069
+3,Cluster 3: Noninvasive ventilation / No ARF,67,Other support,234,0.021628616323135227
+3,Cluster 3: Noninvasive ventilation / No ARF,67,Room air,836,0.07727146686385063
+3,Cluster 3: Noninvasive ventilation / No ARF,68,Invasive ventilation,425,0.039282743321933634
+3,Cluster 3: Noninvasive ventilation / No ARF,68,Low-flow oxygen,1841,0.1701636010721878
+3,Cluster 3: Noninvasive ventilation / No ARF,68,Noninvasive ventilation,7467,0.6901746926703023
+3,Cluster 3: Noninvasive ventilation / No ARF,68,Other support,234,0.021628616323135227
+3,Cluster 3: Noninvasive ventilation / No ARF,68,Room air,852,0.07875034661244108
+3,Cluster 3: Noninvasive ventilation / No ARF,69,Invasive ventilation,437,0.04039190313337647
+3,Cluster 3: Noninvasive ventilation / No ARF,69,Low-flow oxygen,1887,0.17441538034938533
+3,Cluster 3: Noninvasive ventilation / No ARF,69,Noninvasive ventilation,7361,0.6803771143358905
+3,Cluster 3: Noninvasive ventilation / No ARF,69,Other support,250,0.02310749607172567
+3,Cluster 3: Noninvasive ventilation / No ARF,69,Room air,884,0.08170810610962197
+3,Cluster 3: Noninvasive ventilation / No ARF,70,Invasive ventilation,449,0.0415010629448193
+3,Cluster 3: Noninvasive ventilation / No ARF,70,Low-flow oxygen,1916,0.17709584989370553
+3,Cluster 3: Noninvasive ventilation / No ARF,70,Noninvasive ventilation,7310,0.6756631851372585
+3,Cluster 3: Noninvasive ventilation / No ARF,70,Other support,252,0.023292356040299472
+3,Cluster 3: Noninvasive ventilation / No ARF,70,Room air,892,0.08244754598391718
+3,Cluster 3: Noninvasive ventilation / No ARF,71,Invasive ventilation,460,0.042517792771975225
+3,Cluster 3: Noninvasive ventilation / No ARF,71,Low-flow oxygen,1978,0.18282650891949348
+3,Cluster 3: Noninvasive ventilation / No ARF,71,Noninvasive ventilation,7209,0.6663277567242814
+3,Cluster 3: Noninvasive ventilation / No ARF,71,Other support,253,0.023384786024586376
+3,Cluster 3: Noninvasive ventilation / No ARF,71,Room air,919,0.08494315555966356
+3,Cluster 3: Noninvasive ventilation / No ARF,72,Invasive ventilation,478,0.044181532489139475
+3,Cluster 3: Noninvasive ventilation / No ARF,72,Low-flow oxygen,2031,0.18772529808669933
+3,Cluster 3: Noninvasive ventilation / No ARF,72,Noninvasive ventilation,7134,0.6593955079027637
+3,Cluster 3: Noninvasive ventilation / No ARF,72,Other support,263,0.024309085867455404
+3,Cluster 3: Noninvasive ventilation / No ARF,72,Room air,913,0.08438857565394214
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,0,Invasive ventilation,15914,0.8716656624856219
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,0,Low-flow oxygen,952,0.052144382976392616
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,0,Noninvasive ventilation,1025,0.05614284931806978
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,0,Other support,37,0.0020266199266034944
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,0,Room air,329,0.018020485293312155
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,1,Invasive ventilation,16196,0.8871117927370323
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,1,Low-flow oxygen,864,0.04732431396176809
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,1,Noninvasive ventilation,882,0.04831023716930492
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,1,Other support,26,0.0014241112997754287
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,1,Room air,289,0.015829544832119187
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,2,Invasive ventilation,16424,0.8996001533658323
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,2,Low-flow oxygen,782,0.042832886016322506
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,2,Noninvasive ventilation,797,0.04365448868926987
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,2,Other support,25,0.0013693377882456044
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,2,Room air,229,0.012543134140329737
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,3,Invasive ventilation,16587,0.9085282357451936
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,3,Low-flow oxygen,706,0.03867009914005587
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,3,Noninvasive ventilation,736,0.040313304485950593
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,3,Other support,28,0.001533658322835077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,3,Room air,200,0.010954702305964835
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,4,Invasive ventilation,16735,0.9166347154516076
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,4,Low-flow oxygen,657,0.035986197075094484
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,4,Noninvasive ventilation,641,0.035109820890617295
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,4,Other support,28,0.001533658322835077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,4,Room air,196,0.010735608259845538
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,5,Invasive ventilation,16873,0.9241934600427233
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,5,Low-flow oxygen,604,0.033083200964013806
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,5,Noninvasive ventilation,578,0.031659089664238374
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,5,Other support,25,0.0013693377882456044
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,5,Room air,177,0.009694911540778879
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,6,Invasive ventilation,16991,0.9306567344032426
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,6,Low-flow oxygen,532,0.02913950813386646
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,6,Noninvasive ventilation,543,0.029742016760694528
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,6,Other support,27,0.0014788848113052528
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,6,Room air,164,0.008982855890891164
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,7,Invasive ventilation,17088,0.9359697650216355
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,7,Low-flow oxygen,491,0.02689379416114367
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,7,Noninvasive ventilation,496,0.027167661718792792
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,7,Other support,26,0.0014241112997754287
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,7,Room air,156,0.008544667798652572
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,8,Invasive ventilation,17173,0.9406255135016706
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,8,Low-flow oxygen,464,0.025414909349838418
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,8,Noninvasive ventilation,457,0.02503149476912965
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,8,Other support,22,0.001205017253656132
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,8,Room air,141,0.007723065125705209
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,9,Invasive ventilation,17259,0.9453360354932354
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,9,Low-flow oxygen,416,0.02278578079640686
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,9,Noninvasive ventilation,424,0.02322396888864545
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,9,Other support,23,0.001259790765185956
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,9,Room air,135,0.007394424056526264
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,10,Invasive ventilation,17347,0.95015610450786
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,10,Low-flow oxygen,377,0.020649613846743714
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,10,Noninvasive ventilation,382,0.020923481404392836
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,10,Other support,22,0.001205017253656132
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,10,Room air,129,0.007065782987347319
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,11,Invasive ventilation,17436,0.9550309470340144
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,11,Low-flow oxygen,350,0.019170729035438462
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,11,Noninvasive ventilation,334,0.018294352850961274
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,11,Other support,16,8.763761844771868e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,11,Room air,121,0.0066275948951087255
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,12,Invasive ventilation,17500,0.9585364517719231
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,12,Low-flow oxygen,329,0.018020485293312155
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,12,Noninvasive ventilation,307,0.01681546803965602
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,12,Other support,21,0.0011502437421263077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,12,Room air,100,0.005477351152982418
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,13,Invasive ventilation,17566,0.9621515035328915
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,13,Low-flow oxygen,306,0.0167606945281262
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,13,Noninvasive ventilation,274,0.015007942159171825
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,13,Other support,20,0.0010954702305964836
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,13,Room air,91,0.004984389549214
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,14,Invasive ventilation,17588,0.9633565207865477
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,14,Low-flow oxygen,293,0.016048638878238482
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,14,Noninvasive ventilation,260,0.014241112997754286
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,14,Other support,19,0.0010406967190666593
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,14,Room air,97,0.005313030618392945
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,15,Invasive ventilation,17622,0.9652188201785616
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,15,Low-flow oxygen,283,0.015500903762940242
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,15,Noninvasive ventilation,244,0.013364736813277099
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,15,Other support,18,9.859232075368353e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,15,Room air,90,0.004929616037684176
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,16,Invasive ventilation,17675,0.9681218162896423
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,16,Low-flow oxygen,262,0.014350660020813935
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,16,Noninvasive ventilation,228,0.012488360628799912
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,16,Other support,17,9.31149696007011e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,16,Room air,75,0.0041080133647368134
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,17,Invasive ventilation,17713,0.9702032097277756
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,17,Low-flow oxygen,256,0.014022018951634989
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,17,Noninvasive ventilation,198,0.010845155282905188
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,17,Other support,18,9.859232075368353e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,17,Room air,72,0.003943692830147341
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,18,Invasive ventilation,17730,0.9711343594237827
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,18,Low-flow oxygen,253,0.013857698417045516
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,18,Noninvasive ventilation,183,0.010023552609957824
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,18,Other support,17,9.31149696007011e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,18,Room air,74,0.004053239853206989
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,19,Invasive ventilation,17764,0.9729966588157967
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,19,Low-flow oxygen,244,0.013364736813277099
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,19,Noninvasive ventilation,164,0.008982855890891164
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,19,Other support,17,9.31149696007011e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,19,Room air,68,0.003724598784028044
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,20,Invasive ventilation,17798,0.9748589582078107
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,20,Low-flow oxygen,232,0.012707454674919209
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,20,Noninvasive ventilation,148,0.008106479706413977
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,20,Other support,16,8.763761844771868e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,20,Room air,63,0.0034507312263789233
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,21,Invasive ventilation,17815,0.9757901079038177
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,21,Low-flow oxygen,221,0.012104946048091142
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,21,Noninvasive ventilation,145,0.007942159171824505
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,21,Other support,17,9.31149696007011e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,21,Room air,59,0.0032316371802596265
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,22,Invasive ventilation,17837,0.9769951251574739
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,22,Low-flow oxygen,218,0.01194062551350167
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,22,Noninvasive ventilation,127,0.00695623596428767
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,22,Other support,20,0.0010954702305964836
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,22,Room air,55,0.00301254313414033
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,23,Invasive ventilation,17849,0.9776524072958317
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,23,Low-flow oxygen,223,0.012214493071150792
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,23,Noninvasive ventilation,114,0.006244180314399956
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,23,Other support,17,9.31149696007011e-4
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,23,Room air,54,0.0029577696226105055
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,24,Invasive ventilation,17876,0.979131292107137
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,24,Low-flow oxygen,190,0.010406967190666593
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,24,Noninvasive ventilation,118,0.006463274360519253
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,24,Other support,20,0.0010954702305964836
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,24,Room air,53,0.0029029961110806812
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,25,Invasive ventilation,17885,0.9796242537109054
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,25,Low-flow oxygen,187,0.01024264665607712
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,25,Noninvasive ventilation,115,0.006298953825929781
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,25,Other support,21,0.0011502437421263077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,25,Room air,49,0.0026839020649613845
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,26,Invasive ventilation,17896,0.9802267623377334
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,26,Low-flow oxygen,181,0.009914005586898176
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,26,Noninvasive ventilation,112,0.006134633291340308
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,26,Other support,25,0.0013693377882456044
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,26,Room air,43,0.0023552609957824397
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,27,Invasive ventilation,17905,0.9807197239415019
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,27,Low-flow oxygen,172,0.009421043983129759
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,27,Noninvasive ventilation,119,0.006518047872049077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,27,Other support,25,0.0013693377882456044
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,27,Room air,36,0.0019718464150736705
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,28,Invasive ventilation,17904,0.980664950429972
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,28,Low-flow oxygen,173,0.009475817494659583
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,28,Noninvasive ventilation,117,0.006408500848989428
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,28,Other support,27,0.0014788848113052528
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,28,Room air,36,0.0019718464150736705
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,29,Invasive ventilation,17913,0.9811579120337405
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,29,Low-flow oxygen,175,0.009585364517719231
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,29,Noninvasive ventilation,109,0.005970312756750835
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,29,Other support,22,0.001205017253656132
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,29,Room air,38,0.0020813934381333186
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,30,Invasive ventilation,17932,0.9821986087528072
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,30,Low-flow oxygen,167,0.009147176425480637
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,30,Noninvasive ventilation,103,0.00564167168757189
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,30,Other support,20,0.0010954702305964836
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,30,Room air,35,0.0019170729035438462
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,31,Invasive ventilation,17929,0.9820342882182177
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,31,Low-flow oxygen,170,0.009311496960070111
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,31,Noninvasive ventilation,102,0.005586898176042066
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,31,Other support,24,0.0013145642767157803
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,31,Room air,32,0.0017527523689543736
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,32,Invasive ventilation,17933,0.982253382264337
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,32,Low-flow oxygen,169,0.009256723448540286
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,32,Noninvasive ventilation,101,0.0055321246645122415
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,32,Other support,22,0.001205017253656132
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,32,Room air,32,0.0017527523689543736
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,33,Invasive ventilation,17917,0.9813770060798598
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,33,Low-flow oxygen,168,0.009201949937010461
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,33,Noninvasive ventilation,111,0.0060798597798104835
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,33,Other support,23,0.001259790765185956
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,33,Room air,38,0.0020813934381333186
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,34,Invasive ventilation,17911,0.9810483650106808
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,34,Low-flow oxygen,174,0.009530591006189406
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,34,Noninvasive ventilation,108,0.005915539245221011
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,34,Other support,26,0.0014241112997754287
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,34,Room air,38,0.0020813934381333186
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,35,Invasive ventilation,17894,0.9801172153146738
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,35,Low-flow oxygen,191,0.010461740702196418
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,35,Noninvasive ventilation,97,0.005313030618392945
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,35,Other support,27,0.0014788848113052528
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,35,Room air,48,0.0026291285534315607
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,36,Invasive ventilation,17890,0.9798981212685546
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,36,Low-flow oxygen,203,0.011119022840554308
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,36,Noninvasive ventilation,99,0.005422577641452594
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,36,Other support,23,0.001259790765185956
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,36,Room air,42,0.0023004874842526154
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,37,Invasive ventilation,17873,0.9789669715725475
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,37,Low-flow oxygen,217,0.011885852001971847
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,37,Noninvasive ventilation,100,0.005477351152982418
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,37,Other support,21,0.0011502437421263077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,37,Room air,46,0.002519581530371912
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,38,Invasive ventilation,17846,0.9774880867612422
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,38,Low-flow oxygen,238,0.013036095744098154
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,38,Noninvasive ventilation,100,0.005477351152982418
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,38,Other support,21,0.0011502437421263077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,38,Room air,52,0.0028482225995508574
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,39,Invasive ventilation,17817,0.9758996549268774
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,39,Low-flow oxygen,256,0.014022018951634989
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,39,Noninvasive ventilation,108,0.005915539245221011
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,39,Other support,27,0.0014788848113052528
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,39,Room air,49,0.0026839020649613845
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,40,Invasive ventilation,17781,0.9739278085118037
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,40,Low-flow oxygen,287,0.015719997809059538
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,40,Noninvasive ventilation,114,0.006244180314399956
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,40,Other support,24,0.0013145642767157803
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,40,Room air,51,0.002793449088021033
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,41,Invasive ventilation,17739,0.9716273210275511
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,41,Low-flow oxygen,328,0.01796571178178233
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,41,Noninvasive ventilation,111,0.0060798597798104835
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,41,Other support,24,0.0013145642767157803
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,41,Room air,55,0.00301254313414033
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,42,Invasive ventilation,17704,0.9697102481240072
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,42,Low-flow oxygen,342,0.018732540943199868
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,42,Noninvasive ventilation,120,0.006572821383578902
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,42,Other support,30,0.0016432053458947254
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,42,Room air,61,0.0033411842033192747
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,43,Invasive ventilation,17660,0.9673002136166949
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,43,Low-flow oxygen,364,0.019937558196856
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,43,Noninvasive ventilation,129,0.007065782987347319
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,43,Other support,29,0.0015884318343649011
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,43,Room air,75,0.0041080133647368134
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,44,Invasive ventilation,17631,0.9657117817823301
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,44,Low-flow oxygen,374,0.02048529331215424
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,44,Noninvasive ventilation,130,0.007120556498877143
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,44,Other support,33,0.0018075258804841979
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,44,Room air,89,0.004874842526154352
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,45,Invasive ventilation,17601,0.9640685764364353
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,45,Low-flow oxygen,381,0.020868707892863013
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,45,Noninvasive ventilation,140,0.007668291614175385
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,45,Other support,38,0.0020813934381333186
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,45,Room air,97,0.005313030618392945
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,46,Invasive ventilation,17563,0.961987182998302
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,46,Low-flow oxygen,412,0.02256668675028756
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,46,Noninvasive ventilation,141,0.007723065125705209
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,46,Other support,38,0.0020813934381333186
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,46,Room air,103,0.00564167168757189
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,47,Invasive ventilation,17511,0.9591389603987511
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,47,Low-flow oxygen,445,0.02437421263077176
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,47,Noninvasive ventilation,152,0.008325573752533275
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,47,Other support,40,0.0021909404611929672
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,47,Room air,109,0.005970312756750835
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,48,Invasive ventilation,17456,0.9561264172646108
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,48,Low-flow oxygen,465,0.02546968286136824
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,48,Noninvasive ventilation,172,0.009421043983129759
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,48,Other support,39,0.002136166949663143
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,48,Room air,125,0.006846688941228022
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,49,Invasive ventilation,17422,0.9542641178725968
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,49,Low-flow oxygen,478,0.026181738511255957
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,49,Noninvasive ventilation,171,0.009366270471599934
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,49,Other support,42,0.0023004874842526154
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,49,Room air,144,0.007887385660294682
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,50,Invasive ventilation,17379,0.9519088568768144
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,50,Low-flow oxygen,490,0.026839020649613847
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,50,Noninvasive ventilation,192,0.010516514213726243
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,50,Other support,39,0.002136166949663143
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,50,Room air,157,0.008599441310182396
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,51,Invasive ventilation,17344,0.9499917839732706
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,51,Low-flow oxygen,504,0.027605849811031386
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,51,Noninvasive ventilation,194,0.01062606123678589
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,51,Other support,44,0.002410034507312264
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,51,Room air,171,0.009366270471599934
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,52,Invasive ventilation,17297,0.9474174289313688
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,52,Low-flow oxygen,517,0.0283179054609191
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,52,Noninvasive ventilation,194,0.01062606123678589
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,52,Other support,52,0.0028482225995508574
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,52,Room air,197,0.010790381771375363
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,53,Invasive ventilation,17247,0.9446787533548776
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,53,Low-flow oxygen,538,0.029468149203045406
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,53,Noninvasive ventilation,205,0.011228569863613957
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,53,Other support,54,0.0029577696226105055
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,53,Room air,213,0.01166675795585255
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,54,Invasive ventilation,17207,0.9424878128936847
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,54,Low-flow oxygen,557,0.030508845922112067
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,54,Noninvasive ventilation,210,0.011502437421263077
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,54,Other support,57,0.003122090157199978
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,54,Room air,226,0.012378813605740264
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,55,Invasive ventilation,17122,0.9378320644136495
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,55,Low-flow oxygen,621,0.034014350660020815
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,55,Noninvasive ventilation,224,0.012269266582680616
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,55,Other support,51,0.002793449088021033
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,55,Room air,239,0.013090869255627979
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,56,Invasive ventilation,17035,0.9330667689105548
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,56,Low-flow oxygen,658,0.03604097058662431
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,56,Noninvasive ventilation,241,0.013200416278687626
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,56,Other support,50,0.002738675576491209
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,56,Room air,273,0.014953168647642
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,57,Invasive ventilation,16927,0.9271512296653338
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,57,Low-flow oxygen,705,0.03861532562852604
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,57,Noninvasive ventilation,270,0.014788848113052528
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,57,Other support,52,0.0028482225995508574
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,57,Room air,303,0.016596373993536726
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,58,Invasive ventilation,16844,0.9226050282083584
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,58,Low-flow oxygen,747,0.040915813112778664
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,58,Noninvasive ventilation,277,0.015172262693761297
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,58,Other support,59,0.0032316371802596265
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,58,Room air,330,0.018075258804841978
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,59,Invasive ventilation,16758,0.9178945062167936
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,59,Low-flow oxygen,800,0.04381880922385934
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,59,Noninvasive ventilation,286,0.015665224297529715
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,59,Other support,62,0.003395957714849099
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,59,Room air,351,0.019225502546968285
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,60,Invasive ventilation,16635,0.9111573642986251
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,60,Low-flow oxygen,860,0.04710521991564879
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,60,Noninvasive ventilation,303,0.016596373993536726
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,60,Other support,66,0.0036150517609683957
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,60,Room air,393,0.021525990031220903
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,61,Invasive ventilation,16548,0.9063920687955305
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,61,Low-flow oxygen,904,0.04951525442296106
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,61,Noninvasive ventilation,302,0.016541600482006903
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,61,Other support,74,0.004053239853206989
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,61,Room air,429,0.023497836446294572
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,62,Invasive ventilation,16438,0.9003669825272498
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,62,Low-flow oxygen,961,0.05263734458016103
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,62,Noninvasive ventilation,315,0.017253656131894616
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,62,Other support,73,0.003998466341677165
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,62,Room air,470,0.025743550419017363
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,63,Invasive ventilation,16321,0.8939584816782604
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,63,Low-flow oxygen,1038,0.0568549049679575
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,63,Noninvasive ventilation,335,0.0183491263624911
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,63,Other support,65,0.0035602782494385714
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,63,Room air,498,0.02727720874185244
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,64,Invasive ventilation,16225,0.8887002245713973
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,64,Low-flow oxygen,1060,0.05805992222161363
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,64,Noninvasive ventilation,369,0.02021142575450512
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,64,Other support,70,0.0038341458070876924
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,64,Room air,533,0.029194281645396288
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,65,Invasive ventilation,16078,0.8806485183765131
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,65,Low-flow oxygen,1156,0.06331817932847675
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,65,Noninvasive ventilation,398,0.02179985758887002
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,65,Other support,59,0.0032316371802596265
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,65,Room air,566,0.031001807525880484
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,66,Invasive ventilation,15962,0.8742947910390535
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,66,Low-flow oxygen,1223,0.06698800460097497
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,66,Noninvasive ventilation,413,0.022621460261817387
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,66,Other support,61,0.0033411842033192747
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,66,Room air,598,0.032754559894834855
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,67,Invasive ventilation,15854,0.8683792517938325
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,67,Low-flow oxygen,1250,0.06846688941228023
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,67,Noninvasive ventilation,443,0.02426466560771211
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,67,Other support,66,0.0036150517609683957
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,67,Room air,644,0.03527414142520677
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,68,Invasive ventilation,15753,0.8628471271293202
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,68,Low-flow oxygen,1312,0.07186284712712931
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,68,Noninvasive ventilation,453,0.02481240072301035
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,68,Other support,62,0.003395957714849099
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,68,Room air,677,0.03708166730569097
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,69,Invasive ventilation,15644,0.8568768143725695
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,69,Low-flow oxygen,1346,0.07372514651914334
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,69,Noninvasive ventilation,475,0.026017417976666485
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,69,Other support,67,0.00366982527249822
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,69,Room air,725,0.03971079585912253
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,70,Invasive ventilation,15552,0.8518376513118256
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,70,Low-flow oxygen,1383,0.07575176644574684
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,70,Noninvasive ventilation,493,0.02700334118420332
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,70,Other support,67,0.00366982527249822
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,70,Room air,762,0.041737415785726026
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,71,Invasive ventilation,15457,0.8466341677164924
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,71,Low-flow oxygen,1417,0.07761406583776086
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,71,Noninvasive ventilation,521,0.028536999507038398
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,71,Other support,69,0.003779372295557868
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,71,Room air,793,0.04343539464315057
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,72,Invasive ventilation,15378,0.8423070603056362
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,72,Low-flow oxygen,1434,0.07854521553376786
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,72,Noninvasive ventilation,530,0.029029961110806815
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,72,Other support,79,0.00432710741085611
+4,Cluster 4: Invasive ventilation / Predominantly no ARF,72,Room air,836,0.04579065563893301
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,0,Invasive ventilation,9980,0.7618902206275289
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,0,Low-flow oxygen,1026,0.07832658981601649
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,0,Noninvasive ventilation,1782,0.1360409191541339
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,0,Other support,57,0.004351477212000916
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,0,Room air,254,0.01939079319031987
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,1,Invasive ventilation,10211,0.7795251545919536
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,1,Low-flow oxygen,928,0.07084510267959386
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,1,Noninvasive ventilation,1675,0.12787235666844798
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,1,Other support,60,0.004580502328422017
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,1,Room air,225,0.017176883731582562
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,2,Invasive ventilation,10385,0.7928086113443774
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,2,Low-flow oxygen,873,0.06664630887854035
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,2,Noninvasive ventilation,1581,0.12069623635392014
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,2,Other support,65,0.004962210855790518
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,2,Room air,195,0.014886632567371555
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,3,Invasive ventilation,10541,0.8047179173982747
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,3,Low-flow oxygen,780,0.05954653026948622
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,3,Noninvasive ventilation,1524,0.11634475914191923
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,3,Other support,70,0.00534391938315902
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,3,Room air,184,0.014046873807160852
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,4,Invasive ventilation,10665,0.8141842888770136
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,4,Low-flow oxygen,735,0.056111153523169706
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,4,Noninvasive ventilation,1454,0.11100083975876021
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,4,Other support,79,0.006030994732422322
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,4,Room air,166,0.012672723108634248
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,5,Invasive ventilation,10747,0.8204443087258569
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,5,Low-flow oxygen,716,0.0546606611191694
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,5,Noninvasive ventilation,1398,0.10672570425223299
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,5,Other support,79,0.006030994732422322
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,5,Room air,159,0.012138331170318345
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,6,Invasive ventilation,10846,0.8280021375677533
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,6,Low-flow oxygen,686,0.0523704099549584
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,6,Noninvasive ventilation,1345,0.10267959386212688
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,6,Other support,77,0.005878311321474922
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,6,Room air,145,0.011069547293686541
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,7,Invasive ventilation,10911,0.8329643484235438
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,7,Low-flow oxygen,668,0.05099625925643179
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,7,Noninvasive ventilation,1308,0.09985495075959996
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,7,Other support,76,0.005801969616001221
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,7,Room air,136,0.010382471944423238
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,8,Invasive ventilation,10988,0.8388426597450187
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,8,Low-flow oxygen,648,0.049469425146957784
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,8,Noninvasive ventilation,1268,0.09680128254065196
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,8,Other support,71,0.00542026108863272
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,8,Room air,124,0.0094663714787388345
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,9,Invasive ventilation,11036,0.8425070616077563
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,9,Low-flow oxygen,645,0.04924040003053668
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,9,Noninvasive ventilation,1219,0.09306053897244064
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,9,Other support,86,0.006565386670738224
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,9,Room air,113,0.008626612718528132
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,10,Invasive ventilation,11077,0.845637071532178
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,10,Low-flow oxygen,636,0.04855332468127338
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,10,Noninvasive ventilation,1186,0.09054126269180854
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,10,Other support,89,0.006794411787159325
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,10,Room air,111,0.008473929307580732
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,11,Invasive ventilation,11111,0.8482326895182838
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,11,Low-flow oxygen,641,0.048935033208641884
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,11,Noninvasive ventilation,1154,0.08809832811665012
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,11,Other support,92,0.007023436903580426
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,11,Room air,101,0.007710512252843729
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,12,Invasive ventilation,11143,0.8506756240934422
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,12,Low-flow oxygen,652,0.04977479196885259
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,12,Noninvasive ventilation,1115,0.08512100160317582
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,12,Other support,91,0.006947095198106726
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,12,Room air,98,0.007481487136422628
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,13,Invasive ventilation,11164,0.85227879990839
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,13,Low-flow oxygen,651,0.049698450263378886
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,13,Noninvasive ventilation,1096,0.08367050919917551
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,13,Other support,89,0.006794411787159325
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,13,Room air,99,0.007557828841896328
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,14,Invasive ventilation,11181,0.8535766089014428
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,14,Low-flow oxygen,672,0.05130162607832659
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,14,Noninvasive ventilation,1051,0.080235132452859
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,14,Other support,100,0.007634170547370029
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,14,Room air,95,0.007252462020001527
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,15,Invasive ventilation,11168,0.8525841667302848
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,15,Low-flow oxygen,681,0.05198870142758989
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,15,Noninvasive ventilation,1045,0.0797770822200168
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,15,Other support,113,0.008626612718528132
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,15,Room air,92,0.007023436903580426
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,16,Invasive ventilation,11180,0.8535002671959692
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,16,Low-flow oxygen,702,0.0535918772425376
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,16,Noninvasive ventilation,1016,0.07756317276127948
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,16,Other support,109,0.0083212458966333315
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,16,Room air,92,0.007023436903580426
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,17,Invasive ventilation,11167,0.852507825024811
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,17,Low-flow oxygen,726,0.055424078173906405
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,17,Noninvasive ventilation,995,0.07595999694633178
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,17,Other support,118,0.009008321245896633
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,17,Room air,93,0.007099778609054126
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,18,Invasive ventilation,11159,0.8518970913810214
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,18,Low-flow oxygen,737,0.05626383693411711
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,18,Noninvasive ventilation,987,0.07534926330254219
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,18,Other support,116,0.008855637834949233
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,18,Room air,100,0.007634170547370029
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,19,Invasive ventilation,11150,0.8512100160317582
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,19,Low-flow oxygen,751,0.05733262081074891
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,19,Noninvasive ventilation,981,0.07489121306969998
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,19,Other support,118,0.009008321245896633
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,19,Room air,99,0.007557828841896328
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,20,Invasive ventilation,11120,0.8489197648675472
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,20,Low-flow oxygen,783,0.05977555538590732
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,20,Noninvasive ventilation,975,0.07443316283685777
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,20,Other support,121,0.009237346362317734
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,20,Room air,100,0.007634170547370029
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,21,Invasive ventilation,11098,0.8472402473471258
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,21,Low-flow oxygen,814,0.06214214825559203
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,21,Noninvasive ventilation,956,0.07298267043285747
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,21,Other support,123,0.009390029773265135
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,21,Room air,108,0.00824490419115963
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,22,Invasive ventilation,11071,0.8451790212993359
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,22,Low-flow oxygen,854,0.06519581647454004
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,22,Noninvasive ventilation,950,0.07252462020001527
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,22,Other support,120,0.009161004656844034
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,22,Room air,104,0.007939537369264829
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,23,Invasive ventilation,11055,0.8439575540117566
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,23,Low-flow oxygen,899,0.06863119322085655
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,23,Noninvasive ventilation,924,0.07053973585769906
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,23,Other support,118,0.009008321245896633
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,23,Room air,103,0.00786319566379113
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,24,Invasive ventilation,11030,0.8420490113749142
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,24,Low-flow oxygen,907,0.06924192686464616
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,24,Noninvasive ventilation,926,0.07069241926864646
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,24,Other support,125,0.009542713184212535
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,24,Room air,111,0.008473929307580732
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,25,Invasive ventilation,11009,0.8404458355599664
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,25,Low-flow oxygen,933,0.07122681120696236
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,25,Noninvasive ventilation,915,0.06985266050843576
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,25,Other support,126,0.009619054889686236
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,25,Room air,116,0.008855637834949233
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,26,Invasive ventilation,10990,0.8389953431559661
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,26,Low-flow oxygen,951,0.07260096190548897
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,26,Noninvasive ventilation,894,0.06824948469348806
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,26,Other support,135,0.010306130238949537
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,26,Room air,129,0.009848080006107337
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,27,Invasive ventilation,10945,0.8355599664096496
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,27,Low-flow oxygen,992,0.07573097182991068
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,27,Noninvasive ventilation,890,0.06794411787159325
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,27,Other support,135,0.010306130238949537
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,27,Room air,137,0.01045881364989694
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,28,Invasive ventilation,10902,0.8322772730742805
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,28,Low-flow oxygen,1035,0.07901366516527979
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,28,Noninvasive ventilation,872,0.06656996717306665
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,28,Other support,138,0.010535155355370638
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,28,Room air,152,0.011603939232002442
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,29,Invasive ventilation,10854,0.8286128712115428
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,29,Low-flow oxygen,1081,0.08252538361707
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,29,Noninvasive ventilation,862,0.06580655011832964
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,29,Other support,142,0.01084052217726544
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,29,Room air,160,0.012214672875792046
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,30,Invasive ventilation,10792,0.8238796854721735
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,30,Low-flow oxygen,1134,0.08657149400717612
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,30,Noninvasive ventilation,844,0.06443239941980304
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,30,Other support,147,0.011222230704633941
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,30,Room air,182,0.013894190396213452
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,31,Invasive ventilation,10740,0.819909916787541
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,31,Low-flow oxygen,1150,0.08779296129475532
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,31,Noninvasive ventilation,842,0.06427971600885564
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,31,Other support,156,0.011909306053897244
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,31,Room air,211,0.01610809985495076
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,32,Invasive ventilation,10681,0.8154057561645928
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,32,Low-flow oxygen,1188,0.09069394610275594
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,32,Noninvasive ventilation,831,0.06343995724864493
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,32,Other support,155,0.011832964348423543
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,32,Room air,244,0.01862737613558287
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,33,Invasive ventilation,10627,0.811283304069013
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,33,Low-flow oxygen,1197,0.09138102145201923
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,33,Noninvasive ventilation,841,0.06420337430338194
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,33,Other support,149,0.011374914115581341
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,33,Room air,285,0.02175738606000458
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,34,Invasive ventilation,10558,0.8060157263913276
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,34,Low-flow oxygen,1214,0.09267883044507215
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,34,Noninvasive ventilation,837,0.06389800748148713
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,34,Other support,157,0.011985647759370945
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,34,Room air,333,0.025421787922742193
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,35,Invasive ventilation,10456,0.7982288724330101
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,35,Low-flow oxygen,1286,0.09817543323917856
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,35,Noninvasive ventilation,830,0.06336361554317123
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,35,Other support,170,0.012978089930529048
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,35,Room air,357,0.027253988854111
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,36,Invasive ventilation,10346,0.7898312848309031
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,36,Low-flow oxygen,1373,0.1048171616153905
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,36,Noninvasive ventilation,808,0.06168409802274983
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,36,Other support,174,0.01328345675242385
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,36,Room air,398,0.030383998778532713
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,37,Invasive ventilation,10230,0.7809756469959539
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,37,Low-flow oxygen,1443,0.1101610809985495
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,37,Noninvasive ventilation,798,0.06092068096801283
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,37,Other support,179,0.01366516527979235
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,37,Room air,449,0.034277425757691424
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,38,Invasive ventilation,10140,0.7741048935033209
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,38,Low-flow oxygen,1470,0.11222230704633941
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,38,Noninvasive ventilation,823,0.06282922360485534
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,38,Other support,169,0.012901748225055347
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,38,Room air,497,0.03794182762042904
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,39,Invasive ventilation,10005,0.7637987632643713
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,39,Low-flow oxygen,1539,0.11748988472402473
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,39,Noninvasive ventilation,833,0.06359264065959233
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,39,Other support,178,0.01358882357431865
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,39,Room air,544,0.04152988777769295
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,40,Invasive ventilation,9908,0.7563936178334224
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,40,Low-flow oxygen,1585,0.12100160317581495
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,40,Noninvasive ventilation,830,0.06336361554317123
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,40,Other support,179,0.01366516527979235
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,40,Room air,597,0.045575998167799066
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,41,Invasive ventilation,9793,0.7476143217039468
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,41,Low-flow oxygen,1623,0.12390258798381557
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,41,Noninvasive ventilation,855,0.06527215818001374
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,41,Other support,183,0.013970532101687153
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,41,Room air,645,0.04924040003053668
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,42,Invasive ventilation,9693,0.7399801511565769
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,42,Low-flow oxygen,1666,0.12718528131918466
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,42,Noninvasive ventilation,842,0.06427971600885564
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,42,Other support,184,0.014046873807160852
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,42,Room air,714,0.054507977708222
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,43,Invasive ventilation,9582,0.731506221848996
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,43,Low-flow oxygen,1704,0.13008626612718527
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,43,Noninvasive ventilation,847,0.06466142453622414
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,43,Other support,182,0.013894190396213452
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,43,Room air,784,0.05985189709138102
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,44,Invasive ventilation,9484,0.7240247347125734
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,44,Low-flow oxygen,1732,0.1322238338804489
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,44,Noninvasive ventilation,858,0.06550118329643484
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,44,Other support,181,0.01381784869073975
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,44,Room air,844,0.06443239941980304
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,45,Invasive ventilation,9393,0.7170776395144668
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,45,Low-flow oxygen,1739,0.13275822581876479
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,45,Noninvasive ventilation,863,0.06588289182380334
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,45,Other support,184,0.014046873807160852
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,45,Room air,920,0.07023436903580425
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,46,Invasive ventilation,9314,0.7110466447820444
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,46,Low-flow oxygen,1773,0.1353538438048706
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,46,Noninvasive ventilation,867,0.06618825864569815
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,46,Other support,192,0.014657607450950454
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,46,Room air,953,0.07275364531643637
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,47,Invasive ventilation,9215,0.7034888159401481
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,47,Low-flow oxygen,1791,0.1367279945033972
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,47,Noninvasive ventilation,889,0.06786777616611955
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,47,Other support,186,0.014199557218108252
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,47,Room air,1018,0.07771585617222689
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,48,Invasive ventilation,9164,0.6995953889609894
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,48,Low-flow oxygen,1797,0.1371860447362394
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,48,Noninvasive ventilation,874,0.06672265058401405
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,48,Other support,191,0.014581265745476754
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,48,Room air,1073,0.0819146499732804
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,49,Invasive ventilation,9108,0.6953202534544621
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,49,Low-flow oxygen,1811,0.13825482861287122
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,49,Noninvasive ventilation,878,0.06702801740590884
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,49,Other support,181,0.01381784869073975
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,49,Room air,1121,0.08557905183601802
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,50,Invasive ventilation,9058,0.6915031681807772
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,50,Low-flow oxygen,1842,0.1406214214825559
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,50,Noninvasive ventilation,876,0.06687533399496144
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,50,Other support,175,0.013359798457897549
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,50,Room air,1148,0.08764027788380792
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,51,Invasive ventilation,9011,0.6879151080235133
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,51,Low-flow oxygen,1868,0.14260630582487213
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,51,Noninvasive ventilation,867,0.06618825864569815
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,51,Other support,181,0.01381784869073975
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,51,Room air,1172,0.08947247881517673
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,52,Invasive ventilation,8981,0.6856248568593022
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,52,Low-flow oxygen,1871,0.14283533094129322
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,52,Noninvasive ventilation,864,0.06595923352927704
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,52,Other support,175,0.013359798457897549
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,52,Room air,1208,0.09222078021222994
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,53,Invasive ventilation,8940,0.6824948469348805
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,53,Low-flow oxygen,1868,0.14260630582487213
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,53,Noninvasive ventilation,856,0.06534849988548744
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,53,Other support,182,0.013894190396213452
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,53,Room air,1253,0.09565615695854646
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,54,Invasive ventilation,8908,0.6800519123597221
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,54,Low-flow oxygen,1864,0.14230093900297733
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,54,Noninvasive ventilation,869,0.06634094205664555
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,54,Other support,173,0.013207115046950149
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,54,Room air,1285,0.09809909153370486
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,55,Invasive ventilation,8889,0.6786014199557218
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,55,Low-flow oxygen,1862,0.14214825559202993
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,55,Noninvasive ventilation,840,0.06412703259790824
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,55,Other support,178,0.01358882357431865
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,55,Room air,1330,0.10153446828002137
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,56,Invasive ventilation,8858,0.6762348270860371
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,56,Low-flow oxygen,1856,0.14169020535918772
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,56,Noninvasive ventilation,858,0.06550118329643484
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,56,Other support,173,0.013207115046950149
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,56,Room air,1354,0.10336666921139018
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,57,Invasive ventilation,8819,0.6732575005725628
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,57,Low-flow oxygen,1867,0.14252996411939842
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,57,Noninvasive ventilation,848,0.06473776624169784
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,57,Other support,167,0.012749064814107947
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,57,Room air,1398,0.10672570425223299
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,58,Invasive ventilation,8783,0.6705091991755096
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,58,Low-flow oxygen,1873,0.14298801435224062
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,58,Noninvasive ventilation,847,0.06466142453622414
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,58,Other support,177,0.01351248186884495
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,58,Room air,1419,0.1083288800671807
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,59,Invasive ventilation,8756,0.6684479731277196
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,59,Low-flow oxygen,1897,0.14482021528360944
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,59,Noninvasive ventilation,830,0.06336361554317123
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,59,Other support,172,0.013130773341476448
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,59,Room air,1444,0.1102374227040232
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,60,Invasive ventilation,8728,0.6663104053744561
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,60,Low-flow oxygen,1875,0.14314069776318802
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,60,Noninvasive ventilation,820,0.06260019848843423
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,60,Other support,183,0.013970532101687153
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,60,Room air,1493,0.11397816627223452
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,61,Invasive ventilation,8694,0.6637147873883502
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,61,Low-flow oxygen,1883,0.14375143140697763
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,61,Noninvasive ventilation,805,0.06145507290632873
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,61,Other support,172,0.013130773341476448
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,61,Room air,1545,0.11794793495686694
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,62,Invasive ventilation,8652,0.6605084357584549
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,62,Low-flow oxygen,1877,0.14329338117413543
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,62,Noninvasive ventilation,809,0.06176043972822353
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,62,Other support,165,0.012596381403160547
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,62,Room air,1596,0.12184136193602566
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,63,Invasive ventilation,8609,0.6572257424230857
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,63,Low-flow oxygen,1869,0.14268264753034582
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,63,Noninvasive ventilation,806,0.06153141461180243
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,63,Other support,178,0.01358882357431865
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,63,Room air,1637,0.12497137186044736
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,64,Invasive ventilation,8570,0.6542484159096115
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,64,Low-flow oxygen,1860,0.14199557218108252
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,64,Noninvasive ventilation,813,0.06206580655011833
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,64,Other support,185,0.014123215512634553
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,64,Room air,1671,0.12756698984655318
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,65,Invasive ventilation,8526,0.6508893808687686
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,65,Low-flow oxygen,1855,0.14161386365371403
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,65,Noninvasive ventilation,817,0.06237117337201313
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,65,Other support,182,0.013894190396213452
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,65,Room air,1719,0.1312313917092908
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,66,Invasive ventilation,8501,0.6489808382319261
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,66,Low-flow oxygen,1873,0.14298801435224062
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,66,Noninvasive ventilation,811,0.06191312313917093
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,66,Other support,178,0.01358882357431865
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,66,Room air,1736,0.1325292007023437
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,67,Invasive ventilation,8468,0.646461561951294
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,67,Low-flow oxygen,1846,0.1409267883044507
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,67,Noninvasive ventilation,818,0.06244751507748683
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,67,Other support,179,0.01366516527979235
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,67,Room air,1788,0.13649896938697612
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,68,Invasive ventilation,8432,0.6437132605542408
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,68,Low-flow oxygen,1850,0.14123215512634552
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,68,Noninvasive ventilation,826,0.06305824872127644
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,68,Other support,178,0.01358882357431865
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,68,Room air,1813,0.13840751202381862
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,69,Invasive ventilation,8401,0.6413466676845561
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,69,Low-flow oxygen,1852,0.14138483853729292
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,69,Noninvasive ventilation,848,0.06473776624169784
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,69,Other support,163,0.012443697992213147
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,69,Room air,1835,0.14008702954424002
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,70,Invasive ventilation,8386,0.6402015421024506
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,70,Low-flow oxygen,1835,0.14008702954424002
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,70,Noninvasive ventilation,850,0.06489044965264525
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,70,Other support,176,0.01343614016337125
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,70,Room air,1852,0.14138483853729292
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,71,Invasive ventilation,8366,0.6386747079929765
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,71,Low-flow oxygen,1836,0.14016337124971373
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,71,Noninvasive ventilation,863,0.06588289182380334
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,71,Other support,168,0.012825406519581648
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,71,Room air,1866,0.14245362241392473
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,72,Invasive ventilation,8363,0.6384456828765555
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,72,Low-flow oxygen,1842,0.1406214214825559
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,72,Noninvasive ventilation,845,0.06450874112527674
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,72,Other support,168,0.012825406519581648
+5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,72,Room air,1881,0.14359874799603023
