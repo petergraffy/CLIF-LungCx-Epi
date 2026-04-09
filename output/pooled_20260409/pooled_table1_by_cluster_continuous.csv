@@ -1,111 +1,111 @@
 site_name,stratum,pooled_cluster_label,variable,level,summary_type,n_nonmissing,mean,sd,median,p25,p75,pooled_cluster
-pooled,1,Cluster 1: Room air / No ARF,age_years,,continuous,17262,61.877711275634354,17.65747732883124,,,,1
-pooled,1,Cluster 1: Room air / No ARF,charlson_score,,continuous,17262,4.076236820762369,3.3518853518350222,,,,1
-pooled,1,Cluster 1: Room air / No ARF,deescalations_icu,,continuous,17262,2.1371799328003687,3.1577415637983712,,,,1
-pooled,1,Cluster 1: Room air / No ARF,escalations_icu,,continuous,17262,1.2383269609546983,3.1652214977027233,,,,1
-pooled,1,Cluster 1: Room air / No ARF,icu_los_hours,,continuous,17262,78.60971015332329,147.69207852376346,,,,1
-pooled,1,Cluster 1: Room air / No ARF,imv_hours_72h,,continuous,17262,2.209477464951919,5.042445005735718,,,,1
-pooled,1,Cluster 1: Room air / No ARF,imv_hours_icu,,continuous,17262,4.936681728652536,33.32538345789427,,,,1
-pooled,1,Cluster 1: Room air / No ARF,no2_1y,,continuous,17064,6.618188889793222,2.9907515551820034,,,,1
-pooled,1,Cluster 1: Room air / No ARF,no2_3y,,continuous,17064,6.988693452607443,3.1163598164195387,,,,1
-pooled,1,Cluster 1: Room air / No ARF,no2_5y,,continuous,17064,7.3534158526964735,3.2596010788879943,,,,1
-pooled,1,Cluster 1: Room air / No ARF,pm25_1y,,continuous,17064,8.253096652363478,1.660667291287511,,,,1
-pooled,1,Cluster 1: Room air / No ARF,pm25_3y,,continuous,17064,7.891028287943437,1.1782229111416769,,,,1
-pooled,1,Cluster 1: Room air / No ARF,pm25_5y,,continuous,17064,7.766311614655194,1.0214171073567433,,,,1
-pooled,1,Cluster 1: Room air / No ARF,sofa_cns,,continuous,17262,1.042521144710924,1.3620611440790205,,,,1
-pooled,1,Cluster 1: Room air / No ARF,sofa_coag,,continuous,17262,0.3576063028617772,0.7459018945646007,,,,1
-pooled,1,Cluster 1: Room air / No ARF,sofa_cv,,continuous,17262,0.9073108562159644,1.2582086044441971,,,,1
-pooled,1,Cluster 1: Room air / No ARF,sofa_liver,,continuous,17262,0.17130112385586843,0.5524703477345186,,,,1
-pooled,1,Cluster 1: Room air / No ARF,sofa_renal,,continuous,17262,0.7960838836751244,1.2290587615980835,,,,1
-pooled,1,Cluster 1: Room air / No ARF,sofa_resp,,continuous,17262,1.2282470165681822,1.3809832349636413,,,,1
-pooled,1,Cluster 1: Room air / No ARF,sofa_total,,continuous,17262,4.503070327887846,3.4081876190217013,,,,1
-pooled,1,Cluster 1: Room air / No ARF,vaso_hours_72h,,continuous,17262,2.993917274939174,9.011840891173925,,,,1
-pooled,1,Cluster 1: Room air / No ARF,vaso_mean_72h,,continuous,17262,0.2075657513613716,0.4055758120835265,,,,1
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,age_years,,continuous,23361,67.13874523415092,16.066088902092726,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,charlson_score,,continuous,23361,4.21968237661059,3.151705004720833,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,deescalations_icu,,continuous,23361,3.2385171867642666,4.967018715935987,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,escalations_icu,,continuous,23361,2.682162578656735,5.055255712924253,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,icu_los_hours,,continuous,23361,112.08678333785174,194.89224127656982,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,imv_hours_72h,,continuous,23361,1.4549890843713875,4.564552789381127,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,imv_hours_icu,,continuous,23361,7.83754976242457,76.63971665345609,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,no2_1y,,continuous,23101,6.675719408307337,2.932046064252678,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,no2_3y,,continuous,23101,7.051192685347897,3.044378278033206,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,no2_5y,,continuous,23101,7.447004490683929,3.188522533118447,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,pm25_1y,,continuous,23101,8.22322265250689,1.5636536485367603,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,pm25_3y,,continuous,23101,7.861773499526842,1.1154714996625776,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,pm25_5y,,continuous,23101,7.750990040992164,0.9678057575132764,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_cns,,continuous,23361,0.8277042934805869,1.1998057380798195,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_coag,,continuous,23361,0.42622319250032076,0.8250439919848938,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_cv,,continuous,23361,1.0066777963272124,1.3108634327701165,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_liver,,continuous,23361,0.22023885963785794,0.626329786265042,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_renal,,continuous,23361,0.8499636145712947,1.1963329112181567,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_resp,,continuous,23361,1.4996361457129386,1.4405194153837533,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_total,,continuous,23361,4.830443902230213,3.4271990009561297,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,vaso_hours_72h,,continuous,23361,4.388125508325843,11.47749410702144,,,,2
-pooled,2,Cluster 2: Low-flow oxygen / No ARF,vaso_mean_72h,,continuous,23361,0.24121398912717754,0.4278289795658404,,,,2
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,age_years,,continuous,11475,65.57725633394334,16.017041066752924,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,charlson_score,,continuous,11475,3.844618736383439,3.169654619472479,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,deescalations_icu,,continuous,11475,5.177167755991287,8.002204779154896,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,escalations_icu,,continuous,11475,4.7234858387799585,7.992084831584464,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,icu_los_hours,,continuous,11475,191.59797385620908,270.64922204635565,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,imv_hours_72h,,continuous,11475,1.1735076252723298,4.188406959717809,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,imv_hours_icu,,continuous,11475,26.29263616557732,108.31927244799697,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,no2_1y,,continuous,11401,6.620692151942764,2.8501633714223433,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,no2_3y,,continuous,11401,6.967341309254858,2.9738921236474867,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,no2_5y,,continuous,11401,7.442435004799989,3.1236114026913384,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,pm25_1y,,continuous,11401,8.247988011416464,1.4981428734892652,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,pm25_3y,,continuous,11401,7.885622972397684,1.0906593913752314,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,pm25_5y,,continuous,11401,7.78472831281385,0.9328739075368376,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_cns,,continuous,11475,0.6337254901960786,1.0650593521861258,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_coag,,continuous,11475,0.38291938997821356,0.8121147911857867,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_cv,,continuous,11475,0.8076688453159048,1.1849429072153492,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_liver,,continuous,11475,0.16949891067538114,0.5481301203090326,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_renal,,continuous,11475,0.7362962962962958,1.104210672401743,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_resp,,continuous,11475,2.4179520697167765,1.2811740013856845,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_total,,continuous,11475,5.14806100217865,3.08947174441149,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,vaso_hours_72h,,continuous,11475,3.3177342047930307,9.912259058797416,,,,3
-pooled,3,Cluster 3: Noninvasive ventilation / No ARF,vaso_mean_72h,,continuous,11475,0.19538126361655805,0.3965111935767517,,,,3
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,age_years,,continuous,19824,60.312719189013315,17.55299877212831,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,charlson_score,,continuous,19824,3.502976190476191,3.009978732847131,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,deescalations_icu,,continuous,19824,2.952280064568201,7.487442132382267,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,escalations_icu,,continuous,19824,2.252522195318804,7.36704231766232,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,icu_los_hours,,continuous,19824,246.9751970815398,343.3788457113243,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,imv_hours_72h,,continuous,19824,29.593472558514907,18.864757340947143,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,imv_hours_icu,,continuous,19824,85.30891848264734,132.49381501284523,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,no2_1y,,continuous,19587,6.668060527593929,2.928026012880354,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,no2_3y,,continuous,19587,7.033711461061768,3.0309534041017363,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,no2_5y,,continuous,19587,7.420578808429008,3.1561611669704974,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,pm25_1y,,continuous,19587,8.303628750902018,1.568188826832255,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,pm25_3y,,continuous,19587,7.943452482821037,1.1514505594045827,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,pm25_5y,,continuous,19587,7.807007197341073,0.9848003111960028,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_cns,,continuous,19824,3.138014527845038,1.1562662472616863,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_coag,,continuous,19824,0.633575464083939,0.991877728449838,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_cv,,continuous,19824,2.365012106537528,1.6448043178028577,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_liver,,continuous,19824,0.39835552865213875,0.83976207496124,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_renal,,continuous,19824,1.0439366424535927,1.2352490620894592,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_resp,,continuous,19824,2.763064971751413,1.237643689210911,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_total,,continuous,19824,10.34195924132366,3.862169420931941,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,vaso_hours_72h,,continuous,19824,15.832879338175957,19.320296062583743,,,,4
-pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,vaso_mean_72h,,continuous,19824,0.6620258272800643,0.4730316253361419,,,,4
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,age_years,,continuous,14620,58.587437364021866,16.617158110098114,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,charlson_score,,continuous,14620,3.344801641586867,2.866107785327234,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,deescalations_icu,,continuous,14620,4.238645690834474,7.742753177799823,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,escalations_icu,,continuous,14620,3.390629274965798,7.655031140283897,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,icu_los_hours,,continuous,14620,343.37039686882514,483.0504574731636,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,imv_hours_72h,,continuous,14620,35.38522571819428,20.020480670190874,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,imv_hours_icu,,continuous,14620,148.18502051983575,279.4335730124167,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,no2_1y,,continuous,14347,6.735444893878162,3.003907036782465,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,no2_3y,,continuous,14347,7.131500296117925,3.164282851217555,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,no2_5y,,continuous,14347,7.5761368712286234,3.321530917858037,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,pm25_1y,,continuous,14347,8.083352038658743,1.4693909008407418,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,pm25_3y,,continuous,14347,7.789460772128398,1.0929350174729473,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,pm25_5y,,continuous,14347,7.723641458975289,0.9568243488929488,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_cns,,continuous,14620,3.0093707250342,1.30146213719532,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_coag,,continuous,14620,0.6768125854993159,1.000715916742223,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_cv,,continuous,14620,2.5761969904240765,1.575865338992222,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_liver,,continuous,14620,0.47147742818057453,0.882489827251028,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_renal,,continuous,14620,1.1265389876880993,1.2248398958873348,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_resp,,continuous,14620,3.296032831737345,1.038646147691122,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_total,,continuous,14620,11.156429548563619,3.9603794452978542,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,vaso_hours_72h,,continuous,14620,24.541860465116255,22.895183710323114,,,,5
-pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,vaso_mean_72h,,continuous,14620,0.7594391244870041,0.4274386944673234,,,,5
+pooled,1,Cluster 1: Room air / No ARF,age_years,,continuous,27800,60.39550546906477,17.81668652214894,,,,1
+pooled,1,Cluster 1: Room air / No ARF,charlson_score,,continuous,27800,3.9812949640287787,3.403763569698648,,,,1
+pooled,1,Cluster 1: Room air / No ARF,deescalations_icu,,continuous,27800,2.2213669064748203,2.8881676846168727,,,,1
+pooled,1,Cluster 1: Room air / No ARF,escalations_icu,,continuous,27800,1.1519424460431658,2.876201454573763,,,,1
+pooled,1,Cluster 1: Room air / No ARF,icu_los_hours,,continuous,27800,83.83268525179855,149.98786122011813,,,,1
+pooled,1,Cluster 1: Room air / No ARF,imv_hours_72h,,continuous,27800,2.3618345323741012,4.513527542467081,,,,1
+pooled,1,Cluster 1: Room air / No ARF,imv_hours_icu,,continuous,27800,4.621798561151083,27.329071450358306,,,,1
+pooled,1,Cluster 1: Room air / No ARF,no2_1y,,continuous,26819,6.831114913363015,2.839540995966967,,,,1
+pooled,1,Cluster 1: Room air / No ARF,no2_3y,,continuous,26819,7.181644116836449,2.959137642578774,,,,1
+pooled,1,Cluster 1: Room air / No ARF,no2_5y,,continuous,26819,7.5479172225557845,3.100877359807478,,,,1
+pooled,1,Cluster 1: Room air / No ARF,pm25_1y,,continuous,26819,8.264193253245296,1.5785855317040758,,,,1
+pooled,1,Cluster 1: Room air / No ARF,pm25_3y,,continuous,26819,7.884671922476259,1.090395746905173,,,,1
+pooled,1,Cluster 1: Room air / No ARF,pm25_5y,,continuous,26819,7.783403908339726,0.9328707162578924,,,,1
+pooled,1,Cluster 1: Room air / No ARF,sofa_cns,,continuous,27800,1.333345323741005,1.4433420964002195,,,,1
+pooled,1,Cluster 1: Room air / No ARF,sofa_coag,,continuous,27800,0.36906474820143886,0.7459712455293178,,,,1
+pooled,1,Cluster 1: Room air / No ARF,sofa_cv,,continuous,27800,1.0133093525179862,1.3178193808004472,,,,1
+pooled,1,Cluster 1: Room air / No ARF,sofa_liver,,continuous,27800,0.1793525179856115,0.5647966254125479,,,,1
+pooled,1,Cluster 1: Room air / No ARF,sofa_renal,,continuous,27800,0.8153597122302157,1.2274842395277714,,,,1
+pooled,1,Cluster 1: Room air / No ARF,sofa_resp,,continuous,27800,1.416546762589925,1.4635687452384563,,,,1
+pooled,1,Cluster 1: Room air / No ARF,sofa_total,,continuous,27800,5.126978417266187,3.6592405757148994,,,,1
+pooled,1,Cluster 1: Room air / No ARF,vaso_hours_72h,,continuous,27800,3.0037769784172665,8.352788644956672,,,,1
+pooled,1,Cluster 1: Room air / No ARF,vaso_mean_72h,,continuous,27800,0.23017985611510777,0.42095541827997296,,,,1
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,age_years,,continuous,35845,66.0263140581671,16.52544353955595,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,charlson_score,,continuous,35845,4.141079648486539,3.1470913064173205,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,deescalations_icu,,continuous,35845,3.320937369228623,5.751110227223564,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,escalations_icu,,continuous,35845,2.67518482354582,5.771925193190953,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,icu_los_hours,,continuous,35845,125.02557759489147,234.09207009188322,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,imv_hours_72h,,continuous,35845,1.7435346631329316,4.378820455253781,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,imv_hours_icu,,continuous,35845,7.215846003626737,63.15587786608222,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,no2_1y,,continuous,34925,6.807783624273706,2.7730893082613033,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,no2_3y,,continuous,34925,7.163551426393807,2.879775020304445,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,no2_5y,,continuous,34925,7.56014777448422,3.02590529504526,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,pm25_1y,,continuous,34925,8.168923086870887,1.5046905167989642,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,pm25_3y,,continuous,34925,7.827054519286343,1.051615519446019,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,pm25_5y,,continuous,34925,7.743396252620658,0.8982383965688453,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_cns,,continuous,35845,1.0088157344120503,1.2894939813469808,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_coag,,continuous,35845,0.4298228483749475,0.8180108919900313,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_cv,,continuous,35845,1.1297810015343837,1.3797062763973278,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_liver,,continuous,35845,0.21835681406053856,0.6201684404681808,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_renal,,continuous,35845,0.925484725903195,1.2323972004570758,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_resp,,continuous,35845,1.6348723671362806,1.460383452635739,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,sofa_total,,continuous,35845,5.347133491421397,3.604946206107643,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,vaso_hours_72h,,continuous,35845,4.495438694378574,10.992769971063618,,,,2
+pooled,2,Cluster 2: Low-flow oxygen / No ARF,vaso_mean_72h,,continuous,35845,0.2675965964569673,0.44271223819192457,,,,2
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,age_years,,continuous,14444,65.44059930988645,16.18751342814702,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,charlson_score,,continuous,14444,3.70721406812517,3.1218066372433446,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,deescalations_icu,,continuous,14444,4.746607587925784,7.37766944858225,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,escalations_icu,,continuous,14444,4.2781777900858495,7.348922799879787,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,icu_los_hours,,continuous,14444,195.5822082987169,261.55524469215214,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,imv_hours_72h,,continuous,14444,0.9745915258931033,3.7762827263939553,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,imv_hours_icu,,continuous,14444,23.23255330933258,97.87247935528866,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,no2_1y,,continuous,14191,6.62331823037919,2.761617539714624,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,no2_3y,,continuous,14191,6.966866296791212,2.889068464736858,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,no2_5y,,continuous,14191,7.438220032334269,3.0414946163457817,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,pm25_1y,,continuous,14191,8.165024203348928,1.4709994163944387,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,pm25_3y,,continuous,14191,7.818296469631587,1.0554869336213646,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,pm25_5y,,continuous,14191,7.736467250279131,0.9005781027426523,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_cns,,continuous,14444,0.6141650512323457,1.0312818853808754,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_coag,,continuous,14444,0.37371919135973414,0.8213157526410061,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_cv,,continuous,14444,0.7997092218222104,1.1714943454855653,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_liver,,continuous,14444,0.17058986430351702,0.5421809281558386,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_renal,,continuous,14444,0.6917058986430348,1.0568604365386576,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_resp,,continuous,14444,2.429936305732484,1.2144008711985075,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,sofa_total,,continuous,14444,5.0798255330933255,3.057492911949606,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,vaso_hours_72h,,continuous,14444,2.9649681528662435,9.166489464703004,,,,3
+pooled,3,Cluster 3: Noninvasive ventilation / No ARF,vaso_mean_72h,,continuous,14444,0.1847133757961786,0.3880783057620671,,,,3
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,age_years,,continuous,31786,59.49356147999119,17.684732668241505,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,charlson_score,,continuous,31786,3.3766752658403067,2.950331150001686,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,deescalations_icu,,continuous,31786,2.858082174542252,6.342504661622845,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,escalations_icu,,continuous,31786,2.0503995469703615,6.209319417633086,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,icu_los_hours,,continuous,31786,259.4514547372358,337.86365528260353,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,imv_hours_72h,,continuous,31786,23.357515887497637,17.212518527748838,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,imv_hours_icu,,continuous,31786,67.4490027055937,110.0547500329983,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,no2_1y,,continuous,30924,6.8379735371005825,2.763675637217958,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,no2_3y,,continuous,30924,7.189728404064699,2.872649951721673,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,no2_5y,,continuous,30924,7.565411822168713,3.001633363185151,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,pm25_1y,,continuous,30924,8.264372489489677,1.5216485695183959,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,pm25_3y,,continuous,30924,7.901686537000119,1.0731885530746665,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,pm25_5y,,continuous,30924,7.79887641723866,0.902714483342956,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_cns,,continuous,31786,3.215189076952117,1.0587003931111394,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_coag,,continuous,31786,0.6513559428679294,0.9976585228427604,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_cv,,continuous,31786,2.3118039388409963,1.6457620355767442,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_liver,,continuous,31786,0.383942616246146,0.8069691003230927,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_renal,,continuous,31786,1.0581073428553471,1.2492398284781205,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_resp,,continuous,31786,2.7574089221669906,1.245894692575405,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,sofa_total,,continuous,31786,10.377807839929524,3.7752741417096707,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,vaso_hours_72h,,continuous,31786,13.831152079531867,17.85073375836844,,,,4
+pooled,4,Cluster 4: Invasive ventilation / Predominantly no ARF,vaso_mean_72h,,continuous,31786,0.6440571320707225,0.4788055504522471,,,,4
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,age_years,,continuous,21954,57.602092295800276,16.352125508846754,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,charlson_score,,continuous,21954,3.267787191400199,2.7811394961575258,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,deescalations_icu,,continuous,21954,4.2295709210166725,7.171998986979384,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,escalations_icu,,continuous,21954,3.3415322947982125,7.069757356967344,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,icu_los_hours,,continuous,21954,367.2166045165146,481.07387212526896,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,imv_hours_72h,,continuous,21954,27.785870456408876,19.72178649195074,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,imv_hours_icu,,continuous,21954,116.7208253621207,235.014742924398,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,no2_1y,,continuous,21126,6.842459487935071,2.901183923235782,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,no2_3y,,continuous,21126,7.209751467767058,3.0421420580166294,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,no2_5y,,continuous,21126,7.652285824418924,3.2065266196441162,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,pm25_1y,,continuous,21126,8.068299389907967,1.4164976541513281,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,pm25_3y,,continuous,21126,7.770915368074812,1.0205624921603094,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,pm25_5y,,continuous,21126,7.718456876949971,0.8910296361213288,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_cns,,continuous,21954,3.033479092648264,1.2719067104309751,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_coag,,continuous,21954,0.6642069782272022,0.9979830669674534,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_cv,,continuous,21954,2.5788922292065233,1.5916390130383011,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_liver,,continuous,21954,0.45782089824177835,0.8684597284815059,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_renal,,continuous,21954,1.176368771066776,1.2543569604580327,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_resp,,continuous,21954,3.3432631866630214,0.9778480409108434,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,sofa_total,,continuous,21954,11.254031156053571,3.9589306720248816,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,vaso_hours_72h,,continuous,21954,23.000136649357735,21.50153890881055,,,,5
+pooled,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,vaso_mean_72h,,continuous,21954,0.765874100391728,0.4234608962925659,,,,5

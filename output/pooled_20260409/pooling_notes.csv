@@ -1,5 +1,6 @@
 item,detail
-excluded_sites,Hopkins
+descriptive_pooling_sites,Emory; Hopkins; Michigan; Minnesota; NU; OHSU; Penn; RUSH; UCMC; UCSF
+model_meta_excluded_sites,Hopkins
 cluster_matching_method,Site clusters were matched to 5 consensus prototypes using iterative minimum-distance assignment on exported centroid features with one-to-one matching within site.
 continuous_table1_pooling,"Continuous Table 1 summaries were pooled from site means, SDs, and sample sizes. Medians and quartiles are left blank because patient-level pooled quantiles are not available in the federated export."
 categorical_table1_pooling,Categorical Table 1 summaries were pooled by summing site counts and denominators.

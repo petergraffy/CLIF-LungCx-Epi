@@ -7,7 +7,7 @@ options(stringsAsFactors = FALSE)
 
 ROOT_DIR <- "."
 SITE_DIR <- file.path(ROOT_DIR, "sites")
-EXCLUDED_SITES <- c("Hopkins")
+MODEL_EXCLUDED_SITES <- c("Hopkins")
 RUN_DIRS_ALL <- sort(Sys.glob(file.path(SITE_DIR, "run_*")))
 RUN_DATE <- format(Sys.Date(), "%Y%m%d")
 OUT_DIR <- file.path(ROOT_DIR, "output", paste0("pooled_", RUN_DATE))
@@ -120,6 +120,54 @@ pretty_exposure <- function(x) {
   )
 }
 
+harmonize_model_term <- function(term) {
+  term <- as.character(term)
+  dplyr::case_when(
+    term == "age_years" ~ "age_years",
+    term == "admit_year" ~ "admit_year",
+    term == "charlson_score" ~ "charlson_score",
+    term == "advanced_cancer_any_poaTRUE" ~ "advanced_cancer_any_poaTRUE",
+    stringr::str_to_lower(term) == "sex_categorymale" ~ "sex_categoryMale",
+    stringr::str_to_lower(term) == "sex_categoryunknown" ~ "sex_categoryUnknown",
+    stringr::str_detect(stringr::str_to_lower(term), "^race_category") ~ {
+      lvl <- stringr::str_remove(term, "^race_category")
+      lvl_low <- stringr::str_to_lower(lvl)
+      paste0(
+        "race_category",
+        dplyr::case_when(
+          lvl_low == "asian" ~ "Asian",
+          lvl_low == "black or african american" ~ "Black or African American",
+          lvl_low == "native hawaiian or other pacific islander" ~ "Native Hawaiian or Other Pacific Islander",
+          lvl_low == "other" ~ "Other",
+          lvl_low == "unknown" ~ "Unknown",
+          lvl_low == "white" ~ "White",
+          TRUE ~ lvl
+        )
+      )
+    },
+    TRUE ~ term
+  )
+}
+
+pretty_covariate <- function(term) {
+  dplyr::recode(
+    term,
+    "age_years" = "Age, per year",
+    "admit_year" = "Admission year, per year",
+    "charlson_score" = "Charlson score, per point",
+    "advanced_cancer_any_poaTRUE" = "Advanced cancer present on admission",
+    "sex_categoryMale" = "Male sex",
+    "sex_categoryUnknown" = "Unknown sex",
+    "race_categoryAsian" = "Asian race",
+    "race_categoryBlack or African American" = "Black race",
+    "race_categoryNative Hawaiian or Other Pacific Islander" = "Native Hawaiian or Pacific Islander race",
+    "race_categoryOther" = "Other race",
+    "race_categoryUnknown" = "Unknown race",
+    "race_categoryWhite" = "White race",
+    .default = term
+  )
+}
+
 read_stub_csv <- function(run_dir, stub) {
   hits <- Sys.glob(file.path(run_dir, paste0(stub, "*.csv")))
   if (!length(hits)) return(NULL)
@@ -147,7 +195,7 @@ infer_site_name <- function(run_dir) {
   sub("_[0-9]{8}$", "", nm)
 }
 
-RUN_DIRS <- RUN_DIRS_ALL[!infer_site_name(RUN_DIRS_ALL) %in% EXCLUDED_SITES]
+RUN_DIRS <- RUN_DIRS_ALL
 stopifnot(length(RUN_DIRS) > 0)
 
 `%||%` <- function(x, y) if (is.null(x)) y else x
@@ -337,6 +385,9 @@ site_payload <- map(RUN_DIRS, function(run_dir) {
   tables
 })
 names(site_payload) <- map_chr(site_payload, "site_run")
+
+model_site_runs <- map_chr(site_payload, "site_run")[!map_chr(site_payload, "site_name") %in% MODEL_EXCLUDED_SITES]
+site_payload_model <- site_payload[model_site_runs]
 
 centroids <- map_dfr(site_payload, function(x) {
   df <- x$centroids
@@ -581,6 +632,42 @@ fmt_effect <- function(est, lo, hi, digits = 2) {
   ifelse(is.na(est), NA_character_, sprintf(paste0("%.", digits, "f (%.", digits, "f, %.", digits, "f)"), est, lo, hi))
 }
 
+summary_anova_p <- function(df) {
+  df <- df %>%
+    filter(!is.na(n_nonmissing), !is.na(mean), !is.na(sd), n_nonmissing > 1)
+  k <- nrow(df)
+  if (k < 2) return(NA_real_)
+  n_total <- sum(df$n_nonmissing)
+  if (n_total <= k) return(NA_real_)
+  grand_mean <- weighted.mean(df$mean, df$n_nonmissing)
+  ss_within <- sum((df$n_nonmissing - 1) * (df$sd^2))
+  ss_between <- sum(df$n_nonmissing * (df$mean - grand_mean)^2)
+  df_between <- k - 1
+  df_within <- n_total - k
+  if (df_between <= 0 || df_within <= 0 || ss_within < 0) return(NA_real_)
+  ms_between <- ss_between / df_between
+  ms_within <- ss_within / df_within
+  if (ms_within <= 0) return(NA_real_)
+  stats::pf(ms_between / ms_within, df1 = df_between, df2 = df_within, lower.tail = FALSE)
+}
+
+categorical_prop_p <- function(df) {
+  df <- df %>%
+    filter(!is.na(n), !is.na(denom), denom >= n)
+  if (nrow(df) < 2) return(NA_real_)
+  mat <- cbind(selected = df$n, other = df$denom - df$n)
+  if (any(rowSums(mat) == 0)) return(NA_real_)
+  suppressWarnings(stats::chisq.test(mat)$p.value)
+}
+
+fmt_p <- function(p) {
+  dplyr::case_when(
+    is.na(p) ~ NA_character_,
+    p < 0.001 ~ "<0.001",
+    TRUE ~ sprintf("%.3f", p)
+  )
+}
+
 cluster_ns <- cluster_map %>%
   group_by(pooled_cluster, pooled_cluster_label) %>%
   summarise(n = sum(n, na.rm = TRUE), .groups = "drop")
@@ -663,7 +750,66 @@ manuscript_table1 <- bind_rows(
 
 write_csv_safe(manuscript_table1, file.path(OUT_DIR, "manuscript_table1.csv"))
 
-model_outputs <- map_dfr(site_payload, function(x) {
+table2_cont_p <- pooled_bycluster_cont %>%
+  filter(variable %in% names(cont_labels)) %>%
+  group_by(variable) %>%
+  summarise(p_value = summary_anova_p(pick(everything())), .groups = "drop")
+
+table2_cat_p <- pooled_bycluster_cat %>%
+  inner_join(cat_specs, by = c("variable", "level")) %>%
+  group_by(label) %>%
+  summarise(p_value = categorical_prop_p(pick(everything())), .groups = "drop")
+
+table2_n <- cluster_ns %>%
+  transmute(
+    label = "N",
+    pooled_cluster,
+    value = scales::comma(n)
+  ) %>%
+  pivot_wider(names_from = pooled_cluster, values_from = value, names_prefix = "Cluster ") %>%
+  mutate(`P value` = NA_character_)
+
+table2_cont <- pooled_bycluster_cont %>%
+  filter(variable %in% names(cont_labels)) %>%
+  transmute(
+    variable,
+    pooled_cluster,
+    label = unname(cont_labels[variable]),
+    value = fmt_mean_sd(mean, sd)
+  ) %>%
+  pivot_wider(names_from = pooled_cluster, values_from = value, names_prefix = "Cluster ") %>%
+  left_join(table2_cont_p, by = "variable") %>%
+  transmute(label, `Cluster 1`, `Cluster 2`, `Cluster 3`, `Cluster 4`, `Cluster 5`, `P value` = fmt_p(p_value))
+
+table2_cat <- pooled_bycluster_cat %>%
+  inner_join(cat_specs, by = c("variable", "level")) %>%
+  transmute(
+    label,
+    pooled_cluster,
+    value = fmt_n_pct(n, denom)
+  ) %>%
+  pivot_wider(names_from = pooled_cluster, values_from = value, names_prefix = "Cluster ") %>%
+  left_join(table2_cat_p, by = "label") %>%
+  transmute(label, `Cluster 1`, `Cluster 2`, `Cluster 3`, `Cluster 4`, `Cluster 5`, `P value` = fmt_p(p_value))
+
+table2_order <- c(
+  "N",
+  unname(cont_labels),
+  cat_specs$label
+)
+
+manuscript_table2 <- bind_rows(
+  table2_n,
+  table2_cont,
+  table2_cat
+) %>%
+  mutate(sort_order = match(label, table2_order)) %>%
+  arrange(sort_order) %>%
+  select(-sort_order)
+
+write_csv_safe(manuscript_table2, file.path(OUT_DIR, "manuscript_table2_by_cluster.csv"))
+
+model_outputs <- map_dfr(site_payload_model, function(x) {
   df <- x$model_outputs
   if (is.null(df)) return(tibble())
   df %>% mutate(site_run = x$site_run, site_name = x$site_name)
@@ -700,13 +846,116 @@ pooled_meta <- model_outputs %>%
 
 write_csv_safe(pooled_meta, file.path(OUT_DIR, "pooled_meta_analysis.csv"))
 
-mediation_no2 <- map_dfr(site_payload, function(x) {
+covariate_models <- tribble(
+  ~model, ~term_group,
+  "glm_mortality", "Mortality",
+  "glm_los_quasipoisson", "ICU LOS",
+  "cox72_landmark", "Post-72h survival",
+  "polr_severity_rank", "Trajectory severity"
+)
+
+candidate_covariate_terms <- c(
+  "age_years",
+  "admit_year",
+  "charlson_score",
+  "advanced_cancer_any_poaTRUE",
+  "sex_categoryMale",
+  "sex_categoryUnknown",
+  "race_categoryAsian",
+  "race_categoryBlack or African American",
+  "race_categoryNative Hawaiian or Other Pacific Islander",
+  "race_categoryOther",
+  "race_categoryUnknown",
+  "race_categoryWhite"
+)
+
+outcome_covariates <- c(
+  "Age, per year",
+  "Charlson score, per point",
+  "Advanced cancer present on admission",
+  "Male sex"
+)
+
+race_covariates <- c(
+  "Asian race",
+  "Black race",
+  "White race",
+  "Other race"
+)
+
+pooled_covariate_meta <- model_outputs %>%
+  mutate(term_clean = harmonize_model_term(term)) %>%
+  inner_join(covariate_models, by = "model") %>%
+  filter(term_clean %in% candidate_covariate_terms) %>%
+  group_by(term_group, model, term_clean, effect_type) %>%
+  group_modify(~ {
+    effect_type_val <- .y$effect_type[[1]] %||% NA_character_
+    meta_random_effects(.x) %>%
+      mutate(
+        pooled_effect_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(estimate_random), NA_real_),
+        pooled_conf_low_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(conf_low_random), NA_real_),
+        pooled_conf_high_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(conf_high_random), NA_real_),
+        covariate_label = pretty_covariate(.y$term_clean[[1]]),
+        site_included = paste(sort(unique(.x$site_name)), collapse = "; ")
+      )
+  }) %>%
+  ungroup() %>%
+  arrange(term_group, covariate_label)
+
+write_csv_safe(pooled_covariate_meta, file.path(OUT_DIR, "pooled_covariate_meta_analysis.csv"))
+
+race_covariate_table <- pooled_covariate_meta %>%
+  filter(covariate_label %in% race_covariates) %>%
+  transmute(
+    outcome = term_group,
+    race_covariate = covariate_label,
+    pooled_effect = pooled_effect_random,
+    conf_low = pooled_conf_low_random,
+    conf_high = pooled_conf_high_random,
+    estimate_ci = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random),
+    k,
+    site_included
+  ) %>%
+  arrange(race_covariate, outcome)
+
+write_csv_safe(race_covariate_table, file.path(OUT_DIR, "pooled_race_covariate_effects.csv"))
+
+cluster_membership_covariates <- model_outputs %>%
+  filter(model == "multinom_traj_cluster") %>%
+  mutate(
+    term_clean = harmonize_model_term(term),
+    local_cluster = suppressWarnings(as.integer(outcome_level))
+  ) %>%
+  filter(term_clean %in% candidate_covariate_terms) %>%
+  left_join(
+    cluster_map %>% select(site_run, local_cluster, pooled_cluster, pooled_cluster_label),
+    by = c("site_run", "local_cluster")
+  ) %>%
+  filter(!is.na(pooled_cluster)) %>%
+  group_by(pooled_cluster, pooled_cluster_label, term_clean, effect_type) %>%
+  group_modify(~ {
+    effect_type_val <- .y$effect_type[[1]] %||% NA_character_
+    meta_random_effects(.x) %>%
+      mutate(
+        pooled_effect_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(estimate_random), NA_real_),
+        pooled_conf_low_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(conf_low_random), NA_real_),
+        pooled_conf_high_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(conf_high_random), NA_real_),
+        covariate_label = pretty_covariate(.y$term_clean[[1]]),
+        site_included = paste(sort(unique(.x$site_name)), collapse = "; ")
+      )
+  }) %>%
+  ungroup() %>%
+  arrange(pooled_cluster, covariate_label)
+
+write_csv_safe(cluster_membership_covariates, file.path(OUT_DIR, "pooled_cluster_membership_covariates.csv"))
+
+mediation_no2 <- map_dfr(site_payload_model, function(x) {
   df <- x$mediation_no2
   if (is.null(df)) return(tibble())
   df %>% mutate(site_run = x$site_run, site_name = x$site_name, mediator = "Severity rank")
 })
 
-mediation_no2_cluster <- map_dfr(site_payload, function(x) {
+mediation_no2_cluster <- map_dfr(site_payload_model, function(x) {
   df <- x$mediation_no2_cluster
   if (is.null(df)) return(tibble())
   df %>% mutate(site_run = x$site_run, site_name = x$site_name, mediator = "Trajectory phenotype")
@@ -827,7 +1076,7 @@ p_mediation_pooled <- ggplot(mediation_pooled_plot_df, aes(x = effect_type, y = 
 
 save_plot_safe(p_mediation_pooled, file.path(OUT_DIR, "figure_mediation_pooled_no2.png"), width = 9.5, height = 5.5)
 
-contrast_no2 <- map_dfr(site_payload, function(x) {
+contrast_no2 <- map_dfr(site_payload_model, function(x) {
   df <- x$contrast_no2
   if (is.null(df)) return(tibble())
   df %>%
@@ -838,7 +1087,7 @@ contrast_no2 <- map_dfr(site_payload, function(x) {
     )
 })
 
-contrast_pm25 <- map_dfr(site_payload, function(x) {
+contrast_pm25 <- map_dfr(site_payload_model, function(x) {
   df <- x$contrast_pm25
   if (is.null(df)) return(tibble())
   df %>%
@@ -879,37 +1128,187 @@ write_csv_safe(pooled_modeled_contrasts, file.path(OUT_DIR, "pooled_modeled_clus
 meta_plot_df <- pooled_meta %>%
   mutate(
     exposure = pretty_exposure(recode(term, pm25_5y_z = "PM2.5", no2_5y_z = "NO2")),
-    outcome = recode(
-      term_group,
-      mortality = "Mortality",
-      icu_los = "ICU LOS",
-      post72_survival = "Post-72h survival",
-      trajectory_severity = "Trajectory severity",
-      mortality_total_no2 = "NO2 total effect",
-      mortality_direct_no2_plus_severity = "NO2 direct effect + severity",
-      mortality_direct_no2_plus_cluster = "NO2 direct effect + cluster"
+    outcome = case_when(
+      term_group == "mortality" ~ "Mortality",
+      term_group == "icu_los" ~ "ICU LOS",
+      term_group == "post72_survival" ~ "Post-72h survival",
+      term_group == "trajectory_severity" ~ "Trajectory severity",
+      TRUE ~ NA_character_
     ),
     effect_display = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random)
   ) %>%
-  filter(!is.na(pooled_effect_random))
+  filter(!is.na(pooled_effect_random), !is.na(outcome)) %>%
+  mutate(
+    outcome = factor(outcome, levels = rev(c("ICU LOS", "Mortality", "Post-72h survival", "Trajectory severity"))),
+    exposure = factor(exposure, levels = c("NO₂", "PM₂.₅")),
+    y_base = c(
+      "ICU LOS" = 4,
+      "Mortality" = 3,
+      "Post-72h survival" = 2,
+      "Trajectory severity" = 1
+    )[as.character(outcome)],
+    y_pos = y_base + ifelse(exposure == "NO₂", 0.12, -0.12),
+    label_x = pooled_conf_high_random * 1.03
+  )
 
 p_meta <- ggplot(
   meta_plot_df,
-  aes(x = pooled_effect_random, y = forcats::fct_rev(interaction(outcome, exposure, sep = " | ")), xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = exposure)
+  aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = exposure)
 ) +
   geom_vline(xintercept = 1, linetype = 2, color = "gray45") +
-  geom_errorbar(width = 0.18, linewidth = 0.8, orientation = "y") +
+  geom_errorbar(width = 0.10, linewidth = 0.8, orientation = "y") +
   geom_point(size = 2.6) +
-  scale_x_log10() +
+  geom_text(aes(x = label_x, label = effect_display), hjust = 0, size = 3, color = "gray15", show.legend = FALSE) +
+  scale_x_log10(
+    breaks = c(0.8, 0.9, 1.0, 1.1, 1.2),
+    labels = c("0.8", "0.9", "1.0", "1.1", "1.2")
+  ) +
+  scale_y_continuous(
+    breaks = c(4, 3, 2, 1),
+    labels = c("ICU LOS", "Mortality", "Post-72h survival", "Trajectory severity"),
+    expand = expansion(mult = c(0.08, 0.08))
+  ) +
   labs(
     title = "Pooled Exposure Associations Across Outcomes",
     x = "Pooled effect estimate (random-effects, log scale)",
     y = NULL,
     color = NULL
   ) +
-  theme_manuscript()
+  coord_cartesian(xlim = c(0.8, 1.24), clip = "off") +
+  theme_manuscript() +
+  theme(
+    plot.margin = margin(10, 90, 10, 10),
+    legend.position = "bottom"
+  )
 
 save_plot_safe(p_meta, file.path(OUT_DIR, "forest_overall_meta_effects.png"), width = 11, height = 7)
+
+cluster_covariates <- c(
+  "Age, per year",
+  "Charlson score, per point",
+  "Advanced cancer present on admission",
+  "Male sex"
+)
+
+covariate_outcome_plot_df <- pooled_covariate_meta %>%
+  filter(covariate_label %in% outcome_covariates) %>%
+  mutate(
+    covariate_label = factor(covariate_label, levels = rev(outcome_covariates)),
+    term_group = factor(term_group, levels = c("ICU LOS", "Mortality", "Post-72h survival", "Trajectory severity")),
+    y_base = c(
+      "Age, per year" = 4,
+      "Charlson score, per point" = 3,
+      "Advanced cancer present on admission" = 2,
+      "Male sex" = 1
+    )[as.character(covariate_label)],
+    y_pos = y_base + c(
+      "ICU LOS" = 0.24,
+      "Mortality" = 0.08,
+      "Post-72h survival" = -0.08,
+      "Trajectory severity" = -0.24
+    )[as.character(term_group)],
+    label_text = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random),
+    label_x = pooled_conf_high_random * 1.03
+  )
+
+p_covariate_outcomes <- ggplot(
+  covariate_outcome_plot_df,
+  aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = term_group)
+) +
+  geom_vline(xintercept = 1, linetype = 2, color = "gray45") +
+  geom_errorbar(width = 0.10, linewidth = 0.8, orientation = "y") +
+  geom_point(size = 2.5) +
+  geom_text(aes(x = label_x, label = label_text), hjust = 0, size = 2.8, color = "gray15", show.legend = FALSE) +
+  scale_x_log10(
+    breaks = c(0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0, 2.5),
+    labels = c("0.6", "0.7", "0.8", "0.9", "1.0", "1.1", "1.25", "1.5", "2.0", "2.5")
+  ) +
+  scale_y_continuous(
+    breaks = c(4, 3, 2, 1),
+    labels = outcome_covariates,
+    expand = expansion(mult = c(0.08, 0.08))
+  ) +
+  scale_color_manual(
+    values = c(
+      "ICU LOS" = "#355070",
+      "Mortality" = "#b56576",
+      "Post-72h survival" = "#6d597a",
+      "Trajectory severity" = "#2a9d8f"
+    ),
+    name = NULL
+  ) +
+  labs(
+    title = "Pooled Covariate Associations Across Main Outcomes",
+    x = "Pooled effect estimate (random-effects, log scale)",
+    y = NULL
+  ) +
+  coord_cartesian(xlim = c(0.6, 2.55), clip = "off") +
+  theme_manuscript() +
+  theme(
+    plot.margin = margin(10, 95, 10, 10),
+    legend.position = "bottom"
+  )
+
+save_plot_safe(p_covariate_outcomes, file.path(OUT_DIR, "forest_covariate_effects_outcomes.png"), width = 12, height = 8.5)
+
+cluster_membership_plot_df <- cluster_membership_covariates %>%
+  filter(covariate_label %in% cluster_covariates) %>%
+  mutate(
+    covariate_label = factor(covariate_label, levels = rev(cluster_covariates)),
+    pooled_cluster_label = factor(
+      pooled_cluster_label,
+      levels = unique(prototype_key$pooled_cluster_label[order(prototype_key$pooled_cluster)])
+    ),
+    y_base = c(
+      "Age, per year" = 4,
+      "Charlson score, per point" = 3,
+      "Advanced cancer present on admission" = 2,
+      "Male sex" = 1
+    )[as.character(covariate_label)],
+    y_pos = y_base + c(-0.28, -0.14, 0, 0.14, 0.28)[as.integer(pooled_cluster_label)],
+    label_text = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random),
+    label_x = pooled_conf_high_random * 1.03
+  )
+
+cluster_plot_palette <- c(
+  "Cluster 1: Room air / No ARF" = "#d8e4bc",
+  "Cluster 2: Low-flow oxygen / No ARF" = "#f4d06f",
+  "Cluster 3: Noninvasive ventilation / No ARF" = "#7fb7be",
+  "Cluster 4: Invasive ventilation / Predominantly no ARF" = "#d96c75",
+  "Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF" = "#7a0019"
+)
+
+p_covariate_clusters <- ggplot(
+  cluster_membership_plot_df,
+  aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = pooled_cluster_label)
+) +
+  geom_vline(xintercept = 1, linetype = 2, color = "gray45") +
+  geom_errorbar(width = 0.10, linewidth = 0.8, orientation = "y") +
+  geom_point(size = 2.5) +
+  geom_text(aes(x = label_x, label = label_text), hjust = 0, size = 2.8, color = "gray15", show.legend = FALSE) +
+  scale_x_log10(
+    breaks = c(0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0),
+    labels = c("0.6", "0.7", "0.8", "0.9", "1.0", "1.1", "1.25", "1.5", "2.0")
+  ) +
+  scale_y_continuous(
+    breaks = c(4, 3, 2, 1),
+    labels = cluster_covariates,
+    expand = expansion(mult = c(0.08, 0.08))
+  ) +
+  scale_color_manual(values = cluster_plot_palette, name = NULL) +
+  labs(
+    title = "Pooled Covariate Associations With Consensus Cluster Membership",
+    x = "Pooled multinomial OR (vs reference cluster, random-effects, log scale)",
+    y = NULL
+  ) +
+  coord_cartesian(xlim = c(0.6, 2.05), clip = "off") +
+  theme_manuscript() +
+  theme(
+    plot.margin = margin(10, 95, 10, 10),
+    legend.position = "bottom"
+  )
+
+save_plot_safe(p_covariate_clusters, file.path(OUT_DIR, "forest_covariate_effects_cluster_membership.png"), width = 12, height = 10)
 
 interaction_terms <- model_outputs %>%
   filter(model %in% c("glm_interaction_no2", "glm_interaction_pm25")) %>%
@@ -947,6 +1346,7 @@ pooled_interaction_meta <- interaction_terms %>%
 write_csv_safe(pooled_interaction_meta, file.path(OUT_DIR, "pooled_interaction_meta_analysis.csv"))
 
 interaction_reference_rows <- cluster_map %>%
+  filter(site_run %in% model_site_runs) %>%
   filter(local_cluster == 1) %>%
   select(site_run, site_name, pooled_cluster, pooled_cluster_label) %>%
   tidyr::crossing(exposure = c("NO2", "PM2.5")) %>%
@@ -973,7 +1373,7 @@ interaction_plot_terms <- bind_rows(
 
 write_csv_safe(interaction_plot_terms, file.path(OUT_DIR, "interaction_plot_terms.csv"))
 
-interaction_site_order <- c(sort(unique(cluster_map$site_name)), "Pooled random-effects")
+interaction_site_order <- c(sort(unique(cluster_map$site_name[cluster_map$site_run %in% model_site_runs])), "Pooled random-effects")
 interaction_site_order_plot <- rev(interaction_site_order)
 
 plot_interaction_forest <- function(site_df, pooled_df, exposure_label) {
@@ -1850,7 +2250,8 @@ write_csv_safe(run_inventory, file.path(OUT_DIR, "pooled_run_inventory.csv"))
 
 notes <- tibble(
   item = c(
-    "excluded_sites",
+    "descriptive_pooling_sites",
+    "model_meta_excluded_sites",
     "cluster_matching_method",
     "continuous_table1_pooling",
     "categorical_table1_pooling",
@@ -1861,7 +2262,8 @@ notes <- tibble(
     "map_method"
   ),
   detail = c(
-    paste(EXCLUDED_SITES, collapse = "; "),
+    paste(sort(unique(map_chr(site_payload, "site_name"))), collapse = "; "),
+    paste(MODEL_EXCLUDED_SITES, collapse = "; "),
     "Site clusters were matched to 5 consensus prototypes using iterative minimum-distance assignment on exported centroid features with one-to-one matching within site.",
     "Continuous Table 1 summaries were pooled from site means, SDs, and sample sizes. Medians and quartiles are left blank because patient-level pooled quantiles are not available in the federated export.",
     "Categorical Table 1 summaries were pooled by summing site counts and denominators.",

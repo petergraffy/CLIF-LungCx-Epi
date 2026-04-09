@@ -1,19 +1,22 @@
 county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_prop,mean_severity_rank,pooled_cluster_label,dominant_cluster_phenotype
+00000,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 01003,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 01031,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 01033,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 01039,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 01073,2,3,0.5,0.5,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 01081,2,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-01089,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+01089,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 01097,2,2,0.5,0.5,2.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+01115,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 01129,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+02000,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 02020,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 02090,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 02110,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 02130,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 02170,3,4,0.6666666666666666,0.3333333333333333,4.333333333333333,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-04013,20,1,0.3,0.1,2.45,Cluster 1: Room air / No ARF,Room air / No ARF
+04013,43,1,0.5813953488372093,0.09302325581395349,2,Cluster 1: Room air / No ARF,Room air / No ARF
 04015,3,3,0.6666666666666666,0.3333333333333333,3.6666666666666665,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 04019,2,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 04021,4,2,0.5,0.25,2.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -34,7 +37,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 06001,184,2,0.28804347826086957,0.14130434782608695,2.9456521739130435,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06007,18,4,0.5555555555555556,0.5555555555555556,2.9444444444444446,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06009,4,3,0.75,0.25,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-06013,149,4,0.33557046979865773,0.14093959731543623,2.9731543624161074,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+06013,150,4,0.34,0.14,2.98,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06015,8,1,0.5,0.125,2.375,Cluster 1: Room air / No ARF,Room air / No ARF
 06017,8,4,0.375,0.125,3.375,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06019,68,4,0.39705882352941174,0.17647058823529413,3.2205882352941178,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
@@ -44,7 +47,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 06031,10,4,0.4,0.3,3.6,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06033,19,2,0.3684210526315789,0.05263157894736842,2.4210526315789473,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06035,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-06037,22,2,0.3181818181818182,0.13636363636363635,2.8636363636363638,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+06037,56,3,0.3392857142857143,0.3392857142857143,3.5357142857142856,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 06039,5,4,0.4,0.2,3.4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06041,86,4,0.29069767441860467,0.1511627906976744,2.9186046511627906,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06043,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -54,12 +57,13 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 06053,49,4,0.3877551020408163,0.16326530612244897,3.2448979591836733,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06055,19,2,0.2631578947368421,0.21052631578947367,2.8947368421052633,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06057,7,1,0.2857142857142857,0.14285714285714285,2.7142857142857144,Cluster 1: Room air / No ARF,Room air / No ARF
-06059,12,4,0.3333333333333333,0.3333333333333333,3.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+06059,15,4,0.3333333333333333,0.26666666666666666,3.4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06061,9,2,0.3333333333333333,0.3333333333333333,2.7777777777777777,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06063,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 06065,4,3,0.5,0.25,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-06067,54,2,0.24074074074074073,0.2037037037037037,2.9814814814814814,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+06067,55,2,0.23636363636363636,0.2,2.9454545454545453,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06069,9,3,0.3333333333333333,0.1111111111111111,3.2222222222222223,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+06071,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06073,5,1,0.6,0.2,2.4,Cluster 1: Room air / No ARF,Room air / No ARF
 06075,909,2,0.30033003300330036,0.10891089108910891,2.6545654565456545,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06077,90,4,0.23333333333333334,0.2111111111111111,3.077777777777778,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
@@ -67,7 +71,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 06081,94,2,0.2765957446808511,0.13829787234042554,3.021276595744681,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06083,5,1,0.4,0.4,2.4,Cluster 1: Room air / No ARF,Room air / No ARF
 06085,75,2,0.29333333333333333,0.13333333333333333,2.8266666666666667,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-06087,22,4,0.36363636363636365,0.18181818181818182,3,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+06087,23,4,0.34782608695652173,0.17391304347826086,2.9565217391304346,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 06089,22,2,0.45454545454545453,0.09090909090909091,2.8181818181818183,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06093,9,2,0.3333333333333333,0.2222222222222222,3.2222222222222223,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06095,54,2,0.2962962962962963,0.2037037037037037,3.074074074074074,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -78,66 +82,77 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 06107,43,2,0.3023255813953488,0.16279069767441862,2.9767441860465116,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06109,6,3,0.3333333333333333,0.3333333333333333,2.8333333333333335,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 06111,3,1,0.6666666666666666,0.3333333333333333,2.3333333333333335,Cluster 1: Room air / No ARF,Room air / No ARF
-06113,13,4,0.38461538461538464,0.15384615384615385,3.076923076923077,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+06113,14,2,0.35714285714285715,0.14285714285714285,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 06115,6,4,0.5,0.3333333333333333,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 08001,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-08005,3,1,0.3333333333333333,0.3333333333333333,3.3333333333333335,Cluster 1: Room air / No ARF,Room air / No ARF
+08005,4,1,0.25,0.25,3.25,Cluster 1: Room air / No ARF,Room air / No ARF
 08013,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 08014,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 08031,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 08041,4,3,0.5,0.5,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 08059,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-08069,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
+08069,20,1,0.85,0.05,1.3,Cluster 1: Room air / No ARF,Room air / No ARF
 08117,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 08119,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 08123,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-09001,3,1,0.3333333333333333,0.3333333333333333,3.3333333333333335,Cluster 1: Room air / No ARF,Room air / No ARF
-09003,3,5,0.6666666666666666,0.6666666666666666,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-09009,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
-09011,2,3,0.5,0.5,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+09000,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+09001,20,4,0.85,0.1,3.95,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+09003,5,1,0.4,0.4,3.2,Cluster 1: Room air / No ARF,Room air / No ARF
+09007,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+09009,3,1,0.3333333333333333,0.3333333333333333,3.3333333333333335,Cluster 1: Room air / No ARF,Room air / No ARF
+09011,3,5,0.6666666666666666,0.6666666666666666,4.333333333333333,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 09013,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 09190,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-10001,158,5,0.3670886075949367,0.3670886075949367,3.588607594936709,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-10003,267,2,0.2846441947565543,0.250936329588015,3.0374531835205993,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-10005,106,5,0.4056603773584906,0.4056603773584906,3.518867924528302,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-11001,8,2,0.5,0.25,2.25,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12011,10,2,0.3,0.3,3.3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+10000,37,3,0.4594594594594595,0.4594594594594595,3.810810810810811,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+10001,172,5,0.3546511627906977,0.3546511627906977,3.5406976744186047,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+10003,275,2,0.28363636363636363,0.24727272727272728,3.036363636363636,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+10005,161,5,0.35403726708074534,0.35403726708074534,3.37888198757764,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+11000,681,1,0.3788546255506608,0.15859030837004406,2.6387665198237884,Cluster 1: Room air / No ARF,Room air / No ARF
+11001,2076,2,0.39980732177263967,0.06454720616570328,2.5423892100192678,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12000,4,1,0.5,0.25,2.25,Cluster 1: Room air / No ARF,Room air / No ARF
+12001,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12009,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+12011,11,2,0.2727272727272727,0.2727272727272727,3.090909090909091,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12013,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 12015,2,1,0.5,0.5,1.5,Cluster 1: Room air / No ARF,Room air / No ARF
 12019,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12021,10,2,0.6,0.1,2.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12021,12,2,0.5833333333333334,0.16666666666666666,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 12023,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
-12031,6,5,0.6666666666666666,0.6666666666666666,4.166666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+12031,8,5,0.625,0.625,4.25,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 12033,3,2,0.6666666666666666,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12035,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 12051,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 12053,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-12057,7,2,0.42857142857142855,0.14285714285714285,2.7142857142857144,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12057,40,1,0.425,0.425,2.95,Cluster 1: Room air / No ARF,Room air / No ARF
 12061,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12069,4,2,0.75,0.25,2.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12071,21,2,0.3333333333333333,0.09523809523809523,2.7142857142857144,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12073,3,2,0.6666666666666666,0.6666666666666666,1.6666666666666667,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12069,5,2,0.6,0.2,2.4,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12071,23,2,0.30434782608695654,0.08695652173913043,2.652173913043478,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12073,4,2,0.75,0.75,1.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 12081,6,2,0.5,0.16666666666666666,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 12083,7,1,0.7142857142857143,0.2857142857142857,1.2857142857142858,Cluster 1: Room air / No ARF,Room air / No ARF
-12085,2,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12086,16,4,0.3125,0.1875,3.3125,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+12085,3,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12086,20,4,0.3,0.15,3.1,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 12087,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 12089,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 12091,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+12093,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 12095,7,2,0.42857142857142855,0.14285714285714285,2.2857142857142856,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12097,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-12099,16,2,0.375,0.25,2.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12101,5,2,0.6,0.6,1.6,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12103,9,4,0.4444444444444444,0.2222222222222222,3.4444444444444446,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-12105,8,1,0.375,0.375,2.75,Cluster 1: Room air / No ARF,Room air / No ARF
+12097,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
+12099,23,2,0.391304347826087,0.2608695652173913,2.6956521739130435,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12101,6,2,0.6666666666666666,0.6666666666666666,1.6666666666666667,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12103,11,4,0.36363636363636365,0.18181818181818182,3.090909090909091,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+12105,10,1,0.3,0.3,2.7,Cluster 1: Room air / No ARF,Room air / No ARF
 12107,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 12109,3,1,0.3333333333333333,0.3333333333333333,2.3333333333333335,Cluster 1: Room air / No ARF,Room air / No ARF
-12111,7,2,0.42857142857142855,0.14285714285714285,2.7142857142857144,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12113,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-12115,12,3,0.4166666666666667,0.16666666666666666,2.5833333333333335,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+12111,9,2,0.3333333333333333,0.2222222222222222,3.111111111111111,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12113,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+12115,14,3,0.35714285714285715,0.14285714285714285,2.4285714285714284,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 12117,2,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12119,2,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-12127,4,2,0.5,0.25,2.25,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-12131,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+12119,4,3,0.5,0.5,2.25,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+12127,5,1,0.4,0.2,2,Cluster 1: Room air / No ARF,Room air / No ARF
+12131,3,2,0.3333333333333333,0.3333333333333333,3.3333333333333335,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 12133,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+13000,16,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13001,4,5,0.5,0.5,3.25,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 13003,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 13005,3,5,0.6666666666666666,0.6666666666666666,4.666666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
@@ -145,7 +160,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 13009,6,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13011,3,2,0.3333333333333333,0.3333333333333333,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13013,20,1,0.3,0.3,3,Cluster 1: Room air / No ARF,Room air / No ARF
-13015,24,2,0.2916666666666667,0.16666666666666666,3.0833333333333335,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+13015,25,2,0.28,0.16,3.08,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13017,8,3,0.5,0.25,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 13019,5,2,0.6,0.4,2.8,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13021,50,4,0.52,0.14,3.38,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
@@ -163,15 +178,15 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 13053,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13055,6,5,0.6666666666666666,0.6666666666666666,4.166666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 13057,79,4,0.25316455696202533,0.0759493670886076,2.7088607594936707,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-13059,5,4,0.4,0.4,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+13059,21,4,0.8571428571428571,0.09523809523809523,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13063,291,4,0.27835051546391754,0.09965635738831616,2.7147766323024056,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13065,3,2,0.6666666666666666,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-13067,238,2,0.3319327731092437,0.09663865546218488,2.6596638655462184,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+13067,239,2,0.33472803347280333,0.09623430962343096,2.6569037656903767,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13069,14,4,0.42857142857142855,0.35714285714285715,3.857142857142857,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13071,9,4,0.3333333333333333,0.3333333333333333,3.5555555555555554,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13073,7,2,0.2857142857142857,0.2857142857142857,3.5714285714285716,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13075,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-13077,28,1,0.4642857142857143,0.07142857142857142,2.25,Cluster 1: Room air / No ARF,Room air / No ARF
+13077,29,1,0.4482758620689655,0.06896551724137931,2.2413793103448274,Cluster 1: Room air / No ARF,Room air / No ARF
 13079,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
 13081,16,4,0.375,0.25,3.625,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13085,10,2,0.5,0.3,2.6,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -247,7 +262,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 13239,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 13241,7,2,0.42857142857142855,0.14285714285714285,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13243,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-13245,10,5,0.4,0.4,3.3,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+13245,11,5,0.36363636363636365,0.36363636363636365,3.090909090909091,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 13247,102,1,0.27450980392156865,0.09803921568627451,2.735294117647059,Cluster 1: Room air / No ARF,Room air / No ARF
 13249,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13253,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -266,7 +281,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 13279,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 13281,4,2,0.5,0.25,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 13283,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-13285,26,2,0.2692307692307692,0.15384615384615385,2.8461538461538463,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+13285,58,5,0.6206896551724138,0.6206896551724138,4.0344827586206895,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 13287,5,1,0.6,0.2,2.2,Cluster 1: Room air / No ARF,Room air / No ARF
 13289,7,3,0.42857142857142855,0.14285714285714285,2.4285714285714284,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 13291,9,1,0.4444444444444444,0.1111111111111111,2.111111111111111,Cluster 1: Room air / No ARF,Room air / No ARF
@@ -282,10 +297,12 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 13317,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13319,2,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 13321,12,4,0.3333333333333333,0.16666666666666666,3.1666666666666665,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-15003,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
+15000,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+15003,4,1,0.25,0.25,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 15007,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 15009,2,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 16001,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+16017,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 16019,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 16027,2,2,0.5,0.5,2.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 16039,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
@@ -319,9 +336,9 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 17085,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 17089,1695,4,0.27020648967551625,0.1882005899705015,3.0831858407079644,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 17091,103,4,0.30097087378640774,0.14563106796116504,3.0776699029126213,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-17093,195,4,0.3230769230769231,0.2,3.2051282051282053,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+17093,196,4,0.32653061224489793,0.1989795918367347,3.2091836734693877,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 17095,10,2,0.3,0.3,3.4,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-17097,1890,2,0.2624338624338624,0.14444444444444443,2.8132275132275133,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+17097,1892,2,0.26268498942917545,0.14482029598308668,2.813953488372093,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 17099,189,3,0.2804232804232804,0.1746031746031746,3.1481481481481484,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 17103,38,3,0.3157894736842105,0.13157894736842105,2.9473684210526314,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 17105,11,2,0.36363636363636365,0.36363636363636365,3.5454545454545454,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -367,8 +384,8 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 18039,12,4,0.4166666666666667,0.4166666666666667,4.166666666666667,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 18045,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 18049,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-18053,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-18057,4,1,0.25,0.25,3,Cluster 1: Room air / No ARF,Room air / No ARF
+18053,17,5,0.9411764705882353,0.9411764705882353,4.9411764705882355,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+18057,5,2,0.4,0.2,2.8,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 18059,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 18061,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 18067,3,1,0.3333333333333333,0.3333333333333333,2.3333333333333335,Cluster 1: Room air / No ARF,Room air / No ARF
@@ -380,7 +397,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 18089,726,4,0.42699724517906334,0.18181818181818182,3.3705234159779613,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 18091,101,4,0.38613861386138615,0.21782178217821782,3.376237623762376,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 18095,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-18097,14,4,0.42857142857142855,0.14285714285714285,2.9285714285714284,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+18097,16,1,0.4375,0.125,2.6875,Cluster 1: Room air / No ARF,Room air / No ARF
 18099,4,1,0.5,0.25,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 18107,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 18111,8,4,0.375,0.25,3.25,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
@@ -423,68 +440,88 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 19197,3,4,0.6666666666666666,0.6666666666666666,3.3333333333333335,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 20035,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 20085,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
-20173,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
+20173,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
+21000,17,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 21015,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 21027,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 21047,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+21067,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 21083,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 21111,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
 21157,4,2,0.5,0.25,2.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-21199,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-22005,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-22015,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+21195,16,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+21199,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+22005,2,1,0.5,0.5,1.5,Cluster 1: Room air / No ARF,Room air / No ARF
+22011,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+22015,2,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 22033,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-22051,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+22051,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 22069,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 22073,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+22089,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+22097,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 22103,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
 22109,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+22115,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 23001,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 23005,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 23017,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 23019,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+23027,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 23029,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 23031,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-24003,4,1,0.5,0.25,2.25,Cluster 1: Room air / No ARF,Room air / No ARF
-24005,8,5,0.625,0.625,4.25,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-24011,3,4,0.6666666666666666,0.6666666666666666,3.3333333333333335,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-24013,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-24015,26,5,0.38461538461538464,0.38461538461538464,3.3461538461538463,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-24025,5,5,0.6,0.6,4,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-24027,5,4,0.6,0.2,3.6,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-24029,2,3,0.5,0.5,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-24031,13,2,0.3076923076923077,0.15384615384615385,2.923076923076923,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-24033,9,5,0.5555555555555556,0.5555555555555556,4.222222222222222,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-24035,2,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-24037,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
-24039,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-24041,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
-24045,5,1,0.4,0.4,3.2,Cluster 1: Room air / No ARF,Room air / No ARF
-24047,3,2,0.6666666666666666,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-24510,7,3,0.42857142857142855,0.42857142857142855,3.5714285714285716,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-25009,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24000,1891,2,0.2654680063458488,0.1935483870967742,2.8677948175568484,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24001,53,1,0.41509433962264153,0.11320754716981132,2.1320754716981134,Cluster 1: Room air / No ARF,Room air / No ARF
+24003,1574,2,0.2928843710292249,0.14993646759847523,2.6747141041931384,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24005,9648,2,0.3019278606965174,0.1530887230514096,2.8146766169154227,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24009,74,2,0.6486486486486487,0.10810810810810811,2.472972972972973,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24011,31,1,0.6129032258064516,0.16129032258064516,2,Cluster 1: Room air / No ARF,Room air / No ARF
+24013,433,1,0.3325635103926097,0.19861431870669746,2.928406466512702,Cluster 1: Room air / No ARF,Room air / No ARF
+24015,59,2,0.3220338983050847,0.288135593220339,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24017,134,1,0.48507462686567165,0.22388059701492538,2.5970149253731343,Cluster 1: Room air / No ARF,Room air / No ARF
+24019,80,5,0.45,0.45,4.1375,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+24021,493,5,0.40973630831643004,0.40973630831643004,3.2981744421906694,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+24023,3,4,0.6666666666666666,0.6666666666666666,3,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+24025,708,2,0.2570621468926554,0.2231638418079096,2.8587570621468927,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24027,4279,2,0.30053750876372987,0.12222481888291657,2.7632624444963776,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24029,20,2,0.35,0.15,2.8,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24031,4665,4,0.35712754555198284,0.08531618435155412,2.894319399785638,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+24033,1221,4,0.28665028665028663,0.16052416052416052,2.918099918099918,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+24035,27,2,0.25925925925925924,0.25925925925925924,3.037037037037037,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24037,26,1,0.3076923076923077,0.2692307692307692,3,Cluster 1: Room air / No ARF,Room air / No ARF
+24039,26,5,0.6538461538461539,0.6538461538461539,4.115384615384615,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+24041,86,5,0.4069767441860465,0.4069767441860465,3.2790697674418605,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+24043,268,2,0.30597014925373134,0.1828358208955224,2.9141791044776117,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24045,200,5,0.595,0.595,4.29,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+24047,45,2,0.5777777777777777,0.1111111111111111,2.577777777777778,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+24510,14446,4,0.27557801467534265,0.18621071576907103,2.894572892150076,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+25009,3,2,0.6666666666666666,0.3333333333333333,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 25013,4,4,0.5,0.5,3,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 25017,9,2,0.3333333333333333,0.1111111111111111,2.888888888888889,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-25021,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+25019,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+25021,17,3,0.9411764705882353,0.058823529411764705,3.1176470588235294,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 25023,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-25025,5,2,0.4,0.4,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-26005,3,3,0.6666666666666666,0.6666666666666666,2.6666666666666665,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+25025,7,2,0.2857142857142857,0.2857142857142857,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+25027,2,1,0.5,0.5,1.5,Cluster 1: Room air / No ARF,Room air / No ARF
+26000,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+26005,4,3,0.5,0.5,2.25,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 26009,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 26017,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 26021,22,4,0.4090909090909091,0.18181818181818182,3.4545454545454546,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 26025,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 26027,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+26029,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 26043,2,2,0.5,0.5,2.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-26049,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+26049,2,3,0.5,0.5,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 26053,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 26061,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 26065,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 26077,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 26081,3,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 26087,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-26091,2,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-26093,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
-26099,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+26091,3,2,0.6666666666666666,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+26093,3,5,0.6666666666666666,0.6666666666666666,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+26099,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
 26101,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 26117,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 26121,4,5,0.75,0.75,4.5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
@@ -573,6 +610,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 27169,5,5,0.6,0.6,3.6,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 27171,68,4,0.3382352941176471,0.16176470588235295,3.161764705882353,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 27173,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+28000,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 28009,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 28021,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 28033,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
@@ -580,6 +618,7 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 28059,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 28081,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 28083,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
+28087,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 28089,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 28121,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 28131,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
@@ -587,14 +626,14 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 29019,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 29033,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 29043,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-29047,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+29047,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 29055,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 29077,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 29095,4,1,0.25,0.25,2.75,Cluster 1: Room air / No ARF,Room air / No ARF
-29099,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+29099,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 29105,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 29167,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-29189,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+29189,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
 29213,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 29225,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 29510,3,5,0.6666666666666666,0.6666666666666666,4.666666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
@@ -602,103 +641,120 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 30031,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 30053,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 30111,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+31033,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 31055,3,3,0.3333333333333333,0.3333333333333333,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 31079,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 31107,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 31109,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 32001,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
-32003,14,4,0.35714285714285715,0.21428571428571427,3.142857142857143,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+32003,16,4,0.3125,0.25,3.125,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 32005,2,1,0.5,0.5,1.5,Cluster 1: Room air / No ARF,Room air / No ARF
 32019,2,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 32031,10,3,0.3,0.3,3.2,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 32510,2,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+33000,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 33011,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
+33013,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 33015,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+34000,4,2,0.5,0.25,3.25,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 34001,273,5,0.4249084249084249,0.4249084249084249,3.3663003663003663,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34003,13,5,0.46153846153846156,0.46153846153846156,3.769230769230769,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34005,561,5,0.31907308377896615,0.31907308377896615,3.27807486631016,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34007,455,5,0.31648351648351647,0.31648351648351647,3.1516483516483516,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34009,204,2,0.3284313725490196,0.25,2.965686274509804,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+34003,15,5,0.4666666666666667,0.4666666666666667,3.7333333333333334,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+34005,577,5,0.31022530329289427,0.31022530329289427,3.2426343154246102,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+34007,457,5,0.3172866520787746,0.3172866520787746,3.1531728665207877,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+34009,205,2,0.33170731707317075,0.24878048780487805,2.9609756097560975,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 34011,137,5,0.36496350364963503,0.36496350364963503,3.408759124087591,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34013,13,5,0.38461538461538464,0.38461538461538464,3.5384615384615383,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+34013,18,1,0.3333333333333333,0.3333333333333333,3.111111111111111,Cluster 1: Room air / No ARF,Room air / No ARF
 34015,257,5,0.3035019455252918,0.3035019455252918,3.124513618677043,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34017,12,5,0.4166666666666667,0.4166666666666667,3.75,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34019,32,5,0.3125,0.3125,3.25,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34021,1222,2,0.337152209492635,0.14811783960720132,2.823240589198036,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+34017,28,2,0.7142857142857143,0.17857142857142858,2.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+34019,33,5,0.30303030303030304,0.30303030303030304,3.1818181818181817,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+34021,1223,2,0.33687653311529026,0.14799672935404742,2.821749795584628,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 34023,1182,2,0.3730964467005076,0.1311336717428088,2.7800338409475467,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-34025,100,5,0.29,0.29,3.07,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34027,11,4,0.45454545454545453,0.18181818181818182,3.6363636363636362,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-34029,168,5,0.34523809523809523,0.34523809523809523,3.3988095238095237,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34031,4,1,0.25,0.25,3,Cluster 1: Room air / No ARF,Room air / No ARF
+34025,103,5,0.2815533980582524,0.2815533980582524,3.0485436893203883,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+34027,12,4,0.5,0.16666666666666666,3.6666666666666665,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+34029,171,5,0.34502923976608185,0.34502923976608185,3.4035087719298245,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+34031,6,2,0.5,0.16666666666666666,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 34033,43,5,0.32558139534883723,0.32558139534883723,3.2325581395348837,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-34035,195,2,0.37948717948717947,0.1794871794871795,2.9692307692307693,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+34035,196,2,0.37755102040816324,0.17857142857142858,2.9693877551020407,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 34037,3,3,0.3333333333333333,0.3333333333333333,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 34039,24,2,0.2916666666666667,0.2916666666666667,3.2083333333333335,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 34041,7,5,0.42857142857142855,0.42857142857142855,3.5714285714285716,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-35001,4,4,0.75,0.75,3.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+35001,5,4,0.6,0.6,3.2,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 35005,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 35017,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 35043,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 35049,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
-36001,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+36000,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+36001,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 36005,5,5,0.6,0.6,3.8,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36007,8,1,0.25,0.25,2.875,Cluster 1: Room air / No ARF,Room air / No ARF
+36007,9,1,0.3333333333333333,0.2222222222222222,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
 36009,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 36013,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-36015,4,2,0.75,0.25,2.25,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+36015,5,2,0.6,0.2,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 36021,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 36023,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36027,3,2,0.3333333333333333,0.3333333333333333,3.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+36027,35,1,0.9142857142857143,0.02857142857142857,1.2285714285714286,Cluster 1: Room air / No ARF,Room air / No ARF
 36029,2,3,0.5,0.5,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 36039,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+36043,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 36045,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36047,18,5,0.4444444444444444,0.4444444444444444,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36055,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36059,8,5,0.375,0.375,3,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36061,7,4,0.42857142857142855,0.42857142857142855,2.857142857142857,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+36047,24,5,0.4166666666666667,0.4166666666666667,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+36055,3,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+36059,10,2,0.3,0.3,2.9,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+36061,44,2,0.45454545454545453,0.09090909090909091,2.5454545454545454,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 36067,5,4,0.4,0.2,3.6,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-36071,4,1,0.25,0.25,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
+36071,5,3,0.4,0.2,2.6,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+36073,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 36075,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-36081,8,4,0.5,0.25,3.75,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+36081,10,4,0.4,0.3,3.8,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 36085,3,2,0.6666666666666666,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-36087,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+36087,7,3,0.42857142857142855,0.42857142857142855,3.7142857142857144,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 36091,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36097,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+36097,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 36101,3,5,0.6666666666666666,0.6666666666666666,4,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36103,5,5,0.6,0.6,3.4,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36107,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-36111,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+36103,8,1,0.375,0.375,3,Cluster 1: Room air / No ARF,Room air / No ARF
+36107,3,5,0.6666666666666666,0.6666666666666666,4.666666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+36111,2,3,0.5,0.5,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 36113,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-36119,9,2,0.3333333333333333,0.2222222222222222,2.888888888888889,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+36119,26,1,0.6538461538461539,0.07692307692307693,1.6923076923076923,Cluster 1: Room air / No ARF,Room air / No ARF
 36123,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+37000,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+37005,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 37013,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 37017,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+37019,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 37021,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-37025,3,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+37025,4,4,0.75,0.75,3.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 37027,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 37035,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 37039,4,1,0.25,0.25,3,Cluster 1: Room air / No ARF,Room air / No ARF
 37043,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
-37049,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+37049,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 37057,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 37061,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 37067,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37069,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 37071,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-37081,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
-37083,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+37081,20,4,0.85,0.85,3.7,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+37083,2,3,0.5,0.5,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+37085,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37089,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+37091,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+37097,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 37099,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+37107,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37113,3,2,0.3333333333333333,0.3333333333333333,3.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-37119,9,1,0.4444444444444444,0.3333333333333333,2.5555555555555554,Cluster 1: Room air / No ARF,Room air / No ARF
-37129,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+37119,26,2,0.6923076923076923,0.11538461538461539,2.269230769230769,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+37129,3,5,0.6666666666666666,0.6666666666666666,4,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37131,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+37133,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+37139,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37145,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37147,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37155,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 37165,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37179,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 37183,3,2,0.3333333333333333,0.3333333333333333,3.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+37195,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 38003,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 38013,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 38015,10,1,0.3,0.2,2.9,Cluster 1: Room air / No ARF,Room air / No ARF
@@ -722,18 +778,21 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 38101,11,1,0.5454545454545454,0.09090909090909091,2.272727272727273,Cluster 1: Room air / No ARF,Room air / No ARF
 38103,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 38105,4,5,0.5,0.5,4,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+39000,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 39007,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 39029,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-39035,3,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+39035,4,2,0.75,0.75,1.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 39039,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 39041,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 39043,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 39045,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-39049,3,3,0.6666666666666666,0.3333333333333333,3.6666666666666665,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+39049,5,3,0.6,0.4,3.8,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 39055,2,1,0.5,0.5,1.5,Cluster 1: Room air / No ARF,Room air / No ARF
-39061,5,2,0.6,0.2,2.2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+39059,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+39061,6,2,0.5,0.16666666666666666,2.3333333333333335,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 39079,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 39085,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+39089,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 39093,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 39095,3,1,0.3333333333333333,0.3333333333333333,2.3333333333333335,Cluster 1: Room air / No ARF,Room air / No ARF
 39099,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -741,7 +800,8 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 39113,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 39133,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 39145,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
-39153,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+39147,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+39153,3,2,0.3333333333333333,0.3333333333333333,3.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 39155,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 39157,2,3,0.5,0.5,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 39165,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
@@ -784,72 +844,83 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 41065,41,1,0.43902439024390244,0.07317073170731707,2.1219512195121952,Cluster 1: Room air / No ARF,Room air / No ARF
 41067,774,1,0.3669250645994832,0.0917312661498708,2.409560723514212,Cluster 1: Room air / No ARF,Room air / No ARF
 41071,84,1,0.40476190476190477,0.09523809523809523,2.4761904761904763,Cluster 1: Room air / No ARF,Room air / No ARF
-42001,8,5,0.5,0.5,4.25,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42003,6,1,0.3333333333333333,0.3333333333333333,3,Cluster 1: Room air / No ARF,Room air / No ARF
+42000,60,1,0.6,0.3,2.4,Cluster 1: Room air / No ARF,Room air / No ARF
+42001,44,4,0.5909090909090909,0.2727272727272727,3.9318181818181817,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+42003,8,1,0.25,0.25,3,Cluster 1: Room air / No ARF,Room air / No ARF
 42007,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-42009,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-42011,117,5,0.28205128205128205,0.28205128205128205,3.0683760683760686,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42013,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+42009,3,2,0.6666666666666666,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+42011,139,1,0.28776978417266186,0.23741007194244604,2.7985611510791366,Cluster 1: Room air / No ARF,Room air / No ARF
+42013,3,1,0.6666666666666666,0.3333333333333333,1.6666666666666667,Cluster 1: Room air / No ARF,Room air / No ARF
 42015,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42017,626,5,0.3210862619808307,0.3210862619808307,3.279552715654952,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42017,629,5,0.3195548489666137,0.3195548489666137,3.273449920508744,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42019,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-42021,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+42021,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 42025,12,1,0.25,0.25,3,Cluster 1: Room air / No ARF,Room air / No ARF
 42027,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42029,2856,2,0.3714985994397759,0.13585434173669467,2.6299019607843137,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+42029,2857,2,0.3713685684284214,0.13580679033951698,2.6293314665733285,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 42031,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 42033,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 42035,4,5,0.75,0.75,4.75,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42037,9,5,0.5555555555555556,0.5555555555555556,3.5555555555555554,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42041,18,5,0.4444444444444444,0.4444444444444444,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42043,16,5,0.5625,0.5625,3.75,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42045,1393,2,0.27781765972720746,0.25771715721464467,3.086862885857861,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-42055,6,4,0.3333333333333333,0.3333333333333333,3.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+42041,35,5,0.37142857142857144,0.37142857142857144,3.3714285714285714,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42043,27,5,0.4444444444444444,0.4444444444444444,3.3333333333333335,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42045,1412,2,0.27407932011331443,0.254957507082153,3.0956090651558075,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+42055,44,4,0.45454545454545453,0.22727272727272727,3.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 42057,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42061,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42061,3,5,0.6666666666666666,0.6666666666666666,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42063,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 42065,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 42067,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-42069,70,5,0.37142857142857144,0.37142857142857144,3.6142857142857143,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42071,163,5,0.4049079754601227,0.4049079754601227,3.5644171779141103,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42075,14,5,0.7142857142857143,0.7142857142857143,4.428571428571429,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42077,47,5,0.44680851063829785,0.44680851063829785,3.6382978723404253,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42069,71,5,0.36619718309859156,0.36619718309859156,3.591549295774648,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42071,188,5,0.3617021276595745,0.3617021276595745,3.2872340425531914,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42073,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+42075,15,5,0.6666666666666666,0.6666666666666666,4.266666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42077,66,2,0.4393939393939394,0.3181818181818182,3.212121212121212,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 42079,86,5,0.4186046511627907,0.4186046511627907,3.5232558139534884,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42081,6,3,0.5,0.16666666666666666,2.6666666666666665,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-42085,2,3,0.5,0.5,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+42085,3,1,0.3333333333333333,0.3333333333333333,3,Cluster 1: Room air / No ARF,Room air / No ARF
 42089,25,5,0.6,0.6,3.88,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42091,888,5,0.2894144144144144,0.2894144144144144,3.1531531531531534,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42091,923,5,0.27843986998916576,0.27843986998916576,3.1484290357529794,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42093,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 42095,56,5,0.44642857142857145,0.44642857142857145,3.625,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42097,6,5,0.5,0.5,4.166666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42097,8,5,0.625,0.625,4.375,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42099,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-42101,9975,2,0.29714285714285715,0.23007518796992482,2.8825062656641602,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+42101,9998,2,0.2965593118623725,0.22964592918583718,2.879475895179036,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 42103,8,5,0.5,0.5,4.125,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42105,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42107,30,5,0.3333333333333333,0.3333333333333333,3.1333333333333333,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42107,31,5,0.3225806451612903,0.3225806451612903,3.161290322580645,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42109,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+42111,2,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 42115,10,5,0.5,0.5,3.5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 42117,7,5,0.42857142857142855,0.42857142857142855,3.2857142857142856,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42119,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42119,33,2,0.9696969696969697,0.030303030303030304,2.090909090909091,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 42125,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-42127,11,1,0.36363636363636365,0.2727272727272727,3.1818181818181817,Cluster 1: Room air / No ARF,Room air / No ARF
+42127,12,1,0.4166666666666667,0.25,3,Cluster 1: Room air / No ARF,Room air / No ARF
+42129,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 42131,10,5,0.4,0.4,3.9,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-42133,24,5,0.4583333333333333,0.4583333333333333,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+42133,121,1,0.5371900826446281,0.17355371900826447,2.231404958677686,Cluster 1: Room air / No ARF,Room air / No ARF
 44001,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+44007,2,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 44009,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 45003,5,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 45007,5,4,0.6,0.6,3,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 45011,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-45013,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+45013,4,1,0.5,0.25,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 45015,4,3,0.75,0.25,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+45017,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 45019,3,3,0.6666666666666666,0.6666666666666666,2.6666666666666665,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 45025,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+45027,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 45033,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-45041,2,3,0.5,0.5,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-45045,8,2,0.375,0.375,2.75,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-45051,8,3,0.375,0.125,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+45035,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+45041,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
+45045,9,2,0.3333333333333333,0.3333333333333333,2.7777777777777777,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+45051,41,3,0.4634146341463415,0.024390243902439025,2.5609756097560976,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+45059,16,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+45063,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 45069,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 45073,2,1,0.5,0.5,1.5,Cluster 1: Room air / No ARF,Room air / No ARF
-45079,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
+45079,6,2,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 45083,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 45085,3,1,0.6666666666666666,0.3333333333333333,1.6666666666666667,Cluster 1: Room air / No ARF,Room air / No ARF
 45091,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
@@ -877,13 +948,15 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 47019,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 47025,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 47035,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-47037,4,4,0.5,0.25,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+47037,5,4,0.4,0.2,3.6,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 47049,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 47053,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+47059,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 47065,7,1,0.2857142857142857,0.2857142857142857,3.2857142857142856,Cluster 1: Room air / No ARF,Room air / No ARF
 47073,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 47075,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 47105,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+47115,16,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 47121,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 47125,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 47139,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -891,22 +964,24 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 47155,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 47157,3,2,0.6666666666666666,0.6666666666666666,1.6666666666666667,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 47165,3,4,0.6666666666666666,0.3333333333333333,4.333333333333333,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-47179,2,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+47179,3,5,0.6666666666666666,0.6666666666666666,3.6666666666666665,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 47185,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 47187,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 47189,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-48029,9,4,0.5555555555555556,0.1111111111111111,3.4444444444444446,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+48000,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+48029,10,4,0.5,0.1,3.4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 48039,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 48053,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
 48085,3,5,0.6666666666666666,0.6666666666666666,4,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 48091,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-48113,9,1,0.2222222222222222,0.2222222222222222,3.111111111111111,Cluster 1: Room air / No ARF,Room air / No ARF
-48121,2,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+48113,10,1,0.2,0.2,3,Cluster 1: Room air / No ARF,Room air / No ARF
+48121,3,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 48141,5,1,0.4,0.4,2.8,Cluster 1: Room air / No ARF,Room air / No ARF
-48157,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+48157,18,5,0.8888888888888888,0.8888888888888888,4.777777777777778,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+48181,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 48187,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-48201,18,1,0.4444444444444444,0.16666666666666666,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
-48215,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+48201,35,5,0.5428571428571428,0.5428571428571428,3.7714285714285714,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+48215,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
 48251,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 48253,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 48331,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
@@ -916,7 +991,8 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 48409,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 48423,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 48439,4,1,0.5,0.25,2.75,Cluster 1: Room air / No ARF,Room air / No ARF
-48453,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+48451,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+48453,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 48485,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 48491,2,2,0.5,0.5,3.5,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 49011,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
@@ -924,28 +1000,60 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 49047,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 49049,2,4,0.5,0.5,4.5,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 49053,3,1,0.3333333333333333,0.3333333333333333,2.6666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
-51001,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51000,32,5,0.59375,0.59375,4.15625,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51001,7,2,0.5714285714285714,0.2857142857142857,3.142857142857143,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51005,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51013,70,3,0.5142857142857142,0.02857142857142857,3.0142857142857142,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 51015,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 51017,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51019,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51027,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+51031,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 51035,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-51059,6,2,0.5,0.16666666666666666,2.1666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51041,3,5,0.6666666666666666,0.6666666666666666,4.666666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51047,2,3,0.5,0.5,3.5,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+51059,225,4,0.39555555555555555,0.044444444444444446,2.7422222222222223,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+51061,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
+51069,8,1,0.375,0.125,2.875,Cluster 1: Room air / No ARF,Room air / No ARF
 51073,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 51085,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
-51087,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-51095,3,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-51107,3,5,0.6666666666666666,0.6666666666666666,4,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51087,3,2,0.6666666666666666,0.3333333333333333,2.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51095,5,5,0.6,0.6,4.2,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51099,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
+51107,39,3,0.41025641025641024,0.15384615384615385,2.923076923076923,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
 51127,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-51137,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-51153,3,5,0.6666666666666666,0.6666666666666666,4.666666666666667,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-51179,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-51199,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
-51550,3,4,0.6666666666666666,0.3333333333333333,4.333333333333333,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+51137,17,4,0.9411764705882353,0.058823529411764705,4.0588235294117645,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+51139,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51143,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+51153,33,2,0.3939393939393939,0.18181818181818182,2.5454545454545454,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51155,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51157,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51161,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51163,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51165,2,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+51171,4,1,0.25,0.25,3,Cluster 1: Room air / No ARF,Room air / No ARF
+51177,6,1,0.5,0.3333333333333333,2.1666666666666665,Cluster 1: Room air / No ARF,Room air / No ARF
+51179,5,1,0.4,0.2,2.2,Cluster 1: Room air / No ARF,Room air / No ARF
+51187,20,2,0.8,0.1,2.3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51199,33,1,0.5151515151515151,0.48484848484848486,2.9393939393939394,Cluster 1: Room air / No ARF,Room air / No ARF
+51510,78,2,0.4358974358974359,0.2564102564102564,2.9615384615384617,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51550,5,4,0.4,0.4,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+51600,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+51610,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+51630,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 51650,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
-51680,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-51710,2,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
-51740,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-51810,2,1,0.5,0.5,2.5,Cluster 1: Room air / No ARF,Room air / No ARF
-53005,6,2,0.3333333333333333,0.3333333333333333,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51680,4,1,0.5,0.25,2.25,Cluster 1: Room air / No ARF,Room air / No ARF
+51683,3,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51700,4,5,0.5,0.5,3.75,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51710,3,4,0.6666666666666666,0.6666666666666666,3.3333333333333335,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+51740,3,5,0.6666666666666666,0.6666666666666666,4.333333333333333,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51760,2,1,0.5,0.5,2,Cluster 1: Room air / No ARF,Room air / No ARF
+51775,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+51800,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+51810,5,1,0.4,0.2,2.2,Cluster 1: Room air / No ARF,Room air / No ARF
+51820,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+51840,2,1,0.5,0.5,3,Cluster 1: Room air / No ARF,Room air / No ARF
+53005,7,1,0.2857142857142857,0.2857142857142857,2.7142857142857144,Cluster 1: Room air / No ARF,Room air / No ARF
 53007,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 53009,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 53011,147,1,0.3129251700680272,0.14285714285714285,2.6598639455782314,Cluster 1: Room air / No ARF,Room air / No ARF
@@ -968,12 +1076,27 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 53069,5,4,0.4,0.2,3.4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 53071,3,4,0.6666666666666666,0.6666666666666666,3.3333333333333335,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
 53077,9,5,0.3333333333333333,0.3333333333333333,3.4444444444444446,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-54037,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-54055,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
-54061,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+54000,27,1,0.6296296296296297,0.14814814814814814,2.074074074074074,Cluster 1: Room air / No ARF,Room air / No ARF
+54003,101,1,0.37623762376237624,0.37623762376237624,2.8415841584158414,Cluster 1: Room air / No ARF,Room air / No ARF
+54011,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+54019,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+54023,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+54027,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+54031,3,4,0.6666666666666666,0.6666666666666666,3.6666666666666665,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+54037,61,5,0.5901639344262295,0.5901639344262295,4.409836065573771,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+54049,1,3,1,1,3,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+54055,5,2,0.6,0.4,3.2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+54057,4,2,0.5,0.25,2.25,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+54061,3,3,0.3333333333333333,0.3333333333333333,4,Cluster 3: Noninvasive ventilation / No ARF,NIV / No ARF
+54063,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+54065,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+54067,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 54077,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
-54081,2,2,0.5,0.5,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
+54079,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+54081,3,2,0.3333333333333333,0.3333333333333333,3.6666666666666665,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 54097,1,4,1,1,4,Cluster 4: Invasive ventilation / Predominantly no ARF,IMV / Predom. no ARF
+54103,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
+55000,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 55001,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 55003,1,2,1,1,2,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
 55005,10,2,0.5,0.3,3,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
@@ -1022,3 +1145,4 @@ county_fips,county_total,dominant_cluster,dominant_cluster_prop,worst_cluster_pr
 56013,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
 56045,1,5,1,1,5,Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF,IMV / Hypoxemic/mixed ARF
 66010,1,1,1,1,1,Cluster 1: Room air / No ARF,Room air / No ARF
+72000,18,2,0.8888888888888888,0.05555555555555555,2.0555555555555554,Cluster 2: Low-flow oxygen / No ARF,Low-flow O2 / No ARF
