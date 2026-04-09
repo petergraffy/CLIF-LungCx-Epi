@@ -97,6 +97,19 @@ make_phenotype_label_short <- function(rs_label, arf_label) {
   paste0(label_resp_support_short(rs_label), " / ", label_arf_short(arf_label))
 }
 
+pretty_exposure <- function(x) {
+  dplyr::recode(
+    x,
+    "NO2" = "NO₂",
+    "PM2.5" = "PM₂.₅",
+    "pm25_5y_z" = "PM₂.₅",
+    "no2_5y_z" = "NO₂",
+    "pm25_mean" = "PM₂.₅",
+    "no2_mean" = "NO₂",
+    .default = x
+  )
+}
+
 read_stub_csv <- function(run_dir, stub) {
   hits <- Sys.glob(file.path(run_dir, paste0(stub, "*.csv")))
   if (!length(hits)) return(NULL)
@@ -563,8 +576,8 @@ cont_labels <- c(
   age_years = "Age, mean (SD)",
   charlson_score = "Charlson score, mean (SD)",
   sofa_total = "SOFA total, mean (SD)",
-  pm25_5y = "PM2.5 5-year exposure, mean (SD)",
-  no2_5y = "NO2 5-year exposure, mean (SD)",
+  pm25_5y = "PM₂.₅ 5-year exposure, mean (SD)",
+  no2_5y = "NO₂ 5-year exposure, mean (SD)",
   icu_los_hours = "ICU LOS (hours), mean (SD)",
   imv_hours_72h = "IMV hours in first 72h, mean (SD)"
 )
@@ -723,7 +736,7 @@ write_csv_safe(pooled_modeled_contrasts, file.path(OUT_DIR, "pooled_modeled_clus
 
 meta_plot_df <- pooled_meta %>%
   mutate(
-    exposure = recode(term, pm25_5y_z = "PM2.5", no2_5y_z = "NO2"),
+    exposure = pretty_exposure(recode(term, pm25_5y_z = "PM2.5", no2_5y_z = "NO2")),
     outcome = recode(
       term_group,
       mortality = "Mortality",
@@ -819,8 +832,10 @@ interaction_plot_terms <- bind_rows(
 write_csv_safe(interaction_plot_terms, file.path(OUT_DIR, "interaction_plot_terms.csv"))
 
 interaction_site_order <- c(sort(unique(cluster_map$site_name)), "Pooled random-effects")
+interaction_site_order_plot <- rev(interaction_site_order)
 
 plot_interaction_forest <- function(site_df, pooled_df, exposure_label) {
+  exposure_display <- pretty_exposure(exposure_label)
   site_plot_df <- site_df %>%
     filter(exposure == exposure_label) %>%
     transmute(
@@ -849,7 +864,7 @@ plot_interaction_forest <- function(site_df, pooled_df, exposure_label) {
 
   plot_df <- bind_rows(site_plot_df, pooled_plot_df) %>%
     mutate(
-      site_name = factor(site_name, levels = rev(interaction_site_order)),
+      site_name = factor(site_name, levels = interaction_site_order_plot),
       point_size = ifelse(pooled_flag, 3, 2),
       label_text = case_when(
         is_reference ~ "Ref",
@@ -868,12 +883,13 @@ plot_interaction_forest <- function(site_df, pooled_df, exposure_label) {
     geom_point(aes(size = point_size, shape = is_reference), show.legend = FALSE) +
     geom_text(aes(x = label_x, label = label_text), hjust = 0, size = 2.6, show.legend = FALSE, color = "gray15") +
     scale_x_log10() +
+    scale_y_discrete(limits = interaction_site_order_plot, drop = FALSE) +
     scale_color_manual(values = c(`FALSE` = "#6a8ba3", `TRUE` = "#b33a3a")) +
     scale_shape_manual(values = c(`FALSE` = 16, `TRUE` = 1)) +
     scale_size_identity() +
-    facet_wrap(~ pooled_cluster_label, ncol = 2, scales = "free_y") +
+    facet_wrap(~ pooled_cluster_label, ncol = 2, scales = "fixed") +
     labs(
-      title = paste0(exposure_label, " Interaction Terms by Consensus Trajectory Cluster"),
+      title = paste0(exposure_display, " Interaction Terms by Consensus Trajectory Cluster"),
       x = "Interaction OR for mortality (log scale)",
       y = NULL
     ) +
@@ -1050,14 +1066,14 @@ pollution_outcome_table <- bind_rows(
     mutate(
       table_section = "Overall pooled associations",
       label = case_when(
-        term_group == "mortality" & term == "pm25_5y_z" ~ "PM2.5 -> death or hospice",
-        term_group == "mortality" & term == "no2_5y_z" ~ "NO2 -> death or hospice",
-        term_group == "icu_los" & term == "pm25_5y_z" ~ "PM2.5 -> ICU LOS",
-        term_group == "icu_los" & term == "no2_5y_z" ~ "NO2 -> ICU LOS",
-        term_group == "post72_survival" & term == "pm25_5y_z" ~ "PM2.5 -> post-72h mortality hazard",
-        term_group == "post72_survival" & term == "no2_5y_z" ~ "NO2 -> post-72h mortality hazard",
-        term_group == "trajectory_severity" & term == "pm25_5y_z" ~ "PM2.5 -> higher trajectory severity",
-        term_group == "trajectory_severity" & term == "no2_5y_z" ~ "NO2 -> higher trajectory severity",
+        term_group == "mortality" & term == "pm25_5y_z" ~ "PM₂.₅ -> death or hospice",
+        term_group == "mortality" & term == "no2_5y_z" ~ "NO₂ -> death or hospice",
+        term_group == "icu_los" & term == "pm25_5y_z" ~ "PM₂.₅ -> ICU LOS",
+        term_group == "icu_los" & term == "no2_5y_z" ~ "NO₂ -> ICU LOS",
+        term_group == "post72_survival" & term == "pm25_5y_z" ~ "PM₂.₅ -> post-72h mortality hazard",
+        term_group == "post72_survival" & term == "no2_5y_z" ~ "NO₂ -> post-72h mortality hazard",
+        term_group == "trajectory_severity" & term == "pm25_5y_z" ~ "PM₂.₅ -> higher trajectory severity",
+        term_group == "trajectory_severity" & term == "no2_5y_z" ~ "NO₂ -> higher trajectory severity",
         TRUE ~ NA_character_
       ),
       estimate_ci = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random),
@@ -1068,7 +1084,7 @@ pollution_outcome_table <- bind_rows(
   pooled_interaction_meta %>%
     mutate(
       section = "Exposure-by-cluster interaction terms",
-      label = recoded_term,
+      label = gsub("^NO2", "NO₂", gsub("^PM2.5", "PM₂.₅", recoded_term)),
       metric = effect_type,
       estimate_ci = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random)
     ) %>%
@@ -1079,7 +1095,7 @@ write_csv_safe(pollution_outcome_table, file.path(OUT_DIR, "publication_table_ai
 
 interaction_heatmap_df <- pooled_interaction_meta %>%
   transmute(
-    exposure,
+    exposure = pretty_exposure(exposure),
     pooled_cluster_label,
     pooled_or = pooled_effect_random,
     conf_low = pooled_conf_low_random,
@@ -1111,12 +1127,12 @@ cluster_exposure_display <- cluster_exposure_outcomes %>%
     pooled_cluster,
     phenotype = paste0("C", pooled_cluster, ": ", phenotype_label_short),
     Mortality = mortality * 100,
-    `PM2.5` = pm25_mean,
-    `NO2` = no2_mean
+    `PM₂.₅` = pm25_mean,
+    `NO₂` = no2_mean
   ) %>%
-  pivot_longer(cols = c(Mortality, `PM2.5`, `NO2`), names_to = "metric", values_to = "value") %>%
+  pivot_longer(cols = c(Mortality, `PM₂.₅`, `NO₂`), names_to = "metric", values_to = "value") %>%
   mutate(
-    metric = factor(metric, levels = c("Mortality", "PM2.5", "NO2")),
+    metric = factor(metric, levels = c("Mortality", "PM₂.₅", "NO₂")),
     label = case_when(
       metric == "Mortality" ~ sprintf("%.1f%%", value),
       TRUE ~ sprintf("%.2f", value)
@@ -1151,7 +1167,7 @@ save_plot_safe(p_cluster_exposure, file.path(OUT_DIR, "figure_cluster_exposure_m
 
 sofa_corr_summary <- exposure_sofa_corr %>%
   mutate(
-    variable_x = recode(variable_x, pm25_5y = "PM2.5", no2_5y = "NO2")
+    variable_x = recode(variable_x, pm25_5y = "PM₂.₅", no2_5y = "NO₂")
   ) %>%
   group_by(variable_x, variable_y) %>%
   summarise(
