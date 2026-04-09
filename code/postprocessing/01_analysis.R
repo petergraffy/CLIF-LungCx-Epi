@@ -21,6 +21,16 @@ save_plot_safe <- function(plot_obj, path, width = 10, height = 7, dpi = 320) {
   ggplot2::ggsave(filename = path, plot = plot_obj, width = width, height = height, dpi = dpi, bg = "white")
 }
 
+save_diagram_safe <- function(diagram_obj, path, width = 12, height = 8.5) {
+  svg_txt <- DiagrammeRsvg::export_svg(diagram_obj)
+  rsvg::rsvg_png(
+    charToRaw(svg_txt),
+    file = path,
+    width = width * 320,
+    height = height * 320
+  )
+}
+
 theme_manuscript <- function() {
   theme_minimal(base_size = 12) +
     theme(
@@ -296,6 +306,11 @@ cluster_files <- list(
   centroids = "cluster_centroids_federated",
   severity = "cluster_severity_rank",
   static = "cluster_static_summary",
+  cluster_gcs_summary = "cluster_gcs_summary",
+  consort_flow = "consort_flow_counts",
+  consort_reasons = "consort_exclusion_reasons",
+  mediation_no2 = "mediation_style_decomposition_no2",
+  mediation_no2_cluster = "mediation_style_decomposition_no2_cluster",
   rs_signature = "cluster_signature_rs_hourly",
   arf_signature = "cluster_signature_arf_hourly",
   cluster_exposure_mortality = "cluster_exposure_mortality_summary",
@@ -684,6 +699,133 @@ pooled_meta <- model_outputs %>%
   ungroup()
 
 write_csv_safe(pooled_meta, file.path(OUT_DIR, "pooled_meta_analysis.csv"))
+
+mediation_no2 <- map_dfr(site_payload, function(x) {
+  df <- x$mediation_no2
+  if (is.null(df)) return(tibble())
+  df %>% mutate(site_run = x$site_run, site_name = x$site_name, mediator = "Severity rank")
+})
+
+mediation_no2_cluster <- map_dfr(site_payload, function(x) {
+  df <- x$mediation_no2_cluster
+  if (is.null(df)) return(tibble())
+  df %>% mutate(site_run = x$site_run, site_name = x$site_name, mediator = "Trajectory phenotype")
+})
+
+mediation_site_level <- bind_rows(mediation_no2, mediation_no2_cluster) %>%
+  mutate(site_name = as.character(site_name))
+
+mediation_pooled_models <- pooled_meta %>%
+  filter(model %in% c("glm_total_no2", "glm_direct_no2_severity", "glm_direct_no2_cluster"), term == "no2_5y_z") %>%
+  transmute(
+    model,
+    mediator = case_when(
+      model == "glm_total_no2" ~ "Total effect",
+      model == "glm_direct_no2_severity" ~ "Severity rank",
+      model == "glm_direct_no2_cluster" ~ "Trajectory phenotype"
+    ),
+    pooled_beta = estimate_random,
+    pooled_beta_low = conf_low_random,
+    pooled_beta_high = conf_high_random,
+    pooled_or = pooled_effect_random,
+    pooled_or_low = pooled_conf_low_random,
+    pooled_or_high = pooled_conf_high_random
+  )
+
+mediation_summary <- mediation_site_level %>%
+  group_by(mediator) %>%
+  summarise(
+    n_sites = n_distinct(site_name),
+    beta_total_mean = mean(beta_total, na.rm = TRUE),
+    beta_direct_mean = mean(beta_direct, na.rm = TRUE),
+    beta_indirect_mean = mean(beta_indirect_approx, na.rm = TRUE),
+    pct_mediated_median = median(pct_mediated_approx, na.rm = TRUE),
+    pct_mediated_iqr_low = quantile(pct_mediated_approx, 0.25, na.rm = TRUE),
+    pct_mediated_iqr_high = quantile(pct_mediated_approx, 0.75, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  left_join(mediation_pooled_models, by = "mediator")
+
+write_csv_safe(mediation_site_level, file.path(OUT_DIR, "publication_table_mediation_site_level.csv"))
+write_csv_safe(mediation_summary, file.path(OUT_DIR, "publication_table_mediation_summary.csv"))
+
+mediation_plot_df <- mediation_site_level %>%
+  transmute(
+    site_name,
+    mediator,
+    `Total effect` = beta_total,
+    `Direct effect` = beta_direct,
+    `Indirect effect` = beta_indirect_approx
+  ) %>%
+  pivot_longer(cols = c(`Total effect`, `Direct effect`, `Indirect effect`), names_to = "effect_type", values_to = "beta") %>%
+  mutate(effect_type = factor(effect_type, levels = c("Total effect", "Direct effect", "Indirect effect")))
+
+p_mediation_site <- ggplot(mediation_plot_df, aes(x = effect_type, y = beta, group = site_name, color = site_name)) +
+  geom_hline(yintercept = 0, linetype = 2, color = "gray70") +
+  geom_line(alpha = 0.45, linewidth = 0.7) +
+  geom_point(size = 2) +
+  facet_wrap(~ mediator) +
+  labs(
+    title = "Site-Level Approximate NO₂ Mediation Decomposition",
+    x = NULL,
+    y = "Log-odds coefficient for NO₂"
+  ) +
+  theme_manuscript() +
+  theme(legend.position = "none")
+
+save_plot_safe(p_mediation_site, file.path(OUT_DIR, "figure_mediation_site_level_no2.png"), width = 10.5, height = 5.8)
+
+total_beta_row <- mediation_pooled_models %>% filter(mediator == "Total effect") %>% slice(1)
+
+mediation_pooled_plot_df <- bind_rows(
+  mediation_pooled_models %>%
+    filter(mediator != "Total effect") %>%
+    transmute(
+      mediator,
+      effect_type = "Total effect",
+      estimate = total_beta_row$pooled_beta[[1]],
+      conf_low = total_beta_row$pooled_beta_low[[1]],
+      conf_high = total_beta_row$pooled_beta_high[[1]]
+    ),
+  mediation_pooled_models %>%
+    filter(mediator != "Total effect") %>%
+    transmute(
+      mediator,
+      effect_type = "Direct effect",
+      estimate = pooled_beta,
+      conf_low = pooled_beta_low,
+      conf_high = pooled_beta_high
+    ),
+  mediation_summary %>%
+    transmute(
+      mediator,
+      effect_type = "Indirect effect",
+      estimate = beta_indirect_mean,
+      conf_low = NA_real_,
+      conf_high = NA_real_
+    )
+) %>%
+  mutate(effect_type = factor(effect_type, levels = c("Total effect", "Direct effect", "Indirect effect")))
+
+p_mediation_pooled <- ggplot(mediation_pooled_plot_df, aes(x = effect_type, y = estimate, color = mediator, group = mediator)) +
+  geom_hline(yintercept = 0, linetype = 2, color = "gray70") +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 3) +
+  geom_errorbar(
+    data = ~ dplyr::filter(.x, !is.na(conf_low), !is.na(conf_high)),
+    aes(ymin = conf_low, ymax = conf_high),
+    width = 0.12,
+    linewidth = 0.8
+  ) +
+  labs(
+    title = "Pooled Attenuation of the NO₂ Association After Mediator Adjustment",
+    x = NULL,
+    y = "NO₂ log-odds coefficient",
+    color = "Mediator"
+  ) +
+  theme_manuscript()
+
+save_plot_safe(p_mediation_pooled, file.path(OUT_DIR, "figure_mediation_pooled_no2.png"), width = 9.5, height = 5.5)
 
 contrast_no2 <- map_dfr(site_payload, function(x) {
   df <- x$contrast_no2
@@ -1239,6 +1381,106 @@ county_map_df <- ggplot2::map_data("county") %>%
   filter(!substr(county_fips, 1, 2) %in% c("02", "15", "72")) %>%
   left_join(county_summary_pooled, by = "county_fips")
 
+study_years <- 2018:2024
+
+pm25_study_map <- readr::read_csv(file.path(ROOT_DIR, "exposome", "pm25_county_year.csv"), show_col_types = FALSE) %>%
+  transmute(
+    county_fips = sprintf("%05d", readr::parse_number(GEOID)),
+    year = as.integer(year),
+    value = as.numeric(pm25_mean)
+  ) %>%
+  filter(year %in% study_years) %>%
+  group_by(county_fips) %>%
+  summarise(study_period_mean = mean(value, na.rm = TRUE), .groups = "drop")
+
+no2_study_map <- readr::read_csv(file.path(ROOT_DIR, "exposome", "no2_county_year.csv"), show_col_types = FALSE) %>%
+  transmute(
+    county_fips = sprintf("%05d", readr::parse_number(GEOID)),
+    year = as.integer(year),
+    value = as.numeric(no2_mean)
+  ) %>%
+  filter(year %in% study_years) %>%
+  group_by(county_fips) %>%
+  summarise(study_period_mean = mean(value, na.rm = TRUE), .groups = "drop")
+
+exposome_map_df <- ggplot2::map_data("county") %>%
+  mutate(polyname = paste(region, subregion, sep = ",")) %>%
+  left_join(county_fips_lookup, by = "polyname") %>%
+  filter(!substr(county_fips, 1, 2) %in% c("02", "15", "72"))
+
+pm25_map_df <- exposome_map_df %>%
+  left_join(pm25_study_map, by = "county_fips")
+
+no2_map_df <- exposome_map_df %>%
+  left_join(no2_study_map, by = "county_fips")
+
+pm25_limits <- range(pm25_study_map$study_period_mean, na.rm = TRUE)
+no2_limits <- range(no2_study_map$study_period_mean, na.rm = TRUE)
+pm25_breaks <- scales::breaks_extended(n = 8)(pm25_limits)
+no2_breaks <- scales::breaks_extended(n = 8)(no2_limits)
+
+p_pm25_exposome <- ggplot(pm25_map_df, aes(long, lat, group = group, fill = study_period_mean)) +
+  geom_polygon(color = NA) +
+  coord_quickmap() +
+  scale_fill_viridis_c(
+    option = "magma",
+    limits = pm25_limits,
+    breaks = pm25_breaks,
+    na.value = "gray94",
+    name = expression("Average PM"[2.5] * " (" * mu * "g/m"^3 * "), 2018 to 2024"),
+    guide = guide_colorbar(
+      title.position = "top",
+      title.hjust = 0.5,
+      direction = "horizontal",
+      barwidth = unit(10, "cm"),
+      barheight = unit(0.5, "cm")
+    )
+  ) +
+  labs(title = "County-Level Average PM₂.₅ Across the Study Period") +
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    legend.key.height = unit(0.5, "cm"),
+    legend.key.width = unit(1.2, "cm"),
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 9),
+    plot.title = element_text(face = "bold")
+  )
+
+p_no2_exposome <- ggplot(no2_map_df, aes(long, lat, group = group, fill = study_period_mean)) +
+  geom_polygon(color = NA) +
+  coord_quickmap() +
+  scale_fill_viridis_c(
+    option = "plasma",
+    limits = no2_limits,
+    breaks = no2_breaks,
+    na.value = "gray94",
+    name = expression("Average NO"[2] * " (ppb), 2018 to 2024"),
+    guide = guide_colorbar(
+      title.position = "top",
+      title.hjust = 0.5,
+      direction = "horizontal",
+      barwidth = unit(10, "cm"),
+      barheight = unit(0.5, "cm")
+    )
+  ) +
+  labs(title = "County-Level Average NO₂ Across the Study Period") +
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    legend.key.height = unit(0.5, "cm"),
+    legend.key.width = unit(1.2, "cm"),
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(size = 9),
+    plot.title = element_text(face = "bold")
+  )
+
+write_csv_safe(pm25_study_map, file.path(OUT_DIR, "study_period_pm25_county_mean_2018_2024.csv"))
+write_csv_safe(no2_study_map, file.path(OUT_DIR, "study_period_no2_county_mean_2018_2024.csv"))
+
+save_plot_safe(p_pm25_exposome, file.path(OUT_DIR, "map_conus_pm25_study_period_mean.png"), width = 13, height = 8)
+save_plot_safe(p_no2_exposome, file.path(OUT_DIR, "map_conus_no2_study_period_mean.png"), width = 13, height = 8)
+
 cluster_palette <- c(
   "1" = "#d8e4bc",
   "2" = "#f4d06f",
@@ -1328,6 +1570,266 @@ p_map_sev <- ggplot(county_map_df, aes(long, lat, group = group, fill = mean_sev
 save_plot_safe(p_map_dom, file.path(OUT_DIR, "map_conus_dominant_pooled_cluster.png"), width = 13, height = 8)
 save_plot_safe(p_map_worst, file.path(OUT_DIR, "map_conus_worst_cluster_share.png"), width = 13, height = 8)
 save_plot_safe(p_map_sev, file.path(OUT_DIR, "map_conus_mean_cluster_severity.png"), width = 13, height = 8)
+
+consort_flow <- map_dfr(site_payload, function(x) {
+  df <- x$consort_flow
+  if (is.null(df)) return(tibble())
+  df %>%
+    mutate(site_run = x$site_run, site_name = x$site_name)
+})
+
+consort_reasons <- map_dfr(site_payload, function(x) {
+  df <- x$consort_reasons
+  if (is.null(df)) return(tibble())
+  df %>%
+    mutate(site_run = x$site_run, site_name = x$site_name)
+})
+
+pooled_consort_flow <- consort_flow %>%
+  group_by(step_order, step) %>%
+  summarise(
+    n_remaining = sum(n_remaining, na.rm = TRUE),
+    n_excluded_at_step = sum(n_excluded_at_step, na.rm = TRUE),
+    n_sites = n_distinct(site_name),
+    .groups = "drop"
+  ) %>%
+  arrange(step_order)
+
+pooled_consort_reasons <- consort_reasons %>%
+  group_by(reason) %>%
+  summarise(
+    n = sum(n, na.rm = TRUE),
+    n_sites = n_distinct(site_name),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(n))
+
+write_csv_safe(pooled_consort_flow, file.path(OUT_DIR, "publication_table_consort_flow.csv"))
+write_csv_safe(pooled_consort_reasons, file.path(OUT_DIR, "publication_table_consort_exclusions.csv"))
+
+consort_label_df <- pooled_consort_flow %>%
+  mutate(
+    step_text = dplyr::recode(
+      step,
+      "Hospitalizations in date window" = "Hospitalizations in date window",
+      ">= 18 years" = "Age 18 years or older",
+      "Demographics present" = "Demographics present",
+      "Geography present" = "Geography present",
+      "Lung cancer dx POA present" = "Lung cancer diagnosis present on admission",
+      "Any ICU segment present" = "Any ICU segment present",
+      .default = step
+    ),
+    main_node = paste0("step", step_order),
+    main_label = paste0(step_text, "\\nN = ", scales::comma(n_remaining)),
+    excl_node = paste0("excl", step_order),
+    excl_label = paste0("Excluded before this step\\nN = ", scales::comma(n_excluded_at_step))
+  )
+
+main_node_lines <- paste0(
+  consort_label_df$main_node,
+  ' [label="', consort_label_df$main_label, '", shape=box, style="rounded,filled", fillcolor="#F8FBFF", color="#4B5563", fontname="Helvetica", fontsize=16, penwidth=1.4, width=3.9];'
+)
+
+main_edge_lines <- if (nrow(consort_label_df) > 1) {
+  paste0(
+    consort_label_df$main_node[-nrow(consort_label_df)],
+    " -> ",
+    consort_label_df$main_node[-1],
+    ' [color="#6B7280", penwidth=1.2, arrowsize=0.8];'
+  )
+} else {
+  character()
+}
+
+exclusion_df <- consort_label_df %>%
+  filter(n_excluded_at_step > 0)
+
+excl_node_lines <- paste0(
+  exclusion_df$excl_node,
+  ' [label="', exclusion_df$excl_label, '", shape=box, style="rounded,filled", fillcolor="#FFF7ED", color="#C2410C", fontcolor="#7C2D12", fontname="Helvetica", fontsize=14, penwidth=1.1, width=3.2];'
+)
+
+excl_edge_lines <- paste0(
+  exclusion_df$main_node,
+  " -> ",
+  exclusion_df$excl_node,
+  ' [color="#C2410C", style=dashed, dir=none, penwidth=1.0];'
+)
+
+rank_same_lines <- c(
+  paste0("{rank=same; ", consort_label_df$main_node[1], ";}"),
+  paste0("{rank=same; ", paste(exclusion_df$excl_node, collapse = "; "), ";}")
+)
+
+consort_graph <- paste(
+  "digraph consort {",
+  'graph [layout=dot, rankdir=TB, nodesep=0.55, ranksep=0.7, bgcolor="white", margin=0.08, labelloc="t", labeljust="c", pad=0.2, splines=ortho];',
+  'node [fontname="Helvetica"];',
+  'edge [fontname="Helvetica"];',
+  paste(main_node_lines, collapse = "\n"),
+  paste(main_edge_lines, collapse = "\n"),
+  paste(excl_node_lines, collapse = "\n"),
+  paste(excl_edge_lines, collapse = "\n"),
+  paste(rank_same_lines, collapse = "\n"),
+  "}",
+  sep = "\n"
+)
+
+consort_diagram <- DiagrammeR::grViz(consort_graph)
+save_diagram_safe(consort_diagram, file.path(OUT_DIR, "figure_pooled_consort_diagram.png"), width = 12, height = 8.5)
+
+cluster_gcs_summary <- map_dfr(site_payload, function(x) {
+  df <- x$cluster_gcs_summary
+  if (is.null(df)) return(tibble())
+  df %>%
+    mutate(
+      site_run = x$site_run,
+      site_name = x$site_name,
+      local_cluster = suppressWarnings(as.integer(traj_cluster_ra))
+    ) %>%
+    filter(!is.na(local_cluster))
+})
+
+pooled_sofa_cluster_summary <- static_summary %>%
+  left_join(
+    cluster_map %>%
+      select(site_run, local_cluster, pooled_cluster, pooled_cluster_label, phenotype_label_short, cluster_n = n),
+    by = c("site_run", "local_cluster")
+  ) %>%
+  filter(!is.na(pooled_cluster)) %>%
+  group_by(pooled_cluster, pooled_cluster_label, phenotype_label_short) %>%
+  summarise(
+    n_sites = n_distinct(site_name),
+    n_patients = sum(cluster_n, na.rm = TRUE),
+    sofa_total_mean = weighted.mean(sofa_total_mean, cluster_n, na.rm = TRUE),
+    sofa_resp_mean = weighted.mean(sofa_resp_mean, cluster_n, na.rm = TRUE),
+    sofa_cv_mean = weighted.mean(sofa_cv_mean, cluster_n, na.rm = TRUE),
+    sofa_renal_mean = weighted.mean(sofa_renal_mean, cluster_n, na.rm = TRUE),
+    sofa_liver_mean = weighted.mean(sofa_liver_mean, cluster_n, na.rm = TRUE),
+    sofa_coag_mean = weighted.mean(sofa_coag_mean, cluster_n, na.rm = TRUE),
+    sofa_cns_mean = weighted.mean(sofa_cns_mean, cluster_n, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  left_join(
+    cluster_gcs_summary %>%
+      left_join(cluster_map %>% select(site_run, local_cluster, pooled_cluster, cluster_n = n), by = c("site_run", "local_cluster")) %>%
+      filter(!is.na(pooled_cluster)) %>%
+      group_by(pooled_cluster) %>%
+      summarise(
+        mean_gcs = weighted.mean(mean_gcs, cluster_n, na.rm = TRUE),
+        median_gcs_proxy = weighted.mean(median_gcs, cluster_n, na.rm = TRUE),
+        pct_gcs_lt8 = weighted.mean(pct_gcs_lt8, cluster_n, na.rm = TRUE),
+        pct_gcs_lt13 = weighted.mean(pct_gcs_lt13, cluster_n, na.rm = TRUE),
+        .groups = "drop"
+      ),
+    by = "pooled_cluster"
+  )
+
+write_csv_safe(pooled_sofa_cluster_summary, file.path(OUT_DIR, "publication_table_sofa_by_cluster.csv"))
+
+sofa_domain_long <- pooled_sofa_cluster_summary %>%
+  select(
+    pooled_cluster,
+    phenotype_label_short,
+    sofa_resp_mean,
+    sofa_cv_mean,
+    sofa_renal_mean,
+    sofa_liver_mean,
+    sofa_coag_mean,
+    sofa_cns_mean
+  ) %>%
+  pivot_longer(
+    cols = starts_with("sofa_"),
+    names_to = "domain",
+    values_to = "score"
+  ) %>%
+  mutate(
+    domain = recode(
+      domain,
+      sofa_resp_mean = "Respiratory",
+      sofa_cv_mean = "Cardiovascular",
+      sofa_renal_mean = "Renal",
+      sofa_liver_mean = "Liver",
+      sofa_coag_mean = "Coagulation",
+      sofa_cns_mean = "CNS"
+    ),
+    cluster_label = paste0("C", pooled_cluster, ": ", phenotype_label_short)
+  )
+
+p_sofa_domains <- ggplot(
+  sofa_domain_long,
+  aes(x = domain, y = forcats::fct_rev(cluster_label), fill = score)
+) +
+  geom_tile(color = "white", linewidth = 0.8) +
+  geom_text(aes(label = sprintf("%.2f", score)), size = 3.4) +
+  scale_fill_gradientn(
+    colors = c("#f7fbff", "#9ecae1", "#3182bd", "#08519c"),
+    name = "Mean SOFA\ncomponent"
+  ) +
+  labs(
+    title = "Pooled SOFA Domain Signature by Trajectory Phenotype",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_manuscript() +
+  theme(
+    legend.position = "right",
+    axis.text.x = element_text(angle = 20, hjust = 1),
+    legend.title = element_text(face = "bold")
+  )
+
+save_plot_safe(p_sofa_domains, file.path(OUT_DIR, "figure_sofa_domain_signature_by_cluster.png"), width = 10.5, height = 5.8)
+
+sofa_totals_long <- pooled_sofa_cluster_summary %>%
+  transmute(
+    cluster_label = paste0("C", pooled_cluster, ": ", phenotype_label_short),
+    `Mean total SOFA` = sofa_total_mean,
+    `Mean CNS SOFA` = sofa_cns_mean,
+    `GCS < 8` = pct_gcs_lt8 * 100,
+    `GCS < 13` = pct_gcs_lt13 * 100
+  ) %>%
+  pivot_longer(
+    cols = -cluster_label,
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  mutate(
+    metric = factor(metric, levels = c("Mean total SOFA", "Mean CNS SOFA", "GCS < 8", "GCS < 13")),
+    label = case_when(
+      metric %in% c("GCS < 8", "GCS < 13") ~ sprintf("%.1f%%", value),
+      TRUE ~ sprintf("%.2f", value)
+    )
+  )
+
+sofa_totals_long <- sofa_totals_long %>%
+  mutate(
+    metric_group = ifelse(metric %in% c("GCS < 8", "GCS < 13"), "GCS impairment (%)", "SOFA score"),
+    fill_group = ifelse(metric_group == "SOFA score", "SOFA", "GCS")
+  )
+
+p_sofa_totals <- ggplot(
+  sofa_totals_long,
+  aes(x = value, y = forcats::fct_rev(cluster_label), fill = fill_group)
+) +
+  geom_col(width = 0.72, show.legend = FALSE) +
+  geom_text(aes(label = label), hjust = -0.1, size = 3.4) +
+  facet_wrap(~ metric, scales = "free_x", ncol = 2) +
+  scale_fill_manual(values = c("SOFA" = "#d95f0e", "GCS" = "#3182bd")) +
+  labs(
+    title = "Total SOFA and GCS Impairment by Trajectory Phenotype",
+    x = NULL,
+    y = NULL
+  ) +
+  theme_manuscript() +
+  theme(
+    strip.text = element_text(face = "bold"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.18)))
+
+save_plot_safe(p_sofa_totals, file.path(OUT_DIR, "figure_sofa_total_neuro_by_cluster.png"), width = 11.5, height = 6.5)
 
 run_inventory <- tibble(
   site_run = map_chr(site_payload, "site_run"),

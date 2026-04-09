@@ -1,0 +1,5 @@
+reason,n,n_sites
+No lung cancer dx POA=1 matching prefixes,5410105,9
+Missing geo code,987897,8
+No ICU stay (no ADT segment with ICU location_category),77542,8
+Missing demographics,2342,3
