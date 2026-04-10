@@ -70,7 +70,6 @@ ROOM_AIR_FIO2 <- 0.21
 JOIN_NEAR_H   <- 1
 HYPERPAIR_H   <- 2
 CARRY_H       <- 6L
-K_RA          <- 5L   # set from silhouette / interpretability review
 
 # ---------------------------
 # Guardrails
@@ -552,7 +551,16 @@ dist_ra <- TraMineR::seqdist(seq_obj_ra, method = "OM", indel = 1, sm = "TRATE")
 hc_ra <- hclust(as.dist(dist_ra), method = "ward.D2")
 
 sil_out <- pick_k_silhouette(dist_ra, k_min = 2, k_max = 10)
-save_csv(sil_out$table, "cluster_silhouette_ra")
+K_RA <- sil_out$table %>%
+  filter(avg_sil_width == max(avg_sil_width, na.rm = TRUE)) %>%
+  arrange(k) %>%
+  slice(1) %>%
+  pull(k)
+
+save_csv(
+  sil_out$table %>% mutate(selected_k = k == K_RA),
+  "cluster_silhouette_ra"
+)
 save_plot(sil_out$plot, "cluster_silhouette_ra", w = 8, h = 5)
 
 cluster_ra <- cutree(hc_ra, k = K_RA)
@@ -598,6 +606,44 @@ analysis_ready <- analysis_ready %>%
     admit_year = year(admission_dttm),
     traj_cluster_ra = factor(traj_cluster_ra)
   )
+
+# Reorder local clusters so Cluster 1 is always the healthiest reference cluster
+cluster_severity <- analysis_ready %>%
+  filter(!is.na(traj_cluster_ra)) %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    mortality = mean(death_or_hospice, na.rm = TRUE),
+    sofa = mean(sofa_total, na.rm = TRUE),
+    imv_rate = mean(any_imv_72h, na.rm = TRUE),
+    icu_los = median(icu_los_hours, na.rm = TRUE),
+    cluster_score = mortality + sofa / 10 + imv_rate,
+    .groups = "drop"
+  ) %>%
+  arrange(cluster_score, suppressWarnings(as.integer(as.character(traj_cluster_ra)))) %>%
+  mutate(
+    old_cluster = as.character(traj_cluster_ra),
+    traj_cluster_ra = factor(as.character(row_number()), levels = as.character(seq_len(n()))),
+    severity_rank = factor(row_number(), ordered = TRUE)
+  ) %>%
+  select(traj_cluster_ra, old_cluster, mortality, sofa, imv_rate, icu_los, severity_rank)
+
+traj_assign_ra <- traj_assign_ra %>%
+  mutate(old_cluster = as.character(traj_cluster_ra)) %>%
+  left_join(cluster_severity %>% select(old_cluster, traj_cluster_ra), by = "old_cluster") %>%
+  transmute(
+    hospitalization_id,
+    traj_cluster_ra = factor(traj_cluster_ra, levels = levels(cluster_severity$traj_cluster_ra))
+  )
+
+analysis_ready <- analysis_ready %>%
+  mutate(old_cluster = as.character(traj_cluster_ra)) %>%
+  select(-traj_cluster_ra) %>%
+  left_join(
+    cluster_severity %>% select(old_cluster, traj_cluster_ra, severity_rank),
+    by = "old_cluster"
+  ) %>%
+  select(-old_cluster) %>%
+  mutate(traj_cluster_ra = factor(traj_cluster_ra, levels = levels(cluster_severity$traj_cluster_ra)))
 
 # ================================================================================================
 # 7) Charlson score
@@ -1019,25 +1065,7 @@ save_plot(p_cc, "sig_timing_cuminc_by_cluster", w = 10, h = 8)
 # 12) Cluster severity ranking
 # ================================================================================================
 
-cluster_severity <- analysis_ready %>%
-  filter(!is.na(traj_cluster_ra)) %>%
-  group_by(traj_cluster_ra) %>%
-  summarize(
-    mortality = mean(death_or_hospice, na.rm = TRUE),
-    sofa = mean(sofa_total, na.rm = TRUE),
-    imv_rate = mean(any_imv_72h, na.rm = TRUE),
-    icu_los = median(icu_los_hours, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  mutate(
-    severity_rank = rank(mortality + sofa / 10 + imv_rate, ties.method = "first"),
-    severity_rank = factor(severity_rank, ordered = TRUE)
-  )
-
-save_csv(cluster_severity, "cluster_severity_rank")
-
-analysis_ready <- analysis_ready %>%
-  left_join(cluster_severity %>% dplyr::select(traj_cluster_ra, severity_rank), by = "traj_cluster_ra")
+save_csv(cluster_severity %>% select(-old_cluster), "cluster_severity_rank")
 
 # ================================================================================================
 # 13) Models
