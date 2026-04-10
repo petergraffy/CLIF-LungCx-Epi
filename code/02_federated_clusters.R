@@ -1181,6 +1181,13 @@ cox72 <- coxph(
   data = landmark72
 )
 
+cox72_int_pm <- coxph(
+  Surv(time_from72_h, event_after72) ~ traj_cluster_ra * pm25_5y_z + no2_5y_z +
+    age_years + sex_category + race_category +
+    charlson_score + advanced_cancer_any_poa,
+  data = landmark72
+)
+
 cox72_int <- coxph(
   Surv(time_from72_h, event_after72) ~ traj_cluster_ra * no2_5y_z + pm25_5y_z +
     age_years + sex_category + race_category +
@@ -1225,6 +1232,7 @@ model_outputs <- bind_rows(
   tidy_glm_model(m_direct_no2, "glm_direct_no2_severity"),
   tidy_glm_model(m_direct_no2_cluster, "glm_direct_no2_cluster"),
   tidy_cox_model(cox72, "cox72_landmark"),
+  tidy_cox_model(cox72_int_pm, "cox72_landmark_interaction_pm25"),
   tidy_cox_model(cox72_int, "cox72_landmark_interaction_no2")
 )
 
@@ -1245,6 +1253,7 @@ model_meta <- tibble(
     "glm_los_quasipoisson",
     "polr_severity_rank",
     "cox72_landmark",
+    "cox72_landmark_interaction_pm25",
     "cox72_landmark_interaction_no2"
   ),
   n = c(
@@ -1255,6 +1264,7 @@ model_meta <- tibble(
     safe_n(m_los_ra),
     safe_n(m_severity),
     nrow(landmark72),
+    nrow(landmark72),
     nrow(landmark72)
   ),
   events = c(
@@ -1264,6 +1274,7 @@ model_meta <- tibble(
     sum(model.frame(m_int_no2)$death_or_hospice, na.rm = TRUE),
     NA_real_,
     NA_real_,
+    sum(landmark72$event_after72, na.rm = TRUE),
     sum(landmark72$event_after72, na.rm = TRUE),
     sum(landmark72$event_after72, na.rm = TRUE)
   )
