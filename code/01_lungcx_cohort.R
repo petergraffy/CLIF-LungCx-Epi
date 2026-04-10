@@ -322,6 +322,7 @@ base <- hospitalization %>%
 # B) Lung cancer dx POA=1
 lung_poa <- hospital_dx %>%
   filter(poa_present == 1) %>%
+  mutate(hospitalization_id = as.character(hospitalization_id)) %>%
   filter(code_matches_any_prefix(icd_code, lung_dx_prefixes)) %>%
   distinct(hospitalization_id) %>%
   mutate(has_lung_cancer_poa = TRUE)
@@ -653,7 +654,6 @@ analysis_ready <- cohort_lung %>%
   )
 
 cat("\nDone. Outputs in: ", out_dir, "\n", sep="")
-
 
 
 

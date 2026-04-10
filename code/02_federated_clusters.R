@@ -261,7 +261,8 @@ keys <- cohort_lung %>%
   transmute(
     hospitalization_id = as.character(hospitalization_id),
     t0 = as.POSIXct(t0, tz = "UTC")
-  )
+  ) %>%
+  distinct(hospitalization_id, .keep_all = TRUE)
 
 win72 <- keys %>%
   transmute(
@@ -741,7 +742,7 @@ pleural_effusion_icd9  <- c("51181")
 cachexia_icd10 <- c("R64")
 cachexia_icd9  <- c("7994")
 
-advanced_cancer_flags <- hospital_dx %>%
+advanced_cancer_flags_init <- hospital_dx %>%
   mutate(
     hospitalization_id = as.character(hospitalization_id),
     diagnosis_code = norm_code(diagnosis_code),
@@ -750,26 +751,31 @@ advanced_cancer_flags <- hospital_dx %>%
     icd10 = str_detect(diagnosis_code_format, "10"),
     icd9  = str_detect(diagnosis_code_format, "9")
   ) %>%
-  filter(poa_present == 1) %>%
-  group_by(hospitalization_id) %>%
-  summarize(
-    metastatic_cancer_poa = any(
+  filter(poa_present == 1)
+
+advanced_cancer_temp <- advanced_cancer_flags_init %>%
+  mutate(
+    metastatic_cancer_poa =
       (icd10 & code_matches_any_prefix(diagnosis_code, metastatic_prefixes_icd10)) |
-        (icd9  & code_matches_any_prefix(diagnosis_code, metastatic_prefixes_icd9)),
-      na.rm = TRUE
-    ),
-    malignant_pleural_effusion_poa = any(
+      (icd9  & code_matches_any_prefix(diagnosis_code, metastatic_prefixes_icd9)),
+    malignant_pleural_effusion_poa =
       (icd10 & code_matches_any_prefix(diagnosis_code, pleural_effusion_icd10)) |
-        (icd9  & code_matches_any_prefix(diagnosis_code, pleural_effusion_icd9)),
-      na.rm = TRUE
-    ),
-    cachexia_poa = any(
+      (icd9  & code_matches_any_prefix(diagnosis_code, pleural_effusion_icd9)),
+    cachexia_poa =
       (icd10 & code_matches_any_prefix(diagnosis_code, cachexia_icd10)) |
-        (icd9  & code_matches_any_prefix(diagnosis_code, cachexia_icd9)),
-      na.rm = TRUE
-    ),
-    .groups = "drop"
-  ) %>%
+      (icd9  & code_matches_any_prefix(diagnosis_code, cachexia_icd9))
+  )
+
+setDT(advanced_cancer_temp)
+advanced_cancer_flags <- advanced_cancer_temp[
+  ,
+  .(
+    metastatic_cancer_poa = any(metastatic_cancer_poa, na.rm = TRUE),
+    malignant_pleural_effusion_poa = any(malignant_pleural_effusion_poa, na.rm = TRUE),
+    cachexia_poa = any(cachexia_poa, na.rm = TRUE)
+  ),
+  by = hospitalization_id
+] %>%
   mutate(
     advanced_cancer_any_poa =
       metastatic_cancer_poa |
@@ -1486,13 +1492,17 @@ gcs_cluster <- scores_df %>%
 save_csv(gcs_cluster, "cluster_gcs_summary")
 
 neuro_prefix <- c("I61", "I62", "I63", "I64", "G93", "C793")
-neuro_flags <- hospital_dx %>%
-  filter(poa_present == 1) %>%
+neuro_flags_init <- hospital_dx %>%
   mutate(
     hospitalization_id = as.character(hospitalization_id),
+    poa_present = suppressWarnings(as.integer(poa_present)),
     code = norm_code(diagnosis_code)
   ) %>%
-  filter(code_matches_any_prefix(code, neuro_prefix)) %>%
+  filter(poa_present == 1)
+
+neuro_flags <- neuro_flags_init %>%
+  mutate(neuro_dis = code_matches_any_prefix(code, neuro_prefix)) %>%
+  filter(neuro_dis) %>%
   distinct(hospitalization_id) %>%
   mutate(neuro_dx = TRUE)
 
