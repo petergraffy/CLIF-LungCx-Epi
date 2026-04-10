@@ -1589,6 +1589,8 @@ options(tigris_class = "sf")
 # ---------------------------
 MIN_CELL_N <- 11L   # suppress small cells for federated export if needed
 MAP_YEAR <- 2022L
+COUNTY_SHP_DIR <- file.path("resources", "shapefiles", "cb_2022_us_county_500k")
+COUNTY_SHP_PATH <- file.path(COUNTY_SHP_DIR, "cb_2022_us_county_500k.shp")
 
 # ---------------------------
 # Build county-cluster table
@@ -1663,7 +1665,13 @@ conus_states <- c(
   "47","48","49","50","51","53","54","55","56"
 )
 
-us_counties <- tigris::counties(cb = TRUE, year = MAP_YEAR, class = "sf") %>%
+us_counties_init <- if (file.exists(COUNTY_SHP_PATH)) {
+  sf::st_read(COUNTY_SHP_PATH, quiet = TRUE)
+} else {
+  tigris::counties(cb = TRUE, year = MAP_YEAR, class = "sf")
+}
+
+us_counties <- us_counties_init %>%
   st_transform(5070) %>%
   mutate(
     county_code = GEOID,
