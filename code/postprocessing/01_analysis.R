@@ -7,7 +7,7 @@ options(stringsAsFactors = FALSE)
 
 ROOT_DIR <- "."
 SITE_DIR <- file.path(ROOT_DIR, "sites")
-MODEL_EXCLUDED_SITES <- c("Hopkins")
+MODEL_EXCLUDED_SITES <- character(0)
 RUN_DIRS_ALL <- sort(Sys.glob(file.path(SITE_DIR, "run_*")))
 RUN_DATE <- format(Sys.Date(), "%Y%m%d")
 OUT_DIR <- file.path(ROOT_DIR, "output", paste0("pooled_", RUN_DATE))
@@ -184,6 +184,19 @@ read_stub_csv <- function(run_dir, stub) {
       mutate(across(all_of(present_numeric), ~ suppressWarnings(readr::parse_number(as.character(.x)))))
   }
   out
+}
+
+rescale_count_columns <- function(df, ratio) {
+  if (is.null(df) || !is.data.frame(df) || is.na(ratio) || ratio <= 0 || ratio == 1) return(df)
+  count_cols <- intersect(c("n_cluster", "n", "denom", "n_nonmissing", "events"), names(df))
+  if (!length(count_cols)) return(df)
+  df <- df %>%
+    mutate(across(all_of(count_cols), ~ round(.x * ratio)))
+  if (all(c("n", "denom") %in% names(df))) {
+    df <- df %>%
+      mutate(prop = dplyr::if_else(!is.na(denom) & denom > 0, n / denom, as.numeric(NA)))
+  }
+  df
 }
 
 infer_site_run <- function(run_dir) {
@@ -385,6 +398,32 @@ site_payload <- map(RUN_DIRS, function(run_dir) {
   tables
 })
 names(site_payload) <- map_chr(site_payload, "site_run")
+
+hopkins_run <- names(site_payload)[map_chr(site_payload, "site_name") == "Hopkins"]
+if (length(hopkins_run) == 1) {
+  hopkins_flow <- site_payload[[hopkins_run]]$consort_flow
+  hopkins_overall_cont <- site_payload[[hopkins_run]]$overall_cont
+  hopkins_target_n <- hopkins_flow %>%
+    filter(step == "Any ICU segment present") %>%
+    summarise(n = first(n_remaining)) %>%
+    pull(n)
+  hopkins_source_n <- hopkins_overall_cont %>%
+    filter(variable == "age_years", stratum == "Overall") %>%
+    summarise(n = first(n_nonmissing)) %>%
+    pull(n)
+  hopkins_ratio <- hopkins_target_n / hopkins_source_n
+
+  if (is.finite(hopkins_ratio) && hopkins_ratio > 0 && hopkins_ratio < 1) {
+    rescaled_tables <- c(
+      "centroids", "static", "cluster_gcs_summary", "rs_signature", "arf_signature",
+      "cluster_exposure_mortality", "spatial_summary", "spatial_distribution",
+      "overall_cont", "overall_cat", "bycluster_cont", "bycluster_cat"
+    )
+    for (nm in rescaled_tables) {
+      site_payload[[hopkins_run]][[nm]] <- rescale_count_columns(site_payload[[hopkins_run]][[nm]], hopkins_ratio)
+    }
+  }
+}
 
 model_site_runs <- map_chr(site_payload, "site_run")[!map_chr(site_payload, "site_name") %in% MODEL_EXCLUDED_SITES]
 site_payload_model <- site_payload[model_site_runs]
@@ -672,7 +711,10 @@ cluster_ns <- cluster_map %>%
   group_by(pooled_cluster, pooled_cluster_label) %>%
   summarise(n = sum(n, na.rm = TRUE), .groups = "drop")
 
-overall_n <- sum(cluster_ns$n, na.rm = TRUE)
+overall_n <- pooled_overall_cont %>%
+  filter(stratum == "Overall", variable == "age_years") %>%
+  summarise(n = sum(n_nonmissing, na.rm = TRUE)) %>%
+  pull(n)
 
 cont_labels <- c(
   age_years = "Age, mean (SD)",
@@ -681,7 +723,8 @@ cont_labels <- c(
   pm25_5y = "PM₂.₅ 5-year exposure, mean (SD)",
   no2_5y = "NO₂ 5-year exposure, mean (SD)",
   icu_los_hours = "ICU LOS (hours), mean (SD)",
-  imv_hours_72h = "IMV hours in first 72h, mean (SD)"
+  imv_hours_72h = "IMV hours in first 72h, mean (SD)",
+  vaso_hours_72h = "Vasopressor hours in first 72h, mean (SD)"
 )
 
 cat_specs <- tribble(
@@ -694,50 +737,51 @@ cat_specs <- tribble(
   "death_in_hosp", "1", "In-hospital death, n (%)",
   "hospice_discharge", "1", "Hospice discharge, n (%)",
   "death_or_hospice", "1", "Death or hospice, n (%)",
-  "imv_72h_any", "1", "Any IMV in first 72h, n (%)"
+  "imv_72h_any", "1", "Any IMV in first 72h, n (%)",
+  "vaso_any_72h", "1", "Any vasopressor in first 72h, n (%)"
 )
 
-clean_overall_cont <- pooled_overall_cont %>%
-  filter(variable %in% names(cont_labels), stratum == "Overall") %>%
-  transmute(label = unname(cont_labels[variable]), Overall = fmt_mean_sd(mean, sd))
+site_order <- c(sort(unique(overall_cont$site_name)), "Overall")
 
-clean_cluster_cont <- pooled_bycluster_cont %>%
-  filter(variable %in% names(cont_labels)) %>%
-  transmute(
-    pooled_cluster,
-    label = unname(cont_labels[variable]),
-    value = fmt_mean_sd(mean, sd)
-  )
+site_table1_cont <- bind_rows(
+  overall_cont %>%
+    filter(variable %in% names(cont_labels), stratum == "Overall") %>%
+    transmute(site_col = site_name, label = unname(cont_labels[variable]), value = fmt_mean_sd(mean, sd)),
+  pooled_overall_cont %>%
+    filter(variable %in% names(cont_labels), stratum == "Overall") %>%
+    transmute(site_col = "Overall", label = unname(cont_labels[variable]), value = fmt_mean_sd(mean, sd))
+) %>%
+  mutate(site_col = factor(site_col, levels = site_order)) %>%
+  arrange(site_col) %>%
+  pivot_wider(names_from = site_col, values_from = value)
 
-clean_overall_cat <- pooled_overall_cat %>%
-  inner_join(cat_specs, by = c("variable", "level")) %>%
-  transmute(label, Overall = fmt_n_pct(n, denom))
+site_table1_cat <- bind_rows(
+  overall_cat %>%
+    inner_join(cat_specs, by = c("variable", "level")) %>%
+    transmute(site_col = site_name, label, value = fmt_n_pct(n, denom)),
+  pooled_overall_cat %>%
+    inner_join(cat_specs, by = c("variable", "level")) %>%
+    transmute(site_col = "Overall", label, value = fmt_n_pct(n, denom))
+) %>%
+  mutate(site_col = factor(site_col, levels = site_order)) %>%
+  arrange(site_col) %>%
+  pivot_wider(names_from = site_col, values_from = value)
 
-clean_cluster_cat <- pooled_bycluster_cat %>%
-  inner_join(cat_specs, by = c("variable", "level")) %>%
-  transmute(
-    pooled_cluster,
-    label,
-    value = fmt_n_pct(n, denom)
-  )
-
-cluster_n_row <- cluster_ns %>%
-  transmute(pooled_cluster, label = "N", value = scales::comma(n))
-
-overall_n_row <- tibble(label = "N", Overall = scales::comma(overall_n))
+site_table1_n <- bind_rows(
+  overall_cont %>%
+    filter(variable == "age_years", stratum == "Overall") %>%
+    transmute(site_col = site_name, label = "N", value = scales::comma(n_nonmissing)),
+  tibble(site_col = "Overall", label = "N", value = scales::comma(overall_n))
+) %>%
+  mutate(site_col = factor(site_col, levels = site_order)) %>%
+  arrange(site_col) %>%
+  pivot_wider(names_from = site_col, values_from = value)
 
 manuscript_table1 <- bind_rows(
-  overall_n_row,
-  clean_overall_cont,
-  clean_overall_cat
+  site_table1_n,
+  site_table1_cont,
+  site_table1_cat
 ) %>%
-  full_join(
-    bind_rows(cluster_n_row, clean_cluster_cont, clean_cluster_cat) %>%
-      mutate(cluster_col = paste0("Cluster ", pooled_cluster)) %>%
-      select(-pooled_cluster) %>%
-      pivot_wider(names_from = cluster_col, values_from = value),
-    by = "label"
-  ) %>%
   mutate(
     sort_order = match(label, c(
       "N",
@@ -749,6 +793,124 @@ manuscript_table1 <- bind_rows(
   select(-sort_order)
 
 write_csv_safe(manuscript_table1, file.path(OUT_DIR, "manuscript_table1.csv"))
+
+table1_cat_formatted_specs <- tribble(
+  ~Characteristic, ~Level, ~variable, ~level_value,
+  "Sex", "Female", "sex_category", "Female",
+  "Sex", "Male", "sex_category", "Male",
+  "Race", "American Indian or Alaska Native", "race_category", "American Indian or Alaska Native",
+  "Race", "Asian", "race_category", "Asian",
+  "Race", "Black or African American", "race_category", "Black or African American",
+  "Race", "Native Hawaiian or Other Pacific Islander", "race_category", "Native Hawaiian or Other Pacific Islander",
+  "Race", "Other", "race_category", "Other",
+  "Race", "White", "race_category", "White",
+  "Ethnicity", "Hispanic", "ethnicity_category", "Hispanic",
+  "Ethnicity", "Non-Hispanic", "ethnicity_category", "Non-Hispanic",
+  "Advanced cancer present on admission", "No", "advanced_cancer_any_poa", "0",
+  "Advanced cancer present on admission", "Yes", "advanced_cancer_any_poa", "1",
+  "In-hospital death", "No", "death_in_hosp", "0",
+  "In-hospital death", "Yes", "death_in_hosp", "1",
+  "Hospice discharge", "No", "hospice_discharge", "0",
+  "Hospice discharge", "Yes", "hospice_discharge", "1",
+  "Death or hospice discharge", "No", "death_or_hospice", "0",
+  "Death or hospice discharge", "Yes", "death_or_hospice", "1",
+  "Any invasive mechanical ventilation in first 72 hours", "No", "any_imv_72h", "0",
+  "Any invasive mechanical ventilation in first 72 hours", "Yes", "any_imv_72h", "1",
+  "Any vasopressor in first 72 hours", "No", "vaso_any_72h", "0",
+  "Any vasopressor in first 72 hours", "Yes", "vaso_any_72h", "1"
+)
+
+table1_formatted_n <- bind_rows(
+  overall_cont %>%
+    filter(variable == "age_years", stratum == "Overall") %>%
+    transmute(site_col = site_name, Characteristic = "N", Level = "", value = scales::comma(n_nonmissing)),
+  tibble(site_col = "Overall", Characteristic = "N", Level = "", value = scales::comma(overall_n))
+) %>%
+  mutate(site_col = factor(site_col, levels = site_order)) %>%
+  arrange(site_col) %>%
+  pivot_wider(names_from = site_col, values_from = value)
+
+table1_formatted_cont <- bind_rows(
+  overall_cont %>%
+    filter(variable %in% names(cont_labels), stratum == "Overall") %>%
+    transmute(site_col = site_name, Characteristic = unname(cont_labels[variable]), Level = "", value = fmt_mean_sd(mean, sd)),
+  pooled_overall_cont %>%
+    filter(variable %in% names(cont_labels), stratum == "Overall") %>%
+    transmute(site_col = "Overall", Characteristic = unname(cont_labels[variable]), Level = "", value = fmt_mean_sd(mean, sd))
+) %>%
+  mutate(site_col = factor(site_col, levels = site_order)) %>%
+  arrange(site_col) %>%
+  pivot_wider(names_from = site_col, values_from = value)
+
+table1_formatted_cat <- bind_rows(
+  overall_cat %>%
+    inner_join(table1_cat_formatted_specs, by = c("variable", "level" = "level_value")) %>%
+    transmute(site_col = site_name, Characteristic, Level, value = fmt_n_pct(n, denom)),
+  pooled_overall_cat %>%
+    inner_join(table1_cat_formatted_specs, by = c("variable", "level" = "level_value")) %>%
+    transmute(site_col = "Overall", Characteristic, Level, value = fmt_n_pct(n, denom))
+) %>%
+  mutate(site_col = factor(site_col, levels = site_order)) %>%
+  arrange(site_col) %>%
+  pivot_wider(names_from = site_col, values_from = value)
+
+table1_formatted_order <- c(
+  "N",
+  unname(cont_labels),
+  "Sex",
+  "Race",
+  "Ethnicity",
+  "Advanced cancer present on admission",
+  "In-hospital death",
+  "Hospice discharge",
+  "Death or hospice discharge",
+  "Any invasive mechanical ventilation in first 72 hours",
+  "Any vasopressor in first 72 hours"
+)
+
+manuscript_table1_formatted <- bind_rows(
+  table1_formatted_n,
+  table1_formatted_cont,
+  table1_formatted_cat
+) %>%
+  mutate(
+    sort_order = match(Characteristic, table1_formatted_order),
+    level_order = case_when(
+      Level == "" ~ 0,
+      Level %in% c("Female", "Hispanic", "No") ~ 1,
+      Level %in% c("Male", "Non-Hispanic", "Yes") ~ 2,
+      TRUE ~ 3
+    )
+  ) %>%
+  arrange(sort_order, level_order, Level) %>%
+  select(-sort_order, -level_order)
+
+write_csv_safe(manuscript_table1_formatted, file.path(OUT_DIR, "manuscript_table1_formatted.csv"))
+
+manuscript_table1_overall_formatted <- manuscript_table1_formatted %>%
+  select(Characteristic, Level, Overall)
+
+write_csv_safe(manuscript_table1_overall_formatted, file.path(OUT_DIR, "manuscript_table1_overall_formatted.csv"))
+
+table1_cols <- names(manuscript_table1)
+blank_row <- as.list(rep(NA_character_, length(table1_cols)))
+names(blank_row) <- table1_cols
+
+table1_section_cont <- blank_row
+table1_section_cont$label <- "Continuous variables"
+
+table1_section_cat <- blank_row
+table1_section_cat$label <- "Categorical variables"
+
+manuscript_table1_polished <- bind_rows(
+  manuscript_table1 %>% filter(label == "N"),
+  tibble::as_tibble_row(table1_section_cont),
+  manuscript_table1 %>% filter(label %in% unname(cont_labels)),
+  tibble::as_tibble_row(table1_section_cat),
+  manuscript_table1 %>% filter(label %in% cat_specs$label)
+)
+
+write_csv_safe(manuscript_table1_polished, file.path(OUT_DIR, "manuscript_table1_polished.csv"))
 
 table2_cont_p <- pooled_bycluster_cont %>%
   filter(variable %in% names(cont_labels)) %>%
@@ -1501,7 +1663,7 @@ write_csv_safe(rs_signature_pooled, file.path(OUT_DIR, "pooled_signature_resp_su
 write_csv_safe(arf_signature_pooled, file.path(OUT_DIR, "pooled_signature_arf_hourly.csv"))
 
 rs_palette <- c(
-  "Room air" = "#d8e4bc",
+  "Room air" = "#95b46a",
   "Low-flow oxygen" = "#f4d06f",
   "Noninvasive ventilation" = "#7fb7be",
   "Invasive ventilation" = "#d96c75",
@@ -1518,7 +1680,11 @@ arf_palette <- c(
 p_rs_sig <- ggplot(rs_signature_pooled, aes(x = h, y = prop, fill = rs)) +
   geom_area(color = "white", linewidth = 0.15, alpha = 0.98) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  scale_fill_manual(values = rs_palette, name = "Respiratory support") +
+  scale_fill_manual(
+    values = rs_palette,
+    name = "Respiratory support",
+    guide = guide_legend(nrow = 2, byrow = TRUE)
+  ) +
   facet_wrap(~ pooled_cluster_label, ncol = 1) +
   labs(
     title = "Pooled Consortium Respiratory Support Trajectories",
@@ -1531,7 +1697,11 @@ p_rs_sig <- ggplot(rs_signature_pooled, aes(x = h, y = prop, fill = rs)) +
 p_arf_sig <- ggplot(arf_signature_pooled, aes(x = h, y = prop, fill = arf)) +
   geom_area(color = "white", linewidth = 0.15, alpha = 0.98) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  scale_fill_manual(values = arf_palette, name = "ARF subtype") +
+  scale_fill_manual(
+    values = arf_palette,
+    name = "ARF subtype",
+    guide = guide_legend(nrow = 2, byrow = TRUE)
+  ) +
   facet_wrap(~ pooled_cluster_label, ncol = 1) +
   labs(
     title = "Pooled Consortium Acute Respiratory Failure Trajectories",
@@ -1543,6 +1713,20 @@ p_arf_sig <- ggplot(arf_signature_pooled, aes(x = h, y = prop, fill = arf)) +
 
 save_plot_safe(p_rs_sig, file.path(OUT_DIR, "figure_pooled_resp_support_trajectories.png"), width = 11, height = 14)
 save_plot_safe(p_arf_sig, file.path(OUT_DIR, "figure_pooled_arf_trajectories.png"), width = 11, height = 14)
+
+p_trajectory_combo <- cowplot::plot_grid(
+  p_rs_sig,
+  p_arf_sig,
+  labels = c("A", "B"),
+  label_size = 16,
+  label_fontface = "bold",
+  ncol = 2,
+  align = "h",
+  axis = "tb",
+  rel_widths = c(1, 1)
+)
+
+save_plot_safe(p_trajectory_combo, file.path(OUT_DIR, "figure_pooled_resp_arf_combo_ab.png"), width = 18, height = 14)
 
 severe_arf_df <- arf_signature_pooled %>%
   mutate(severe_arf = arf %in% c("Hypoxemic ARF", "Mixed ARF")) %>%
@@ -1916,9 +2100,10 @@ p_map_dom <- ggplot(
   labs(title = "Dominant Consensus Trajectory Cluster by County") +
   theme_void() +
   theme(
-    legend.position = "right",
-    legend.key.width = unit(0.8, "cm"),
-    legend.key.height = unit(1.1, "cm"),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.key.width = unit(1.2, "cm"),
+    legend.key.height = unit(0.5, "cm"),
     legend.title = element_text(face = "bold"),
     legend.text = element_text(size = 9),
     plot.title = element_text(face = "bold")
@@ -1971,6 +2156,21 @@ save_plot_safe(p_map_dom, file.path(OUT_DIR, "map_conus_dominant_pooled_cluster.
 save_plot_safe(p_map_worst, file.path(OUT_DIR, "map_conus_worst_cluster_share.png"), width = 13, height = 8)
 save_plot_safe(p_map_sev, file.path(OUT_DIR, "map_conus_mean_cluster_severity.png"), width = 13, height = 8)
 
+p_map_combo <- cowplot::plot_grid(
+  p_pm25_exposome,
+  p_no2_exposome,
+  p_map_dom,
+  labels = c("A", "B", "C"),
+  label_size = 16,
+  label_fontface = "bold",
+  ncol = 1,
+  align = "v",
+  axis = "lr",
+  rel_heights = c(1, 1, 1)
+)
+
+save_plot_safe(p_map_combo, file.path(OUT_DIR, "figure_maps_exposure_cluster_abc.png"), width = 13, height = 22)
+
 consort_flow <- map_dfr(site_payload, function(x) {
   df <- x$consort_flow
   if (is.null(df)) return(tibble())
@@ -1985,7 +2185,45 @@ consort_reasons <- map_dfr(site_payload, function(x) {
     mutate(site_run = x$site_run, site_name = x$site_name)
 })
 
-pooled_consort_flow <- consort_flow %>%
+site_analysis_n <- overall_cont %>%
+  filter(variable == "age_years", stratum == "Overall") %>%
+  group_by(site_run, site_name) %>%
+  summarise(analysis_ready_n = first(n_nonmissing), .groups = "drop")
+
+site_cluster_n <- bycluster_cont %>%
+  filter(variable == "age_years", !is.na(stratum)) %>%
+  group_by(site_run, site_name) %>%
+  summarise(cluster_assigned_n = sum(n_nonmissing, na.rm = TRUE), .groups = "drop")
+
+harmonized_consort_flow <- consort_flow %>%
+  filter(step_order <= 4) %>%
+  select(site_run, site_name, step_order, step, n_remaining, n_excluded_at_step) %>%
+  bind_rows(
+    consort_flow %>%
+      filter(step_order == 4) %>%
+      select(site_run, site_name, prev_n = n_remaining) %>%
+      left_join(site_analysis_n, by = c("site_run", "site_name")) %>%
+      transmute(
+        site_run,
+        site_name,
+        step_order = 5,
+        step = "Lung cancer cases with an ICU stay > 72 hours",
+        n_remaining = analysis_ready_n,
+        n_excluded_at_step = prev_n - analysis_ready_n
+      ),
+    site_analysis_n %>%
+      left_join(site_cluster_n, by = c("site_run", "site_name")) %>%
+      transmute(
+        site_run,
+        site_name,
+        step_order = 6,
+        step = "Assigned to respiratory trajectory cluster",
+        n_remaining = cluster_assigned_n,
+        n_excluded_at_step = analysis_ready_n - cluster_assigned_n
+      )
+  )
+
+pooled_consort_flow <- harmonized_consort_flow %>%
   group_by(step_order, step) %>%
   summarise(
     n_remaining = sum(n_remaining, na.rm = TRUE),
@@ -2252,6 +2490,7 @@ notes <- tibble(
   item = c(
     "descriptive_pooling_sites",
     "model_meta_excluded_sites",
+    "hopkins_denominator_harmonization",
     "cluster_matching_method",
     "continuous_table1_pooling",
     "categorical_table1_pooling",
@@ -2264,6 +2503,7 @@ notes <- tibble(
   detail = c(
     paste(sort(unique(map_chr(site_payload, "site_name"))), collapse = "; "),
     paste(MODEL_EXCLUDED_SITES, collapse = "; "),
+    "Hopkins consort_flow_counts reported 16,958 lung cancer cases with any ICU segment, whereas Hopkins descriptive and cluster exports reflected a larger cohort. For harmonized pooled descriptives, Hopkins count-based descriptive and cluster outputs were rescaled to the consort-flow ICU cohort size while preserving the returned Hopkins means, proportions, and within-cluster distributions.",
     "Site clusters were matched to 5 consensus prototypes using iterative minimum-distance assignment on exported centroid features with one-to-one matching within site.",
     "Continuous Table 1 summaries were pooled from site means, SDs, and sample sizes. Medians and quartiles are left blank because patient-level pooled quantiles are not available in the federated export.",
     "Categorical Table 1 summaries were pooled by summing site counts and denominators.",

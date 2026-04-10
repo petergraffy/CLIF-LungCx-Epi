@@ -1,6 +1,6 @@
 item,detail
 descriptive_pooling_sites,Emory; Hopkins; Michigan; Minnesota; NU; OHSU; Penn; RUSH; UCMC; UCSF
-model_meta_excluded_sites,Hopkins
+model_meta_excluded_sites,
 hopkins_denominator_harmonization,"Hopkins consort_flow_counts reported 16,958 lung cancer cases with any ICU segment, whereas Hopkins descriptive and cluster exports reflected a larger cohort. For harmonized pooled descriptives, Hopkins count-based descriptive and cluster outputs were rescaled to the consort-flow ICU cohort size while preserving the returned Hopkins means, proportions, and within-cluster distributions."
 cluster_matching_method,Site clusters were matched to 5 consensus prototypes using iterative minimum-distance assignment on exported centroid features with one-to-one matching within site.
 continuous_table1_pooling,"Continuous Table 1 summaries were pooled from site means, SDs, and sample sizes. Medians and quartiles are left blank because patient-level pooled quantiles are not available in the federated export."

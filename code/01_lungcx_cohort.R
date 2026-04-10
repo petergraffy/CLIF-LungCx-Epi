@@ -95,6 +95,22 @@ norm_code <- function(x) {
   x <- toupper(as.character(x))
   str_replace_all(x, "[^A-Z0-9]", "")
 }
+
+is_primary_lung_dx_code <- function(code, definition = NULL, code_system = NULL) {
+  code <- norm_code(code)
+  definition <- toupper(as.character(definition %||% ""))
+  code_system <- toupper(as.character(code_system %||% ""))
+
+  icd10_primary_lung <- code_system == "ICD10CM" & str_starts(code, "C34")
+  icd9_primary_lung <- code_system == "ICD9CM" & str_starts(code, "162")
+
+  definition_ok <- str_detect(definition, "MALIGNANT NEOPLASM") &
+    str_detect(definition, "LUNG|BRONCHUS") &
+    !str_detect(definition, "PERSONAL HISTORY|SECONDARY")
+
+  icd10_primary_lung | icd9_primary_lung | definition_ok
+}
+
 code_matches_any_prefix <- function(code_vec, prefixes) {
   code_vec <- norm_code(code_vec)
   prefixes <- norm_code(prefixes)
@@ -209,6 +225,7 @@ lung_dx_prefixes <- codes %>%
     code = norm_code(code)
   ) %>%
   filter(code_system %in% c("ICD10CM","ICD9CM")) %>%
+  filter(is_primary_lung_dx_code(code, definition, code_system)) %>%
   pull(code) %>%
   unique()
 
@@ -636,7 +653,6 @@ analysis_ready <- cohort_lung %>%
   )
 
 cat("\nDone. Outputs in: ", out_dir, "\n", sep="")
-
 
 
 

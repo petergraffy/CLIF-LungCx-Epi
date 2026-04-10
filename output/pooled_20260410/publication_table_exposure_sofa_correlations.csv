@@ -1,0 +1,3 @@
+variable_x,variable_y,mean_correlation,median_correlation,n_sites
+NO₂,sofa_total,-0.031683146709076224,-0.012796686354933952,10
+PM₂.₅,sofa_total,0.010424791563044818,0.006069179088411716,10
