@@ -609,87 +609,6 @@ analysis_ready <- analysis_ready %>%
   )
 
 # ================================================================================================
-# Reorder local clusters so Cluster 1 is always the healthiest reference cluster
-# ================================================================================================
-
-cluster_severity <- analysis_ready %>%
-  filter(!is.na(traj_cluster_ra)) %>%
-  group_by(traj_cluster_ra) %>%
-  summarize(
-    mortality = mean(death_or_hospice, na.rm = TRUE),
-    sofa = mean(sofa_total, na.rm = TRUE),
-    imv_rate = mean(any_imv_72h, na.rm = TRUE),
-    icu_los = median(icu_los_hours, na.rm = TRUE),
-    cluster_score = mortality + sofa / 10 + imv_rate,
-    .groups = "drop"
-  ) %>%
-  arrange(
-    cluster_score,
-    suppressWarnings(as.integer(as.character(traj_cluster_ra)))
-  ) %>%
-  mutate(
-    old_cluster = as.character(traj_cluster_ra),
-    new_cluster = as.character(row_number()),
-    severity_rank = factor(row_number(), ordered = TRUE)
-  ) %>%
-  dplyr::select(
-    old_cluster,
-    new_cluster,
-    mortality,
-    sofa,
-    imv_rate,
-    icu_los,
-    severity_rank
-  )
-
-traj_assign_ra <- traj_assign_ra %>%
-  mutate(old_cluster = as.character(traj_cluster_ra)) %>%
-  left_join(
-    cluster_severity %>%
-      dplyr::select(old_cluster, new_cluster),
-    by = "old_cluster"
-  ) %>%
-  transmute(
-    hospitalization_id,
-    traj_cluster_ra = factor(
-      new_cluster,
-      levels = sort(unique(cluster_severity$new_cluster))
-    )
-  )
-
-analysis_ready <- analysis_ready %>%
-  mutate(old_cluster = as.character(traj_cluster_ra)) %>%
-  dplyr::select(-traj_cluster_ra) %>%
-  left_join(
-    cluster_severity %>%
-      dplyr::select(old_cluster, new_cluster, severity_rank),
-    by = "old_cluster"
-  ) %>%
-  dplyr::select(-old_cluster) %>%
-  mutate(
-    traj_cluster_ra = factor(
-      new_cluster,
-      levels = sort(unique(cluster_severity$new_cluster))
-    )
-  ) %>%
-  dplyr::select(-new_cluster)
-
-cluster_severity <- cluster_severity %>%
-  transmute(
-    traj_cluster_ra = factor(
-      new_cluster,
-      levels = sort(unique(new_cluster))
-    ),
-    mortality,
-    sofa,
-    imv_rate,
-    icu_los,
-    severity_rank
-  )
-
-save_csv(cluster_severity, "cluster_severity_rank")
-
-# ================================================================================================
 # 7) Charlson score
 # ================================================================================================
 
@@ -876,6 +795,87 @@ analysis_ready <- analysis_ready %>%
     by = "hospitalization_id"
   ) %>%
   mutate(across(starts_with("sofa_"), ~ coalesce(.x, 0)))
+
+# ================================================================================================
+# Reorder local clusters so Cluster 1 is always the healthiest reference cluster
+# ================================================================================================
+
+cluster_severity <- analysis_ready %>%
+  filter(!is.na(traj_cluster_ra)) %>%
+  group_by(traj_cluster_ra) %>%
+  summarize(
+    mortality = mean(death_or_hospice, na.rm = TRUE),
+    sofa = mean(sofa_total, na.rm = TRUE),
+    imv_rate = mean(any_imv_72h, na.rm = TRUE),
+    icu_los = median(icu_los_hours, na.rm = TRUE),
+    cluster_score = mortality + sofa / 10 + imv_rate,
+    .groups = "drop"
+  ) %>%
+  arrange(
+    cluster_score,
+    suppressWarnings(as.integer(as.character(traj_cluster_ra)))
+  ) %>%
+  mutate(
+    old_cluster = as.character(traj_cluster_ra),
+    new_cluster = as.character(row_number()),
+    severity_rank = factor(row_number(), ordered = TRUE)
+  ) %>%
+  dplyr::select(
+    old_cluster,
+    new_cluster,
+    mortality,
+    sofa,
+    imv_rate,
+    icu_los,
+    severity_rank
+  )
+
+traj_assign_ra <- traj_assign_ra %>%
+  mutate(old_cluster = as.character(traj_cluster_ra)) %>%
+  left_join(
+    cluster_severity %>%
+      dplyr::select(old_cluster, new_cluster),
+    by = "old_cluster"
+  ) %>%
+  transmute(
+    hospitalization_id,
+    traj_cluster_ra = factor(
+      new_cluster,
+      levels = sort(unique(cluster_severity$new_cluster))
+    )
+  )
+
+analysis_ready <- analysis_ready %>%
+  mutate(old_cluster = as.character(traj_cluster_ra)) %>%
+  dplyr::select(-traj_cluster_ra) %>%
+  left_join(
+    cluster_severity %>%
+      dplyr::select(old_cluster, new_cluster, severity_rank),
+    by = "old_cluster"
+  ) %>%
+  dplyr::select(-old_cluster) %>%
+  mutate(
+    traj_cluster_ra = factor(
+      new_cluster,
+      levels = sort(unique(cluster_severity$new_cluster))
+    )
+  ) %>%
+  dplyr::select(-new_cluster)
+
+cluster_severity <- cluster_severity %>%
+  transmute(
+    traj_cluster_ra = factor(
+      new_cluster,
+      levels = sort(unique(new_cluster))
+    ),
+    mortality,
+    sofa,
+    imv_rate,
+    icu_los,
+    severity_rank
+  )
+
+save_csv(cluster_severity, "cluster_severity_rank")
 
 # ================================================================================================
 # 10) Cluster descriptive tables, centroids, and trajectory summaries (federated outputs)
