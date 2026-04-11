@@ -1332,11 +1332,21 @@ ref_year <- round(mean(analysis_ready$admit_year, na.rm = TRUE))
 ref_sex <- analysis_ready %>% count(sex_category, sort = TRUE) %>% slice(1) %>% pull(sex_category)
 ref_race <- analysis_ready %>% count(race_category, sort = TRUE) %>% slice(1) %>% pull(race_category)
 ref_adv <- FALSE
+exposure_grid <- seq(-2, 2, by = 0.1)
+
+predict_expected_severity <- function(model, newdata) {
+  probs <- predict(model, newdata = newdata, type = "probs")
+  if (is.vector(probs)) {
+    probs <- matrix(probs, nrow = 1)
+  }
+  rank_vals <- seq_len(ncol(probs))
+  as.numeric(probs %*% rank_vals)
+}
 
 # PM2.5 interaction predictions
 newdat_pm <- tidyr::expand_grid(
   traj_cluster_ra = levels(droplevels(analysis_ready$traj_cluster_ra)),
-  pm25_5y_z = seq(-2, 2, by = 0.1)
+  pm25_5y_z = exposure_grid
 ) %>%
   mutate(
     no2_5y_z = 0,
@@ -1348,6 +1358,8 @@ newdat_pm <- tidyr::expand_grid(
     advanced_cancer_any_poa = ref_adv
   ) %>%
   mutate(pred_prob = predict(m_int_pm, newdata = ., type = "response"))
+
+save_csv(newdat_pm, "predicted_mortality_curve_pm25_by_cluster")
 
 p_pm <- ggplot(newdat_pm, aes(x = pm25_5y_z, y = pred_prob, color = traj_cluster_ra)) +
   geom_line(linewidth = 1.2) +
@@ -1364,7 +1376,7 @@ save_plot(p_pm, "predicted_mortality_by_cluster_pm25", w = 10, h = 7)
 # NO2 interaction predictions
 newdat_no2 <- tidyr::expand_grid(
   traj_cluster_ra = levels(droplevels(analysis_ready$traj_cluster_ra)),
-  no2_5y_z = seq(-2, 2, by = 0.1)
+  no2_5y_z = exposure_grid
 ) %>%
   mutate(
     pm25_5y_z = 0,
@@ -1376,6 +1388,8 @@ newdat_no2 <- tidyr::expand_grid(
     advanced_cancer_any_poa = ref_adv
   ) %>%
   mutate(pred_prob = predict(m_int_no2, newdata = ., type = "response"))
+
+save_csv(newdat_no2, "predicted_mortality_curve_no2_by_cluster")
 
 p_no2 <- ggplot(newdat_no2, aes(x = no2_5y_z, y = pred_prob, color = traj_cluster_ra)) +
   geom_line(linewidth = 1.2) +
@@ -1449,6 +1463,102 @@ p_heat_pm <- ggplot(heat_pm, aes(x = pm_bin, y = traj_cluster_ra, fill = pred_pr
   ) +
   theme_pub()
 save_plot(p_heat_pm, "interaction_pm25_heatmap", w = 10, h = 5.5)
+
+# ICU LOS response curves
+los_curve_pm <- tibble(pm25_5y_z = exposure_grid) %>%
+  mutate(
+    no2_5y_z = 0,
+    traj_cluster_ra = levels(droplevels(analysis_ready$traj_cluster_ra))[1],
+    age_years = ref_age,
+    sex_category = ref_sex,
+    race_category = ref_race,
+    admit_year = ref_year,
+    charlson_score = ref_charlson,
+    advanced_cancer_any_poa = ref_adv,
+    pred_icu_los_hours = predict(m_los_ra, newdata = ., type = "response")
+  )
+save_csv(los_curve_pm, "predicted_icu_los_curve_pm25")
+
+p_los_pm <- ggplot(los_curve_pm, aes(x = pm25_5y_z, y = pred_icu_los_hours)) +
+  geom_line(linewidth = 1.2, color = "#C05621") +
+  labs(
+    title = "Predicted ICU length of stay across PM2.5 exposure",
+    x = "PM2.5 (5-year exposure, z-score)",
+    y = "Predicted ICU length of stay (hours)"
+  ) +
+  theme_pub()
+save_plot(p_los_pm, "predicted_icu_los_curve_pm25", w = 9, h = 6)
+
+los_curve_no2 <- tibble(no2_5y_z = exposure_grid) %>%
+  mutate(
+    pm25_5y_z = 0,
+    traj_cluster_ra = levels(droplevels(analysis_ready$traj_cluster_ra))[1],
+    age_years = ref_age,
+    sex_category = ref_sex,
+    race_category = ref_race,
+    admit_year = ref_year,
+    charlson_score = ref_charlson,
+    advanced_cancer_any_poa = ref_adv,
+    pred_icu_los_hours = predict(m_los_ra, newdata = ., type = "response")
+  )
+save_csv(los_curve_no2, "predicted_icu_los_curve_no2")
+
+p_los_no2 <- ggplot(los_curve_no2, aes(x = no2_5y_z, y = pred_icu_los_hours)) +
+  geom_line(linewidth = 1.2, color = "#2B6CB0") +
+  labs(
+    title = "Predicted ICU length of stay across NO2 exposure",
+    x = "NO2 (5-year exposure, z-score)",
+    y = "Predicted ICU length of stay (hours)"
+  ) +
+  theme_pub()
+save_plot(p_los_no2, "predicted_icu_los_curve_no2", w = 9, h = 6)
+
+# Severity response curves
+severity_curve_pm <- tibble(pm25_5y_z = exposure_grid) %>%
+  mutate(
+    no2_5y_z = 0,
+    age_years = ref_age,
+    sex_category = ref_sex,
+    race_category = ref_race,
+    admit_year = ref_year,
+    charlson_score = ref_charlson,
+    advanced_cancer_any_poa = ref_adv
+  )
+severity_curve_pm$predicted_expected_rank <- predict_expected_severity(m_severity, severity_curve_pm)
+save_csv(severity_curve_pm, "predicted_severity_curve_pm25")
+
+p_sev_pm <- ggplot(severity_curve_pm, aes(x = pm25_5y_z, y = predicted_expected_rank)) +
+  geom_line(linewidth = 1.2, color = "#C05621") +
+  labs(
+    title = "Predicted trajectory severity across PM2.5 exposure",
+    x = "PM2.5 (5-year exposure, z-score)",
+    y = "Predicted expected severity rank"
+  ) +
+  theme_pub()
+save_plot(p_sev_pm, "predicted_severity_curve_pm25", w = 9, h = 6)
+
+severity_curve_no2 <- tibble(no2_5y_z = exposure_grid) %>%
+  mutate(
+    pm25_5y_z = 0,
+    age_years = ref_age,
+    sex_category = ref_sex,
+    race_category = ref_race,
+    admit_year = ref_year,
+    charlson_score = ref_charlson,
+    advanced_cancer_any_poa = ref_adv
+  )
+severity_curve_no2$predicted_expected_rank <- predict_expected_severity(m_severity, severity_curve_no2)
+save_csv(severity_curve_no2, "predicted_severity_curve_no2")
+
+p_sev_no2_curve <- ggplot(severity_curve_no2, aes(x = no2_5y_z, y = predicted_expected_rank)) +
+  geom_line(linewidth = 1.2, color = "#2B6CB0") +
+  labs(
+    title = "Predicted trajectory severity across NO2 exposure",
+    x = "NO2 (5-year exposure, z-score)",
+    y = "Predicted expected severity rank"
+  ) +
+  theme_pub()
+save_plot(p_sev_no2_curve, "predicted_severity_curve_no2", w = 9, h = 6)
 
 analysis_ready <- analysis_ready %>%
   mutate(no2_q = ntile(no2_5y, 4))

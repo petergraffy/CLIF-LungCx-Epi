@@ -1,6 +1,0 @@
-site_name,reason,n
-Hopkins,Missing demographics,125
-Hopkins,Missing geo code,8473
-Hopkins,No ICU stay (no ADT segment with ICU location_category),25141
-Hopkins,No lung cancer dx POA=1 matching prefixes,887456
-Hopkins,Under 18 or missing age,54

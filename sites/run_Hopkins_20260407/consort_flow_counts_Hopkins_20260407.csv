@@ -1,7 +1,0 @@
-site_name,step,step_order,n_remaining,n_excluded_at_step
-Hopkins,Hospitalizations in date window,1,938207,0
-Hopkins,>= 18 years,2,938153,54
-Hopkins,Demographics present,3,938028,125
-Hopkins,Geography present,4,929555,8473
-Hopkins,Lung cancer dx POA present,5,42099,887456
-Hopkins,Any ICU segment present,6,16958,25141
