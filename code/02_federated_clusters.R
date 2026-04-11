@@ -1474,9 +1474,9 @@ los_curve_pm <- tibble(pm25_5y_z = exposure_grid) %>%
     race_category = ref_race,
     admit_year = ref_year,
     charlson_score = ref_charlson,
-    advanced_cancer_any_poa = ref_adv,
-    pred_icu_los_hours = predict(m_los_ra, newdata = ., type = "response")
+    advanced_cancer_any_poa = ref_adv
   )
+los_curve_pm$pred_icu_los_hours <- predict(m_los_ra, newdata = los_curve_pm, type = "response")
 save_csv(los_curve_pm, "predicted_icu_los_curve_pm25")
 
 p_los_pm <- ggplot(los_curve_pm, aes(x = pm25_5y_z, y = pred_icu_los_hours)) +
@@ -1498,9 +1498,9 @@ los_curve_no2 <- tibble(no2_5y_z = exposure_grid) %>%
     race_category = ref_race,
     admit_year = ref_year,
     charlson_score = ref_charlson,
-    advanced_cancer_any_poa = ref_adv,
-    pred_icu_los_hours = predict(m_los_ra, newdata = ., type = "response")
+    advanced_cancer_any_poa = ref_adv
   )
+los_curve_no2$pred_icu_los_hours <- predict(m_los_ra, newdata = los_curve_no2, type = "response")
 save_csv(los_curve_no2, "predicted_icu_los_curve_no2")
 
 p_los_no2 <- ggplot(los_curve_no2, aes(x = no2_5y_z, y = pred_icu_los_hours)) +
