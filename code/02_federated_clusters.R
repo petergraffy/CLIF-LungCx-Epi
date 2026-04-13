@@ -1576,7 +1576,98 @@ p_sev_no2 <- ggplot(analysis_ready, aes(x = factor(no2_q), fill = severity_rank)
 save_plot(p_sev_no2, "severity_distribution_by_no2_quartile", w = 9, h = 6)
 
 # ================================================================================================
-# 15) Additional QC / interpretation tables
+# 15) Epidemiology summaries
+# ================================================================================================
+
+epi_overall_summary <- analysis_ready %>%
+  summarize(
+    site_name = SITE_NAME,
+    n = n(),
+    age_mean = mean(age_years, na.rm = TRUE),
+    age_sd = sd(age_years, na.rm = TRUE),
+    charlson_mean = mean(charlson_score, na.rm = TRUE),
+    sofa_total_mean = mean(sofa_total, na.rm = TRUE),
+    death_in_hosp_pct = mean(death_in_hosp, na.rm = TRUE),
+    hospice_discharge_pct = mean(hospice_discharge, na.rm = TRUE),
+    death_or_hospice_pct = mean(death_or_hospice, na.rm = TRUE),
+    any_imv_72h_pct = mean(any_imv_72h, na.rm = TRUE),
+    vaso_any_72h_pct = mean(vaso_any_72h, na.rm = TRUE),
+    advanced_cancer_pct = mean(advanced_cancer_any_poa, na.rm = TRUE),
+    metastatic_pct = mean(metastatic_cancer_poa, na.rm = TRUE),
+    pleural_effusion_pct = mean(malignant_pleural_effusion_poa, na.rm = TRUE),
+    cachexia_pct = mean(cachexia_poa, na.rm = TRUE)
+  )
+save_csv(epi_overall_summary, "epi_overall_summary")
+
+epi_device_t0_summary <- analysis_ready %>%
+  mutate(device_t0 = as.character(coalesce(device_t0, "Unknown"))) %>%
+  count(device_t0, name = "n") %>%
+  mutate(
+    prop = n / sum(n),
+    site_name = SITE_NAME
+  ) %>%
+  relocate(site_name)
+save_csv(epi_device_t0_summary, "epi_device_t0_summary")
+
+p_device_t0 <- epi_device_t0_summary %>%
+  mutate(device_t0 = forcats::fct_reorder(device_t0, prop)) %>%
+  ggplot(aes(x = prop, y = device_t0)) +
+  geom_col(fill = "#2B6CB0") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Initial respiratory support distribution at ICU admission",
+    x = "Percent of ICU hospitalizations",
+    y = NULL
+  ) +
+  theme_pub()
+save_plot(p_device_t0, "figure_device_t0_distribution", w = 9, h = 6)
+
+epi_admission_year_summary <- analysis_ready %>%
+  group_by(admit_year) %>%
+  summarize(
+    n = n(),
+    death_in_hosp_pct = mean(death_in_hosp, na.rm = TRUE),
+    hospice_discharge_pct = mean(hospice_discharge, na.rm = TRUE),
+    death_or_hospice_pct = mean(death_or_hospice, na.rm = TRUE),
+    any_imv_72h_pct = mean(any_imv_72h, na.rm = TRUE),
+    vaso_any_72h_pct = mean(vaso_any_72h, na.rm = TRUE),
+    advanced_cancer_pct = mean(advanced_cancer_any_poa, na.rm = TRUE),
+    mean_sofa_total = mean(sofa_total, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(site_name = SITE_NAME) %>%
+  relocate(site_name)
+save_csv(epi_admission_year_summary, "epi_admission_year_summary")
+
+epi_admission_year_long <- epi_admission_year_summary %>%
+  dplyr::select(admit_year, death_or_hospice_pct, any_imv_72h_pct, vaso_any_72h_pct, advanced_cancer_pct) %>%
+  pivot_longer(-admit_year, names_to = "metric", values_to = "value")
+
+p_admission_year <- ggplot(epi_admission_year_long, aes(x = admit_year, y = value, color = metric)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 2) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Key epidemiologic trends by admission year",
+    x = "Admission year",
+    y = "Percent",
+    color = NULL
+  ) +
+  theme_pub()
+save_plot(p_admission_year, "figure_admission_year_trends", w = 10, h = 6)
+
+cancer_epidemiology_summary <- analysis_ready %>%
+  summarize(
+    advanced_cancer = mean(advanced_cancer_any_poa, na.rm = TRUE),
+    metastatic_cancer = mean(metastatic_cancer_poa, na.rm = TRUE),
+    malignant_pleural_effusion = mean(malignant_pleural_effusion_poa, na.rm = TRUE),
+    cachexia = mean(cachexia_poa, na.rm = TRUE)
+  ) %>%
+  pivot_longer(everything(), names_to = "marker", values_to = "prop")
+save_csv(cancer_epidemiology_summary, "epi_cancer_severity_summary")
+
+# ================================================================================================
+# 16) Additional QC / interpretation tables
 # ================================================================================================
 
 cluster_exposure_mortality <- analysis_ready %>%
@@ -1691,196 +1782,10 @@ save_csv(export_manifest, "federated_export_manifest")
 # 17) Spatial distribution of trajectory clusters (county-level federated export)
 # ================================================================================================
 
-options(tigris_use_cache = TRUE)
-options(tigris_class = "sf")
-
-# ---------------------------
-# Parameters
-# ---------------------------
-MIN_CELL_N <- 11L   # suppress small cells for federated export if needed
-MAP_YEAR <- 2022L
-COUNTY_SHP_DIR <- file.path("resources", "shapefiles", "cb_2022_us_county_500k")
-COUNTY_SHP_PATH <- file.path(COUNTY_SHP_DIR, "cb_2022_us_county_500k.shp")
-
-# ---------------------------
-# Build county-cluster table
-# ---------------------------
-county_cluster <- analysis_ready %>%
-  mutate(
-    county_code = gsub("[^0-9]", "", as.character(county_code)),
-    county_code = ifelse(nchar(county_code) == 4, paste0("0", county_code), county_code)
-  ) %>%
-  filter(!is.na(county_code), nchar(county_code) == 5, !is.na(traj_cluster_ra)) %>%
-  count(county_code, traj_cluster_ra, name = "n") %>%
-  group_by(county_code) %>%
-  mutate(
-    county_total = sum(n),
-    prop_cluster_in_county = n / county_total
-  ) %>%
-  ungroup() %>%
-  group_by(traj_cluster_ra) %>%
-  mutate(
-    cluster_total = sum(n),
-    prop_county_in_cluster = n / cluster_total
-  ) %>%
-  ungroup() %>%
-  mutate(
-    n_suppressed = ifelse(n < MIN_CELL_N, NA_integer_, n),
-    prop_cluster_in_county_suppressed = ifelse(n < MIN_CELL_N, NA_real_, prop_cluster_in_county),
-    prop_county_in_cluster_suppressed = ifelse(n < MIN_CELL_N, NA_real_, prop_county_in_cluster),
-    site_name = SITE_NAME
-  )
-
-save_csv(county_cluster, "spatial_county_cluster_distribution")
-
-# ---------------------------
-# County-level summary table
-# ---------------------------
-county_summary <- county_cluster %>%
-  group_by(county_code) %>%
-  summarize(
-    site_name = first(site_name),
-    county_total = first(county_total),
-    dominant_cluster = traj_cluster_ra[which.max(prop_cluster_in_county)],
-    dominant_cluster_prop = max(prop_cluster_in_county, na.rm = TRUE),
-    n_clusters_present = sum(n > 0, na.rm = TRUE),
-    cluster_entropy = {
-      p <- prop_cluster_in_county[prop_cluster_in_county > 0]
-      -sum(p * log(p))
-    },
-    .groups = "drop"
-  ) %>%
-  mutate(
-    county_total_suppressed = ifelse(county_total < MIN_CELL_N, NA_integer_, county_total),
-    dominant_cluster_prop_suppressed = ifelse(county_total < MIN_CELL_N, NA_real_, dominant_cluster_prop),
-    dominant_cluster_suppressed = ifelse(county_total < MIN_CELL_N, NA_character_, as.character(dominant_cluster)),
-    cluster_entropy_suppressed = ifelse(county_total < MIN_CELL_N, NA_real_, cluster_entropy)
-  )
-
-save_csv(county_summary, "spatial_county_cluster_summary")
-
-# ================================================================================================
-# Maps
-# ================================================================================================
-
-# ================================================================================================
-# Restrict counties to CONUS
-# ================================================================================================
-
-conus_states <- c(
-  "01","04","05","06","08","09","10","11","12","13",
-  "16","17","18","19","20","21","22","23","24","25",
-  "26","27","28","29","30","31","32","33","34","35",
-  "36","37","38","39","40","41","42","44","45","46",
-  "47","48","49","50","51","53","54","55","56"
-)
-
-us_counties_init <- if (file.exists(COUNTY_SHP_PATH)) {
-  sf::st_read(COUNTY_SHP_PATH, quiet = TRUE)
-} else {
-  tigris::counties(cb = TRUE, year = MAP_YEAR, class = "sf")
-}
-
-us_counties <- us_counties_init %>%
-  st_transform(5070) %>%
-  mutate(
-    county_code = GEOID,
-    state_fips = substr(GEOID, 1, 2)
-  ) %>%
-  filter(state_fips %in% conus_states)
-
-# Join county summary
-county_map_df <- us_counties %>%
-  left_join(county_summary, by = "county_code")
-
-# ---------------------------
-# Map 1: dominant cluster by county
-# ---------------------------
-p_map_dominant <- ggplot(county_map_df) +
-  geom_sf(aes(fill = dominant_cluster_suppressed), color = NA) +
-  labs(
-    title = "Dominant respiratory trajectory cluster by county",
-    subtitle = paste0("Site: ", SITE_NAME),
-    fill = "Dominant cluster"
-  ) +
-  theme_void() +
-  theme(
-    plot.title = element_text(face = "bold"),
-    legend.title = element_text(face = "bold")
-  )
-
-save_plot(p_map_dominant, "map_county_dominant_cluster", w = 12, h = 8)
-
-# ---------------------------
-# Map 2: dominant cluster concentration
-# ---------------------------
-p_map_concentration <- ggplot(county_map_df) +
-  geom_sf(aes(fill = dominant_cluster_prop_suppressed), color = NA) +
-  scale_fill_viridis_c(na.value = "grey90") +
-  labs(
-    title = "Dominant cluster concentration by county",
-    subtitle = paste0("Site: ", SITE_NAME),
-    fill = "Dominant cluster proportion"
-  ) +
-  theme_void() +
-  theme(
-    plot.title = element_text(face = "bold"),
-    legend.title = element_text(face = "bold")
-  )
-
-save_plot(p_map_concentration, "map_county_dominant_cluster_prop", w = 12, h = 8)
-
-# ---------------------------
-# Map 3: cluster heterogeneity (entropy)
-# ---------------------------
-p_map_entropy <- ggplot(county_map_df) +
-  geom_sf(aes(fill = cluster_entropy_suppressed), color = NA) +
-  scale_fill_viridis_c(na.value = "grey90") +
-  labs(
-    title = "Trajectory cluster heterogeneity by county",
-    subtitle = paste0("Site: ", SITE_NAME),
-    fill = "Entropy"
-  ) +
-  theme_void() +
-  theme(
-    plot.title = element_text(face = "bold"),
-    legend.title = element_text(face = "bold")
-  )
-
-save_plot(p_map_entropy, "map_county_cluster_entropy", w = 12, h = 8)
-
-# ================================================================================================
-# Optional: one map per cluster showing within-county prevalence
-# ================================================================================================
-
-cluster_map_long <- county_cluster %>%
-  transmute(
-    site_name,
-    county_code,
-    traj_cluster_ra,
-    county_total,
-    n = n_suppressed,
-    prop_cluster_in_county = prop_cluster_in_county_suppressed
-  ) %>%
-  left_join(us_counties %>% dplyr::select(county_code, geometry), by = "county_code") %>%
-  st_as_sf()
-
-p_map_cluster_facets <- ggplot(cluster_map_long) +
-  geom_sf(aes(fill = prop_cluster_in_county), color = NA) +
-  scale_fill_viridis_c(na.value = "grey90") +
-  facet_wrap(~ traj_cluster_ra) +
-  labs(
-    title = "Within-county prevalence of trajectory clusters",
-    subtitle = paste0("Site: ", SITE_NAME),
-    fill = "Cluster proportion"
-  ) +
-  theme_void() +
-  theme(
-    plot.title = element_text(face = "bold"),
-    legend.title = element_text(face = "bold")
-  )
-
-save_plot(p_map_cluster_facets, "map_county_cluster_prevalence_facets", w = 14, h = 10)
+# County-level spatial exports and maps were disabled after multiple sites
+# reported discomfort with sharing low-count county information.
+#
+# To re-enable later, restore the previous county aggregation and mapping code here.
 
 # ================================================================================================
 # 18) CONSORT-style cohort flow table
