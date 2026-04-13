@@ -1,5 +1,7 @@
 # CLIF Lung Cancer ICU Trajectories and Air Pollution
 
+CLIF version: 2.1
+
 ## Overview
 
 This repository contains a federated analysis pipeline for studying respiratory failure trajectories, ICU outcomes, and long-term ambient air pollution exposure among patients with lung cancer admitted to the ICU across CLIF sites.
@@ -255,6 +257,4 @@ Please refer to:
 
 ## Notes
 
-- Michigan’s overall categorical Table 1 export has been missing in some returned site folders; pooled categorical summaries should be checked against site availability.
-- Hopkins contributed an updated rerun with the corrected cluster reference logic.
-- If sites rerun after code updates, central pooled outputs should be regenerated from the refreshed `sites/` folder.
+
