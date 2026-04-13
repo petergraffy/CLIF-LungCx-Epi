@@ -1579,7 +1579,20 @@ save_plot(p_sev_no2, "severity_distribution_by_no2_quartile", w = 9, h = 6)
 # 15) Epidemiology summaries
 # ================================================================================================
 
-epi_overall_summary <- analysis_ready %>%
+epi_ready <- analysis_ready %>%
+  left_join(
+    vaso_static %>%
+      dplyr::select(hospitalization_id, vaso_any_72h, vaso_hours_72h, vaso_mean_72h),
+    by = "hospitalization_id"
+  ) %>%
+  mutate(
+    device_t0 = coalesce(as.character(device_t0), "Unknown / missing"),
+    vaso_any_72h = as.integer(coalesce(vaso_any_72h, 0L)),
+    vaso_hours_72h = coalesce(vaso_hours_72h, 0),
+    vaso_mean_72h = coalesce(vaso_mean_72h, 0)
+  )
+
+epi_overall_summary <- epi_ready %>%
   summarize(
     site_name = SITE_NAME,
     n = n(),
@@ -1599,8 +1612,7 @@ epi_overall_summary <- analysis_ready %>%
   )
 save_csv(epi_overall_summary, "epi_overall_summary")
 
-epi_device_t0_summary <- analysis_ready %>%
-  mutate(device_t0 = as.character(coalesce(device_t0, "Unknown"))) %>%
+epi_device_t0_summary <- epi_ready %>%
   count(device_t0, name = "n") %>%
   mutate(
     prop = n / sum(n),
@@ -1622,7 +1634,7 @@ p_device_t0 <- epi_device_t0_summary %>%
   theme_pub()
 save_plot(p_device_t0, "figure_device_t0_distribution", w = 9, h = 6)
 
-epi_admission_year_summary <- analysis_ready %>%
+epi_admission_year_summary <- epi_ready %>%
   group_by(admit_year) %>%
   summarize(
     n = n(),
@@ -1656,15 +1668,28 @@ p_admission_year <- ggplot(epi_admission_year_long, aes(x = admit_year, y = valu
   theme_pub()
 save_plot(p_admission_year, "figure_admission_year_trends", w = 10, h = 6)
 
-cancer_epidemiology_summary <- analysis_ready %>%
+cancer_epidemiology_summary <- epi_ready %>%
   summarize(
     advanced_cancer = mean(advanced_cancer_any_poa, na.rm = TRUE),
     metastatic_cancer = mean(metastatic_cancer_poa, na.rm = TRUE),
     malignant_pleural_effusion = mean(malignant_pleural_effusion_poa, na.rm = TRUE),
     cachexia = mean(cachexia_poa, na.rm = TRUE)
   ) %>%
-  pivot_longer(everything(), names_to = "marker", values_to = "prop")
+  pivot_longer(everything(), names_to = "marker", values_to = "prop") %>%
+  mutate(site_name = SITE_NAME) %>%
+  relocate(site_name)
 save_csv(cancer_epidemiology_summary, "epi_cancer_severity_summary")
+
+# Aggregated counts for federated pooling of initial support to final trajectory phenotype
+epi_start_support_to_cluster_counts <- epi_ready %>%
+  filter(!is.na(traj_cluster_ra)) %>%
+  count(device_t0, traj_cluster_ra, name = "n") %>%
+  group_by(device_t0) %>%
+  mutate(device_total = sum(n)) %>%
+  ungroup() %>%
+  mutate(site_name = SITE_NAME) %>%
+  relocate(site_name)
+save_csv(epi_start_support_to_cluster_counts, "epi_start_support_to_cluster_counts")
 
 # ================================================================================================
 # 16) Additional QC / interpretation tables
@@ -1736,7 +1761,9 @@ export_manifest <- tibble(
     "static_summary", "static_summary", "static_summary",
     "trajectory_summary", "trajectory_summary",
     "model_output", "model_output", "model_output",
-    "figure", "figure", "figure", "figure", "figure", "figure"
+    "epi_summary", "epi_summary", "epi_summary", "epi_summary",
+    "figure", "figure", "figure", "figure", "figure", "figure",
+    "figure", "figure", "figure"
   ),
   file_stub = c(
     "cluster_silhouette_ra",
@@ -1749,11 +1776,22 @@ export_manifest <- tibble(
     "model_outputs_standardized",
     "model_metadata",
     "mediation_style_decomposition_no2",
+    "epi_overall_summary",
+    "epi_device_t0_summary",
+    "epi_admission_year_summary",
+    "epi_start_support_to_cluster_counts",
     "traj_ra_seqrplot_discrete",
     "cluster_sofa_domain_signature",
     "sig_rs_area_by_cluster",
     "sig_arf_area_by_cluster",
+    "figure_device_t0_distribution",
+    "figure_admission_year_trends",
+    "predicted_mortality_by_cluster_pm25",
     "predicted_mortality_by_cluster_no2",
+    "predicted_icu_los_curve_pm25",
+    "predicted_icu_los_curve_no2",
+    "predicted_severity_curve_pm25",
+    "predicted_severity_curve_no2",
     "risk_difference_no2_by_cluster"
   ),
   description = c(
@@ -1767,11 +1805,22 @@ export_manifest <- tibble(
     "Standardized coefficient table for all models.",
     "Model Ns and event counts.",
     "Approximate mediation-style attenuation for NO2.",
+    "Overall aggregated ICU lung cancer epidemiology summary.",
+    "Aggregated distribution of respiratory support at ICU admission.",
+    "Aggregated epidemiology summary by admission year.",
+    "Aggregated counts for initial respiratory support by final trajectory cluster.",
     "Representative sequence figure.",
     "SOFA domain signature figure.",
     "Respiratory support signature figure.",
     "ARF signature figure.",
+    "Initial respiratory support distribution figure.",
+    "Admission year epidemiology trend figure.",
+    "Predicted mortality by PM2.5 and cluster figure.",
     "Predicted mortality by NO2 and cluster figure.",
+    "Predicted ICU LOS across PM2.5 exposure figure.",
+    "Predicted ICU LOS across NO2 exposure figure.",
+    "Predicted severity across PM2.5 exposure figure.",
+    "Predicted severity across NO2 exposure figure.",
     "Absolute NO2 risk difference by cluster figure."
   )
 )
