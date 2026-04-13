@@ -1,7 +1,0 @@
-site_name,step,step_order,n_remaining,n_excluded_at_step
-UCSF,Hospitalizations in date window,1,39432,0
-UCSF,>= 18 years,2,39432,0
-UCSF,Demographics present,3,39432,0
-UCSF,Geography present,4,31634,7798
-UCSF,Lung cancer dx POA present,5,2368,29266
-UCSF,Any ICU segment present,6,2368,0

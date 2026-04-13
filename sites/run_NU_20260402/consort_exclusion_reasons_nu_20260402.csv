@@ -1,5 +1,0 @@
-site_name,reason,n
-nu,Missing demographics,70
-nu,Missing geo code,10214
-nu,No ICU stay (no ADT segment with ICU location_category),1123
-nu,No lung cancer dx POA=1 matching prefixes,85471

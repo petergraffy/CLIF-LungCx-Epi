@@ -1691,6 +1691,129 @@ epi_start_support_to_cluster_counts <- epi_ready %>%
   relocate(site_name)
 save_csv(epi_start_support_to_cluster_counts, "epi_start_support_to_cluster_counts")
 
+alluvial_src <- epi_start_support_to_cluster_counts %>%
+  mutate(
+    start_support = as.character(device_t0),
+    end_cluster = paste("Cluster", as.character(traj_cluster_ra))
+  ) %>%
+  dplyr::select(start_support, end_cluster, n) %>%
+  filter(n > 0)
+
+left_levels <- alluvial_src %>%
+  group_by(start_support) %>%
+  summarize(total = sum(n), .groups = "drop") %>%
+  arrange(desc(total), start_support) %>%
+  pull(start_support)
+
+right_levels <- paste("Cluster", levels(droplevels(epi_ready$traj_cluster_ra)))
+
+flow_df <- alluvial_src %>%
+  mutate(
+    start_support = factor(start_support, levels = left_levels),
+    end_cluster = factor(end_cluster, levels = right_levels)
+  ) %>%
+  arrange(start_support, end_cluster)
+
+left_pos <- flow_df %>%
+  group_by(start_support) %>%
+  summarize(total = sum(n), .groups = "drop") %>%
+  arrange(start_support) %>%
+  mutate(
+    ymin = lag(cumsum(total), default = 0),
+    ymax = cumsum(total)
+  )
+
+right_pos <- flow_df %>%
+  group_by(end_cluster) %>%
+  summarize(total = sum(n), .groups = "drop") %>%
+  arrange(end_cluster) %>%
+  mutate(
+    ymin = lag(cumsum(total), default = 0),
+    ymax = cumsum(total)
+  )
+
+flow_df <- flow_df %>%
+  left_join(left_pos, by = "start_support") %>%
+  rename(left_ymin = ymin, left_ymax = ymax) %>%
+  left_join(right_pos, by = "end_cluster") %>%
+  rename(right_ymin = ymin, right_ymax = ymax) %>%
+  group_by(start_support) %>%
+  mutate(
+    flow_left_ymin = left_ymin + cumsum(lag(n, default = 0)),
+    flow_left_ymax = flow_left_ymin + n
+  ) %>%
+  ungroup() %>%
+  arrange(end_cluster, start_support) %>%
+  group_by(end_cluster) %>%
+  mutate(
+    flow_right_ymin = right_ymin + cumsum(lag(n, default = 0)),
+    flow_right_ymax = flow_right_ymin + n
+  ) %>%
+  ungroup() %>%
+  mutate(flow_id = row_number())
+
+t_vals <- seq(0, 1, length.out = 60)
+smoothstep <- 3 * t_vals^2 - 2 * t_vals^3
+
+alluvial_polys <- purrr::map_dfr(seq_len(nrow(flow_df)), function(i) {
+  r <- flow_df[i, ]
+  upper <- r$flow_left_ymax + (r$flow_right_ymax - r$flow_left_ymax) * smoothstep
+  lower <- r$flow_left_ymin + (r$flow_right_ymin - r$flow_left_ymin) * smoothstep
+  tibble(
+    flow_id = r$flow_id,
+    end_cluster = as.character(r$end_cluster),
+    x = c(seq(1.02, 1.98, length.out = length(t_vals)),
+          rev(seq(1.02, 1.98, length.out = length(t_vals)))),
+    y = c(upper, rev(lower))
+  )
+})
+
+left_rect <- left_pos %>%
+  transmute(
+    xmin = 0.92, xmax = 1.0,
+    ymin, ymax,
+    label = as.character(start_support)
+  )
+
+right_rect <- right_pos %>%
+  transmute(
+    xmin = 2.0, xmax = 2.08,
+    ymin, ymax,
+    end_cluster = as.character(end_cluster),
+    label = as.character(end_cluster)
+  )
+
+cluster_palette <- setNames(
+  scales::hue_pal()(length(right_levels)),
+  right_levels
+)
+
+p_start_to_cluster_alluvial <- ggplot() +
+  geom_polygon(data = alluvial_polys, aes(x = x, y = y, group = flow_id, fill = end_cluster), alpha = 0.78, color = NA) +
+  geom_rect(data = left_rect, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), fill = "grey25", color = NA) +
+  geom_rect(data = right_rect, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = end_cluster), color = NA) +
+  geom_text(data = left_rect, aes(x = 0.9, y = (ymin + ymax) / 2, label = label), hjust = 1, size = 3.0) +
+  geom_text(data = right_rect, aes(x = 2.1, y = (ymin + ymax) / 2, label = label), hjust = 0, size = 3.0, fontface = "bold") +
+  annotate("text", x = 0.78, y = max(right_rect$ymax) * 1.02, label = "Initial support", fontface = "bold", size = 4) +
+  annotate("text", x = 2.22, y = max(right_rect$ymax) * 1.02, label = "Final trajectory cluster", fontface = "bold", size = 4) +
+  scale_fill_manual(values = cluster_palette, drop = FALSE) +
+  scale_y_continuous(labels = scales::comma_format()) +
+  coord_cartesian(xlim = c(0.45, 2.55), clip = "off") +
+  labs(
+    title = "Initial respiratory support and final trajectory cluster",
+    x = NULL,
+    y = "Hospitalizations",
+    fill = "Trajectory cluster"
+  ) +
+  theme_pub() +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.position = "bottom",
+    plot.margin = margin(10, 130, 10, 130)
+  )
+save_plot(p_start_to_cluster_alluvial, "figure_start_support_to_cluster_alluvial", w = 14, h = 9)
+
 # ================================================================================================
 # 16) Additional QC / interpretation tables
 # ================================================================================================
@@ -1763,7 +1886,9 @@ export_manifest <- tibble(
     "model_output", "model_output", "model_output",
     "epi_summary", "epi_summary", "epi_summary", "epi_summary",
     "figure", "figure", "figure", "figure", "figure", "figure",
-    "figure", "figure", "figure"
+    "figure", "figure", "figure", "figure", "figure", "figure",
+    "figure",
+    "figure"
   ),
   file_stub = c(
     "cluster_silhouette_ra",
@@ -1781,6 +1906,7 @@ export_manifest <- tibble(
     "epi_admission_year_summary",
     "epi_start_support_to_cluster_counts",
     "traj_ra_seqrplot_discrete",
+    "figure_start_support_to_cluster_alluvial",
     "cluster_sofa_domain_signature",
     "sig_rs_area_by_cluster",
     "sig_arf_area_by_cluster",
@@ -1810,6 +1936,7 @@ export_manifest <- tibble(
     "Aggregated epidemiology summary by admission year.",
     "Aggregated counts for initial respiratory support by final trajectory cluster.",
     "Representative sequence figure.",
+    "Alluvial figure from initial respiratory support to final local trajectory cluster.",
     "SOFA domain signature figure.",
     "Respiratory support signature figure.",
     "ARF signature figure.",

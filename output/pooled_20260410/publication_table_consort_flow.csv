@@ -1,7 +1,0 @@
-step_order,step,n_remaining,n_excluded_at_step,n_sites
-1,Hospitalizations in date window,7503832,0,10
-2,>= 18 years,7503778,54,10
-3,Demographics present,7501311,2467,10
-4,Geography present,6504941,996370,10
-5,Lung cancer cases with an ICU stay > 72 hours,104697,6400244,10
-6,Assigned to respiratory trajectory cluster,103447,1250,10

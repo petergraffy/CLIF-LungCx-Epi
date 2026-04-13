@@ -1,7 +1,0 @@
-site_name,step,step_order,n_remaining,n_excluded_at_step
-emory,Hospitalizations in date window,1,933829,0
-emory,>= 18 years,2,933829,0
-emory,Demographics present,3,932300,1529
-emory,Geography present,4,841809,90491
-emory,Lung cancer dx POA present,5,20022,821787
-emory,Any ICU segment present,6,8820,11202

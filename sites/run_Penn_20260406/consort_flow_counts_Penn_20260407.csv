@@ -1,7 +1,0 @@
-site_name,step,step_order,n_remaining,n_excluded_at_step
-Penn,Hospitalizations in date window,1,2016390,0
-Penn,>= 18 years,2,2016390,0
-Penn,Demographics present,3,2016390,0
-Penn,Geography present,4,2016390,0
-Penn,Lung cancer dx POA present,5,48474,1967916
-Penn,Any ICU segment present,6,23412,25062
