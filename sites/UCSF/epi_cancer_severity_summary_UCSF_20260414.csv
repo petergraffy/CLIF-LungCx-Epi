@@ -1,0 +1,5 @@
+site_name,marker,prop
+UCSF,advanced_cancer,0.6692307692307692
+UCSF,metastatic_cancer,0.5846153846153846
+UCSF,malignant_pleural_effusion,0.11282051282051282
+UCSF,cachexia,0.15128205128205127

@@ -1,0 +1,52 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+umn,Overall,sex_category,Female,categorical,527,1023,0.5151515151515151
+umn,Overall,sex_category,Male,categorical,496,1023,0.48484848484848486
+umn,Overall,race_category,American Indian or Alaska Native,categorical,8,1023,0.007820136852394917
+umn,Overall,race_category,Asian,categorical,35,1023,0.03421309872922776
+umn,Overall,race_category,Black or African American,categorical,36,1023,0.03519061583577713
+umn,Overall,race_category,Native Hawaiian or Other Pacific Islander,categorical,2,1023,0.0019550342130987292
+umn,Overall,race_category,Unknown,categorical,17,1023,0.016617790811339198
+umn,Overall,race_category,White,categorical,925,1023,0.9042033235581622
+umn,Overall,ethnicity_category,Hispanic,categorical,8,1023,0.007820136852394917
+umn,Overall,ethnicity_category,Non-Hispanic,categorical,1015,1023,0.9921798631476051
+umn,Overall,device_t0,CPAP,categorical,1,1023,9.775171065493646e-4
+umn,Overall,device_t0,FACE MASK,categorical,97,1023,0.09481915933528837
+umn,Overall,device_t0,HIGH FLOW NC,categorical,41,1023,0.04007820136852395
+umn,Overall,device_t0,IMV,categorical,146,1023,0.14271749755620725
+umn,Overall,device_t0,NASAL CANNULA,categorical,274,1023,0.2678396871945259
+umn,Overall,device_t0,NIPPV,categorical,154,1023,0.15053763440860216
+umn,Overall,device_t0,OTHER,categorical,2,1023,0.0019550342130987292
+umn,Overall,device_t0,ROOM AIR,categorical,238,1023,0.23264907135874877
+umn,Overall,device_t0,TRACH COLLAR,categorical,4,1023,0.0039100684261974585
+umn,Overall,device_t0,UNK,categorical,43,1023,0.042033235581622676
+umn,Overall,device_t0,NA,categorical,23,1023,0.022482893450635387
+umn,Overall,traj_cluster_ra,1,categorical,387,1023,0.3782991202346041
+umn,Overall,traj_cluster_ra,2,categorical,342,1023,0.3343108504398827
+umn,Overall,traj_cluster_ra,3,categorical,126,1023,0.12316715542521994
+umn,Overall,traj_cluster_ra,4,categorical,165,1023,0.16129032258064516
+umn,Overall,traj_cluster_ra,NA,categorical,3,1023,0.002932551319648094
+umn,Overall,severity_rank,1,categorical,387,1023,0.3782991202346041
+umn,Overall,severity_rank,2,categorical,342,1023,0.3343108504398827
+umn,Overall,severity_rank,3,categorical,126,1023,0.12316715542521994
+umn,Overall,severity_rank,4,categorical,165,1023,0.16129032258064516
+umn,Overall,severity_rank,NA,categorical,3,1023,0.002932551319648094
+umn,Overall,death_in_hosp,0,categorical,796,1023,0.7781036168132942
+umn,Overall,death_in_hosp,1,categorical,227,1023,0.22189638318670576
+umn,Overall,hospice_discharge,0,categorical,938,1023,0.916911045943304
+umn,Overall,hospice_discharge,1,categorical,85,1023,0.08308895405669599
+umn,Overall,death_or_hospice,0,categorical,711,1023,0.6950146627565983
+umn,Overall,death_or_hospice,1,categorical,312,1023,0.30498533724340177
+umn,Overall,any_imv_icu,0,categorical,775,1023,0.7575757575757576
+umn,Overall,any_imv_icu,1,categorical,248,1023,0.24242424242424243
+umn,Overall,any_imv_72h,0,categorical,792,1023,0.7741935483870968
+umn,Overall,any_imv_72h,1,categorical,231,1023,0.22580645161290322
+umn,Overall,vaso_any_72h,0,categorical,714,1023,0.6979472140762464
+umn,Overall,vaso_any_72h,1,categorical,309,1023,0.3020527859237537
+umn,Overall,advanced_cancer_any_poa,0,categorical,430,1023,0.4203323558162268
+umn,Overall,advanced_cancer_any_poa,1,categorical,593,1023,0.5796676441837733
+umn,Overall,metastatic_cancer_poa,0,categorical,490,1023,0.4789833822091887
+umn,Overall,metastatic_cancer_poa,1,categorical,533,1023,0.5210166177908113
+umn,Overall,malignant_pleural_effusion_poa,0,categorical,925,1023,0.9042033235581622
+umn,Overall,malignant_pleural_effusion_poa,1,categorical,98,1023,0.09579667644183773
+umn,Overall,cachexia_poa,0,categorical,948,1023,0.9266862170087976
+umn,Overall,cachexia_poa,1,categorical,75,1023,0.07331378299120235

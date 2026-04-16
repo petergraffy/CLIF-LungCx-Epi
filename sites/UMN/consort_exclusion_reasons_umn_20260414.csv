@@ -1,0 +1,4 @@
+site_name,reason,n
+umn,Missing geo code,488477
+umn,No ICU stay (no ADT segment with ICU location_category),4947
+umn,No lung cancer dx POA=1 matching prefixes,1808647

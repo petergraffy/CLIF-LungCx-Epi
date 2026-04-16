@@ -1,0 +1,53 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+Penn,Overall,sex_category,female,categorical,1515,2946,0.5142566191446029
+Penn,Overall,sex_category,male,categorical,1431,2946,0.48574338085539714
+Penn,Overall,race_category,american indian or alaska native,categorical,4,2946,0.0013577732518669382
+Penn,Overall,race_category,asian,categorical,106,2946,0.03598099117447386
+Penn,Overall,race_category,black or african american,categorical,888,2946,0.3014256619144603
+Penn,Overall,race_category,native hawaiian or other pacific islander,categorical,3,2946,0.0010183299389002036
+Penn,Overall,race_category,other,categorical,70,2946,0.02376103190767142
+Penn,Overall,race_category,unknown,categorical,91,2946,0.030889341479972843
+Penn,Overall,race_category,white,categorical,1784,2946,0.6055668703326544
+Penn,Overall,ethnicity_category,hispanic,categorical,29,2946,0.009843856076035303
+Penn,Overall,ethnicity_category,non-hispanic,categorical,2867,2946,0.973183978275628
+Penn,Overall,ethnicity_category,unknown,categorical,50,2946,0.01697216564833673
+Penn,Overall,device_t0,FACE MASK,categorical,262,2946,0.08893414799728445
+Penn,Overall,device_t0,HIGH FLOW NC,categorical,212,2946,0.07196198234894773
+Penn,Overall,device_t0,IMV,categorical,380,2946,0.12898845892735913
+Penn,Overall,device_t0,NASAL CANNULA,categorical,974,2946,0.33061778682959947
+Penn,Overall,device_t0,NIPPV,categorical,264,2946,0.08961303462321792
+Penn,Overall,device_t0,OTHER,categorical,9,2946,0.003054989816700611
+Penn,Overall,device_t0,ROOM AIR,categorical,674,2946,0.2287847929395791
+Penn,Overall,device_t0,TRACH COLLAR,categorical,16,2946,0.005431093007467753
+Penn,Overall,device_t0,UNK,categorical,91,2946,0.030889341479972843
+Penn,Overall,device_t0,NA,categorical,64,2946,0.02172437202987101
+Penn,Overall,traj_cluster_ra,1,categorical,1180,2946,0.40054310930074677
+Penn,Overall,traj_cluster_ra,2,categorical,1052,2946,0.35709436524100474
+Penn,Overall,traj_cluster_ra,3,categorical,331,2946,0.11235573659198914
+Penn,Overall,traj_cluster_ra,4,categorical,372,2946,0.12627291242362526
+Penn,Overall,traj_cluster_ra,NA,categorical,11,2946,0.00373387644263408
+Penn,Overall,severity_rank,1,categorical,1180,2946,0.40054310930074677
+Penn,Overall,severity_rank,2,categorical,1052,2946,0.35709436524100474
+Penn,Overall,severity_rank,3,categorical,331,2946,0.11235573659198914
+Penn,Overall,severity_rank,4,categorical,372,2946,0.12627291242362526
+Penn,Overall,severity_rank,NA,categorical,11,2946,0.00373387644263408
+Penn,Overall,death_in_hosp,0,categorical,2322,2946,0.7881873727087576
+Penn,Overall,death_in_hosp,1,categorical,624,2946,0.21181262729124237
+Penn,Overall,hospice_discharge,0,categorical,2561,2946,0.8693143245078072
+Penn,Overall,hospice_discharge,1,categorical,385,2946,0.13068567549219282
+Penn,Overall,death_or_hospice,0,categorical,1937,2946,0.6575016972165648
+Penn,Overall,death_or_hospice,1,categorical,1009,2946,0.3424983027834352
+Penn,Overall,any_imv_icu,0,categorical,2215,2946,0.751866938221317
+Penn,Overall,any_imv_icu,1,categorical,731,2946,0.24813306177868297
+Penn,Overall,any_imv_72h,0,categorical,2324,2946,0.7888662593346911
+Penn,Overall,any_imv_72h,1,categorical,622,2946,0.2111337406653089
+Penn,Overall,vaso_any_72h,0,categorical,2200,2946,0.7467752885268161
+Penn,Overall,vaso_any_72h,1,categorical,746,2946,0.253224711473184
+Penn,Overall,advanced_cancer_any_poa,0,categorical,905,2946,0.30719619823489475
+Penn,Overall,advanced_cancer_any_poa,1,categorical,2041,2946,0.6928038017651053
+Penn,Overall,metastatic_cancer_poa,0,categorical,1116,2946,0.3788187372708758
+Penn,Overall,metastatic_cancer_poa,1,categorical,1830,2946,0.6211812627291242
+Penn,Overall,malignant_pleural_effusion_poa,0,categorical,2506,2946,0.8506449422946368
+Penn,Overall,malignant_pleural_effusion_poa,1,categorical,440,2946,0.1493550577053632
+Penn,Overall,cachexia_poa,0,categorical,2526,2946,0.8574338085539714
+Penn,Overall,cachexia_poa,1,categorical,420,2946,0.1425661914460285

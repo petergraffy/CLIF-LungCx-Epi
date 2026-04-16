@@ -1,0 +1,5 @@
+site_name,marker,prop
+Hopkins,advanced_cancer,0.649330587023687
+Hopkins,metastatic_cancer,0.5818743563336766
+Hopkins,malignant_pleural_effusion,0.11071060762100927
+Hopkins,cachexia,0.131307929969104

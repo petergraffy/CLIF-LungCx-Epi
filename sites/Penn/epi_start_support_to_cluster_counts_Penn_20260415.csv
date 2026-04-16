@@ -1,0 +1,39 @@
+site_name,device_t0,traj_cluster_ra,n,device_total
+Penn,FACE MASK,1,36,262
+Penn,FACE MASK,2,132,262
+Penn,FACE MASK,3,67,262
+Penn,FACE MASK,4,27,262
+Penn,HIGH FLOW NC,1,9,212
+Penn,HIGH FLOW NC,2,61,212
+Penn,HIGH FLOW NC,3,122,212
+Penn,HIGH FLOW NC,4,20,212
+Penn,IMV,1,49,380
+Penn,IMV,2,76,380
+Penn,IMV,3,7,380
+Penn,IMV,4,248,380
+Penn,NASAL CANNULA,1,391,974
+Penn,NASAL CANNULA,2,515,974
+Penn,NASAL CANNULA,3,39,974
+Penn,NASAL CANNULA,4,29,974
+Penn,NIPPV,1,19,264
+Penn,NIPPV,2,144,264
+Penn,NIPPV,3,77,264
+Penn,NIPPV,4,24,264
+Penn,OTHER,1,2,9
+Penn,OTHER,2,4,9
+Penn,OTHER,3,2,9
+Penn,OTHER,4,1,9
+Penn,ROOM AIR,1,608,674
+Penn,ROOM AIR,2,58,674
+Penn,ROOM AIR,4,8,674
+Penn,TRACH COLLAR,1,1,16
+Penn,TRACH COLLAR,2,14,16
+Penn,TRACH COLLAR,4,1,16
+Penn,UNK,1,28,89
+Penn,UNK,2,32,89
+Penn,UNK,3,16,89
+Penn,UNK,4,13,89
+Penn,Unknown / missing,1,37,55
+Penn,Unknown / missing,2,16,55
+Penn,Unknown / missing,3,1,55
+Penn,Unknown / missing,4,1,55

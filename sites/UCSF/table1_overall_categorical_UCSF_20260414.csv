@@ -1,0 +1,54 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+UCSF,Overall,sex_category,Female,categorical,198,390,0.5076923076923077
+UCSF,Overall,sex_category,Male,categorical,192,390,0.49230769230769234
+UCSF,Overall,race_category,American Indian or Alaska Native,categorical,1,390,0.002564102564102564
+UCSF,Overall,race_category,Asian,categorical,119,390,0.30512820512820515
+UCSF,Overall,race_category,Black or African American,categorical,28,390,0.07179487179487179
+UCSF,Overall,race_category,Native Hawaiian or Other Pacific Islander,categorical,4,390,0.010256410256410256
+UCSF,Overall,race_category,Other,categorical,37,390,0.09487179487179487
+UCSF,Overall,race_category,Unknown,categorical,9,390,0.023076923076923078
+UCSF,Overall,race_category,White,categorical,192,390,0.49230769230769234
+UCSF,Overall,ethnicity_category,Hispanic,categorical,35,390,0.08974358974358974
+UCSF,Overall,ethnicity_category,Non-Hispanic,categorical,344,390,0.882051282051282
+UCSF,Overall,ethnicity_category,Unknown,categorical,11,390,0.028205128205128206
+UCSF,Overall,device_t0,CPAP,categorical,1,390,0.002564102564102564
+UCSF,Overall,device_t0,FACE MASK,categorical,45,390,0.11538461538461539
+UCSF,Overall,device_t0,HIGH FLOW NC,categorical,43,390,0.11025641025641025
+UCSF,Overall,device_t0,IMV,categorical,9,390,0.023076923076923078
+UCSF,Overall,device_t0,NASAL CANNULA,categorical,131,390,0.33589743589743587
+UCSF,Overall,device_t0,NIPPV,categorical,26,390,0.06666666666666667
+UCSF,Overall,device_t0,OTHER,categorical,3,390,0.007692307692307693
+UCSF,Overall,device_t0,ROOM AIR,categorical,69,390,0.17692307692307693
+UCSF,Overall,device_t0,TRACH COLLAR,categorical,4,390,0.010256410256410256
+UCSF,Overall,device_t0,UNK,categorical,56,390,0.14358974358974358
+UCSF,Overall,device_t0,NA,categorical,3,390,0.007692307692307693
+UCSF,Overall,traj_cluster_ra,1,categorical,107,390,0.2743589743589744
+UCSF,Overall,traj_cluster_ra,2,categorical,165,390,0.4230769230769231
+UCSF,Overall,traj_cluster_ra,3,categorical,65,390,0.16666666666666666
+UCSF,Overall,traj_cluster_ra,4,categorical,52,390,0.13333333333333333
+UCSF,Overall,traj_cluster_ra,NA,categorical,1,390,0.002564102564102564
+UCSF,Overall,severity_rank,1,categorical,107,390,0.2743589743589744
+UCSF,Overall,severity_rank,2,categorical,165,390,0.4230769230769231
+UCSF,Overall,severity_rank,3,categorical,65,390,0.16666666666666666
+UCSF,Overall,severity_rank,4,categorical,52,390,0.13333333333333333
+UCSF,Overall,severity_rank,NA,categorical,1,390,0.002564102564102564
+UCSF,Overall,death_in_hosp,0,categorical,297,390,0.7615384615384615
+UCSF,Overall,death_in_hosp,1,categorical,93,390,0.23846153846153847
+UCSF,Overall,hospice_discharge,0,categorical,363,390,0.9307692307692308
+UCSF,Overall,hospice_discharge,1,categorical,27,390,0.06923076923076923
+UCSF,Overall,death_or_hospice,0,categorical,270,390,0.6923076923076923
+UCSF,Overall,death_or_hospice,1,categorical,120,390,0.3076923076923077
+UCSF,Overall,any_imv_icu,0,categorical,292,390,0.7487179487179487
+UCSF,Overall,any_imv_icu,1,categorical,98,390,0.2512820512820513
+UCSF,Overall,any_imv_72h,0,categorical,306,390,0.7846153846153846
+UCSF,Overall,any_imv_72h,1,categorical,84,390,0.2153846153846154
+UCSF,Overall,vaso_any_72h,0,categorical,274,390,0.7025641025641025
+UCSF,Overall,vaso_any_72h,1,categorical,116,390,0.29743589743589743
+UCSF,Overall,advanced_cancer_any_poa,0,categorical,129,390,0.33076923076923076
+UCSF,Overall,advanced_cancer_any_poa,1,categorical,261,390,0.6692307692307692
+UCSF,Overall,metastatic_cancer_poa,0,categorical,162,390,0.4153846153846154
+UCSF,Overall,metastatic_cancer_poa,1,categorical,228,390,0.5846153846153846
+UCSF,Overall,malignant_pleural_effusion_poa,0,categorical,346,390,0.8871794871794871
+UCSF,Overall,malignant_pleural_effusion_poa,1,categorical,44,390,0.11282051282051282
+UCSF,Overall,cachexia_poa,0,categorical,331,390,0.8487179487179487
+UCSF,Overall,cachexia_poa,1,categorical,59,390,0.15128205128205127

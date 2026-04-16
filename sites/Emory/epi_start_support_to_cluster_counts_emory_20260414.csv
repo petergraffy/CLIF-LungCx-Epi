@@ -1,0 +1,38 @@
+site_name,device_t0,traj_cluster_ra,n,device_total
+emory,CPAP,2,6,15
+emory,CPAP,3,8,15
+emory,CPAP,4,1,15
+emory,FACE MASK,1,2,13
+emory,FACE MASK,2,8,13
+emory,FACE MASK,3,3,13
+emory,HIGH FLOW NC,1,3,91
+emory,HIGH FLOW NC,2,33,91
+emory,HIGH FLOW NC,3,49,91
+emory,HIGH FLOW NC,4,6,91
+emory,IMV,1,3,100
+emory,IMV,2,4,100
+emory,IMV,3,1,100
+emory,IMV,4,92,100
+emory,NASAL CANNULA,1,37,213
+emory,NASAL CANNULA,2,163,213
+emory,NASAL CANNULA,3,9,213
+emory,NASAL CANNULA,4,4,213
+emory,NIPPV,2,11,19
+emory,NIPPV,3,7,19
+emory,NIPPV,4,1,19
+emory,OTHER,1,9,56
+emory,OTHER,2,38,56
+emory,OTHER,3,8,56
+emory,OTHER,4,1,56
+emory,ROOM AIR,1,83,111
+emory,ROOM AIR,2,19,111
+emory,ROOM AIR,3,4,111
+emory,ROOM AIR,4,5,111
+emory,UNK,1,24,68
+emory,UNK,2,17,68
+emory,UNK,3,17,68
+emory,UNK,4,10,68
+emory,Unknown / missing,1,37,59
+emory,Unknown / missing,2,18,59
+emory,Unknown / missing,3,3,59
+emory,Unknown / missing,4,1,59

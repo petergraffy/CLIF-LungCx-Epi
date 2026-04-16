@@ -1,0 +1,52 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+UCMC,Overall,sex_category,Female,categorical,428,824,0.5194174757281553
+UCMC,Overall,sex_category,Male,categorical,396,824,0.48058252427184467
+UCMC,Overall,race_category,Asian,categorical,19,824,0.023058252427184466
+UCMC,Overall,race_category,Black or African American,categorical,509,824,0.6177184466019418
+UCMC,Overall,race_category,Other,categorical,9,824,0.010922330097087379
+UCMC,Overall,race_category,Unknown,categorical,39,824,0.04733009708737864
+UCMC,Overall,race_category,White,categorical,248,824,0.30097087378640774
+UCMC,Overall,ethnicity_category,Hispanic,categorical,18,824,0.021844660194174758
+UCMC,Overall,ethnicity_category,Non-Hispanic,categorical,776,824,0.941747572815534
+UCMC,Overall,ethnicity_category,Unknown,categorical,30,824,0.03640776699029126
+UCMC,Overall,device_t0,CPAP,categorical,5,824,0.006067961165048544
+UCMC,Overall,device_t0,FACE MASK,categorical,48,824,0.05825242718446602
+UCMC,Overall,device_t0,HIGH FLOW NC,categorical,19,824,0.023058252427184466
+UCMC,Overall,device_t0,IMV,categorical,138,824,0.16747572815533981
+UCMC,Overall,device_t0,NASAL CANNULA,categorical,109,824,0.13228155339805825
+UCMC,Overall,device_t0,NIPPV,categorical,97,824,0.11771844660194175
+UCMC,Overall,device_t0,OTHER,categorical,1,824,0.0012135922330097086
+UCMC,Overall,device_t0,ROOM AIR,categorical,33,824,0.04004854368932039
+UCMC,Overall,device_t0,TRACH COLLAR,categorical,1,824,0.0012135922330097086
+UCMC,Overall,device_t0,UNK,categorical,299,824,0.3628640776699029
+UCMC,Overall,device_t0,NA,categorical,74,824,0.08980582524271845
+UCMC,Overall,traj_cluster_ra,1,categorical,116,824,0.1407766990291262
+UCMC,Overall,traj_cluster_ra,2,categorical,329,824,0.39927184466019416
+UCMC,Overall,traj_cluster_ra,3,categorical,99,824,0.12014563106796117
+UCMC,Overall,traj_cluster_ra,4,categorical,158,824,0.19174757281553398
+UCMC,Overall,traj_cluster_ra,NA,categorical,122,824,0.14805825242718446
+UCMC,Overall,severity_rank,1,categorical,116,824,0.1407766990291262
+UCMC,Overall,severity_rank,2,categorical,329,824,0.39927184466019416
+UCMC,Overall,severity_rank,3,categorical,99,824,0.12014563106796117
+UCMC,Overall,severity_rank,4,categorical,158,824,0.19174757281553398
+UCMC,Overall,severity_rank,NA,categorical,122,824,0.14805825242718446
+UCMC,Overall,death_in_hosp,0,categorical,594,824,0.720873786407767
+UCMC,Overall,death_in_hosp,1,categorical,230,824,0.279126213592233
+UCMC,Overall,hospice_discharge,0,categorical,739,824,0.8968446601941747
+UCMC,Overall,hospice_discharge,1,categorical,85,824,0.10315533980582524
+UCMC,Overall,death_or_hospice,0,categorical,509,824,0.6177184466019418
+UCMC,Overall,death_or_hospice,1,categorical,315,824,0.38228155339805825
+UCMC,Overall,any_imv_icu,0,categorical,525,824,0.6371359223300971
+UCMC,Overall,any_imv_icu,1,categorical,299,824,0.3628640776699029
+UCMC,Overall,any_imv_72h,0,categorical,560,824,0.6796116504854369
+UCMC,Overall,any_imv_72h,1,categorical,264,824,0.32038834951456313
+UCMC,Overall,vaso_any_72h,0,categorical,588,824,0.7135922330097088
+UCMC,Overall,vaso_any_72h,1,categorical,236,824,0.28640776699029125
+UCMC,Overall,advanced_cancer_any_poa,0,categorical,266,824,0.32281553398058255
+UCMC,Overall,advanced_cancer_any_poa,1,categorical,558,824,0.6771844660194175
+UCMC,Overall,metastatic_cancer_poa,0,categorical,322,824,0.3907766990291262
+UCMC,Overall,metastatic_cancer_poa,1,categorical,502,824,0.6092233009708737
+UCMC,Overall,malignant_pleural_effusion_poa,0,categorical,675,824,0.8191747572815534
+UCMC,Overall,malignant_pleural_effusion_poa,1,categorical,149,824,0.1808252427184466
+UCMC,Overall,cachexia_poa,0,categorical,724,824,0.8786407766990292
+UCMC,Overall,cachexia_poa,1,categorical,100,824,0.12135922330097088

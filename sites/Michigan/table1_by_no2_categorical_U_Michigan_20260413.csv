@@ -1,0 +1,186 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+U_Michigan,Q1,device_t0,UNK,categorical,10,136,0.073529412
+U_Michigan,Q1,severity_rank,3,categorical,10,136,0.073529412
+U_Michigan,Q1,traj_cluster_ra,3,categorical,10,136,0.073529412
+U_Michigan,Q4,device_t0,UNK,categorical,11,135,0.081481481
+U_Michigan,Q2,hospice_discharge,1,categorical,11,135,0.081481481
+U_Michigan,Q2,device_t0,FACE MASK,categorical,12,135,0.088888889
+U_Michigan,Q2,device_t0,UNK,categorical,12,135,0.088888889
+U_Michigan,Q4,device_t0,IMV,categorical,12,135,0.088888889
+U_Michigan,Q3,hospice_discharge,1,categorical,12,135,0.088888889
+U_Michigan,Q3,race_category,Black or African American,categorical,12,,
+U_Michigan,Q4,hospice_discharge,1,categorical,13,135,0.096296296
+U_Michigan,Q2,cachexia_poa,1,categorical,14,135,0.103703704
+U_Michigan,Q3,malignant_pleural_effusion_poa,1,categorical,14,135,0.103703704
+U_Michigan,Q4,race_category,Black or African American,categorical,14,135,0.103703704
+U_Michigan,Q1,device_t0,HIGH FLOW NC,categorical,15,136,0.110294118
+U_Michigan,Q3,device_t0,IMV,categorical,15,135,0.111111111
+U_Michigan,Q3,device_t0,UNK,categorical,15,135,0.111111111
+U_Michigan,Q2,device_t0,ROOM AIR,categorical,16,135,0.118518519
+U_Michigan,Q2,severity_rank,3,categorical,17,135,0.125925926
+U_Michigan,Q2,traj_cluster_ra,3,categorical,17,135,0.125925926
+U_Michigan,Q2,malignant_pleural_effusion_poa,1,categorical,18,135,0.133333333
+U_Michigan,Q4,malignant_pleural_effusion_poa,1,categorical,18,135,0.133333333
+U_Michigan,Q1,malignant_pleural_effusion_poa,1,categorical,19,136,0.139705882
+U_Michigan,Q3,severity_rank,3,categorical,19,135,0.140740741
+U_Michigan,Q3,traj_cluster_ra,3,categorical,19,135,0.140740741
+U_Michigan,Q2,device_t0,IMV,categorical,20,135,0.148148148
+U_Michigan,Q1,device_t0,ROOM AIR,categorical,21,136,0.154411765
+U_Michigan,Q2,device_t0,HIGH FLOW NC,categorical,21,135,0.155555556
+U_Michigan,Q3,device_t0,HIGH FLOW NC,categorical,21,135,0.155555556
+U_Michigan,Q3,severity_rank,4,categorical,22,135,0.162962963
+U_Michigan,Q3,traj_cluster_ra,4,categorical,22,135,0.162962963
+U_Michigan,Q1,device_t0,IMV,categorical,23,136,0.169117647
+U_Michigan,Q4,severity_rank,3,categorical,23,,
+U_Michigan,Q4,traj_cluster_ra,3,categorical,23,,
+U_Michigan,Q4,severity_rank,4,categorical,24,,
+U_Michigan,Q4,traj_cluster_ra,4,categorical,24,,
+U_Michigan,Q4,device_t0,HIGH FLOW NC,categorical,26,135,0.192592593
+U_Michigan,Q3,device_t0,ROOM AIR,categorical,28,135,0.207407407
+U_Michigan,Q3,vaso_any_72h,1,categorical,29,135,0.214814815
+U_Michigan,Q2,severity_rank,4,categorical,31,135,0.22962963
+U_Michigan,Q2,traj_cluster_ra,4,categorical,31,135,0.22962963
+U_Michigan,Q4,device_t0,ROOM AIR,categorical,32,135,0.237037037
+U_Michigan,Q1,severity_rank,4,categorical,32,136,0.235294118
+U_Michigan,Q1,traj_cluster_ra,4,categorical,32,136,0.235294118
+U_Michigan,Q4,any_imv_72h,1,categorical,33,135,0.244444444
+U_Michigan,Q3,death_in_hosp,1,categorical,34,135,0.251851852
+U_Michigan,Q4,vaso_any_72h,1,categorical,34,135,0.251851852
+U_Michigan,Q4,severity_rank,2,categorical,35,,
+U_Michigan,Q4,traj_cluster_ra,2,categorical,35,,
+U_Michigan,Q4,device_t0,NASAL CANNULA,categorical,36,135,0.266666667
+U_Michigan,Q2,vaso_any_72h,1,categorical,36,135,0.266666667
+U_Michigan,Q2,advanced_cancer_any_poa,0,categorical,37,135,0.274074074
+U_Michigan,Q1,death_in_hosp,1,categorical,37,136,0.272058824
+U_Michigan,Q4,death_in_hosp,1,categorical,37,135,0.274074074
+U_Michigan,Q2,severity_rank,1,categorical,37,135,0.274074074
+U_Michigan,Q2,traj_cluster_ra,1,categorical,37,135,0.274074074
+U_Michigan,Q4,advanced_cancer_any_poa,0,categorical,39,135,0.288888889
+U_Michigan,Q3,severity_rank,1,categorical,40,135,0.296296296
+U_Michigan,Q3,traj_cluster_ra,1,categorical,40,135,0.296296296
+U_Michigan,Q2,any_imv_72h,1,categorical,41,135,0.303703704
+U_Michigan,Q3,any_imv_72h,1,categorical,41,135,0.303703704
+U_Michigan,Q4,any_imv_icu,1,categorical,41,135,0.303703704
+U_Michigan,Q3,device_t0,NASAL CANNULA,categorical,41,135,0.303703704
+U_Michigan,Q4,metastatic_cancer_poa,0,categorical,41,135,0.303703704
+U_Michigan,Q3,any_imv_icu,1,categorical,42,135,0.311111111
+U_Michigan,Q2,metastatic_cancer_poa,0,categorical,42,135,0.311111111
+U_Michigan,Q1,advanced_cancer_any_poa,0,categorical,43,136,0.316176471
+U_Michigan,Q2,death_in_hosp,1,categorical,44,135,0.325925926
+U_Michigan,Q2,device_t0,NASAL CANNULA,categorical,44,135,0.325925926
+U_Michigan,Q1,any_imv_72h,1,categorical,45,136,0.330882353
+U_Michigan,Q1,device_t0,NASAL CANNULA,categorical,45,136,0.330882353
+U_Michigan,Q2,any_imv_icu,1,categorical,46,135,0.340740741
+U_Michigan,Q1,death_or_hospice,1,categorical,46,136,0.338235294
+U_Michigan,Q3,death_or_hospice,1,categorical,46,135,0.340740741
+U_Michigan,Q1,severity_rank,1,categorical,46,136,0.338235294
+U_Michigan,Q1,traj_cluster_ra,1,categorical,46,136,0.338235294
+U_Michigan,Q1,any_imv_icu,1,categorical,47,136,0.345588235
+U_Michigan,Q1,severity_rank,2,categorical,48,136,0.352941176
+U_Michigan,Q1,traj_cluster_ra,2,categorical,48,136,0.352941176
+U_Michigan,Q4,death_or_hospice,1,categorical,50,135,0.37037037
+U_Michigan,Q2,severity_rank,2,categorical,50,135,0.37037037
+U_Michigan,Q2,traj_cluster_ra,2,categorical,50,135,0.37037037
+U_Michigan,Q1,vaso_any_72h,1,categorical,50,136,0.367647059
+U_Michigan,Q3,advanced_cancer_any_poa,0,categorical,51,135,0.377777778
+U_Michigan,Q4,severity_rank,1,categorical,52,,
+U_Michigan,Q4,traj_cluster_ra,1,categorical,52,,
+U_Michigan,Q1,metastatic_cancer_poa,0,categorical,53,136,0.389705882
+U_Michigan,Q3,severity_rank,2,categorical,54,135,0.4
+U_Michigan,Q3,traj_cluster_ra,2,categorical,54,135,0.4
+U_Michigan,Q2,death_or_hospice,1,categorical,55,135,0.407407407
+U_Michigan,Q3,sex_category,Female,categorical,57,135,0.422222222
+U_Michigan,Q3,metastatic_cancer_poa,0,categorical,58,135,0.42962963
+U_Michigan,Q4,sex_category,Female,categorical,59,135,0.437037037
+U_Michigan,Q2,sex_category,Female,categorical,60,135,0.444444444
+U_Michigan,Q1,sex_category,Female,categorical,66,136,0.485294118
+U_Michigan,Q1,sex_category,Male,categorical,70,136,0.514705882
+U_Michigan,Q2,sex_category,Male,categorical,75,135,0.555555556
+U_Michigan,Q4,sex_category,Male,categorical,76,135,0.562962963
+U_Michigan,Q3,metastatic_cancer_poa,1,categorical,77,135,0.57037037
+U_Michigan,Q3,sex_category,Male,categorical,78,135,0.577777778
+U_Michigan,Q2,death_or_hospice,0,categorical,80,135,0.592592593
+U_Michigan,Q1,metastatic_cancer_poa,1,categorical,83,136,0.610294118
+U_Michigan,Q3,advanced_cancer_any_poa,1,categorical,84,135,0.622222222
+U_Michigan,Q4,death_or_hospice,0,categorical,85,135,0.62962963
+U_Michigan,Q1,vaso_any_72h,0,categorical,86,136,0.632352941
+U_Michigan,Q1,any_imv_icu,0,categorical,89,136,0.654411765
+U_Michigan,Q2,any_imv_icu,0,categorical,89,135,0.659259259
+U_Michigan,Q3,death_or_hospice,0,categorical,89,135,0.659259259
+U_Michigan,Q1,death_or_hospice,0,categorical,90,136,0.661764706
+U_Michigan,Q1,any_imv_72h,0,categorical,91,136,0.669117647
+U_Michigan,Q2,death_in_hosp,0,categorical,91,135,0.674074074
+U_Michigan,Q1,advanced_cancer_any_poa,1,categorical,93,136,0.683823529
+U_Michigan,Q3,any_imv_icu,0,categorical,93,135,0.688888889
+U_Michigan,Q2,metastatic_cancer_poa,1,categorical,93,135,0.688888889
+U_Michigan,Q2,any_imv_72h,0,categorical,94,135,0.696296296
+U_Michigan,Q3,any_imv_72h,0,categorical,94,135,0.696296296
+U_Michigan,Q4,any_imv_icu,0,categorical,94,135,0.696296296
+U_Michigan,Q4,metastatic_cancer_poa,1,categorical,94,135,0.696296296
+U_Michigan,Q4,advanced_cancer_any_poa,1,categorical,96,135,0.711111111
+U_Michigan,Q2,advanced_cancer_any_poa,1,categorical,98,135,0.725925926
+U_Michigan,Q4,death_in_hosp,0,categorical,98,135,0.725925926
+U_Michigan,Q1,death_in_hosp,0,categorical,99,136,0.727941176
+U_Michigan,Q2,vaso_any_72h,0,categorical,99,135,0.733333333
+U_Michigan,Q3,death_in_hosp,0,categorical,101,135,0.748148148
+U_Michigan,Q4,vaso_any_72h,0,categorical,101,135,0.748148148
+U_Michigan,Q4,any_imv_72h,0,categorical,102,135,0.755555556
+U_Michigan,Q3,vaso_any_72h,0,categorical,106,135,0.785185185
+U_Michigan,Q4,race_category,White,categorical,116,135,0.859259259
+U_Michigan,Q1,malignant_pleural_effusion_poa,0,categorical,117,136,0.860294118
+U_Michigan,Q2,malignant_pleural_effusion_poa,0,categorical,117,135,0.866666667
+U_Michigan,Q4,malignant_pleural_effusion_poa,0,categorical,117,135,0.866666667
+U_Michigan,Q3,race_category,White,categorical,120,,
+U_Michigan,Q2,cachexia_poa,0,categorical,121,135,0.896296296
+U_Michigan,Q3,malignant_pleural_effusion_poa,0,categorical,121,135,0.896296296
+U_Michigan,Q4,hospice_discharge,0,categorical,122,135,0.903703704
+U_Michigan,Q3,hospice_discharge,0,categorical,123,135,0.911111111
+U_Michigan,Q1,race_category,White,categorical,123,136,0.904411765
+U_Michigan,Q2,hospice_discharge,0,categorical,124,135,0.918518519
+U_Michigan,Q2,race_category,White,categorical,124,135,0.918518519
+U_Michigan,Q4,cachexia_poa,0,categorical,126,,
+U_Michigan,Q3,cachexia_poa,0,categorical,127,,
+U_Michigan,Q2,ethnicity_category,Non-Hispanic,categorical,127,135,0.940740741
+U_Michigan,Q1,hospice_discharge,0,categorical,127,,
+U_Michigan,Q1,ethnicity_category,Non-Hispanic,categorical,129,136,0.948529412
+U_Michigan,Q1,cachexia_poa,0,categorical,130,,
+U_Michigan,Q4,ethnicity_category,Non-Hispanic,categorical,131,135,0.97037037
+U_Michigan,Q3,ethnicity_category,Non-Hispanic,categorical,135,135,1
+U_Michigan,Q1,cachexia_poa,1,categorical,<10,,
+U_Michigan,Q3,cachexia_poa,1,categorical,<10,,
+U_Michigan,Q4,cachexia_poa,1,categorical,<10,,
+U_Michigan,Q1,device_t0,FACE MASK,categorical,<10,136,
+U_Michigan,Q1,device_t0,NIPPV,categorical,<10,136,
+U_Michigan,Q1,device_t0,TRACH COLLAR,categorical,<10,136,
+U_Michigan,Q1,device_t0,NA,categorical,<10,136,
+U_Michigan,Q2,device_t0,NIPPV,categorical,<10,135,
+U_Michigan,Q2,device_t0,TRACH COLLAR,categorical,<10,135,
+U_Michigan,Q2,device_t0,NA,categorical,<10,135,
+U_Michigan,Q3,device_t0,FACE MASK,categorical,<10,135,
+U_Michigan,Q3,device_t0,NIPPV,categorical,<10,135,
+U_Michigan,Q3,device_t0,TRACH COLLAR,categorical,<10,135,
+U_Michigan,Q3,device_t0,NA,categorical,<10,135,
+U_Michigan,Q4,device_t0,FACE MASK,categorical,<10,135,
+U_Michigan,Q4,device_t0,NIPPV,categorical,<10,135,
+U_Michigan,Q4,device_t0,NA,categorical,<10,135,
+U_Michigan,Q1,ethnicity_category,Hispanic,categorical,<10,136,
+U_Michigan,Q1,ethnicity_category,Unknown,categorical,<10,136,
+U_Michigan,Q1,ethnicity_category,NA,categorical,<10,136,
+U_Michigan,Q2,ethnicity_category,Hispanic,categorical,<10,135,
+U_Michigan,Q2,ethnicity_category,Unknown,categorical,<10,135,
+U_Michigan,Q4,ethnicity_category,Hispanic,categorical,<10,135,
+U_Michigan,Q4,ethnicity_category,Unknown,categorical,<10,135,
+U_Michigan,Q1,hospice_discharge,1,categorical,<10,,
+U_Michigan,Q1,race_category,Asian,categorical,<10,136,
+U_Michigan,Q1,race_category,Black or African American,categorical,<10,136,
+U_Michigan,Q1,race_category,Other,categorical,<10,136,
+U_Michigan,Q1,race_category,Unknown,categorical,<10,136,
+U_Michigan,Q2,race_category,Asian,categorical,<10,135,
+U_Michigan,Q2,race_category,Black or African American,categorical,<10,135,
+U_Michigan,Q2,race_category,Other,categorical,<10,135,
+U_Michigan,Q2,race_category,Unknown,categorical,<10,135,
+U_Michigan,Q3,race_category,Asian,categorical,<10,,
+U_Michigan,Q4,race_category,Asian,categorical,<10,135,
+U_Michigan,Q4,race_category,Other,categorical,<10,135,
+U_Michigan,Q4,severity_rank,NA,categorical,<10,,
+U_Michigan,Q4,traj_cluster_ra,NA,categorical,<10,,

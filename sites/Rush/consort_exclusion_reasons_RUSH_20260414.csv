@@ -1,0 +1,4 @@
+site_name,reason,n
+RUSH,Missing geo code,85920
+RUSH,No ICU stay (no ADT segment with ICU location_category),1571
+RUSH,No lung cancer dx POA=1 matching prefixes,129424

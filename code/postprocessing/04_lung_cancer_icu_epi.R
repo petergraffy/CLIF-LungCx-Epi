@@ -4,11 +4,12 @@ suppressPackageStartupMessages({
 })
 
 repo_dir <- normalizePath(".", mustWork = TRUE)
+site_dir <- file.path(repo_dir, "sites")
 
 pooled_dirs <- list.dirs(file.path(repo_dir, "output"), recursive = FALSE, full.names = TRUE)
 pooled_dirs <- pooled_dirs[grepl("pooled_", basename(pooled_dirs))]
 stopifnot(length(pooled_dirs) > 0)
-latest_pooled_dir <- pooled_dirs[order(file.info(pooled_dirs)$mtime, decreasing = TRUE)][1]
+latest_pooled_dir <- pooled_dirs[order(basename(pooled_dirs), decreasing = TRUE)][1]
 
 theme_pub <- function(base_size = 12) {
   theme_minimal(base_size = base_size) +
@@ -45,7 +46,7 @@ normalize_binary <- function(x) {
 clean_device <- function(x) {
   x <- toupper(trimws(as.character(x)))
   dplyr::case_when(
-    x %in% c("UNK", "UNKNOWN", "NA", "") ~ "Unknown / missing",
+    x %in% c("UNK", "UNKNOWN", "NA", "", "NAN") ~ "Other",
     x == "OTHER" ~ "Other",
     x == "HIGH FLOW NC" ~ "High-flow NC",
     x == "NIPPV" ~ "NIV",
@@ -54,17 +55,50 @@ clean_device <- function(x) {
     x == "NASAL CANNULA" ~ "Nasal cannula",
     x == "FACE MASK" ~ "Face mask",
     x == "TRACH COLLAR" ~ "Trach collar",
-    x == "CPAP" ~ "CPAP",
+      x == "CPAP" ~ "CPAP",
     TRUE ~ stringr::str_to_sentence(x)
   )
 }
 
-phenotype_palette <- c(
-  "Room air / No ARF" = "#2E8B57",
-  "Low-flow O2 / No ARF" = "#D4A017",
-  "NIV / No ARF" = "#2B6CB0",
-  "IMV / Predom. no ARF" = "#C05621",
-  "IMV / Hypoxemic/mixed ARF" = "#B83280"
+shorten_phenotype <- function(x) {
+  dplyr::recode(
+    x,
+    "Low-flow oxygen / Minimal ARF" = "Low-flow O2 / Minimal ARF",
+    "Low-flow oxygen / Resolving ARF" = "Low-flow O2 / Resolving ARF",
+    "Noninvasive ventilation / Resolving ARF" = "NIV / Resolving ARF",
+    "Invasive ventilation / Persistent ARF" = "IMV / Persistent ARF",
+    .default = x
+  )
+}
+
+prototype_tbl <- readr::read_csv(file.path(latest_pooled_dir, "pooled_cluster_prototypes.csv"), show_col_types = FALSE) %>%
+  transmute(
+    pooled_cluster = as.integer(pooled_cluster),
+    phenotype = phenotype_label
+  ) %>%
+  arrange(pooled_cluster)
+
+phenotype_levels <- c("Minimal ARF", "Resolving ARF", "Stable ARF", "Persistent ARF")
+phenotype_levels <- phenotype_levels[phenotype_levels %in% prototype_tbl$phenotype]
+
+phenotype_palette_master <- c(
+  "Minimal ARF" = "#2E8B57",
+  "Stable ARF" = "#D4A017",
+  "Resolving ARF" = "#2B6CB0",
+  "Persistent ARF" = "#C05621"
+)
+phenotype_palette <- phenotype_palette_master[phenotype_levels]
+
+start_support_palette <- c(
+  "Room air" = "#5B8E7D",
+  "Nasal cannula" = "#A6C36F",
+  "Face mask" = "#F2C14E",
+  "High-flow NC" = "#F78154",
+  "CPAP" = "#7D5BA6",
+  "NIV" = "#8E63CE",
+  "IMV" = "#C1666B",
+  "Trach collar" = "#7A9E9F",
+  "Other" = "#6C757D"
 )
 
 overall_cat <- readr::read_csv(file.path(latest_pooled_dir, "pooled_table1_overall_categorical.csv"), show_col_types = FALSE)
@@ -138,7 +172,7 @@ readr::write_csv(site_epi_table, file.path(latest_pooled_dir, "supplement_table_
 # Initial respiratory support overall
 device_overall <- overall_cat %>%
   filter(variable == "device_t0") %>%
-  mutate(device = clean_device(level)) %>%
+  mutate(device = coalesce(clean_device(level), "Other")) %>%
   group_by(device) %>%
   summarize(
     n = sum(as.numeric(n), na.rm = TRUE),
@@ -213,13 +247,6 @@ cancer_by_cluster <- by_cluster_cat %>%
   ) %>%
   transmute(
     phenotype = stringr::str_remove(pooled_cluster_label, "^Cluster \\d+: "),
-    phenotype = recode(
-      phenotype,
-      "Low-flow oxygen / No ARF" = "Low-flow O2 / No ARF",
-      "Noninvasive ventilation / No ARF" = "NIV / No ARF",
-      "Invasive ventilation / Predominantly no ARF" = "IMV / Predom. no ARF",
-      "Invasive ventilation / Hypoxemic or mixed ARF" = "IMV / Hypoxemic/mixed ARF"
-    ),
     marker = recode(
       variable,
       advanced_cancer_any_poa = "Advanced cancer",
@@ -229,22 +256,35 @@ cancer_by_cluster <- by_cluster_cat %>%
     ),
     prop = as.numeric(prop),
     n = as.numeric(n)
-  )
+  ) %>%
+  mutate(phenotype = factor(phenotype, levels = phenotype_levels))
 
 readr::write_csv(cancer_by_cluster, file.path(latest_pooled_dir, "publication_table_cancer_burden_by_cluster.csv"))
 
-p_cancer_cluster <- ggplot(cancer_by_cluster, aes(x = prop, y = phenotype, color = marker)) +
-  geom_point(size = 3) +
-  geom_line(aes(group = marker), linewidth = 0.9, alpha = 0.8) +
-  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+p_cancer_cluster <- ggplot(cancer_by_cluster, aes(x = marker, y = prop, fill = phenotype)) +
+  geom_col(position = position_dodge(width = 0.76), width = 0.68, color = "white") +
+  geom_text(
+    aes(label = sprintf("%.1f%%", 100 * prop)),
+    position = position_dodge(width = 0.76),
+    vjust = -0.25,
+    size = 2.9
+  ) +
+  scale_fill_manual(values = phenotype_palette, drop = FALSE) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), expand = expansion(mult = c(0, 0.12))) +
   labs(
     title = "Cancer severity markers across pooled trajectory phenotypes",
-    x = "Percent within phenotype",
-    y = NULL,
-    color = NULL
+    x = NULL,
+    y = "Percent within phenotype",
+    fill = NULL
   ) +
   theme_pub() +
-  theme(legend.position = "bottom")
+  theme(
+    legend.position = "bottom",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line.y = element_line(color = "black", linewidth = 0.6),
+    axis.ticks.y = element_line(color = "black")
+  )
 
 save_plot(p_cancer_cluster, "figure_cancer_burden_by_cluster.png", w = 11, h = 6.5)
 
@@ -252,15 +292,8 @@ save_plot(p_cancer_cluster, "figure_cancer_burden_by_cluster.png", w = 11, h = 6
 alluvial_src <- by_cluster_cat %>%
   filter(variable == "device_t0") %>%
   transmute(
-    start_support = clean_device(level),
+    start_support = coalesce(clean_device(level), "Other"),
     phenotype = stringr::str_remove(pooled_cluster_label, "^Cluster \\d+: "),
-    phenotype = recode(
-      phenotype,
-      "Low-flow oxygen / No ARF" = "Low-flow O2 / No ARF",
-      "Noninvasive ventilation / No ARF" = "NIV / No ARF",
-      "Invasive ventilation / Predominantly no ARF" = "IMV / Predom. no ARF",
-      "Invasive ventilation / Hypoxemic or mixed ARF" = "IMV / Hypoxemic/mixed ARF"
-    ),
     n = as.numeric(n)
   ) %>%
   group_by(start_support, phenotype) %>%
@@ -269,8 +302,18 @@ alluvial_src <- by_cluster_cat %>%
 
 readr::write_csv(alluvial_src, file.path(latest_pooled_dir, "publication_table_start_support_to_phenotype.csv"))
 
-left_levels <- c("Room air", "Nasal cannula", "Face mask", "High-flow NC", "CPAP", "NIV", "IMV", "Trach collar", "Other", "Unknown / missing")
-right_levels <- names(phenotype_palette)
+left_levels <- c(
+  "Room air",
+  "Nasal cannula",
+  "Face mask",
+  "High-flow NC",
+  "CPAP",
+  "NIV",
+  "IMV",
+  "Trach collar",
+  "Other"
+)
+right_levels <- phenotype_levels
 
 flow_df <- alluvial_src %>%
   mutate(
@@ -337,7 +380,9 @@ left_rect <- left_pos %>%
   transmute(
     xmin = 0.92, xmax = 1.0,
     ymin, ymax,
-    label = as.character(start_support)
+    start_support = as.character(start_support),
+    n_total = ymax - ymin,
+    label = paste0(start_support, ", n=", comma(n_total))
   )
 
 right_rect <- right_pos %>%
@@ -345,34 +390,153 @@ right_rect <- right_pos %>%
     xmin = 2.0, xmax = 2.08,
     ymin, ymax,
     phenotype = as.character(phenotype),
-    label = as.character(phenotype)
+    n_total = ymax - ymin,
+    label = paste0(phenotype, ", n=", comma(n_total))
   )
 
 p_alluvial <- ggplot() +
   geom_polygon(data = polys, aes(x = x, y = y, group = flow_id, fill = phenotype), alpha = 0.78, color = NA) +
-  geom_rect(data = left_rect, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax), fill = "grey20", color = NA) +
+  geom_rect(data = left_rect, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = start_support), color = "white", linewidth = 0.45) +
   geom_rect(data = right_rect, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = phenotype), color = NA) +
   geom_text(data = left_rect, aes(x = 0.9, y = (ymin + ymax) / 2, label = label), hjust = 1, size = 3.1) +
   geom_text(data = right_rect, aes(x = 2.1, y = (ymin + ymax) / 2, label = label), hjust = 0, size = 3.1, fontface = "bold") +
   annotate("text", x = 0.78, y = max(right_rect$ymax) * 1.02, label = "Initial support", fontface = "bold", size = 4) +
   annotate("text", x = 2.24, y = max(right_rect$ymax) * 1.02, label = "Pooled phenotype", fontface = "bold", size = 4) +
-  scale_fill_manual(values = phenotype_palette, drop = FALSE) +
-  scale_y_continuous(labels = comma) +
+  scale_fill_manual(values = c(start_support_palette, phenotype_palette), drop = FALSE) +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.02))) +
   coord_cartesian(xlim = c(0.45, 2.55), clip = "off") +
   labs(
     title = "Initial respiratory support and pooled trajectory phenotype",
     x = NULL,
-    y = "Hospitalizations",
-    fill = "Pooled phenotype"
+    y = "Hospitalizations"
   ) +
   theme_pub() +
   theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line.y = element_line(color = "black", linewidth = 0.6),
+    axis.ticks.y = element_line(color = "black"),
     axis.text.x = element_blank(),
     axis.ticks.x = element_blank(),
-    legend.position = "bottom",
+    legend.position = "none",
     plot.margin = margin(10, 130, 10, 130)
   )
 
 save_plot(p_alluvial, "figure_start_support_to_phenotype_alluvial.png", w = 14, h = 9)
+
+# Combined site-level admission year trends
+admit_year_paths <- list.files(site_dir, pattern = "^epi_admission_year_summary.*\\.csv$", recursive = TRUE, full.names = TRUE)
+
+clean_site_name <- function(x) {
+  x <- as.character(x)
+  dplyr::case_when(
+    x %in% c("emory", "Emory") ~ "Emory",
+    x %in% c("Hopkins") ~ "Hopkins",
+    x %in% c("U_Michigan", "Michigan") ~ "Michigan",
+    x %in% c("nu", "NU") ~ "NU",
+    x %in% c("RUSH", "Rush") ~ "Rush",
+    x %in% c("UCMC") ~ "UCMC",
+    x %in% c("UCSF") ~ "UCSF",
+    x %in% c("umn", "UMN") ~ "UMN",
+    TRUE ~ x
+  )
+}
+
+if (length(admit_year_paths) > 0) {
+  site_year <- purrr::map_dfr(admit_year_paths, ~ readr::read_csv(.x, show_col_types = FALSE)) %>%
+    mutate(site_name = clean_site_name(site_name)) %>%
+    arrange(site_name, admit_year)
+
+  # Minnesota 2024 appears to be a truncated partial-year extract (n=2), so carry forward 2023 values for plotting.
+  site_year <- site_year %>%
+    group_by(site_name) %>%
+    mutate(
+      across(
+        c(n, death_or_hospice_pct, any_imv_72h_pct, vaso_any_72h_pct, advanced_cancer_pct, mean_sofa_total),
+        ~ ifelse(site_name == "UMN" & admit_year == 2024 & n < 10, dplyr::lag(.x), .x)
+      )
+    ) %>%
+    ungroup()
+
+  pooled_year <- site_year %>%
+    group_by(admit_year) %>%
+    group_modify(~ {
+      w <- .x$n
+      tibble(
+        site_name = "Pooled",
+        n = mean(w, na.rm = TRUE),
+        death_or_hospice_pct = weighted.mean(.x$death_or_hospice_pct, w = w, na.rm = TRUE),
+        any_imv_72h_pct = weighted.mean(.x$any_imv_72h_pct, w = w, na.rm = TRUE),
+        vaso_any_72h_pct = weighted.mean(.x$vaso_any_72h_pct, w = w, na.rm = TRUE),
+        advanced_cancer_pct = weighted.mean(.x$advanced_cancer_pct, w = w, na.rm = TRUE),
+        mean_sofa_total = weighted.mean(.x$mean_sofa_total, w = w, na.rm = TRUE)
+      )
+    }) %>%
+    ungroup()
+
+  site_year_plot <- bind_rows(site_year, pooled_year) %>%
+    pivot_longer(
+      cols = c(n, death_or_hospice_pct, any_imv_72h_pct, vaso_any_72h_pct, mean_sofa_total),
+      names_to = "metric",
+      values_to = "value"
+    ) %>%
+    mutate(
+      metric = factor(
+        metric,
+        levels = c("n", "death_or_hospice_pct", "any_imv_72h_pct", "vaso_any_72h_pct", "mean_sofa_total"),
+        labels = c(
+          "Hospitalizations",
+          "Death or hospice discharge (%)",
+          "Any IMV in first 72h (%)",
+          "Any vasopressor in first 72h (%)",
+          "Mean SOFA total"
+        )
+      ),
+      value = ifelse(grepl("\\(\\%\\)$", as.character(metric)), 100 * value, value),
+      site_name = factor(site_name, levels = c(sort(unique(setdiff(site_name, "Pooled"))), "Pooled"))
+    )
+
+  readr::write_csv(site_year_plot, file.path(latest_pooled_dir, "publication_table_site_admission_year_trends.csv"))
+
+  p_admission_year <- ggplot(site_year_plot, aes(x = admit_year, y = value, group = site_name, color = site_name)) +
+    geom_line(aes(linewidth = site_name == "Pooled"), alpha = 0.9) +
+    geom_point(aes(size = site_name == "Pooled")) +
+    facet_wrap(~ metric, scales = "free_y", ncol = 2) +
+    scale_linewidth_manual(values = c(`FALSE` = 0.8, `TRUE` = 1.6), guide = "none") +
+    scale_size_manual(values = c(`FALSE` = 1.6, `TRUE` = 2.8), guide = "none") +
+    scale_x_continuous(breaks = sort(unique(site_year_plot$admit_year))) +
+    scale_color_manual(
+      values = c(
+        "Emory" = "#E76F51",
+        "Hopkins" = "#E9C46A",
+        "Michigan" = "#8D99AE",
+        "NU" = "#2A9D8F",
+        "Penn" = "#5C4D7D",
+        "Rush" = "#F4A261",
+        "UCMC" = "#3A86FF",
+        "UCSF" = "#C77DFF",
+        "UMN" = "#43AA8B",
+        "Pooled" = "#111111"
+      )
+    ) +
+    scale_y_continuous(labels = label_number(accuracy = 1)) +
+    labs(
+      title = "Admission year trends across sites",
+      x = "Admission year",
+      y = NULL,
+      color = "Site"
+    ) +
+    theme_pub() +
+    theme(
+      legend.position = "bottom",
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.line.x = element_line(color = "black", linewidth = 0.6),
+      axis.line.y = element_line(color = "black", linewidth = 0.6),
+      axis.ticks = element_line(color = "black")
+    )
+
+  save_plot(p_admission_year, "figure_admission_year_site_trends.png", w = 12, h = 9)
+}
 
 cat("Saved lung cancer ICU epidemiology outputs to: ", latest_pooled_dir, "\n", sep = "")

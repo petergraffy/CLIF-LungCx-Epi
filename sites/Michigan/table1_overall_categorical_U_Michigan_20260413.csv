@@ -1,0 +1,51 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+U_Michigan,Overall,ethnicity_category,Hispanic,categorical,10,541,0.018484288
+U_Michigan,Overall,race_category,Asian,categorical,11,541,0.020332717
+U_Michigan,Overall,device_t0,NA,categorical,12,,
+U_Michigan,Overall,device_t0,NIPPV,categorical,24,,
+U_Michigan,Overall,device_t0,FACE MASK,categorical,34,,
+U_Michigan,Overall,race_category,Black or African American,categorical,37,541,0.068391867
+U_Michigan,Overall,cachexia_poa,1,categorical,37,541,0.068391867
+U_Michigan,Overall,hospice_discharge,1,categorical,45,541,0.083179298
+U_Michigan,Overall,device_t0,UNK,categorical,48,,
+U_Michigan,Overall,traj_cluster_ra,3,categorical,69,,
+U_Michigan,Overall,severity_rank,3,categorical,69,,
+U_Michigan,Overall,malignant_pleural_effusion_poa,1,categorical,69,541,0.12754159
+U_Michigan,Overall,device_t0,IMV,categorical,70,,
+U_Michigan,Overall,device_t0,HIGH FLOW NC,categorical,83,,
+U_Michigan,Overall,device_t0,ROOM AIR,categorical,97,,
+U_Michigan,Overall,traj_cluster_ra,4,categorical,109,,
+U_Michigan,Overall,severity_rank,4,categorical,109,,
+U_Michigan,Overall,vaso_any_72h,1,categorical,149,541,0.275415896
+U_Michigan,Overall,death_in_hosp,1,categorical,152,541,0.280961183
+U_Michigan,Overall,any_imv_72h,1,categorical,160,541,0.295748614
+U_Michigan,Overall,device_t0,NASAL CANNULA,categorical,166,,
+U_Michigan,Overall,advanced_cancer_any_poa,0,categorical,170,541,0.314232902
+U_Michigan,Overall,traj_cluster_ra,1,categorical,175,,
+U_Michigan,Overall,severity_rank,1,categorical,175,,
+U_Michigan,Overall,any_imv_icu,1,categorical,176,541,0.325323475
+U_Michigan,Overall,traj_cluster_ra,2,categorical,187,,
+U_Michigan,Overall,severity_rank,2,categorical,187,,
+U_Michigan,Overall,metastatic_cancer_poa,0,categorical,194,541,0.358595194
+U_Michigan,Overall,death_or_hospice,1,categorical,197,541,0.364140481
+U_Michigan,Overall,sex_category,Female,categorical,242,541,0.447319778
+U_Michigan,Overall,sex_category,Male,categorical,299,541,0.552680222
+U_Michigan,Overall,death_or_hospice,0,categorical,344,541,0.635859519
+U_Michigan,Overall,metastatic_cancer_poa,1,categorical,347,541,0.641404806
+U_Michigan,Overall,any_imv_icu,0,categorical,365,541,0.674676525
+U_Michigan,Overall,advanced_cancer_any_poa,1,categorical,371,541,0.685767098
+U_Michigan,Overall,any_imv_72h,0,categorical,381,541,0.704251386
+U_Michigan,Overall,death_in_hosp,0,categorical,389,541,0.719038817
+U_Michigan,Overall,vaso_any_72h,0,categorical,392,541,0.724584104
+U_Michigan,Overall,malignant_pleural_effusion_poa,0,categorical,472,541,0.87245841
+U_Michigan,Overall,race_category,White,categorical,483,541,0.892791128
+U_Michigan,Overall,hospice_discharge,0,categorical,496,541,0.916820702
+U_Michigan,Overall,cachexia_poa,0,categorical,504,541,0.931608133
+U_Michigan,Overall,ethnicity_category,Non-Hispanic,categorical,522,541,0.964879852
+U_Michigan,Overall,race_category,Other,categorical,<10,541,
+U_Michigan,Overall,race_category,Unknown,categorical,<10,541,
+U_Michigan,Overall,ethnicity_category,Unknown,categorical,<10,541,
+U_Michigan,Overall,ethnicity_category,NA,categorical,<10,541,
+U_Michigan,Overall,device_t0,TRACH COLLAR,categorical,<10,,
+U_Michigan,Overall,traj_cluster_ra,NA,categorical,<10,,
+U_Michigan,Overall,severity_rank,NA,categorical,<10,,

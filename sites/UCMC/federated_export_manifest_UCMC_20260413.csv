@@ -1,0 +1,28 @@
+category,file_stub,description
+clustering,cluster_silhouette_ra,Silhouette diagnostics for local cluster selection.
+clustering,cluster_centroids_federated,Cluster-level centroids for central harmonization.
+static_summary,cluster_static_summary,Static cluster summaries including vasoactive mean use.
+static_summary,cluster_sofa_summary,SOFA summaries by cluster.
+static_summary,cluster_charlson_summary,Charlson summaries by cluster.
+trajectory_summary,cluster_signature_rs_hourly,Hourly respiratory support proportions by cluster.
+trajectory_summary,cluster_signature_arf_hourly,Hourly ARF subtype proportions by cluster.
+model_output,model_outputs_standardized,Standardized coefficient table for all models.
+model_output,model_metadata,Model Ns and event counts.
+model_output,mediation_style_decomposition_no2,Approximate mediation-style attenuation for NO2.
+epi_summary,epi_overall_summary,Overall aggregated ICU lung cancer epidemiology summary.
+epi_summary,epi_device_t0_summary,Aggregated distribution of respiratory support at ICU admission.
+epi_summary,epi_admission_year_summary,Aggregated epidemiology summary by admission year.
+epi_summary,epi_start_support_to_cluster_counts,Aggregated counts for initial respiratory support by final trajectory cluster.
+figure,traj_ra_seqrplot_discrete,Representative sequence figure.
+figure,cluster_sofa_domain_signature,SOFA domain signature figure.
+figure,sig_rs_area_by_cluster,Respiratory support signature figure.
+figure,sig_arf_area_by_cluster,ARF signature figure.
+figure,figure_device_t0_distribution,Initial respiratory support distribution figure.
+figure,figure_admission_year_trends,Admission year epidemiology trend figure.
+figure,predicted_mortality_by_cluster_pm25,Predicted mortality by PM2.5 and cluster figure.
+figure,predicted_mortality_by_cluster_no2,Predicted mortality by NO2 and cluster figure.
+figure,predicted_icu_los_curve_pm25,Predicted ICU LOS across PM2.5 exposure figure.
+figure,predicted_icu_los_curve_no2,Predicted ICU LOS across NO2 exposure figure.
+figure,predicted_severity_curve_pm25,Predicted severity across PM2.5 exposure figure.
+figure,predicted_severity_curve_no2,Predicted severity across NO2 exposure figure.
+figure,risk_difference_no2_by_cluster,Absolute NO2 risk difference by cluster figure.

@@ -1,0 +1,3 @@
+site_name,reason,n
+Penn,No ICU stay (no ADT segment with ICU location_category),9223
+Penn,No lung cancer dx POA=1 matching prefixes,2004221

@@ -1,0 +1,5 @@
+site_name,marker,prop
+nu,advanced_cancer,0.6784486990672558
+nu,metastatic_cancer,0.6239567992145312
+nu,malignant_pleural_effusion,0.1644575355915562
+nu,cachexia,0.09621993127147767

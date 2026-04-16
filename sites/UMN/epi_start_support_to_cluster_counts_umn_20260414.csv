@@ -1,0 +1,35 @@
+site_name,device_t0,traj_cluster_ra,n,device_total
+umn,CPAP,4,1,1
+umn,FACE MASK,1,16,97
+umn,FACE MASK,2,53,97
+umn,FACE MASK,3,21,97
+umn,FACE MASK,4,7,97
+umn,HIGH FLOW NC,1,1,41
+umn,HIGH FLOW NC,2,12,41
+umn,HIGH FLOW NC,3,25,41
+umn,HIGH FLOW NC,4,3,41
+umn,IMV,1,19,146
+umn,IMV,2,13,146
+umn,IMV,3,2,146
+umn,IMV,4,112,146
+umn,NASAL CANNULA,1,105,274
+umn,NASAL CANNULA,2,146,274
+umn,NASAL CANNULA,3,16,274
+umn,NASAL CANNULA,4,7,274
+umn,NIPPV,1,8,154
+umn,NIPPV,2,70,154
+umn,NIPPV,3,56,154
+umn,NIPPV,4,20,154
+umn,OTHER,3,1,2
+umn,OTHER,4,1,2
+umn,ROOM AIR,1,209,238
+umn,ROOM AIR,2,25,238
+umn,ROOM AIR,3,1,238
+umn,ROOM AIR,4,3,238
+umn,TRACH COLLAR,2,4,4
+umn,UNK,1,13,43
+umn,UNK,2,15,43
+umn,UNK,3,4,43
+umn,UNK,4,11,43
+umn,Unknown / missing,1,16,20
+umn,Unknown / missing,2,4,20

@@ -8,10 +8,21 @@ repo_dir <- normalizePath(".", mustWork = TRUE)
 pooled_dirs <- list.dirs(file.path(repo_dir, "output"), recursive = FALSE, full.names = TRUE)
 pooled_dirs <- pooled_dirs[grepl("pooled_", basename(pooled_dirs))]
 stopifnot(length(pooled_dirs) > 0)
-latest_pooled_dir <- pooled_dirs[order(file.info(pooled_dirs)$mtime, decreasing = TRUE)][1]
+latest_pooled_dir <- pooled_dirs[order(basename(pooled_dirs), decreasing = TRUE)][1]
 
 contrast_path <- file.path(latest_pooled_dir, "pooled_modeled_cluster_contrasts.csv")
 stopifnot(file.exists(contrast_path))
+
+shorten_phenotype <- function(x) {
+  dplyr::recode(
+    x,
+    "Low-flow oxygen / Minimal ARF" = "Low-flow O2 / Minimal ARF",
+    "Low-flow oxygen / Resolving ARF" = "Low-flow O2 / Resolving ARF",
+    "Noninvasive ventilation / Resolving ARF" = "NIV / Resolving ARF",
+    "Invasive ventilation / Persistent ARF" = "IMV / Persistent ARF",
+    .default = x
+  )
+}
 
 theme_pub <- function(base_size = 12) {
   theme_minimal(base_size = base_size) +
@@ -36,13 +47,21 @@ save_plot <- function(p, filename, w = 12, h = 9, dpi = 320) {
   )
 }
 
-phenotype_palette <- c(
-  "Room air / No ARF" = "#2E8B57",
-  "Low-flow O2 / No ARF" = "#D4A017",
-  "NIV / No ARF" = "#2B6CB0",
-  "IMV / Predom. no ARF" = "#C05621",
-  "IMV / Hypoxemic/mixed ARF" = "#B83280"
+prototype_path <- file.path(latest_pooled_dir, "pooled_cluster_prototypes.csv")
+prototype_tbl <- readr::read_csv(prototype_path, show_col_types = FALSE) %>%
+  transmute(
+    pooled_cluster = as.integer(pooled_cluster),
+    phenotype = phenotype_label
+  ) %>%
+  arrange(pooled_cluster)
+
+phenotype_palette_master <- c(
+  "Minimal ARF" = "#2E8B57",
+  "Stable ARF" = "#D4A017",
+  "Resolving ARF" = "#2B6CB0",
+  "Persistent ARF" = "#C05621"
 )
+phenotype_palette <- phenotype_palette_master[prototype_tbl$phenotype]
 
 exposure_labels <- c(
   "pm25_5y_z" = "PM2.5",
@@ -50,15 +69,8 @@ exposure_labels <- c(
 )
 
 contrasts <- readr::read_csv(contrast_path, show_col_types = FALSE) %>%
+  left_join(prototype_tbl, by = "pooled_cluster") %>%
   mutate(
-    phenotype = stringr::str_remove(pooled_cluster_label, "^Cluster \\d+: "),
-    phenotype = recode(
-      phenotype,
-      "Low-flow oxygen / No ARF" = "Low-flow O2 / No ARF",
-      "Noninvasive ventilation / No ARF" = "NIV / No ARF",
-      "Invasive ventilation / Predominantly no ARF" = "IMV / Predom. no ARF",
-      "Invasive ventilation / Hypoxemic or mixed ARF" = "IMV / Hypoxemic/mixed ARF"
-    ),
     phenotype = factor(phenotype, levels = names(phenotype_palette)),
     pooled_cluster = as.integer(pooled_cluster),
     exposure_label = recode(exposure, !!!exposure_labels)
@@ -78,7 +90,7 @@ dumbbell_df <- contrasts %>%
   )
 
 p_dumbbell <- ggplot(dumbbell_df, aes(y = phenotype)) +
-  geom_segment(aes(x = low, xend = high, yend = phenotype), linewidth = 1.5, color = "grey70") +
+  geom_segment(aes(x = low, xend = high, yend = phenotype), linewidth = 2.2, color = "grey55", lineend = "round") +
   geom_point(aes(x = low), size = 3.2, shape = 21, stroke = 0.7, fill = "white", color = "grey25") +
   geom_point(aes(x = high, fill = phenotype), size = 3.4, shape = 21, stroke = 0.7, color = "white") +
   geom_text(
@@ -93,8 +105,8 @@ p_dumbbell <- ggplot(dumbbell_df, aes(y = phenotype)) +
   scale_fill_manual(values = phenotype_palette, drop = FALSE) +
   scale_x_continuous(
     labels = percent_format(accuracy = 1),
-    limits = c(0.04, 0.48),
-    breaks = seq(0.05, 0.45, by = 0.05),
+    limits = c(0.04, 0.56),
+    breaks = seq(0.05, 0.55, by = 0.05),
     expand = expansion(mult = c(0.01, 0.14))
   ) +
   facet_wrap(~ exposure_label, ncol = 1) +
@@ -104,7 +116,7 @@ p_dumbbell <- ggplot(dumbbell_df, aes(y = phenotype)) +
     y = NULL,
     fill = "Phenotype"
   ) +
-  annotate("text", x = 0.045, y = 5.55, label = "Open circle = low exposure\nFilled circle = high exposure", hjust = 0, vjust = 1, size = 3.2) +
+  annotate("text", x = 0.045, y = length(levels(dumbbell_df$phenotype)) + 0.55, label = "Open circle = low exposure\nFilled circle = high exposure", hjust = 0, vjust = 1, size = 3.2) +
   theme_pub() +
   theme(
     legend.position = "bottom",

@@ -1,0 +1,155 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+RUSH,1,sex_category,Female,categorical,121,244,0.4959016393442623
+RUSH,1,sex_category,Male,categorical,123,244,0.5040983606557377
+RUSH,2,sex_category,Female,categorical,68,130,0.5230769230769231
+RUSH,2,sex_category,Male,categorical,62,130,0.47692307692307695
+RUSH,3,sex_category,Female,categorical,9,24,0.375
+RUSH,3,sex_category,Male,categorical,15,24,0.625
+RUSH,4,sex_category,Female,categorical,32,59,0.5423728813559322
+RUSH,4,sex_category,Male,categorical,27,59,0.4576271186440678
+RUSH,1,race_category,American Indian or Alaska Native,categorical,1,244,0.004098360655737705
+RUSH,1,race_category,Asian,categorical,11,244,0.045081967213114756
+RUSH,1,race_category,Black or African American,categorical,81,244,0.3319672131147541
+RUSH,1,race_category,Other,categorical,29,244,0.11885245901639344
+RUSH,1,race_category,Unknown,categorical,4,244,0.01639344262295082
+RUSH,1,race_category,White,categorical,118,244,0.48360655737704916
+RUSH,2,race_category,Asian,categorical,2,130,0.015384615384615385
+RUSH,2,race_category,Black or African American,categorical,55,130,0.4230769230769231
+RUSH,2,race_category,Native Hawaiian or Other Pacific Islander,categorical,1,130,0.007692307692307693
+RUSH,2,race_category,Other,categorical,8,130,0.06153846153846154
+RUSH,2,race_category,Unknown,categorical,1,130,0.007692307692307693
+RUSH,2,race_category,White,categorical,63,130,0.4846153846153846
+RUSH,3,race_category,Black or African American,categorical,6,24,0.25
+RUSH,3,race_category,Other,categorical,3,24,0.125
+RUSH,3,race_category,Unknown,categorical,1,24,0.041666666666666664
+RUSH,3,race_category,White,categorical,14,24,0.5833333333333334
+RUSH,4,race_category,Asian,categorical,1,59,0.01694915254237288
+RUSH,4,race_category,Black or African American,categorical,27,59,0.4576271186440678
+RUSH,4,race_category,Other,categorical,7,59,0.11864406779661017
+RUSH,4,race_category,Unknown,categorical,1,59,0.01694915254237288
+RUSH,4,race_category,White,categorical,23,59,0.3898305084745763
+RUSH,1,ethnicity_category,Hispanic,categorical,21,244,0.0860655737704918
+RUSH,1,ethnicity_category,Non-Hispanic,categorical,222,244,0.9098360655737705
+RUSH,1,ethnicity_category,Unknown,categorical,1,244,0.004098360655737705
+RUSH,2,ethnicity_category,Hispanic,categorical,8,130,0.06153846153846154
+RUSH,2,ethnicity_category,Non-Hispanic,categorical,121,130,0.9307692307692308
+RUSH,2,ethnicity_category,Unknown,categorical,1,130,0.007692307692307693
+RUSH,3,ethnicity_category,Hispanic,categorical,3,24,0.125
+RUSH,3,ethnicity_category,Non-Hispanic,categorical,20,24,0.8333333333333334
+RUSH,3,ethnicity_category,Unknown,categorical,1,24,0.041666666666666664
+RUSH,4,ethnicity_category,Hispanic,categorical,2,59,0.03389830508474576
+RUSH,4,ethnicity_category,Non-Hispanic,categorical,56,59,0.9491525423728814
+RUSH,4,ethnicity_category,Unknown,categorical,1,59,0.01694915254237288
+RUSH,1,device_t0,FACE MASK,categorical,10,244,0.040983606557377046
+RUSH,1,device_t0,HIGH FLOW NC,categorical,2,244,0.00819672131147541
+RUSH,1,device_t0,IMV,categorical,3,244,0.012295081967213115
+RUSH,1,device_t0,NASAL CANNULA,categorical,50,244,0.20491803278688525
+RUSH,1,device_t0,NIPPV,categorical,2,244,0.00819672131147541
+RUSH,1,device_t0,ROOM AIR,categorical,143,244,0.5860655737704918
+RUSH,1,device_t0,TRACH COLLAR,categorical,1,244,0.004098360655737705
+RUSH,1,device_t0,UNK,categorical,33,244,0.13524590163934427
+RUSH,2,device_t0,FACE MASK,categorical,15,130,0.11538461538461539
+RUSH,2,device_t0,HIGH FLOW NC,categorical,4,130,0.03076923076923077
+RUSH,2,device_t0,IMV,categorical,1,130,0.007692307692307693
+RUSH,2,device_t0,NASAL CANNULA,categorical,73,130,0.5615384615384615
+RUSH,2,device_t0,NIPPV,categorical,4,130,0.03076923076923077
+RUSH,2,device_t0,ROOM AIR,categorical,6,130,0.046153846153846156
+RUSH,2,device_t0,TRACH COLLAR,categorical,3,130,0.023076923076923078
+RUSH,2,device_t0,UNK,categorical,24,130,0.18461538461538463
+RUSH,3,device_t0,FACE MASK,categorical,8,24,0.3333333333333333
+RUSH,3,device_t0,HIGH FLOW NC,categorical,2,24,0.08333333333333333
+RUSH,3,device_t0,NASAL CANNULA,categorical,7,24,0.2916666666666667
+RUSH,3,device_t0,NIPPV,categorical,1,24,0.041666666666666664
+RUSH,3,device_t0,ROOM AIR,categorical,2,24,0.08333333333333333
+RUSH,3,device_t0,UNK,categorical,4,24,0.16666666666666666
+RUSH,4,device_t0,FACE MASK,categorical,3,59,0.05084745762711865
+RUSH,4,device_t0,HIGH FLOW NC,categorical,3,59,0.05084745762711865
+RUSH,4,device_t0,IMV,categorical,17,59,0.288135593220339
+RUSH,4,device_t0,NASAL CANNULA,categorical,11,59,0.1864406779661017
+RUSH,4,device_t0,ROOM AIR,categorical,4,59,0.06779661016949153
+RUSH,4,device_t0,UNK,categorical,21,59,0.3559322033898305
+RUSH,1,traj_cluster_ra,1,categorical,244,244,1
+RUSH,2,traj_cluster_ra,2,categorical,130,130,1
+RUSH,3,traj_cluster_ra,3,categorical,24,24,1
+RUSH,4,traj_cluster_ra,4,categorical,59,59,1
+RUSH,1,severity_rank,1,categorical,244,244,1
+RUSH,2,severity_rank,2,categorical,130,130,1
+RUSH,3,severity_rank,3,categorical,24,24,1
+RUSH,4,severity_rank,4,categorical,59,59,1
+RUSH,1,death_in_hosp,0,categorical,241,244,0.9877049180327869
+RUSH,1,death_in_hosp,1,categorical,3,244,0.012295081967213115
+RUSH,2,death_in_hosp,0,categorical,124,130,0.9538461538461539
+RUSH,2,death_in_hosp,1,categorical,6,130,0.046153846153846156
+RUSH,3,death_in_hosp,0,categorical,17,24,0.7083333333333334
+RUSH,3,death_in_hosp,1,categorical,7,24,0.2916666666666667
+RUSH,4,death_in_hosp,0,categorical,36,59,0.6101694915254238
+RUSH,4,death_in_hosp,1,categorical,23,59,0.3898305084745763
+RUSH,1,hospice_discharge,0,categorical,230,244,0.9426229508196722
+RUSH,1,hospice_discharge,1,categorical,14,244,0.05737704918032787
+RUSH,2,hospice_discharge,0,categorical,115,130,0.8846153846153846
+RUSH,2,hospice_discharge,1,categorical,15,130,0.11538461538461539
+RUSH,3,hospice_discharge,0,categorical,19,24,0.7916666666666666
+RUSH,3,hospice_discharge,1,categorical,5,24,0.20833333333333334
+RUSH,4,hospice_discharge,0,categorical,50,59,0.847457627118644
+RUSH,4,hospice_discharge,1,categorical,9,59,0.15254237288135594
+RUSH,1,death_or_hospice,0,categorical,227,244,0.930327868852459
+RUSH,1,death_or_hospice,1,categorical,17,244,0.06967213114754098
+RUSH,2,death_or_hospice,0,categorical,109,130,0.8384615384615385
+RUSH,2,death_or_hospice,1,categorical,21,130,0.16153846153846155
+RUSH,3,death_or_hospice,0,categorical,12,24,0.5
+RUSH,3,death_or_hospice,1,categorical,12,24,0.5
+RUSH,4,death_or_hospice,0,categorical,27,59,0.4576271186440678
+RUSH,4,death_or_hospice,1,categorical,32,59,0.5423728813559322
+RUSH,1,any_imv_icu,0,categorical,228,244,0.9344262295081968
+RUSH,1,any_imv_icu,1,categorical,16,244,0.06557377049180328
+RUSH,2,any_imv_icu,0,categorical,121,130,0.9307692307692308
+RUSH,2,any_imv_icu,1,categorical,9,130,0.06923076923076923
+RUSH,3,any_imv_icu,0,categorical,21,24,0.875
+RUSH,3,any_imv_icu,1,categorical,3,24,0.125
+RUSH,4,any_imv_icu,1,categorical,59,59,1
+RUSH,1,any_imv_72h,0,categorical,233,244,0.9549180327868853
+RUSH,1,any_imv_72h,1,categorical,11,244,0.045081967213114756
+RUSH,2,any_imv_72h,0,categorical,127,130,0.9769230769230769
+RUSH,2,any_imv_72h,1,categorical,3,130,0.023076923076923078
+RUSH,3,any_imv_72h,0,categorical,24,24,1
+RUSH,4,any_imv_72h,1,categorical,59,59,1
+RUSH,1,vaso_any_72h,0,categorical,217,244,0.889344262295082
+RUSH,1,vaso_any_72h,1,categorical,27,244,0.11065573770491803
+RUSH,2,vaso_any_72h,0,categorical,116,130,0.8923076923076924
+RUSH,2,vaso_any_72h,1,categorical,14,130,0.1076923076923077
+RUSH,3,vaso_any_72h,0,categorical,19,24,0.7916666666666666
+RUSH,3,vaso_any_72h,1,categorical,5,24,0.20833333333333334
+RUSH,4,vaso_any_72h,0,categorical,14,59,0.23728813559322035
+RUSH,4,vaso_any_72h,1,categorical,45,59,0.7627118644067796
+RUSH,1,advanced_cancer_any_poa,0,categorical,69,244,0.2827868852459016
+RUSH,1,advanced_cancer_any_poa,1,categorical,175,244,0.7172131147540983
+RUSH,2,advanced_cancer_any_poa,0,categorical,53,130,0.4076923076923077
+RUSH,2,advanced_cancer_any_poa,1,categorical,77,130,0.5923076923076923
+RUSH,3,advanced_cancer_any_poa,0,categorical,3,24,0.125
+RUSH,3,advanced_cancer_any_poa,1,categorical,21,24,0.875
+RUSH,4,advanced_cancer_any_poa,0,categorical,17,59,0.288135593220339
+RUSH,4,advanced_cancer_any_poa,1,categorical,42,59,0.711864406779661
+RUSH,1,metastatic_cancer_poa,0,categorical,73,244,0.29918032786885246
+RUSH,1,metastatic_cancer_poa,1,categorical,171,244,0.7008196721311475
+RUSH,2,metastatic_cancer_poa,0,categorical,61,130,0.46923076923076923
+RUSH,2,metastatic_cancer_poa,1,categorical,69,130,0.5307692307692308
+RUSH,3,metastatic_cancer_poa,0,categorical,5,24,0.20833333333333334
+RUSH,3,metastatic_cancer_poa,1,categorical,19,24,0.7916666666666666
+RUSH,4,metastatic_cancer_poa,0,categorical,19,59,0.3220338983050847
+RUSH,4,metastatic_cancer_poa,1,categorical,40,59,0.6779661016949152
+RUSH,1,malignant_pleural_effusion_poa,0,categorical,227,244,0.930327868852459
+RUSH,1,malignant_pleural_effusion_poa,1,categorical,17,244,0.06967213114754098
+RUSH,2,malignant_pleural_effusion_poa,0,categorical,114,130,0.8769230769230769
+RUSH,2,malignant_pleural_effusion_poa,1,categorical,16,130,0.12307692307692308
+RUSH,3,malignant_pleural_effusion_poa,0,categorical,17,24,0.7083333333333334
+RUSH,3,malignant_pleural_effusion_poa,1,categorical,7,24,0.2916666666666667
+RUSH,4,malignant_pleural_effusion_poa,0,categorical,54,59,0.9152542372881356
+RUSH,4,malignant_pleural_effusion_poa,1,categorical,5,59,0.0847457627118644
+RUSH,1,cachexia_poa,0,categorical,232,244,0.9508196721311475
+RUSH,1,cachexia_poa,1,categorical,12,244,0.04918032786885246
+RUSH,2,cachexia_poa,0,categorical,119,130,0.9153846153846154
+RUSH,2,cachexia_poa,1,categorical,11,130,0.08461538461538462
+RUSH,3,cachexia_poa,0,categorical,18,24,0.75
+RUSH,3,cachexia_poa,1,categorical,6,24,0.25
+RUSH,4,cachexia_poa,0,categorical,49,59,0.8305084745762712
+RUSH,4,cachexia_poa,1,categorical,10,59,0.1694915254237288

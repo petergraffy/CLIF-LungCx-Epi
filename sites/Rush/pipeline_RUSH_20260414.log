@@ -1,0 +1,366 @@
+[2026-04-14 13:08:46] === CLIF-LungCx-Epi pipeline started ===
+[2026-04-14 13:08:46] Site: RUSH
+[2026-04-14 13:08:46] Working directory: /home/vchaudha/CLIF-LungCx-Epi
+[2026-04-14 13:08:46] Output directory: output/run_RUSH_20260414
+[2026-04-14 13:08:46] Log file: output/run_RUSH_20260414/pipeline_RUSH_20260414.log
+[2026-04-14 13:08:46] --- Step 0: Checking packages ---
+All required packages are already installed.
+
+=== Setup complete. You can now run 01_lungcx_cohort.R ===
+[2026-04-14 13:08:48] --- Step 0: Complete ---
+[2026-04-14 13:08:48] --- Running full pipeline (01 → 02) ---
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+Loaded configuration from config.json
+Site Name: RUSH 
+Tables Path: /home/vchaudha/RUSH_CLIF 
+File Type: parquet 
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/meta_run_parameters_RUSH_20260414.csv
+Loaded tables:  clif_patient, clif_hospitalization, clif_adt, clif_hospital_diagnosis, clif_respiratory_support, clif_labs, clif_vitals, clif_medication_admin_continuous, clif_patient_assessments 
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/qc_lung_dx_prefixes_RUSH_20260414.csv
+
+Cohort selection summary:
+  Base hospitalizations:         217372
+  Lung cancer POA eligible:      2028
+  Eligible + ICU:                457
+  Final cohort included:         457
+# A tibble: 1 × 8
+  pm25_3y_unique pm25_5y_unique no2_3y_unique no2_5y_unique pm25_3y_missing
+           <int>          <int>         <int>         <int>           <int>
+1             61             61            61            61               0
+# ℹ 3 more variables: pm25_5y_missing <int>, no2_3y_missing <int>,
+#   no2_5y_missing <int>
+
+Done. Outputs in: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414
+Error in `mutate()`:
+ℹ In argument: `mar_action_group =
+  tolower(as.character(mar_action_group))`.
+Caused by error:
+! object 'mar_action_group' not found
+Backtrace:
+     ▆
+  1. ├─... %>% ...
+  2. ├─dplyr::mutate(...)
+  3. ├─dplyr:::mutate.data.frame(...)
+  4. │ └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+  5. │   ├─base::withCallingHandlers(...)
+  6. │   └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+  7. │     └─mask$eval_all_mutate(quo)
+  8. │       └─dplyr (local) eval()
+  9. ├─base::tolower(as.character(mar_action_group))
+ 10. └─base::.handleSimpleError(...)
+ 11.   └─dplyr (local) h(simpleError(msg, call))
+ 12.     └─rlang::abort(message, class = error_class, parent = parent, call = error_call)
+Execution halted
+[2026-04-14 13:21:44] === CLIF-LungCx-Epi pipeline started ===
+[2026-04-14 13:21:44] Site: RUSH
+[2026-04-14 13:21:44] Working directory: /home/vchaudha/CLIF-LungCx-Epi
+[2026-04-14 13:21:44] Output directory: output/run_RUSH_20260414
+[2026-04-14 13:21:44] Log file: output/run_RUSH_20260414/pipeline_RUSH_20260414.log
+[2026-04-14 13:21:44] --- Step 0: Checking packages ---
+All required packages are already installed.
+
+=== Setup complete. You can now run 01_lungcx_cohort.R ===
+[2026-04-14 13:21:46] --- Step 0: Complete ---
+[2026-04-14 13:21:46] --- Running full pipeline (01 → 02) ---
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+Loaded configuration from config.json
+Site Name: RUSH 
+Tables Path: /home/vchaudha/RUSH_CLIF 
+File Type: parquet 
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/meta_run_parameters_RUSH_20260414.csv
+Loaded tables:  clif_patient, clif_hospitalization, clif_adt, clif_hospital_diagnosis, clif_respiratory_support, clif_labs, clif_vitals, clif_medication_admin_continuous, clif_patient_assessments 
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/qc_lung_dx_prefixes_RUSH_20260414.csv
+
+Cohort selection summary:
+  Base hospitalizations:         217372
+  Lung cancer POA eligible:      2028
+  Eligible + ICU:                457
+  Final cohort included:         457
+# A tibble: 1 × 8
+  pm25_3y_unique pm25_5y_unique no2_3y_unique no2_5y_unique pm25_3y_missing
+           <int>          <int>         <int>         <int>           <int>
+1             61             61            61            61               0
+# ℹ 3 more variables: pm25_5y_missing <int>, no2_3y_missing <int>,
+#   no2_5y_missing <int>
+
+Done. Outputs in: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414
+ [>] state coding:
+       [alphabet]         [label]            [long label] 
+     1  IMV|ARF_HYPER      IMV|ARF_HYPER      IMV|ARF_HYPER
+     2  IMV|ARF_HYPOX      IMV|ARF_HYPOX      IMV|ARF_HYPOX
+     3  IMV|ARF_MIXED      IMV|ARF_MIXED      IMV|ARF_MIXED
+     4  IMV|NO_ARF         IMV|NO_ARF         IMV|NO_ARF
+     5  LOW_O2|ARF_HYPER   LOW_O2|ARF_HYPER   LOW_O2|ARF_HYPER
+     6  LOW_O2|ARF_HYPOX   LOW_O2|ARF_HYPOX   LOW_O2|ARF_HYPOX
+     7  LOW_O2|ARF_MIXED   LOW_O2|ARF_MIXED   LOW_O2|ARF_MIXED
+     8  LOW_O2|NO_ARF      LOW_O2|NO_ARF      LOW_O2|NO_ARF
+     9  NIV|ARF_HYPER      NIV|ARF_HYPER      NIV|ARF_HYPER
+     10  NIV|ARF_HYPOX      NIV|ARF_HYPOX      NIV|ARF_HYPOX
+     11  NIV|ARF_MIXED      NIV|ARF_MIXED      NIV|ARF_MIXED
+     12  NIV|NO_ARF         NIV|NO_ARF         NIV|NO_ARF
+      ... (14 states)
+ [>] 457 sequences in the data set
+ [>] min/max sequence length: 73/73
+ [>] 457 sequences with 14 distinct states
+ [>] Computing sm with seqcost using  TRATE
+ [>] creating substitution-cost matrix using transition rates ...
+ [>] computing transition probabilities for states IMV|ARF_HYPER/IMV|ARF_HYPOX/IMV|ARF_MIXED/IMV|NO_ARF/LOW_O2|ARF_HYPER/LOW_O2|ARF_HYPOX/LOW_O2|ARF_MIXED/LOW_O2|NO_ARF/NIV|ARF_HYPER/NIV|ARF_HYPOX/NIV|ARF_MIXED/NIV|NO_ARF/ROOM AIR|ARF_HYPER/ROOM AIR|NO_ARF ...
+ [>] 299 distinct  sequences 
+ [>] min/max sequence lengths: 73/73
+ [>] computing distances using the OM metric
+ [>] elapsed time: 0.634 secs
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_silhouette_ra_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_silhouette_ra_RUSH_20260414.png
+ [>] number of objects (sum of weights): 244
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=59% (threshold=25%)
+ [>] 136 distinct sequence(s)
+ [>] number of objects (sum of weights): 59
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=25% (threshold=25%)
+ [>] 52 distinct sequence(s)
+ [>] number of objects (sum of weights): 130
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=64% (threshold=25%)
+ [>] 89 distinct sequence(s)
+ [>] number of objects (sum of weights): 24
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=42% (threshold=25%)
+ [>] 22 distinct sequence(s)
+null device 
+          1 
+null device 
+          1 
+Processing vitals...
+Processing respiratory support...
+Processing labs...
+Processing GCS scores...
+Processing medications...
+Combining all components...
+Calculating SOFA scores...
+Error in `mutate()`:
+ℹ In argument: `sofa_cv = case_when(...)`.
+Caused by error in `case_when()`:
+! Failed to evaluate the left-hand side of formula 1.
+Caused by error:
+! object 'dopamine' not found
+Backtrace:
+     ▆
+  1. ├─global calculate_sofa(...)
+  2. │ └─sofa_data %>% ...
+  3. ├─dplyr::mutate(...)
+  4. ├─dplyr:::mutate.data.frame(...)
+  5. │ └─dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+  6. │   ├─base::withCallingHandlers(...)
+  7. │   └─dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+  8. │     └─mask$eval_all_mutate(quo)
+  9. │       └─dplyr (local) eval()
+ 10. ├─dplyr::case_when(...)
+ 11. │ └─dplyr:::eval_formulas(..., allow_empty_dots = FALSE)
+ 12. │   ├─base::withCallingHandlers(...)
+ 13. │   └─rlang::eval_tidy(pair$lhs, env = user_env)
+ 14. └─base::.handleSimpleError(...)
+ 15.   └─dplyr (local) h(simpleError(msg, call))
+ 16.     └─rlang::abort(message, parent = cnd, call = error_call)
+Execution halted
+[2026-04-14 14:02:30] === CLIF-LungCx-Epi pipeline started ===
+[2026-04-14 14:02:30] Site: RUSH
+[2026-04-14 14:02:30] Working directory: /home/vchaudha/CLIF-LungCx-Epi
+[2026-04-14 14:02:30] Output directory: output/run_RUSH_20260414
+[2026-04-14 14:02:30] Log file: output/run_RUSH_20260414/pipeline_RUSH_20260414.log
+[2026-04-14 14:02:30] --- Step 0: Checking packages ---
+All required packages are already installed.
+
+=== Setup complete. You can now run 01_lungcx_cohort.R ===
+[2026-04-14 14:02:32] --- Step 0: Complete ---
+[2026-04-14 14:02:32] --- Running full pipeline (01 → 02) ---
+
+Attaching package: ‘jsonlite’
+
+The following object is masked from ‘package:purrr’:
+
+    flatten
+
+Loaded configuration from config.json
+Site Name: RUSH 
+Tables Path: /home/vchaudha/RUSH_CLIF 
+File Type: parquet 
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/meta_run_parameters_RUSH_20260414.csv
+Loaded tables:  clif_patient, clif_hospitalization, clif_adt, clif_hospital_diagnosis, clif_respiratory_support, clif_labs, clif_vitals, clif_medication_admin_continuous, clif_patient_assessments 
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/qc_lung_dx_prefixes_RUSH_20260414.csv
+
+Cohort selection summary:
+  Base hospitalizations:         217372
+  Lung cancer POA eligible:      2028
+  Eligible + ICU:                457
+  Final cohort included:         457
+# A tibble: 1 × 8
+  pm25_3y_unique pm25_5y_unique no2_3y_unique no2_5y_unique pm25_3y_missing
+           <int>          <int>         <int>         <int>           <int>
+1             61             61            61            61               0
+# ℹ 3 more variables: pm25_5y_missing <int>, no2_3y_missing <int>,
+#   no2_5y_missing <int>
+
+Done. Outputs in: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414
+ [>] state coding:
+       [alphabet]         [label]            [long label] 
+     1  IMV|ARF_HYPER      IMV|ARF_HYPER      IMV|ARF_HYPER
+     2  IMV|ARF_HYPOX      IMV|ARF_HYPOX      IMV|ARF_HYPOX
+     3  IMV|ARF_MIXED      IMV|ARF_MIXED      IMV|ARF_MIXED
+     4  IMV|NO_ARF         IMV|NO_ARF         IMV|NO_ARF
+     5  LOW_O2|ARF_HYPER   LOW_O2|ARF_HYPER   LOW_O2|ARF_HYPER
+     6  LOW_O2|ARF_HYPOX   LOW_O2|ARF_HYPOX   LOW_O2|ARF_HYPOX
+     7  LOW_O2|ARF_MIXED   LOW_O2|ARF_MIXED   LOW_O2|ARF_MIXED
+     8  LOW_O2|NO_ARF      LOW_O2|NO_ARF      LOW_O2|NO_ARF
+     9  NIV|ARF_HYPER      NIV|ARF_HYPER      NIV|ARF_HYPER
+     10  NIV|ARF_HYPOX      NIV|ARF_HYPOX      NIV|ARF_HYPOX
+     11  NIV|ARF_MIXED      NIV|ARF_MIXED      NIV|ARF_MIXED
+     12  NIV|NO_ARF         NIV|NO_ARF         NIV|NO_ARF
+      ... (14 states)
+ [>] 457 sequences in the data set
+ [>] min/max sequence length: 73/73
+ [>] 457 sequences with 14 distinct states
+ [>] Computing sm with seqcost using  TRATE
+ [>] creating substitution-cost matrix using transition rates ...
+ [>] computing transition probabilities for states IMV|ARF_HYPER/IMV|ARF_HYPOX/IMV|ARF_MIXED/IMV|NO_ARF/LOW_O2|ARF_HYPER/LOW_O2|ARF_HYPOX/LOW_O2|ARF_MIXED/LOW_O2|NO_ARF/NIV|ARF_HYPER/NIV|ARF_HYPOX/NIV|ARF_MIXED/NIV|NO_ARF/ROOM AIR|ARF_HYPER/ROOM AIR|NO_ARF ...
+ [>] 299 distinct  sequences 
+ [>] min/max sequence lengths: 73/73
+ [>] computing distances using the OM metric
+ [>] elapsed time: 0.642 secs
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_silhouette_ra_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_silhouette_ra_RUSH_20260414.png
+ [>] number of objects (sum of weights): 244
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=59% (threshold=25%)
+ [>] 136 distinct sequence(s)
+ [>] number of objects (sum of weights): 59
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=25% (threshold=25%)
+ [>] 52 distinct sequence(s)
+ [>] number of objects (sum of weights): 130
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=64% (threshold=25%)
+ [>] 89 distinct sequence(s)
+ [>] number of objects (sum of weights): 24
+ [>] max. distance: 145.95
+ [>] neighborhood radius: 14.6
+ [>] 1 representative(s) selected, coverage=42% (threshold=25%)
+ [>] 22 distinct sequence(s)
+null device 
+          1 
+null device 
+          1 
+Processing vitals...
+Processing respiratory support...
+Processing labs...
+Processing GCS scores...
+Processing medications...
+Combining all components...
+Calculating SOFA scores...
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_severity_rank_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_static_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_centroids_federated_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_signature_rs_hourly_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_signature_arf_hourly_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_sofa_total_boxplot_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_sofa_cns_boxplot_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_sofa_domain_signature_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/sig_rs_area_by_cluster_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/sig_arf_area_by_cluster_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/sig_timing_cuminc_by_cluster_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_severity_rank_RUSH_20260414.csv
+# weights:  60 (42 variable)
+initial  value 633.536523 
+iter  10 value 496.864182
+iter  20 value 480.453349
+iter  30 value 478.867654
+iter  40 value 478.228095
+iter  50 value 478.184388
+iter  60 value 477.124284
+iter  70 value 476.193620
+iter  80 value 476.078996
+iter  90 value 475.821318
+iter  90 value 475.821317
+final  value 475.820879 
+converged
+Warning message:
+In coxph.fit(X, Y, istrat, offset, init, control, weights = weights,  :
+  Loglik converged before variable  8 ; coefficient may be infinite. 
+Warning message:
+In coxph.fit(X, Y, istrat, offset, init, control, weights = weights,  :
+  Loglik converged before variable  8 ; coefficient may be infinite. 
+Warning message:
+In coxph.fit(X, Y, istrat, offset, init, control, weights = weights,  :
+  Loglik converged before variable  8 ; coefficient may be infinite. 
+Warning message:
+In sqrt(diag(vc)) : NaNs produced
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/model_outputs_standardized_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/model_metadata_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/model_vif_mortality_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/mediation_style_decomposition_no2_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/mediation_style_decomposition_no2_cluster_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_mortality_curve_pm25_by_cluster_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_mortality_by_cluster_pm25_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_mortality_curve_no2_by_cluster_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_mortality_by_cluster_no2_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/contrast_pm25_low_vs_high_by_cluster_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/contrast_no2_low_vs_high_by_cluster_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/risk_difference_pm25_by_cluster_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/risk_difference_no2_by_cluster_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/interaction_pm25_heatmap_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_icu_los_curve_pm25_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_icu_los_curve_pm25_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_icu_los_curve_no2_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_icu_los_curve_no2_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_severity_curve_pm25_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_severity_curve_pm25_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_severity_curve_no2_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/predicted_severity_curve_no2_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/severity_distribution_by_no2_quartile_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/epi_overall_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/epi_device_t0_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/figure_device_t0_distribution_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/epi_admission_year_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/figure_admission_year_trends_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/epi_cancer_severity_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/epi_start_support_to_cluster_counts_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/figure_start_support_to_cluster_alluvial_RUSH_20260414.png
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_exposure_mortality_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_gcs_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/cluster_neuro_summary_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/correlation_exposure_sofa_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/federated_export_manifest_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/consort_flow_counts_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/consort_exclusion_reasons_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/table1_overall_continuous_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/table1_overall_categorical_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/table1_by_cluster_continuous_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/table1_by_cluster_categorical_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/table1_by_no2_continuous_RUSH_20260414.csv
+Saved: /home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414/table1_by_no2_categorical_RUSH_20260414.csv
+
+Done. All trajectory panels, clustering outputs, standardized model tables, and federated summaries were saved to:
+/home/vchaudha/CLIF-LungCx-Epi/output/run_RUSH_20260414
+
+Please upload the output folder to Box.
+[2026-04-14 14:13:08] --- Pipeline complete ---
+[2026-04-14 14:13:08] === Pipeline finished successfully ===

@@ -1,0 +1,7 @@
+site_name,step,step_order,n_remaining,n_excluded_at_step
+U_Michigan,Hospitalizations in date window,1,43756,0
+U_Michigan,>= 18 years,2,43756,0
+U_Michigan,Demographics present,3,43013,743
+U_Michigan,Geography present,4,41944,1069
+U_Michigan,Lung cancer dx POA present,5,541,41403
+U_Michigan,Any ICU segment present,6,541,0

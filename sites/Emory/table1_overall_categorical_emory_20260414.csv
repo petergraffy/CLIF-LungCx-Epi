@@ -1,0 +1,52 @@
+site_name,stratum,variable,level,summary_type,n,denom,prop
+emory,Overall,sex_category,Female,categorical,382,754,0.506631299734748
+emory,Overall,sex_category,Male,categorical,372,754,0.493368700265252
+emory,Overall,race_category,American Indian or Alaska Native,categorical,1,754,0.001326259946949602
+emory,Overall,race_category,Asian,categorical,42,754,0.05570291777188329
+emory,Overall,race_category,Black or African American,categorical,370,754,0.4907161803713528
+emory,Overall,race_category,Other,categorical,14,754,0.01856763925729443
+emory,Overall,race_category,Unknown,categorical,37,754,0.04907161803713528
+emory,Overall,race_category,White,categorical,290,754,0.38461538461538464
+emory,Overall,ethnicity_category,Hispanic,categorical,14,754,0.01856763925729443
+emory,Overall,ethnicity_category,Non-Hispanic,categorical,684,754,0.9071618037135278
+emory,Overall,ethnicity_category,Unknown,categorical,56,754,0.07427055702917772
+emory,Overall,device_t0,CPAP,categorical,15,754,0.01989389920424403
+emory,Overall,device_t0,FACE MASK,categorical,13,754,0.017241379310344827
+emory,Overall,device_t0,HIGH FLOW NC,categorical,91,754,0.1206896551724138
+emory,Overall,device_t0,IMV,categorical,100,754,0.13262599469496023
+emory,Overall,device_t0,NASAL CANNULA,categorical,213,754,0.28249336870026526
+emory,Overall,device_t0,NIPPV,categorical,19,754,0.025198938992042442
+emory,Overall,device_t0,OTHER,categorical,56,754,0.07427055702917772
+emory,Overall,device_t0,ROOM AIR,categorical,111,754,0.14721485411140584
+emory,Overall,device_t0,UNK,categorical,68,754,0.09018567639257294
+emory,Overall,device_t0,NA,categorical,68,754,0.09018567639257294
+emory,Overall,traj_cluster_ra,1,categorical,198,754,0.2625994694960212
+emory,Overall,traj_cluster_ra,2,categorical,317,754,0.4204244031830239
+emory,Overall,traj_cluster_ra,3,categorical,109,754,0.14456233421750664
+emory,Overall,traj_cluster_ra,4,categorical,121,754,0.16047745358090185
+emory,Overall,traj_cluster_ra,NA,categorical,9,754,0.011936339522546418
+emory,Overall,severity_rank,1,categorical,198,754,0.2625994694960212
+emory,Overall,severity_rank,2,categorical,317,754,0.4204244031830239
+emory,Overall,severity_rank,3,categorical,109,754,0.14456233421750664
+emory,Overall,severity_rank,4,categorical,121,754,0.16047745358090185
+emory,Overall,severity_rank,NA,categorical,9,754,0.011936339522546418
+emory,Overall,death_in_hosp,0,categorical,609,754,0.8076923076923077
+emory,Overall,death_in_hosp,1,categorical,145,754,0.19230769230769232
+emory,Overall,hospice_discharge,0,categorical,695,754,0.9217506631299734
+emory,Overall,hospice_discharge,1,categorical,59,754,0.07824933687002653
+emory,Overall,death_or_hospice,0,categorical,550,754,0.7294429708222812
+emory,Overall,death_or_hospice,1,categorical,204,754,0.27055702917771884
+emory,Overall,any_imv_icu,0,categorical,574,754,0.7612732095490716
+emory,Overall,any_imv_icu,1,categorical,180,754,0.23872679045092837
+emory,Overall,any_imv_72h,0,categorical,600,754,0.7957559681697612
+emory,Overall,any_imv_72h,1,categorical,154,754,0.20424403183023873
+emory,Overall,vaso_any_72h,0,categorical,566,754,0.7506631299734748
+emory,Overall,vaso_any_72h,1,categorical,188,754,0.2493368700265252
+emory,Overall,advanced_cancer_any_poa,0,categorical,262,754,0.34748010610079577
+emory,Overall,advanced_cancer_any_poa,1,categorical,492,754,0.6525198938992043
+emory,Overall,metastatic_cancer_poa,0,categorical,314,754,0.41644562334217505
+emory,Overall,metastatic_cancer_poa,1,categorical,440,754,0.583554376657825
+emory,Overall,malignant_pleural_effusion_poa,0,categorical,613,754,0.8129973474801061
+emory,Overall,malignant_pleural_effusion_poa,1,categorical,141,754,0.1870026525198939
+emory,Overall,cachexia_poa,0,categorical,704,754,0.9336870026525199
+emory,Overall,cachexia_poa,1,categorical,50,754,0.06631299734748011

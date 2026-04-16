@@ -1,0 +1,4 @@
+site_name,reason,n
+UCMC,Missing geo code,1452
+UCMC,No ICU stay (no ADT segment with ICU location_category),1493
+UCMC,No lung cancer dx POA=1 matching prefixes,163030

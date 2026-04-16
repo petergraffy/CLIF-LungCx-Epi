@@ -1,0 +1,10 @@
+model,n,events
+multinom_traj_cluster,457,NA
+glm_mortality,457,82
+glm_interaction_pm25,457,82
+glm_interaction_no2,457,82
+glm_los_quasipoisson,457,NA
+polr_severity_rank,457,NA
+cox72_landmark,377,66
+cox72_landmark_interaction_pm25,377,66
+cox72_landmark_interaction_no2,377,66

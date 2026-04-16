@@ -1,0 +1,35 @@
+site_name,device_t0,traj_cluster_ra,n,device_total
+Hopkins,CPAP,2,1,1
+Hopkins,FACE MASK,1,146,287
+Hopkins,FACE MASK,2,92,287
+Hopkins,FACE MASK,3,36,287
+Hopkins,FACE MASK,4,13,287
+Hopkins,HIGH FLOW NC,1,2,99
+Hopkins,HIGH FLOW NC,2,32,99
+Hopkins,HIGH FLOW NC,3,57,99
+Hopkins,HIGH FLOW NC,4,8,99
+Hopkins,IMV,1,26,168
+Hopkins,IMV,2,32,168
+Hopkins,IMV,3,7,168
+Hopkins,IMV,4,103,168
+Hopkins,NASAL CANNULA,1,271,620
+Hopkins,NASAL CANNULA,2,308,620
+Hopkins,NASAL CANNULA,3,21,620
+Hopkins,NASAL CANNULA,4,20,620
+Hopkins,NIPPV,1,17,150
+Hopkins,NIPPV,2,62,150
+Hopkins,NIPPV,3,54,150
+Hopkins,NIPPV,4,17,150
+Hopkins,ROOM AIR,1,325,391
+Hopkins,ROOM AIR,2,54,391
+Hopkins,ROOM AIR,3,2,391
+Hopkins,ROOM AIR,4,10,391
+Hopkins,TRACH COLLAR,2,5,6
+Hopkins,TRACH COLLAR,4,1,6
+Hopkins,UNK,1,28,173
+Hopkins,UNK,2,61,173
+Hopkins,UNK,3,10,173
+Hopkins,UNK,4,74,173
+Hopkins,Unknown / missing,1,25,39
+Hopkins,Unknown / missing,2,13,39
+Hopkins,Unknown / missing,4,1,39

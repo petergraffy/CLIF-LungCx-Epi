@@ -1,6 +1,7 @@
 suppressPackageStartupMessages({
   library(tidyverse)
   library(ggplot2)
+  library(patchwork)
 })
 
 options(stringsAsFactors = FALSE)
@@ -8,7 +9,8 @@ options(stringsAsFactors = FALSE)
 ROOT_DIR <- "."
 SITE_DIR <- file.path(ROOT_DIR, "sites")
 MODEL_EXCLUDED_SITES <- character(0)
-RUN_DIRS_ALL <- sort(Sys.glob(file.path(SITE_DIR, "run_*")))
+RUN_DIRS_ALL <- sort(list.dirs(SITE_DIR, recursive = FALSE, full.names = TRUE))
+RUN_DIRS_ALL <- RUN_DIRS_ALL[file.info(RUN_DIRS_ALL)$isdir %in% TRUE]
 RUN_DATE <- format(Sys.Date(), "%Y%m%d")
 OUT_DIR <- file.path(ROOT_DIR, "output", paste0("pooled_", RUN_DATE))
 dir.create(OUT_DIR, recursive = TRUE, showWarnings = FALSE)
@@ -60,6 +62,10 @@ label_arf <- function(x) {
   dplyr::recode(
     x,
     "NO_ARF" = "No ARF",
+    "MINIMAL_ARF" = "Minimal ARF",
+    "STABLE_ARF" = "Stable ARF",
+    "RESOLVING_ARF" = "Resolving ARF",
+    "PERSISTENT_ARF" = "Persistent ARF",
     "HYPOX" = "Hypoxemic ARF",
     "HYPER" = "Hypercapnic ARF",
     "MIXED" = "Mixed ARF",
@@ -93,6 +99,10 @@ label_arf_short <- function(x) {
   dplyr::recode(
     x,
     "No ARF" = "No ARF",
+    "Minimal ARF" = "Minimal ARF",
+    "Stable ARF" = "Stable ARF",
+    "Resolving ARF" = "Resolving ARF",
+    "Persistent ARF" = "Persistent ARF",
     "Hypoxemic ARF" = "Hypoxemic ARF",
     "Hypercapnic ARF" = "Hypercapnic ARF",
     "Mixed ARF" = "Mixed ARF",
@@ -172,6 +182,15 @@ read_stub_csv <- function(run_dir, stub) {
   hits <- Sys.glob(file.path(run_dir, paste0(stub, "*.csv")))
   if (!length(hits)) return(NULL)
   out <- readr::read_csv(hits[[1]], show_col_types = FALSE, col_types = cols(.default = col_guess()))
+  parse_count_value <- function(x) {
+    x_chr <- trimws(as.character(x))
+    parsed <- suppressWarnings(readr::parse_number(x_chr))
+    dplyr::case_when(
+      is.na(x_chr) | x_chr == "" ~ NA_real_,
+      stringr::str_detect(x_chr, "^<") & !is.na(parsed) ~ parsed / 2,
+      TRUE ~ parsed
+    )
+  }
   numeric_candidates <- c(
     "traj_cluster_ra", "severity_rank", "n_cluster", "n", "denom", "prop",
     "n_nonmissing", "mean", "sd", "median", "p25", "p75", "estimate", "std_error",
@@ -180,10 +199,71 @@ read_stub_csv <- function(run_dir, stub) {
   )
   present_numeric <- intersect(numeric_candidates, names(out))
   if (length(present_numeric)) {
-    out <- out %>%
-      mutate(across(all_of(present_numeric), ~ suppressWarnings(readr::parse_number(as.character(.x)))))
+    count_like <- intersect(c("traj_cluster_ra", "severity_rank", "n_cluster", "n", "denom", "n_nonmissing", "events"), present_numeric)
+    other_numeric <- setdiff(present_numeric, count_like)
+    if (length(count_like)) {
+      out <- out %>% mutate(across(all_of(count_like), parse_count_value))
+    }
+    if (length(other_numeric)) {
+      out <- out %>% mutate(across(all_of(other_numeric), ~ suppressWarnings(readr::parse_number(as.character(.x)))))
+    }
   }
   out
+}
+
+repair_categorical_summary <- function(df) {
+  if (is.null(df) || !is.data.frame(df) || !nrow(df)) return(df)
+  required_cols <- c("variable", "level", "n")
+  if (!all(required_cols %in% names(df))) return(df)
+  df <- df %>%
+    mutate(
+      n = suppressWarnings(as.numeric(n)),
+      denom = suppressWarnings(as.numeric(denom))
+    ) %>%
+    group_by(variable) %>%
+    mutate(
+      denom = ifelse(is.na(denom), sum(n, na.rm = TRUE), denom),
+      prop = ifelse(!is.na(denom) & denom > 0, n / denom, as.numeric(NA))
+    ) %>%
+    ungroup()
+  df
+}
+
+reconstruct_overall_cat_from_bycluster <- function(df, site_run, site_name) {
+  if (is.null(df) || !is.data.frame(df) || !nrow(df)) return(tibble())
+  required_cols <- c("variable", "level", "summary_type", "stratum", "n", "denom")
+  if (!all(required_cols %in% names(df))) return(tibble())
+
+  stratum_denoms <- df %>%
+    mutate(
+      n = suppressWarnings(as.numeric(n)),
+      denom = suppressWarnings(as.numeric(denom))
+    ) %>%
+    filter(!is.na(denom)) %>%
+    group_by(variable, stratum) %>%
+    summarise(denom_stratum = max(denom, na.rm = TRUE), .groups = "drop")
+
+  if (!nrow(stratum_denoms)) return(tibble())
+
+  overall_denom <- stratum_denoms %>%
+    group_by(variable) %>%
+    summarise(denom = sum(denom_stratum, na.rm = TRUE), .groups = "drop")
+
+  df %>%
+    mutate(
+      n = suppressWarnings(as.numeric(n)),
+      level = harmonize_level(level, variable)
+    ) %>%
+    group_by(variable, level, summary_type) %>%
+    summarise(n = sum(n, na.rm = TRUE), .groups = "drop") %>%
+    left_join(overall_denom, by = "variable") %>%
+    mutate(
+      prop = ifelse(!is.na(denom) & denom > 0, n / denom, as.numeric(NA)),
+      site_run = site_run,
+      site_name = site_name,
+      stratum = "Overall"
+    ) %>%
+    relocate(site_name, stratum, variable, level, summary_type)
 }
 
 rescale_count_columns <- function(df, ratio) {
@@ -393,6 +473,12 @@ site_payload <- map(RUN_DIRS, function(run_dir) {
   site_run <- infer_site_run(run_dir)
   site_name <- infer_site_name(run_dir)
   tables <- map(cluster_files, ~ read_stub_csv(run_dir, .x))
+  if (!is.null(tables$overall_cat) && nrow(tables$overall_cat)) {
+    tables$overall_cat <- repair_categorical_summary(tables$overall_cat)
+  }
+  if ((is.null(tables$overall_cat) || !nrow(tables$overall_cat)) && !is.null(tables$bycluster_cat) && nrow(tables$bycluster_cat)) {
+    tables$overall_cat <- reconstruct_overall_cat_from_bycluster(tables$bycluster_cat, site_run, site_name)
+  }
   tables$site_run <- site_run
   tables$site_name <- site_name
   tables
@@ -468,8 +554,13 @@ feature_frame <- centroids %>%
   mutate(transition_count = as.numeric(scale(transition_count)[, 1]))
 
 feature_matrix <- as.matrix(feature_frame[, feature_cols])
+pooled_k_target <- centroids %>%
+  count(site_run, name = "k_local") %>%
+  summarise(k = round(median(k_local, na.rm = TRUE))) %>%
+  pull(k)
+pooled_k_target <- max(2L, min(as.integer(pooled_k_target %||% 5L), nrow(feature_frame)))
 set.seed(20260408)
-init_fit <- kmeans(feature_matrix, centers = 5, nstart = 100)
+init_fit <- kmeans(feature_matrix, centers = pooled_k_target, nstart = 100)
 prototypes <- init_fit$centers
 
 assignments <- NULL
@@ -531,7 +622,8 @@ pooled_cluster_summary <- centroids %>%
     clinical_burden = scale(sofa_total_mean + death_pct + imv72_pct + icu_los_median_proxy / 100)[, 1],
     severity_score = respiratory_burden + clinical_burden,
     dominant_rs = c("ROOM_AIR", "LOW_O2", "NIV", "IMV", "OTHER")[max.col(select(., pct_room_air, pct_low_o2, pct_niv, pct_imv, pct_other), ties.method = "first")],
-    dominant_arf = c("NO_ARF", "HYPOX", "HYPER", "MIXED")[max.col(select(., pct_no_arf, pct_hypox, pct_hyper, pct_mixed), ties.method = "first")]
+    dominant_arf = c("NO_ARF", "HYPOX", "HYPER", "MIXED")[max.col(select(., pct_no_arf, pct_hypox, pct_hyper, pct_mixed), ties.method = "first")],
+    arf_burden = 1 - pct_no_arf
   ) %>%
   arrange(severity_score) %>%
   mutate(
@@ -539,14 +631,14 @@ pooled_cluster_summary <- centroids %>%
     pooled_severity_rank = row_number(),
     is_worst_cluster = pooled_cluster == max(pooled_cluster),
     arf_label = case_when(
-      dominant_rs == "IMV" & (pct_hypox + pct_mixed) >= 0.45 ~ "HYPOX_MIXED_ARF",
-      dominant_rs == "IMV" & pct_no_arf >= 0.75 ~ "NO_ARF_PREDOM",
-      dominant_arf == "NO_ARF" & pct_hypox >= 0.2 ~ "NO_ARF_WITH_HYPOX",
-      TRUE ~ dominant_arf
+      dominant_rs == "IMV" | arf_burden >= 0.15 ~ "PERSISTENT_ARF",
+      dominant_rs == "NIV" | arf_burden >= 0.04 ~ "STABLE_ARF",
+      dominant_rs == "LOW_O2" ~ "RESOLVING_ARF",
+      TRUE ~ "MINIMAL_ARF"
     ),
-    pooled_cluster_label = make_cluster_title(pooled_cluster, dominant_rs, arf_label),
-    phenotype_label = paste0(label_resp_support(dominant_rs), " / ", label_arf(arf_label)),
-    phenotype_label_short = make_phenotype_label_short(label_resp_support(dominant_rs), label_arf(arf_label))
+    pooled_cluster_label = paste0("Cluster ", pooled_cluster, ": ", label_arf(arf_label)),
+    phenotype_label = label_arf(arf_label),
+    phenotype_label_short = label_arf_short(label_arf(arf_label))
   )
 
 prototype_key <- pooled_cluster_summary %>%
@@ -737,7 +829,7 @@ cat_specs <- tribble(
   "death_in_hosp", "1", "In-hospital death, n (%)",
   "hospice_discharge", "1", "Hospice discharge, n (%)",
   "death_or_hospice", "1", "Death or hospice, n (%)",
-  "imv_72h_any", "1", "Any IMV in first 72h, n (%)",
+  "any_imv_72h", "1", "Any IMV in first 72h, n (%)",
   "vaso_any_72h", "1", "Any vasopressor in first 72h, n (%)"
 )
 
@@ -922,6 +1014,8 @@ table2_cat_p <- pooled_bycluster_cat %>%
   group_by(label) %>%
   summarise(p_value = categorical_prop_p(pick(everything())), .groups = "drop")
 
+cluster_col_order <- paste0("Cluster ", sort(unique(cluster_ns$pooled_cluster)))
+
 table2_n <- cluster_ns %>%
   transmute(
     label = "N",
@@ -929,6 +1023,11 @@ table2_n <- cluster_ns %>%
     value = scales::comma(n)
   ) %>%
   pivot_wider(names_from = pooled_cluster, values_from = value, names_prefix = "Cluster ") %>%
+  {
+    missing_cols <- setdiff(cluster_col_order, names(.))
+    if (length(missing_cols)) mutate(., across(any_of(names(.)), identity), !!!setNames(rep(list(NA_character_), length(missing_cols)), missing_cols)) else .
+  } %>%
+  select(label, all_of(cluster_col_order)) %>%
   mutate(`P value` = NA_character_)
 
 table2_cont <- pooled_bycluster_cont %>%
@@ -941,7 +1040,11 @@ table2_cont <- pooled_bycluster_cont %>%
   ) %>%
   pivot_wider(names_from = pooled_cluster, values_from = value, names_prefix = "Cluster ") %>%
   left_join(table2_cont_p, by = "variable") %>%
-  transmute(label, `Cluster 1`, `Cluster 2`, `Cluster 3`, `Cluster 4`, `Cluster 5`, `P value` = fmt_p(p_value))
+  {
+    missing_cols <- setdiff(cluster_col_order, names(.))
+    if (length(missing_cols)) mutate(., !!!setNames(rep(list(NA_character_), length(missing_cols)), missing_cols)) else .
+  } %>%
+  transmute(label, !!!rlang::syms(cluster_col_order), `P value` = fmt_p(p_value))
 
 table2_cat <- pooled_bycluster_cat %>%
   inner_join(cat_specs, by = c("variable", "level")) %>%
@@ -952,7 +1055,11 @@ table2_cat <- pooled_bycluster_cat %>%
   ) %>%
   pivot_wider(names_from = pooled_cluster, values_from = value, names_prefix = "Cluster ") %>%
   left_join(table2_cat_p, by = "label") %>%
-  transmute(label, `Cluster 1`, `Cluster 2`, `Cluster 3`, `Cluster 4`, `Cluster 5`, `P value` = fmt_p(p_value))
+  {
+    missing_cols <- setdiff(cluster_col_order, names(.))
+    if (length(missing_cols)) mutate(., !!!setNames(rep(list(NA_character_), length(missing_cols)), missing_cols)) else .
+  } %>%
+  transmute(label, !!!rlang::syms(cluster_col_order), `P value` = fmt_p(p_value))
 
 table2_order <- c(
   "N",
@@ -1173,16 +1280,17 @@ mediation_plot_df <- mediation_site_level %>%
 
 p_mediation_site <- ggplot(mediation_plot_df, aes(x = effect_type, y = beta, group = site_name, color = site_name)) +
   geom_hline(yintercept = 0, linetype = 2, color = "gray70") +
-  geom_line(alpha = 0.45, linewidth = 0.7) +
-  geom_point(size = 2) +
+  geom_line(alpha = 0.30, linewidth = 0.7) +
+  geom_point(size = 2.2) +
   facet_wrap(~ mediator) +
   labs(
     title = "Site-Level Approximate NO₂ Mediation Decomposition",
     x = NULL,
-    y = "Log-odds coefficient for NO₂"
+    y = "Log-odds coefficient for NO₂",
+    color = "Site"
   ) +
   theme_manuscript() +
-  theme(legend.position = "none")
+  theme(legend.position = "bottom")
 
 save_plot_safe(p_mediation_site, file.path(OUT_DIR, "figure_mediation_site_level_no2.png"), width = 10.5, height = 5.8)
 
@@ -1218,10 +1326,21 @@ mediation_pooled_plot_df <- bind_rows(
 ) %>%
   mutate(effect_type = factor(effect_type, levels = c("Total effect", "Direct effect", "Indirect effect")))
 
+pct_label_df <- mediation_summary %>%
+  transmute(
+    mediator,
+    pct_label = sprintf(
+      "Median mediated: %.0f%% (IQR %.0f%% to %.0f%%)",
+      100 * pct_mediated_median,
+      100 * pct_mediated_iqr_low,
+      100 * pct_mediated_iqr_high
+    )
+  )
+
 p_mediation_pooled <- ggplot(mediation_pooled_plot_df, aes(x = effect_type, y = estimate, color = mediator, group = mediator)) +
   geom_hline(yintercept = 0, linetype = 2, color = "gray70") +
-  geom_line(linewidth = 0.8) +
-  geom_point(size = 3) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 3.2) +
   geom_errorbar(
     data = ~ dplyr::filter(.x, !is.na(conf_low), !is.na(conf_high)),
     aes(ymin = conf_low, ymax = conf_high),
@@ -1234,9 +1353,16 @@ p_mediation_pooled <- ggplot(mediation_pooled_plot_df, aes(x = effect_type, y = 
     y = "NO₂ log-odds coefficient",
     color = "Mediator"
   ) +
-  theme_manuscript()
+  theme_manuscript() +
+  theme(legend.position = "bottom")
 
 save_plot_safe(p_mediation_pooled, file.path(OUT_DIR, "figure_mediation_pooled_no2.png"), width = 9.5, height = 5.5)
+
+p_mediation_combo <- p_mediation_site / p_mediation_pooled +
+  plot_annotation(tag_levels = "A") +
+  plot_layout(heights = c(1.5, 1))
+
+save_plot_safe(p_mediation_combo, file.path(OUT_DIR, "figure_mediation_no2_two_panel.png"), width = 11, height = 11)
 
 contrast_no2 <- map_dfr(site_payload_model, function(x) {
   df <- x$contrast_no2
@@ -1432,13 +1558,33 @@ cluster_membership_plot_df <- cluster_membership_covariates %>%
     label_x = pooled_conf_high_random * 1.03
   )
 
-cluster_plot_palette <- c(
-  "Cluster 1: Room air / No ARF" = "#d8e4bc",
-  "Cluster 2: Low-flow oxygen / No ARF" = "#f4d06f",
-  "Cluster 3: Noninvasive ventilation / No ARF" = "#7fb7be",
-  "Cluster 4: Invasive ventilation / Predominantly no ARF" = "#d96c75",
-  "Cluster 5: Invasive ventilation / Hypoxemic or mixed ARF" = "#7a0019"
+phenotype_palette_master <- c(
+  "Minimal ARF" = "#2E8B57",
+  "Stable ARF" = "#D4A017",
+  "Resolving ARF" = "#2B6CB0",
+  "Persistent ARF" = "#C05621"
 )
+
+cluster_plot_palette <- prototype_key %>%
+  distinct(pooled_cluster, pooled_cluster_label, phenotype_label_short) %>%
+  arrange(pooled_cluster) %>%
+  mutate(color = phenotype_palette_master[phenotype_label_short]) %>%
+  { stats::setNames(.$color, .$pooled_cluster_label) }
+
+cluster_plot_palette_short <- prototype_key %>%
+  distinct(pooled_cluster, phenotype_label_short) %>%
+  arrange(pooled_cluster) %>%
+  mutate(
+    cluster_label = paste0("C", pooled_cluster, ": ", phenotype_label_short),
+    color = phenotype_palette_master[phenotype_label_short]
+  ) %>%
+  { stats::setNames(.$color, .$cluster_label) }
+
+cluster_plot_palette_phenotype_short <- prototype_key %>%
+  distinct(pooled_cluster, phenotype_label_short) %>%
+  arrange(pooled_cluster) %>%
+  mutate(color = phenotype_palette_master[phenotype_label_short]) %>%
+  { stats::setNames(.$color, .$phenotype_label_short) }
 
 p_covariate_clusters <- ggplot(
   cluster_membership_plot_df,
@@ -1735,14 +1881,18 @@ severe_arf_df <- arf_signature_pooled %>%
 
 p_severe_arf <- severe_arf_df %>%
   left_join(distinct(prototype_key, pooled_cluster, phenotype_label_short), by = "pooled_cluster") %>%
-  ggplot(aes(x = h, y = prop, color = stringr::str_wrap(phenotype_label_short, width = 20))) +
+  mutate(phenotype_wrapped = stringr::str_wrap(phenotype_label_short, width = 20)) %>%
+  ggplot(aes(x = h, y = prop, color = phenotype_wrapped)) +
   geom_line(linewidth = 1.1) +
+  scale_color_manual(
+    values = stats::setNames(unname(cluster_plot_palette_phenotype_short), stringr::str_wrap(names(cluster_plot_palette_phenotype_short), width = 20)),
+    name = "Trajectory phenotype"
+  ) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   labs(
     title = "Severe ARF Burden Over Time by Consensus Trajectory Cluster",
     x = "Hours from ICU admission",
-    y = "Share with severe ARF",
-    color = "Trajectory phenotype"
+    y = "Share with severe ARF"
   ) +
   theme_manuscript() +
   theme(
@@ -1905,6 +2055,7 @@ sofa_corr_summary <- exposure_sofa_corr %>%
 
 write_csv_safe(sofa_corr_summary, file.path(OUT_DIR, "publication_table_exposure_sofa_correlations.csv"))
 
+if (FALSE) {
 spatial_distribution <- map_dfr(site_payload, function(x) {
   df <- x$spatial_distribution
   if (is.null(df)) return(tibble())
@@ -2170,6 +2321,7 @@ p_map_combo <- cowplot::plot_grid(
 )
 
 save_plot_safe(p_map_combo, file.path(OUT_DIR, "figure_maps_exposure_cluster_abc.png"), width = 13, height = 22)
+}
 
 consort_flow <- map_dfr(site_payload, function(x) {
   df <- x$consort_flow
@@ -2421,13 +2573,14 @@ save_plot_safe(p_sofa_domains, file.path(OUT_DIR, "figure_sofa_domain_signature_
 sofa_totals_long <- pooled_sofa_cluster_summary %>%
   transmute(
     cluster_label = paste0("C", pooled_cluster, ": ", phenotype_label_short),
+    pooled_cluster = as.integer(pooled_cluster),
     `Mean total SOFA` = sofa_total_mean,
     `Mean CNS SOFA` = sofa_cns_mean,
     `GCS < 8` = pct_gcs_lt8 * 100,
     `GCS < 13` = pct_gcs_lt13 * 100
   ) %>%
   pivot_longer(
-    cols = -cluster_label,
+    cols = c(`Mean total SOFA`, `Mean CNS SOFA`, `GCS < 8`, `GCS < 13`),
     names_to = "metric",
     values_to = "value"
   ) %>%
@@ -2442,32 +2595,75 @@ sofa_totals_long <- pooled_sofa_cluster_summary %>%
 sofa_totals_long <- sofa_totals_long %>%
   mutate(
     metric_group = ifelse(metric %in% c("GCS < 8", "GCS < 13"), "GCS impairment (%)", "SOFA score"),
-    fill_group = ifelse(metric_group == "SOFA score", "SOFA", "GCS")
+    cluster_label = factor(cluster_label, levels = paste0("C", prototype_key$pooled_cluster, ": ", prototype_key$phenotype_label_short))
   )
 
-p_sofa_totals <- ggplot(
-  sofa_totals_long,
-  aes(x = value, y = forcats::fct_rev(cluster_label), fill = fill_group)
+sofa_score_df <- sofa_totals_long %>%
+  filter(metric_group == "SOFA score")
+
+gcs_impair_df <- sofa_totals_long %>%
+  filter(metric_group == "GCS impairment (%)")
+
+p_sofa_scores <- ggplot(
+  sofa_score_df,
+  aes(x = metric, y = value, fill = cluster_label)
 ) +
-  geom_col(width = 0.72, show.legend = FALSE) +
-  geom_text(aes(label = label), hjust = -0.1, size = 3.4) +
-  facet_wrap(~ metric, scales = "free_x", ncol = 2) +
-  scale_fill_manual(values = c("SOFA" = "#d95f0e", "GCS" = "#3182bd")) +
+  geom_col(position = position_dodge(width = 0.78), width = 0.7, color = "white") +
+  geom_text(
+    aes(label = label),
+    position = position_dodge(width = 0.78),
+    vjust = -0.25,
+    size = 3.0
+  ) +
+  scale_fill_manual(values = cluster_plot_palette_short, name = NULL) +
   labs(
     title = "Total SOFA and GCS Impairment by Trajectory Phenotype",
     x = NULL,
-    y = NULL
+    y = "SOFA score"
   ) +
   theme_manuscript() +
   theme(
-    strip.text = element_text(face = "bold"),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.x = element_blank()
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    axis.line.y = element_line(color = "black", linewidth = 0.6),
+    axis.ticks.y = element_line(color = "black")
   ) +
   coord_cartesian(clip = "off") +
-  scale_x_continuous(expand = expansion(mult = c(0, 0.18)))
+  scale_y_continuous(expand = expansion(mult = c(0, 0.14)))
 
-save_plot_safe(p_sofa_totals, file.path(OUT_DIR, "figure_sofa_total_neuro_by_cluster.png"), width = 11.5, height = 6.5)
+p_gcs_impair <- ggplot(
+  gcs_impair_df,
+  aes(x = metric, y = value, fill = cluster_label)
+) +
+  geom_col(position = position_dodge(width = 0.78), width = 0.7, color = "white") +
+  geom_text(
+    aes(label = label),
+    position = position_dodge(width = 0.78),
+    vjust = -0.25,
+    size = 3.0
+  ) +
+  scale_fill_manual(values = cluster_plot_palette_short, name = NULL) +
+  labs(
+    x = NULL,
+    y = "Percent with impairment"
+  ) +
+  theme_manuscript() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    axis.line.y = element_line(color = "black", linewidth = 0.6),
+    axis.ticks.y = element_line(color = "black")
+  ) +
+  coord_cartesian(clip = "off") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.14)))
+
+p_sofa_totals <- (p_sofa_scores / p_gcs_impair) +
+  plot_layout(heights = c(1, 1), guides = "collect") &
+  theme(legend.position = "bottom")
+
+save_plot_safe(p_sofa_totals, file.path(OUT_DIR, "figure_sofa_total_neuro_by_cluster.png"), width = 12, height = 9)
 
 run_inventory <- tibble(
   site_run = map_chr(site_payload, "site_run"),

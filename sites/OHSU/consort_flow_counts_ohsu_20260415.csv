@@ -1,0 +1,7 @@
+site_name,step,step_order,n_remaining,n_excluded_at_step
+ohsu,Hospitalizations in date window,1,730070,0
+ohsu,>= 18 years,2,730070,0
+ohsu,Demographics present,3,730070,0
+ohsu,Geography present,4,427594,302476
+ohsu,Lung cancer dx POA present,5,1559,426035
+ohsu,Any ICU segment present,6,374,1185
