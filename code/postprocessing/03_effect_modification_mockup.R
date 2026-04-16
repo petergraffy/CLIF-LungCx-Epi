@@ -2,6 +2,7 @@ suppressPackageStartupMessages({
   library(tidyverse)
   library(scales)
   library(patchwork)
+  library(cowplot)
 })
 
 repo_dir <- normalizePath(".", mustWork = TRUE)
@@ -64,8 +65,8 @@ phenotype_palette_master <- c(
 phenotype_palette <- phenotype_palette_master[prototype_tbl$phenotype]
 
 exposure_labels <- c(
-  "pm25_5y_z" = "PM2.5",
-  "no2_5y_z" = "NO2"
+  "pm25_5y_z" = "PM\u2082.\u2085",
+  "no2_5y_z" = "NO\u2082"
 )
 
 contrasts <- readr::read_csv(contrast_path, show_col_types = FALSE) %>%
@@ -91,15 +92,15 @@ dumbbell_df <- contrasts %>%
 
 p_dumbbell <- ggplot(dumbbell_df, aes(y = phenotype)) +
   geom_segment(aes(x = low, xend = high, yend = phenotype), linewidth = 2.2, color = "grey55", lineend = "round") +
-  geom_point(aes(x = low), size = 3.2, shape = 21, stroke = 0.7, fill = "white", color = "grey25") +
-  geom_point(aes(x = high, fill = phenotype), size = 3.4, shape = 21, stroke = 0.7, color = "white") +
+  geom_point(aes(x = low), size = 5.8, shape = 21, stroke = 1.0, fill = "white", color = "grey25") +
+  geom_point(aes(x = high, fill = phenotype), size = 6.0, shape = 21, stroke = 1.0, color = "white") +
   geom_text(
     aes(
       x = pmax(low, high) + 0.012,
       label = sprintf("%+.1f%%", 100 * risk_diff_weighted)
     ),
     hjust = 0,
-    size = 3.3,
+    size = 4.1,
     color = "grey20"
   ) +
   scale_fill_manual(values = phenotype_palette, drop = FALSE) +
@@ -109,36 +110,42 @@ p_dumbbell <- ggplot(dumbbell_df, aes(y = phenotype)) +
     breaks = seq(0.05, 0.55, by = 0.05),
     expand = expansion(mult = c(0.01, 0.14))
   ) +
-  facet_wrap(~ exposure_label, ncol = 1) +
+  facet_wrap(~ exposure_label, ncol = 1, scales = "fixed") +
   labs(
-    title = "Pooled effect modification mockup: modeled mortality at low vs high exposure",
+    title = "Adjusted death or hospice probability\nat low versus high air pollution exposure by phenotype",
+    subtitle = "Low exposure = 1 SD below the site mean; high exposure = 1 SD above the site mean.\nOpen circles indicate low exposure and filled circles indicate high exposure.",
     x = "Predicted probability of death or hospice discharge",
     y = NULL,
     fill = "Phenotype"
   ) +
-  annotate("text", x = 0.045, y = length(levels(dumbbell_df$phenotype)) + 0.55, label = "Open circle = low exposure\nFilled circle = high exposure", hjust = 0, vjust = 1, size = 3.2) +
-  theme_pub() +
+  theme_pub(base_size = 15) +
   theme(
     legend.position = "bottom",
-    strip.text = element_text(size = 12),
-    plot.margin = margin(10, 20, 10, 10)
+    strip.text = element_text(size = 15, face = "bold"),
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 13),
+    axis.title = element_text(size = 15, face = "bold"),
+    axis.text = element_text(size = 12),
+    legend.title = element_text(size = 14, face = "bold"),
+    legend.text = element_text(size = 12),
+    plot.margin = margin(10, 12, 10, 10)
   )
 
-risk_ratio_df <- contrasts %>%
+risk_diff_df <- contrasts %>%
   transmute(
     exposure_label,
     phenotype,
-    risk_ratio_weighted,
-    risk_diff_weighted
+    risk_diff_weighted = 100 * (high_prob_weighted - low_prob_weighted)
   )
 
-p_rr <- ggplot(risk_ratio_df, aes(x = risk_ratio_weighted, y = phenotype, color = phenotype)) +
-  geom_vline(xintercept = 1, linetype = 2, color = "grey70") +
-  geom_point(size = 3.1) +
+p_rr <- ggplot(risk_diff_df, aes(x = risk_diff_weighted, y = phenotype, color = phenotype)) +
+  geom_vline(xintercept = 0, linetype = 2, color = "grey70") +
+  geom_segment(aes(x = 0, xend = risk_diff_weighted, yend = phenotype), linewidth = 1.8, alpha = 0.45, lineend = "round") +
+  geom_point(size = 4.2) +
   geom_text(
     aes(
-      x = risk_ratio_weighted,
-      label = sprintf("RR %.02f", risk_ratio_weighted)
+      x = risk_diff_weighted,
+      label = sprintf("%+.1f%%", risk_diff_weighted)
     ),
     nudge_x = 0.012,
     hjust = 0,
@@ -147,28 +154,40 @@ p_rr <- ggplot(risk_ratio_df, aes(x = risk_ratio_weighted, y = phenotype, color 
   ) +
   scale_color_manual(values = phenotype_palette, drop = FALSE) +
   scale_x_continuous(
-    limits = c(0.88, 1.16),
-    breaks = seq(0.90, 1.15, by = 0.05),
-    expand = expansion(mult = c(0.01, 0.18))
+    limits = c(-8, 10),
+    breaks = c(-6, -3, 0, 3, 6, 9),
+    labels = function(x) sprintf("%+.0f%%", x),
+    expand = expansion(mult = c(0.01, 0.12))
   ) +
   facet_wrap(~ exposure_label, ncol = 1) +
   labs(
-    title = "Relative mortality contrast at high vs low exposure",
-    x = "Risk ratio",
+    x = "Absolute risk difference at high vs low exposure",
     y = NULL,
     color = "Phenotype"
   ) +
   theme_pub() +
   theme(
     legend.position = "none",
-    strip.text = element_text(size = 12)
+    strip.text = element_text(size = 12),
+    plot.margin = margin(8, 8, 8, 0)
   )
 
-p_combo <- p_dumbbell / p_rr + plot_layout(heights = c(2.2, 1.2))
+p_title <- ggdraw() +
+  draw_label(
+    "Pooled mortality contrasts at low versus high long-term air pollution exposure across trajectory phenotypes",
+    fontface = "bold",
+    x = 0,
+    hjust = 0,
+    size = 14
+  )
 
-save_plot(p_combo, "figure_effect_modification_mockup.png", w = 12, h = 11)
-save_plot(p_dumbbell, "figure_effect_modification_mockup_dumbbell.png", w = 11, h = 8.5)
-save_plot(p_rr, "figure_effect_modification_mockup_rr.png", w = 11, h = 7)
+p_combo_body <- p_dumbbell + p_rr + plot_layout(widths = c(1.65, 1), guides = "collect")
+p_combo <- (p_title / p_combo_body + plot_layout(heights = c(0.08, 1))) &
+  theme(legend.position = "bottom")
+
+save_plot(p_combo, "figure_effect_modification_mockup.png", w = 15, h = 8.5)
+save_plot(p_dumbbell, "figure_effect_modification_mockup_dumbbell.png", w = 13.5, h = 9.5)
+save_plot(p_rr, "figure_effect_modification_mockup_rr.png", w = 8.5, h = 8.5)
 
 readr::write_csv(dumbbell_df, file.path(latest_pooled_dir, "effect_modification_mockup_table.csv"))
 

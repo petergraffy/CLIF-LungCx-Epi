@@ -429,15 +429,18 @@ admit_year_paths <- list.files(site_dir, pattern = "^epi_admission_year_summary.
 
 clean_site_name <- function(x) {
   x <- as.character(x)
+  xl <- stringr::str_to_lower(x)
   dplyr::case_when(
-    x %in% c("emory", "Emory") ~ "Emory",
-    x %in% c("Hopkins") ~ "Hopkins",
-    x %in% c("U_Michigan", "Michigan") ~ "Michigan",
-    x %in% c("nu", "NU") ~ "NU",
-    x %in% c("RUSH", "Rush") ~ "Rush",
-    x %in% c("UCMC") ~ "UCMC",
-    x %in% c("UCSF") ~ "UCSF",
-    x %in% c("umn", "UMN") ~ "UMN",
+    xl == "emory" ~ "Emory",
+    xl == "hopkins" ~ "Hopkins",
+    xl %in% c("u_michigan", "michigan") ~ "Michigan",
+    xl == "nu" ~ "NU",
+    xl == "ohsu" ~ "OHSU",
+    xl == "penn" ~ "Penn",
+    xl == "rush" ~ "Rush",
+    xl == "ucmc" ~ "UCMC",
+    xl == "ucsf" ~ "UCSF",
+    xl == "umn" ~ "UMN",
     TRUE ~ x
   )
 }
@@ -511,6 +514,7 @@ if (length(admit_year_paths) > 0) {
         "Hopkins" = "#E9C46A",
         "Michigan" = "#8D99AE",
         "NU" = "#2A9D8F",
+        "OHSU" = "#577590",
         "Penn" = "#5C4D7D",
         "Rush" = "#F4A261",
         "UCMC" = "#3A86FF",

@@ -1,0 +1,18 @@
+domain,metric,value
+Categorical,"Advanced cancer, n (%)","7,502 (66.5%)"
+Categorical,"Any IMV in first 72h, n (%)","2,544 (22.5%)"
+Categorical,"Any vasopressor in first 72h, n (%)","3,059 (27.1%)"
+Categorical,"Cachexia, n (%)","1,247 (11.0%)"
+Categorical,"Death or hospice, n (%)","3,682 (32.6%)"
+Categorical,"Hospice discharge, n (%)","1,279 (11.3%)"
+Categorical,"In-hospital death, n (%)","2,403 (21.3%)"
+Categorical,"Malignant pleural effusion, n (%)","1,568 (13.9%)"
+Categorical,"Metastatic cancer, n (%)","6,798 (60.2%)"
+Continuous,"Age, mean (SD)",68.9 (10.5)
+Continuous,"Charlson score, mean (SD)",7.8 (3.3)
+Continuous,"ICU LOS (hours), mean (SD)",118.4 (201.0)
+Continuous,"IMV hours in first 72h, mean (SD)",4.7 (12.4)
+Continuous,"NO2 5-year exposure, mean (SD)",7.6 (3.2)
+Continuous,"PM2.5 5-year exposure, mean (SD)",7.8 (1.0)
+Continuous,"SOFA total, mean (SD)",4.3 (3.9)
+Continuous,"Vasopressor hours in first 72h, mean (SD)",4.9 (11.7)

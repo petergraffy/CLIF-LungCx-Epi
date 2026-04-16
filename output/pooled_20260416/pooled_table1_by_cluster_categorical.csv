@@ -1,0 +1,181 @@
+site_name,stratum,pooled_cluster_label,variable,level,summary_type,n,denom,prop,pooled_cluster
+pooled,1,Cluster 1: Minimal ARF,advanced_cancer_any_poa,0,categorical,1315,4247,0.3096303272898517,1
+pooled,1,Cluster 1: Minimal ARF,advanced_cancer_any_poa,1,categorical,2932,4247,0.6903696727101484,1
+pooled,1,Cluster 1: Minimal ARF,any_imv_72h,0,categorical,3974,4247,0.9357193312926771,1
+pooled,1,Cluster 1: Minimal ARF,any_imv_72h,1,categorical,273,4247,0.06428066870732281,1
+pooled,1,Cluster 1: Minimal ARF,any_imv_icu,0,categorical,3907,4247,0.9199434895220155,1
+pooled,1,Cluster 1: Minimal ARF,any_imv_icu,1,categorical,340,4247,0.08005651047798445,1
+pooled,1,Cluster 1: Minimal ARF,cachexia_poa,0,categorical,3912,4072,0.9607072691552063,1
+pooled,1,Cluster 1: Minimal ARF,cachexia_poa,1,categorical,331,4072,0.081286836935167,1
+pooled,1,Cluster 1: Minimal ARF,death_in_hosp,0,categorical,3987,4247,0.9387803155168354,1
+pooled,1,Cluster 1: Minimal ARF,death_in_hosp,1,categorical,260,4247,0.06121968448316459,1
+pooled,1,Cluster 1: Minimal ARF,death_or_hospice,0,categorical,3689,4247,0.8686131386861314,1
+pooled,1,Cluster 1: Minimal ARF,death_or_hospice,1,categorical,558,4247,0.13138686131386862,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,CPAP,categorical,2,177,0.011299435028248588,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,FACE MASK,categorical,257,4247,0.06051330350835884,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,HIGH FLOW NC,categorical,43,4247,0.010124793972215681,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,IMV,categorical,171,4247,0.04026371556392748,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,NASAL CANNULA,categorical,1288,4247,0.30327289851659994,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,NIPPV,categorical,71,3765,0.018857901726427623,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,Other,categorical,13,2201,0.005906406179009541,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,ROOM AIR,categorical,2064,4247,0.4859901106663527,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,TRACH COLLAR,categorical,9,2599,0.0034628703347441324,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,Unknown,categorical,167,4247,0.039321874264186485,1
+pooled,1,Cluster 1: Minimal ARF,device_t0,,categorical,167,4003,0.041718710966774916,1
+pooled,1,Cluster 1: Minimal ARF,ethnicity_category,Hispanic,categorical,101,3895,0.025930680359435174,1
+pooled,1,Cluster 1: Minimal ARF,ethnicity_category,Non-Hispanic,categorical,3994,4072,0.980844793713163,1
+pooled,1,Cluster 1: Minimal ARF,ethnicity_category,Unknown,categorical,155,3860,0.04015544041450777,1
+pooled,1,Cluster 1: Minimal ARF,ethnicity_category,,categorical,5,175,0.02857142857142857,1
+pooled,1,Cluster 1: Minimal ARF,hospice_discharge,0,categorical,3949,4072,0.9697937131630648,1
+pooled,1,Cluster 1: Minimal ARF,hospice_discharge,1,categorical,294,4072,0.07220039292730845,1
+pooled,1,Cluster 1: Minimal ARF,malignant_pleural_effusion_poa,0,categorical,3958,4072,0.9720039292730844,1
+pooled,1,Cluster 1: Minimal ARF,malignant_pleural_effusion_poa,1,categorical,286,4072,0.07023575638506876,1
+pooled,1,Cluster 1: Minimal ARF,metastatic_cancer_poa,0,categorical,1452,4247,0.3418883918059807,1
+pooled,1,Cluster 1: Minimal ARF,metastatic_cancer_poa,1,categorical,2795,4247,0.6581116081940193,1
+pooled,1,Cluster 1: Minimal ARF,race_category,American Indian or Alaska Native,categorical,11,3651,0.0030128731854286495,1
+pooled,1,Cluster 1: Minimal ARF,race_category,Asian,categorical,214,4247,0.05038850953614316,1
+pooled,1,Cluster 1: Minimal ARF,race_category,Black or African American,categorical,968,4247,0.22792559453732048,1
+pooled,1,Cluster 1: Minimal ARF,race_category,Native Hawaiian or Other Pacific Islander,categorical,6,2514,0.002386634844868735,1
+pooled,1,Cluster 1: Minimal ARF,race_category,Other,categorical,143,3860,0.03704663212435233,1
+pooled,1,Cluster 1: Minimal ARF,race_category,Unknown,categorical,103,4247,0.024252413468330587,1
+pooled,1,Cluster 1: Minimal ARF,race_category,White,categorical,2811,4247,0.6618789733929833,1
+pooled,1,Cluster 1: Minimal ARF,severity_rank,1,categorical,4247,4247,1,1
+pooled,1,Cluster 1: Minimal ARF,sex_category,Female,categorical,2132,4247,0.5020014127619497,1
+pooled,1,Cluster 1: Minimal ARF,sex_category,Male,categorical,2115,4247,0.4979985872380504,1
+pooled,1,Cluster 1: Minimal ARF,traj_cluster_ra,1,categorical,4247,4247,1,1
+pooled,1,Cluster 1: Minimal ARF,vaso_any_72h,0,categorical,3629,4247,0.8544855191900165,1
+pooled,1,Cluster 1: Minimal ARF,vaso_any_72h,1,categorical,618,4247,0.14551448080998353,1
+pooled,2,Cluster 2: Resolving ARF,advanced_cancer_any_poa,0,categorical,1514,3908,0.387410440122825,2
+pooled,2,Cluster 2: Resolving ARF,advanced_cancer_any_poa,1,categorical,2394,3908,0.612589559877175,2
+pooled,2,Cluster 2: Resolving ARF,any_imv_72h,0,categorical,3409,3908,0.8723132036847492,2
+pooled,2,Cluster 2: Resolving ARF,any_imv_72h,1,categorical,499,3908,0.12768679631525076,2
+pooled,2,Cluster 2: Resolving ARF,any_imv_icu,0,categorical,3253,3908,0.8323950870010235,2
+pooled,2,Cluster 2: Resolving ARF,any_imv_icu,1,categorical,655,3908,0.16760491299897645,2
+pooled,2,Cluster 2: Resolving ARF,cachexia_poa,0,categorical,3464,3908,0.8863868986693961,2
+pooled,2,Cluster 2: Resolving ARF,cachexia_poa,1,categorical,444,3908,0.11361310133060389,2
+pooled,2,Cluster 2: Resolving ARF,death_in_hosp,0,categorical,3294,3908,0.8428863868986693,2
+pooled,2,Cluster 2: Resolving ARF,death_in_hosp,1,categorical,614,3908,0.1571136131013306,2
+pooled,2,Cluster 2: Resolving ARF,death_or_hospice,0,categorical,2735,3908,0.6998464687819856,2
+pooled,2,Cluster 2: Resolving ARF,death_or_hospice,1,categorical,1173,3908,0.3001535312180143,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,CPAP,categorical,11,1447,0.007601935038009675,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,FACE MASK,categorical,425,3908,0.10875127942681678,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,HIGH FLOW NC,categorical,229,3908,0.05859774820880246,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,IMV,categorical,231,3908,0.059109518935516886,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,NASAL CANNULA,categorical,1823,3908,0.4664790174002047,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,NIPPV,categorical,426,3908,0.109007164790174,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,Other,categorical,46,2448,0.018790849673202614,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,ROOM AIR,categorical,235,3908,0.06013306038894575,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,TRACH COLLAR,categorical,42,3262,0.012875536480686695,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,Unknown,categorical,363,3908,0.09288638689866939,2
+pooled,2,Cluster 2: Resolving ARF,device_t0,,categorical,78,3613,0.021588707445336287,2
+pooled,2,Cluster 2: Resolving ARF,ethnicity_category,Hispanic,categorical,88,3908,0.022517911975435005,2
+pooled,2,Cluster 2: Resolving ARF,ethnicity_category,Non-Hispanic,categorical,3688,3908,0.9437052200614124,2
+pooled,2,Cluster 2: Resolving ARF,ethnicity_category,Unknown,categorical,135,3379,0.03995264871263687,2
+pooled,2,Cluster 2: Resolving ARF,hospice_discharge,0,categorical,3349,3908,0.8569600818833163,2
+pooled,2,Cluster 2: Resolving ARF,hospice_discharge,1,categorical,559,3908,0.14303991811668373,2
+pooled,2,Cluster 2: Resolving ARF,malignant_pleural_effusion_poa,0,categorical,3213,3908,0.8221596724667349,2
+pooled,2,Cluster 2: Resolving ARF,malignant_pleural_effusion_poa,1,categorical,695,3908,0.1778403275332651,2
+pooled,2,Cluster 2: Resolving ARF,metastatic_cancer_poa,0,categorical,1842,3908,0.4713408393039918,2
+pooled,2,Cluster 2: Resolving ARF,metastatic_cancer_poa,1,categorical,2066,3908,0.5286591606960082,2
+pooled,2,Cluster 2: Resolving ARF,race_category,American Indian or Alaska Native,categorical,11,2360,0.004661016949152543,2
+pooled,2,Cluster 2: Resolving ARF,race_category,Asian,categorical,169,3908,0.0432446264073695,2
+pooled,2,Cluster 2: Resolving ARF,race_category,Black or African American,categorical,971,3767,0.25776479957525883,2
+pooled,2,Cluster 2: Resolving ARF,race_category,Native Hawaiian or Other Pacific Islander,categorical,7,2427,0.00288421920065925,2
+pooled,2,Cluster 2: Resolving ARF,race_category,Other,categorical,107,3566,0.030005608524957934,2
+pooled,2,Cluster 2: Resolving ARF,race_category,Unknown,categorical,90,3908,0.02302968270214944,2
+pooled,2,Cluster 2: Resolving ARF,race_category,White,categorical,2558,3908,0.6545547594677584,2
+pooled,2,Cluster 2: Resolving ARF,severity_rank,2,categorical,3908,3908,1,2
+pooled,2,Cluster 2: Resolving ARF,sex_category,Female,categorical,2014,3908,0.515353121801433,2
+pooled,2,Cluster 2: Resolving ARF,sex_category,Male,categorical,1894,3908,0.48464687819856705,2
+pooled,2,Cluster 2: Resolving ARF,traj_cluster_ra,2,categorical,3908,3908,1,2
+pooled,2,Cluster 2: Resolving ARF,vaso_any_72h,0,categorical,3023,3908,0.7735414534288638,2
+pooled,2,Cluster 2: Resolving ARF,vaso_any_72h,1,categorical,885,3908,0.22645854657113612,2
+pooled,3,Cluster 3: Stable ARF,advanced_cancer_any_poa,0,categorical,419,1332,0.31456456456456455,3
+pooled,3,Cluster 3: Stable ARF,advanced_cancer_any_poa,1,categorical,913,1332,0.6854354354354354,3
+pooled,3,Cluster 3: Stable ARF,any_imv_72h,0,categorical,1174,1263,0.9295328582739509,3
+pooled,3,Cluster 3: Stable ARF,any_imv_72h,1,categorical,155,1239,0.12510088781275222,3
+pooled,3,Cluster 3: Stable ARF,any_imv_icu,0,categorical,1069,1332,0.8025525525525525,3
+pooled,3,Cluster 3: Stable ARF,any_imv_icu,1,categorical,263,1332,0.19744744744744744,3
+pooled,3,Cluster 3: Stable ARF,cachexia_poa,0,categorical,1130,1263,0.894695170229612,3
+pooled,3,Cluster 3: Stable ARF,cachexia_poa,1,categorical,200,1263,0.1583531274742676,3
+pooled,3,Cluster 3: Stable ARF,death_in_hosp,0,categorical,782,1332,0.5870870870870871,3
+pooled,3,Cluster 3: Stable ARF,death_in_hosp,1,categorical,550,1332,0.41291291291291293,3
+pooled,3,Cluster 3: Stable ARF,death_or_hospice,0,categorical,531,1332,0.39864864864864863,3
+pooled,3,Cluster 3: Stable ARF,death_or_hospice,1,categorical,801,1332,0.6013513513513513,3
+pooled,3,Cluster 3: Stable ARF,device_t0,CPAP,categorical,12,575,0.020869565217391306,3
+pooled,3,Cluster 3: Stable ARF,device_t0,FACE MASK,categorical,184,1312,0.1402439024390244,3
+pooled,3,Cluster 3: Stable ARF,device_t0,HIGH FLOW NC,categorical,480,1332,0.36036036036036034,3
+pooled,3,Cluster 3: Stable ARF,device_t0,IMV,categorical,30,1243,0.02413515687851971,3
+pooled,3,Cluster 3: Stable ARF,device_t0,NASAL CANNULA,categorical,139,1332,0.10435435435435435,3
+pooled,3,Cluster 3: Stable ARF,device_t0,NIPPV,categorical,309,1332,0.23198198198198197,3
+pooled,3,Cluster 3: Stable ARF,device_t0,Other,categorical,14,933,0.015005359056806002,3
+pooled,3,Cluster 3: Stable ARF,device_t0,ROOM AIR,categorical,10,748,0.013368983957219251,3
+pooled,3,Cluster 3: Stable ARF,device_t0,Unknown,categorical,149,1332,0.11186186186186187,3
+pooled,3,Cluster 3: Stable ARF,device_t0,,categorical,7,841,0.008323424494649227,3
+pooled,3,Cluster 3: Stable ARF,ethnicity_category,Hispanic,categorical,45,1117,0.04028648164726947,3
+pooled,3,Cluster 3: Stable ARF,ethnicity_category,Non-Hispanic,categorical,1245,1263,0.9857482185273159,3
+pooled,3,Cluster 3: Stable ARF,ethnicity_category,Unknown,categorical,46,1137,0.040457343887423045,3
+pooled,3,Cluster 3: Stable ARF,hospice_discharge,0,categorical,1081,1263,0.8558986539984165,3
+pooled,3,Cluster 3: Stable ARF,hospice_discharge,1,categorical,247,1263,0.1955661124307205,3
+pooled,3,Cluster 3: Stable ARF,malignant_pleural_effusion_poa,0,categorical,1028,1263,0.8139350752177356,3
+pooled,3,Cluster 3: Stable ARF,malignant_pleural_effusion_poa,1,categorical,302,1263,0.2391132224861441,3
+pooled,3,Cluster 3: Stable ARF,metastatic_cancer_poa,0,categorical,529,1332,0.39714714714714716,3
+pooled,3,Cluster 3: Stable ARF,metastatic_cancer_poa,1,categorical,803,1332,0.6028528528528528,3
+pooled,3,Cluster 3: Stable ARF,race_category,American Indian or Alaska Native,categorical,2,331,0.006042296072507553,3
+pooled,3,Cluster 3: Stable ARF,race_category,Asian,categorical,79,1288,0.06133540372670807,3
+pooled,3,Cluster 3: Stable ARF,race_category,Black or African American,categorical,279,1312,0.21265243902439024,3
+pooled,3,Cluster 3: Stable ARF,race_category,Native Hawaiian or Other Pacific Islander,categorical,3,187,0.016042780748663103,3
+pooled,3,Cluster 3: Stable ARF,race_category,Other,categorical,50,1117,0.044762757385854966,3
+pooled,3,Cluster 3: Stable ARF,race_category,Unknown,categorical,28,1137,0.024626209322779244,3
+pooled,3,Cluster 3: Stable ARF,race_category,White,categorical,895,1332,0.6719219219219219,3
+pooled,3,Cluster 3: Stable ARF,severity_rank,3,categorical,1332,1332,1,3
+pooled,3,Cluster 3: Stable ARF,sex_category,Female,categorical,617,1332,0.46321321321321324,3
+pooled,3,Cluster 3: Stable ARF,sex_category,Male,categorical,715,1332,0.5367867867867868,3
+pooled,3,Cluster 3: Stable ARF,traj_cluster_ra,3,categorical,1332,1332,1,3
+pooled,3,Cluster 3: Stable ARF,vaso_any_72h,0,categorical,1054,1263,0.8345209817893904,3
+pooled,3,Cluster 3: Stable ARF,vaso_any_72h,1,categorical,276,1263,0.21852731591448932,3
+pooled,4,Cluster 4: Persistent ARF,advanced_cancer_any_poa,0,categorical,495,1615,0.3065015479876161,4
+pooled,4,Cluster 4: Persistent ARF,advanced_cancer_any_poa,1,categorical,1120,1615,0.6934984520123839,4
+pooled,4,Cluster 4: Persistent ARF,any_imv_72h,0,categorical,1,247,0.004048582995951417,4
+pooled,4,Cluster 4: Persistent ARF,any_imv_72h,1,categorical,1614,1615,0.9993808049535604,4
+pooled,4,Cluster 4: Persistent ARF,any_imv_icu,0,categorical,1,247,0.004048582995951417,4
+pooled,4,Cluster 4: Persistent ARF,any_imv_icu,1,categorical,1614,1615,0.9993808049535604,4
+pooled,4,Cluster 4: Persistent ARF,cachexia_poa,0,categorical,1366,1506,0.9070385126162018,4
+pooled,4,Cluster 4: Persistent ARF,cachexia_poa,1,categorical,248,1506,0.1646746347941567,4
+pooled,4,Cluster 4: Persistent ARF,death_in_hosp,0,categorical,698,1615,0.4321981424148607,4
+pooled,4,Cluster 4: Persistent ARF,death_in_hosp,1,categorical,917,1615,0.5678018575851393,4
+pooled,4,Cluster 4: Persistent ARF,death_or_hospice,0,categorical,545,1615,0.33746130030959753,4
+pooled,4,Cluster 4: Persistent ARF,death_or_hospice,1,categorical,1070,1615,0.6625386996904025,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,CPAP,categorical,2,286,0.006993006993006993,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,FACE MASK,categorical,74,1494,0.049531459170013385,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,HIGH FLOW NC,categorical,76,1615,0.047058823529411764,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,IMV,categorical,894,1615,0.5535603715170279,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,NASAL CANNULA,categorical,103,1615,0.06377708978328174,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,NIPPV,categorical,98,1529,0.06409417920209287,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,Other,categorical,4,963,0.004153686396677051,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,ROOM AIR,categorical,46,1457,0.031571722717913524,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,TRACH COLLAR,categorical,3,777,0.003861003861003861,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,Unknown,categorical,301,1615,0.18637770897832817,4
+pooled,4,Cluster 4: Persistent ARF,device_t0,,categorical,16,1364,0.011730205278592375,4
+pooled,4,Cluster 4: Persistent ARF,ethnicity_category,Hispanic,categorical,35,1588,0.02204030226700252,4
+pooled,4,Cluster 4: Persistent ARF,ethnicity_category,Non-Hispanic,categorical,1524,1615,0.9436532507739938,4
+pooled,4,Cluster 4: Persistent ARF,ethnicity_category,Unknown,categorical,62,1450,0.04275862068965517,4
+pooled,4,Cluster 4: Persistent ARF,hospice_discharge,0,categorical,1462,1506,0.9707835325365206,4
+pooled,4,Cluster 4: Persistent ARF,hospice_discharge,1,categorical,150,1506,0.099601593625498,4
+pooled,4,Cluster 4: Persistent ARF,malignant_pleural_effusion_poa,0,categorical,1359,1615,0.8414860681114551,4
+pooled,4,Cluster 4: Persistent ARF,malignant_pleural_effusion_poa,1,categorical,256,1615,0.1585139318885449,4
+pooled,4,Cluster 4: Persistent ARF,metastatic_cancer_poa,0,categorical,612,1615,0.37894736842105264,4
+pooled,4,Cluster 4: Persistent ARF,metastatic_cancer_poa,1,categorical,1003,1615,0.6210526315789474,4
+pooled,4,Cluster 4: Persistent ARF,race_category,American Indian or Alaska Native,categorical,5,591,0.008460236886632826,4
+pooled,4,Cluster 4: Persistent ARF,race_category,Asian,categorical,85,1588,0.0535264483627204,4
+pooled,4,Cluster 4: Persistent ARF,race_category,Black or African American,categorical,493,1588,0.31045340050377834,4
+pooled,4,Cluster 4: Persistent ARF,race_category,Native Hawaiian or Other Pacific Islander,categorical,4,769,0.005201560468140442,4
+pooled,4,Cluster 4: Persistent ARF,race_category,Other,categorical,54,1423,0.03794799718903725,4
+pooled,4,Cluster 4: Persistent ARF,race_category,Unknown,categorical,52,1316,0.03951367781155015,4
+pooled,4,Cluster 4: Persistent ARF,race_category,White,categorical,928,1615,0.5746130030959752,4
+pooled,4,Cluster 4: Persistent ARF,severity_rank,4,categorical,1615,1615,1,4
+pooled,4,Cluster 4: Persistent ARF,sex_category,Female,categorical,781,1615,0.48359133126934983,4
+pooled,4,Cluster 4: Persistent ARF,sex_category,Male,categorical,834,1615,0.5164086687306502,4
+pooled,4,Cluster 4: Persistent ARF,traj_cluster_ra,4,categorical,1615,1615,1,4
+pooled,4,Cluster 4: Persistent ARF,vaso_any_72h,0,categorical,374,1615,0.23157894736842105,4
+pooled,4,Cluster 4: Persistent ARF,vaso_any_72h,1,categorical,1241,1615,0.7684210526315789,4

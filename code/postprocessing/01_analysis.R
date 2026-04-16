@@ -1439,17 +1439,22 @@ meta_plot_df <- pooled_meta %>%
     label_x = pooled_conf_high_random * 1.03
   )
 
+meta_xmin <- min(meta_plot_df$pooled_conf_low_random, na.rm = TRUE) * 0.97
+meta_xmax <- max(meta_plot_df$label_x, na.rm = TRUE) * 1.04
+meta_xmin <- min(meta_xmin, 0.8)
+meta_xmax <- max(meta_xmax, 1.4)
+
 p_meta <- ggplot(
   meta_plot_df,
   aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = exposure)
 ) +
   geom_vline(xintercept = 1, linetype = 2, color = "gray45") +
   geom_errorbar(width = 0.10, linewidth = 0.8, orientation = "y") +
-  geom_point(size = 2.6) +
-  geom_text(aes(x = label_x, label = effect_display), hjust = 0, size = 3, color = "gray15", show.legend = FALSE) +
+  geom_point(size = 3.4) +
+  geom_text(aes(x = label_x, label = effect_display), hjust = 0, size = 3.8, color = "gray15", show.legend = FALSE) +
   scale_x_log10(
-    breaks = c(0.8, 0.9, 1.0, 1.1, 1.2),
-    labels = c("0.8", "0.9", "1.0", "1.1", "1.2")
+    breaks = c(0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4),
+    labels = c("0.8", "0.9", "1.0", "1.1", "1.2", "1.3", "1.4")
   ) +
   scale_y_continuous(
     breaks = c(4, 3, 2, 1),
@@ -1462,14 +1467,18 @@ p_meta <- ggplot(
     y = NULL,
     color = NULL
   ) +
-  coord_cartesian(xlim = c(0.8, 1.24), clip = "off") +
+  coord_cartesian(xlim = c(meta_xmin, meta_xmax), clip = "off") +
   theme_manuscript() +
   theme(
-    plot.margin = margin(10, 90, 10, 10),
-    legend.position = "bottom"
+    plot.margin = margin(12, 130, 12, 12),
+    legend.position = "bottom",
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title = element_text(size = 15, face = "bold"),
+    axis.text = element_text(size = 12),
+    legend.text = element_text(size = 12)
   )
 
-save_plot_safe(p_meta, file.path(OUT_DIR, "forest_overall_meta_effects.png"), width = 11, height = 7)
+save_plot_safe(p_meta, file.path(OUT_DIR, "forest_overall_meta_effects.png"), width = 12.5, height = 7.5)
 
 cluster_covariates <- c(
   "Age, per year",
@@ -1499,6 +1508,10 @@ covariate_outcome_plot_df <- pooled_covariate_meta %>%
     label_x = pooled_conf_high_random * 1.03
   )
 
+covariate_outcome_xmax <- max(covariate_outcome_plot_df$pooled_conf_high_random, na.rm = TRUE) * 1.08
+covariate_outcome_xmax <- max(covariate_outcome_xmax, 2.55)
+covariate_outcome_xmax <- ceiling(covariate_outcome_xmax * 10) / 10
+
 p_covariate_outcomes <- ggplot(
   covariate_outcome_plot_df,
   aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = term_group)
@@ -1507,9 +1520,11 @@ p_covariate_outcomes <- ggplot(
   geom_errorbar(width = 0.10, linewidth = 0.8, orientation = "y") +
   geom_point(size = 2.5) +
   geom_text(aes(x = label_x, label = label_text), hjust = 0, size = 2.8, color = "gray15", show.legend = FALSE) +
-  scale_x_log10(
-    breaks = c(0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 2.0, 2.5),
-    labels = c("0.6", "0.7", "0.8", "0.9", "1.0", "1.1", "1.25", "1.5", "2.0", "2.5")
+  scale_x_continuous(
+    breaks = c(0.6, 0.8, 1.0, 1.1, 1.2, 1.5, 2.0, 2.5, 3.0),
+    labels = c("0.6", "0.8", "1.0", "1.1", "1.2", "1.5", "2.0", "2.5", "3.0"),
+    minor_breaks = c(0.9, 1.05, 1.15),
+    expand = expansion(mult = c(0.01, 0.03))
   ) +
   scale_y_continuous(
     breaks = c(4, 3, 2, 1),
@@ -1527,14 +1542,16 @@ p_covariate_outcomes <- ggplot(
   ) +
   labs(
     title = "Pooled Covariate Associations Across Main Outcomes",
-    x = "Pooled effect estimate (random-effects, log scale)",
+    x = "Pooled effect estimate (random-effects)",
     y = NULL
   ) +
-  coord_cartesian(xlim = c(0.6, 2.55), clip = "off") +
+  coord_cartesian(xlim = c(0.6, covariate_outcome_xmax), clip = "off") +
   theme_manuscript() +
   theme(
     plot.margin = margin(10, 95, 10, 10),
-    legend.position = "bottom"
+    legend.position = "bottom",
+    panel.grid.minor.x = element_blank(),
+    axis.text.x = element_text(size = 10)
   )
 
 save_plot_safe(p_covariate_outcomes, file.path(OUT_DIR, "forest_covariate_effects_outcomes.png"), width = 12, height = 8.5)
@@ -1838,7 +1855,15 @@ p_rs_sig <- ggplot(rs_signature_pooled, aes(x = h, y = prop, fill = rs)) +
     y = "Patients in cluster-state"
   ) +
   theme_manuscript() +
-  theme(panel.grid.major.x = element_line(color = "gray90"))
+  theme(
+    panel.grid.major.x = element_line(color = "gray90"),
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title = element_text(size = 15, face = "bold"),
+    axis.text = element_text(size = 12),
+    strip.text = element_text(size = 15, face = "bold"),
+    legend.title = element_text(size = 14, face = "bold"),
+    legend.text = element_text(size = 12)
+  )
 
 p_arf_sig <- ggplot(arf_signature_pooled, aes(x = h, y = prop, fill = arf)) +
   geom_area(color = "white", linewidth = 0.15, alpha = 0.98) +
@@ -1855,7 +1880,15 @@ p_arf_sig <- ggplot(arf_signature_pooled, aes(x = h, y = prop, fill = arf)) +
     y = "Patients in cluster-state"
   ) +
   theme_manuscript() +
-  theme(panel.grid.major.x = element_line(color = "gray90"))
+  theme(
+    panel.grid.major.x = element_line(color = "gray90"),
+    plot.title = element_text(size = 18, face = "bold"),
+    axis.title = element_text(size = 15, face = "bold"),
+    axis.text = element_text(size = 12),
+    strip.text = element_text(size = 15, face = "bold"),
+    legend.title = element_text(size = 14, face = "bold"),
+    legend.text = element_text(size = 12)
+  )
 
 save_plot_safe(p_rs_sig, file.path(OUT_DIR, "figure_pooled_resp_support_trajectories.png"), width = 11, height = 14)
 save_plot_safe(p_arf_sig, file.path(OUT_DIR, "figure_pooled_arf_trajectories.png"), width = 11, height = 14)
@@ -2397,6 +2430,22 @@ pooled_consort_reasons <- consort_reasons %>%
 write_csv_safe(pooled_consort_flow, file.path(OUT_DIR, "publication_table_consort_flow.csv"))
 write_csv_safe(pooled_consort_reasons, file.path(OUT_DIR, "publication_table_consort_exclusions.csv"))
 
+wrap_consort_text <- function(x, width = 26) {
+  stringr::str_wrap(x, width = width)
+}
+
+escape_dot_label <- function(s) {
+  s <- as.character(s)
+  s <- gsub("\u2212", "-", s, perl = TRUE)
+  s <- gsub("\u2013|\u2014", "-", s, perl = TRUE)
+  s <- gsub("[\u200B-\u200D\uFEFF]", "", s, perl = TRUE)
+  s2 <- suppressWarnings(iconv(s, to = "ASCII//TRANSLIT", sub = ""))
+  s2[is.na(s2)] <- s[is.na(s2)]
+  s2 <- gsub("\\\\", "\\\\\\\\", s2)
+  s2 <- gsub("\"", "\\\\\"", s2)
+  s2
+}
+
 consort_label_df <- pooled_consort_flow %>%
   mutate(
     step_text = dplyr::recode(
@@ -2409,64 +2458,72 @@ consort_label_df <- pooled_consort_flow %>%
       "Any ICU segment present" = "Any ICU segment present",
       .default = step
     ),
+    excl_text = dplyr::case_when(
+      step_order == 1 ~ NA_character_,
+      step_order == 2 ~ "Excluded: younger than 18 years",
+      step_order == 3 ~ "Excluded: missing demographic data",
+      step_order == 4 ~ "Excluded: missing county or geographic linkage",
+      step_order == 5 ~ "Excluded: no lung cancer ICU stay longer than 72 hours",
+      step_order == 6 ~ "Excluded: not assigned to a respiratory trajectory phenotype",
+      TRUE ~ "Excluded at this step"
+    ),
     main_node = paste0("step", step_order),
-    main_label = paste0(step_text, "\\nN = ", scales::comma(n_remaining)),
+    main_label = paste0(wrap_consort_text(step_text, width = 24), "\nN = ", scales::comma(n_remaining)),
     excl_node = paste0("excl", step_order),
-    excl_label = paste0("Excluded before this step\\nN = ", scales::comma(n_excluded_at_step))
+    excl_label = ifelse(
+      is.na(excl_text),
+      NA_character_,
+      paste0(wrap_consort_text(excl_text, width = 28), "\nN = ", scales::comma(n_excluded_at_step))
+    )
   )
-
-main_node_lines <- paste0(
-  consort_label_df$main_node,
-  ' [label="', consort_label_df$main_label, '", shape=box, style="rounded,filled", fillcolor="#F8FBFF", color="#4B5563", fontname="Helvetica", fontsize=16, penwidth=1.4, width=3.9];'
-)
-
-main_edge_lines <- if (nrow(consort_label_df) > 1) {
-  paste0(
-    consort_label_df$main_node[-nrow(consort_label_df)],
-    " -> ",
-    consort_label_df$main_node[-1],
-    ' [color="#6B7280", penwidth=1.2, arrowsize=0.8];'
-  )
-} else {
-  character()
-}
 
 exclusion_df <- consort_label_df %>%
   filter(n_excluded_at_step > 0)
 
-excl_node_lines <- paste0(
-  exclusion_df$excl_node,
-  ' [label="', exclusion_df$excl_label, '", shape=box, style="rounded,filled", fillcolor="#FFF7ED", color="#C2410C", fontcolor="#7C2D12", fontname="Helvetica", fontsize=14, penwidth=1.1, width=3.2];'
-)
+keep_nodes <- vapply(seq_len(nrow(consort_label_df)), function(i) {
+  lbl <- sprintf("%s\nN = %s",
+                 escape_dot_label(consort_label_df$step_text[i]),
+                 scales::comma(consort_label_df$n_remaining[i]))
+  sprintf('K%d [label="%s", fillcolor="#F8FBFF", color="#4B5563", fontcolor="#374151", penwidth=1.4];', i, lbl)
+}, character(1))
 
-excl_edge_lines <- paste0(
-  exclusion_df$main_node,
-  " -> ",
-  exclusion_df$excl_node,
-  ' [color="#C2410C", style=dashed, dir=none, penwidth=1.0];'
-)
+keep_edges <- if (nrow(consort_label_df) > 1) {
+  sprintf("K%d -> K%d;", 1:(nrow(consort_label_df) - 1), 2:nrow(consort_label_df))
+} else {
+  character(0)
+}
 
-rank_same_lines <- c(
-  paste0("{rank=same; ", consort_label_df$main_node[1], ";}"),
-  paste0("{rank=same; ", paste(exclusion_df$excl_node, collapse = "; "), ";}")
-)
+drop_nodes <- character(0)
+drop_edges <- character(0)
+rank_same_blocks <- character(0)
 
-consort_graph <- paste(
-  "digraph consort {",
-  'graph [layout=dot, rankdir=TB, nodesep=0.55, ranksep=0.7, bgcolor="white", margin=0.08, labelloc="t", labeljust="c", pad=0.2, splines=ortho];',
-  'node [fontname="Helvetica"];',
-  'edge [fontname="Helvetica"];',
-  paste(main_node_lines, collapse = "\n"),
-  paste(main_edge_lines, collapse = "\n"),
-  paste(excl_node_lines, collapse = "\n"),
-  paste(excl_edge_lines, collapse = "\n"),
-  paste(rank_same_lines, collapse = "\n"),
-  "}",
+for (i in 2:nrow(consort_label_df)) {
+  excl_n <- consort_label_df$n_excluded_at_step[i]
+  if (is.na(excl_n) || excl_n <= 0) next
+  lbl <- sprintf("%s\nN = %s",
+                 escape_dot_label(exclusion_df$excl_text[match(i, exclusion_df$step_order)]),
+                 scales::comma(excl_n))
+  drop_nodes <- c(drop_nodes, sprintf('X%d [label="%s", fillcolor="#FFF7ED", color="#C2410C", fontcolor="#7C2D12", penwidth=1.1];', i, lbl))
+  drop_edges <- c(drop_edges, sprintf('K%d -> X%d [color="#C2410C", style=dashed, penwidth=1.0, arrowsize=0.7];', i - 1, i))
+  rank_same_blocks <- c(rank_same_blocks, sprintf("{rank=same; K%d; X%d}", i, i))
+}
+
+dot <- paste(
+  'digraph consort {',
+  '  graph [rankdir=TB, nodesep="0.55", ranksep="0.8", margin="0.08", pad="0.2", bgcolor="white"];',
+  '  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=15, margin="0.10,0.08"];',
+  '  edge [fontname="Helvetica", color="#6B7280", penwidth=1.2, arrowsize=0.8, arrowhead=normal];',
+  paste(keep_nodes, collapse = "\n"),
+  paste(drop_nodes, collapse = "\n"),
+  paste(keep_edges, collapse = "\n"),
+  paste(drop_edges, collapse = "\n"),
+  paste(rank_same_blocks, collapse = "\n"),
+  '}',
   sep = "\n"
 )
 
-consort_diagram <- DiagrammeR::grViz(consort_graph)
-save_diagram_safe(consort_diagram, file.path(OUT_DIR, "figure_pooled_consort_diagram.png"), width = 12, height = 8.5)
+consort_diagram <- DiagrammeR::grViz(dot)
+save_diagram_safe(consort_diagram, file.path(OUT_DIR, "figure_pooled_consort_diagram.png"), width = 13, height = 9)
 
 cluster_gcs_summary <- map_dfr(site_payload, function(x) {
   df <- x$cluster_gcs_summary
@@ -2543,32 +2600,81 @@ sofa_domain_long <- pooled_sofa_cluster_summary %>%
       sofa_coag_mean = "Coagulation",
       sofa_cns_mean = "CNS"
     ),
-    cluster_label = paste0("C", pooled_cluster, ": ", phenotype_label_short)
+    cluster_label = paste0("C", pooled_cluster, ": ", phenotype_label_short),
+    phenotype_label_short = factor(
+      phenotype_label_short,
+      levels = prototype_key %>%
+        distinct(pooled_cluster, phenotype_label_short) %>%
+        arrange(pooled_cluster) %>%
+        pull(phenotype_label_short)
+    ),
+    domain = factor(domain, levels = c("Respiratory", "Cardiovascular", "Renal", "Liver", "Coagulation", "CNS"))
+  ) %>%
+  mutate(
+    domain_rev = forcats::fct_rev(domain),
+    domain_y = as.numeric(domain_rev),
+    phenotype_index = as.integer(phenotype_label_short),
+    y = domain_y + c(-0.24, -0.08, 0.08, 0.24)[phenotype_index]
   )
 
 p_sofa_domains <- ggplot(
   sofa_domain_long,
-  aes(x = domain, y = forcats::fct_rev(cluster_label), fill = score)
-) +
-  geom_tile(color = "white", linewidth = 0.8) +
-  geom_text(aes(label = sprintf("%.2f", score)), size = 3.4) +
-  scale_fill_gradientn(
-    colors = c("#f7fbff", "#9ecae1", "#3182bd", "#08519c"),
-    name = "Mean SOFA\ncomponent"
+  aes(
+    x = score,
+    y = y,
+    color = phenotype_label_short
+  )) +
+  geom_segment(
+    aes(
+      x = 0,
+      xend = score,
+      y = y,
+      yend = y
+    ),
+    linewidth = 1.2,
+    alpha = 0.7
+  ) +
+  geom_point(
+    size = 3.8
+  ) +
+  geom_text(
+    aes(label = sprintf("%.2f", score)),
+    nudge_x = 0.035,
+    hjust = 0,
+    size = 3.2,
+    color = "gray20"
+  ) +
+  scale_color_manual(
+    values = cluster_plot_palette_phenotype_short,
+    name = "Trajectory phenotype"
+  ) +
+  scale_x_continuous(
+    limits = c(0, max(sofa_domain_long$score, na.rm = TRUE) + 0.45),
+    breaks = seq(0, 4, by = 0.5),
+    expand = expansion(mult = c(0, 0.02))
+  ) +
+  scale_y_continuous(
+    breaks = sort(unique(sofa_domain_long$domain_y)),
+    labels = levels(sofa_domain_long$domain_rev),
+    expand = expansion(mult = c(0.06, 0.06))
   ) +
   labs(
     title = "Pooled SOFA Domain Signature by Trajectory Phenotype",
-    x = NULL,
+    x = "Mean SOFA component score",
     y = NULL
   ) +
   theme_manuscript() +
   theme(
-    legend.position = "right",
-    axis.text.x = element_text(angle = 20, hjust = 1),
-    legend.title = element_text(face = "bold")
+    legend.position = "bottom",
+    axis.line.x = element_line(color = "black", linewidth = 0.6),
+    axis.ticks.x = element_line(color = "black"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.title = element_text(face = "bold"),
+    axis.text.y = element_text(size = 12)
   )
 
-save_plot_safe(p_sofa_domains, file.path(OUT_DIR, "figure_sofa_domain_signature_by_cluster.png"), width = 10.5, height = 5.8)
+save_plot_safe(p_sofa_domains, file.path(OUT_DIR, "figure_sofa_domain_signature_by_cluster.png"), width = 11.5, height = 6.5)
 
 sofa_totals_long <- pooled_sofa_cluster_summary %>%
   transmute(

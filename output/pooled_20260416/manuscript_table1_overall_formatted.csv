@@ -1,0 +1,32 @@
+Characteristic,Level,Overall
+N,,"11,288"
+"Age, mean (SD)",,68.9 (10.5)
+"Charlson score, mean (SD)",,7.8 (3.3)
+"SOFA total, mean (SD)",,4.3 (3.9)
+"PM₂.₅ 5-year exposure, mean (SD)",,7.8 (1.0)
+"NO₂ 5-year exposure, mean (SD)",,7.6 (3.2)
+"ICU LOS (hours), mean (SD)",,118.4 (201.0)
+"IMV hours in first 72h, mean (SD)",,4.7 (12.4)
+"Vasopressor hours in first 72h, mean (SD)",,4.9 (11.7)
+Sex,Female,"5,642 (50.0%)"
+Sex,Male,"5,646 (50.0%)"
+Race,American Indian or Alaska Native,29 (0.3%)
+Race,Asian,545 (4.8%)
+Race,Black or African American,"2,789 (24.7%)"
+Race,Native Hawaiian or Other Pacific Islander,20 (0.2%)
+Race,Other,347 (3.4%)
+Race,White,"7,282 (64.5%)"
+Ethnicity,Hispanic,264 (2.3%)
+Ethnicity,Non-Hispanic,"10,623 (94.1%)"
+Advanced cancer present on admission,No,"3,786 (33.5%)"
+Advanced cancer present on admission,Yes,"7,502 (66.5%)"
+In-hospital death,No,"8,885 (78.7%)"
+In-hospital death,Yes,"2,403 (21.3%)"
+Hospice discharge,No,"10,009 (88.7%)"
+Hospice discharge,Yes,"1,279 (11.3%)"
+Death or hospice discharge,No,"7,606 (67.4%)"
+Death or hospice discharge,Yes,"3,682 (32.6%)"
+Any invasive mechanical ventilation in first 72 hours,No,"8,744 (77.5%)"
+Any invasive mechanical ventilation in first 72 hours,Yes,"2,544 (22.5%)"
+Any vasopressor in first 72 hours,No,"8,229 (72.9%)"
+Any vasopressor in first 72 hours,Yes,"3,059 (27.1%)"
