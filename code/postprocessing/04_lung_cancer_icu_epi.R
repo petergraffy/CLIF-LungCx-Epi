@@ -289,12 +289,79 @@ p_cancer_cluster <- ggplot(cancer_by_cluster, aes(x = marker, y = prop, fill = p
 save_plot(p_cancer_cluster, "figure_cancer_burden_by_cluster.png", w = 11, h = 6.5)
 
 # Start support to pooled phenotype alluvial
-alluvial_src <- by_cluster_cat %>%
-  filter(variable == "device_t0") %>%
+# Build from site-level start-support counts and exact pooled cluster sizes so the
+# final phenotype totals match the manuscript/Table 2 Ns exactly.
+start_support_paths <- list.files(
+  site_dir,
+  pattern = "^epi_start_support_to_cluster_counts.*\\.csv$",
+  recursive = TRUE,
+  full.names = TRUE
+)
+
+normalize_site_run <- function(x) {
+  x <- stringr::str_to_lower(as.character(x))
+  dplyr::case_when(
+    x == "emory" ~ "Emory",
+    x == "hopkins" ~ "Hopkins",
+    x %in% c("u_michigan", "michigan") ~ "Michigan",
+    x == "nu" ~ "NU",
+    x == "ohsu" ~ "OHSU",
+    x == "penn" ~ "Penn",
+    x == "rush" ~ "Rush",
+    x == "ucmc" ~ "UCMC",
+    x == "ucsf" ~ "UCSF",
+    x == "umn" ~ "UMN",
+    TRUE ~ as.character(x)
+  )
+}
+
+start_support_counts <- purrr::map_dfr(start_support_paths, function(path) {
+  df <- readr::read_csv(path, show_col_types = FALSE)
+  df %>%
+    transmute(
+      site_run = normalize_site_run(site_name),
+      local_cluster = as.integer(traj_cluster_ra),
+      device_t0 = as.character(device_t0),
+      n = suppressWarnings(as.numeric(n))
+    )
+})
+
+cluster_sizes <- readr::read_csv(
+  file.path(latest_pooled_dir, "pooled_cluster_mapping.csv"),
+  show_col_types = FALSE
+) %>%
   transmute(
-    start_support = coalesce(clean_device(level), "Other"),
-    phenotype = stringr::str_remove(pooled_cluster_label, "^Cluster \\d+: "),
-    n = as.numeric(n)
+    site_run = as.character(site_run),
+    local_cluster = as.integer(local_cluster),
+    pooled_cluster_label,
+    phenotype = phenotype_label_short,
+    cluster_n = as.numeric(n)
+  )
+
+observed_start_support <- start_support_counts %>%
+  left_join(cluster_sizes, by = c("site_run", "local_cluster")) %>%
+  filter(!is.na(phenotype))
+
+missing_start_support <- observed_start_support %>%
+  group_by(site_run, local_cluster, pooled_cluster_label, phenotype, cluster_n) %>%
+  summarize(observed_n = sum(n, na.rm = TRUE), .groups = "drop") %>%
+  mutate(
+    missing_n = pmax(cluster_n - observed_n, 0),
+    device_t0 = "OTHER",
+    n = missing_n
+  ) %>%
+  filter(n > 0) %>%
+  select(site_run, local_cluster, pooled_cluster_label, phenotype, device_t0, n)
+
+alluvial_src <- bind_rows(
+  observed_start_support %>%
+    select(site_run, local_cluster, pooled_cluster_label, phenotype, device_t0, n),
+  missing_start_support
+) %>%
+  transmute(
+    start_support = coalesce(clean_device(device_t0), "Other"),
+    phenotype,
+    n
   ) %>%
   group_by(start_support, phenotype) %>%
   summarize(n = sum(n, na.rm = TRUE), .groups = "drop") %>%

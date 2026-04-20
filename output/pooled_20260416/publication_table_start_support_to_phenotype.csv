@@ -3,34 +3,38 @@ CPAP,Minimal ARF,2
 CPAP,Persistent ARF,2
 CPAP,Resolving ARF,11
 CPAP,Stable ARF,12
-Face mask,Minimal ARF,257
-Face mask,Persistent ARF,74
+Face mask,Minimal ARF,252
+Face mask,Persistent ARF,69
 Face mask,Resolving ARF,425
-Face mask,Stable ARF,184
-High-flow NC,Minimal ARF,43
+Face mask,Stable ARF,179
+High-flow NC,Minimal ARF,38
 High-flow NC,Persistent ARF,76
 High-flow NC,Resolving ARF,229
 High-flow NC,Stable ARF,480
 IMV,Minimal ARF,171
 IMV,Persistent ARF,894
 IMV,Resolving ARF,231
-IMV,Stable ARF,30
-NIV,Minimal ARF,71
-NIV,Persistent ARF,98
+IMV,Stable ARF,25
+NIV,Minimal ARF,66
+NIV,Persistent ARF,93
 NIV,Resolving ARF,426
-NIV,Stable ARF,309
+NIV,Stable ARF,304
 Nasal cannula,Minimal ARF,1288
-Nasal cannula,Persistent ARF,103
+Nasal cannula,Persistent ARF,98
 Nasal cannula,Resolving ARF,1823
 Nasal cannula,Stable ARF,139
-Other,Minimal ARF,347
-Other,Persistent ARF,321
-Other,Resolving ARF,487
-Other,Stable ARF,170
+Other,Minimal ARF,200
+Other,Persistent ARF,328
+Other,Resolving ARF,418
+Other,Stable ARF,176
 Room air,Minimal ARF,2064
-Room air,Persistent ARF,46
+Room air,Persistent ARF,41
 Room air,Resolving ARF,235
 Room air,Stable ARF,10
-Trach collar,Minimal ARF,9
+Trach collar,Minimal ARF,4
 Trach collar,Persistent ARF,3
-Trach collar,Resolving ARF,42
+Trach collar,Resolving ARF,37
+Unknown / missing,Minimal ARF,162
+Unknown / missing,Persistent ARF,11
+Unknown / missing,Resolving ARF,73
+Unknown / missing,Stable ARF,7

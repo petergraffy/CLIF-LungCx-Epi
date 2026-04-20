@@ -70,7 +70,7 @@ The intended analytic cohort is:
 - ICU stay present
 - valid geography for exposure assignment
 
-The current code uses a primary lung cancer definition based on diagnosis prefixes corresponding to malignant neoplasm of lung and bronchus. The cohort code was tightened to exclude non-primary codes such as respiratory failure diagnoses, personal history codes, and secondary pulmonary metastasis codes.
+The current code defines lung cancer present on admission as at least one diagnosis flagged POA that matches a primary lung cancer code. In the current codebook this corresponds to ICD-10-CM `C34.xx` malignant neoplasm of bronchus/lung codes: `C34.00`, `C34.01`, `C34.02`, `C34.10`, `C34.11`, `C34.12`, `C34.20`, `C34.21`, `C34.30`, `C34.31`, `C34.32`, `C34.80`, `C34.90`, `C34.91`, and `C34.92`. The cohort function also supports ICD-9-CM primary lung cancer codes with prefix `162` if present in a site's source data. The cohort code was tightened to exclude non-primary codes such as respiratory failure diagnoses, personal history codes, and secondary pulmonary metastasis codes.
 
 ## Trajectory Phenotyping
 
@@ -256,5 +256,4 @@ Please refer to:
 - [sites](/Users/saborpete/Desktop/Peter/Postdoc/CLIF-LungCx-Epi/sites): returned site output folders used for central pooling
 
 ## Notes
-
 
