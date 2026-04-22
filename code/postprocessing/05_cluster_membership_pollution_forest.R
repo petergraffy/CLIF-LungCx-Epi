@@ -249,7 +249,7 @@ p_cluster_membership_pollution <- ggplot(
   ) +
   labs(
     title = "Pooled Air Pollution Associations With Respiratory Phenotype Membership",
-    x = "Pooled multinomial OR (log scale)",
+    x = "Pooled relative risk ratio (log scale)",
     y = NULL
   ) +
   coord_cartesian(xlim = c(0.62, 2.2), clip = "off") +
