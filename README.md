@@ -1,22 +1,24 @@
-# CLIF Lung Cancer ICU Trajectories and Air Pollution
+# CLIF Lung Cancer ICU Trajectory Phenotyping
 
 CLIF version: 2.1
 
 ## Overview
 
-This repository contains a federated analysis pipeline for studying respiratory failure trajectories, ICU outcomes, and long-term ambient air pollution exposure among patients with lung cancer admitted to the ICU across CLIF sites.
+This repository contains a federated analysis pipeline for trajectory-based phenotyping of respiratory failure among patients with lung cancer admitted to the ICU across CLIF sites.
 
-The project is designed so that each site runs the same analytic code locally and returns only PHI-safe, aggregated outputs for central pooling. No patient-level data are transferred.
+The main scientific focus of this repo is the clinical and trajectory component of the project: identifying reproducible early respiratory phenotypes, describing their organ dysfunction and cancer severity profiles, and quantifying their associations with ICU length of stay and mortality-related outcomes. Sites run the same code locally and return only PHI-safe aggregated outputs for central pooling.
 
-## Main Aims
+## Study Focus
 
-The current workflow supports three linked aims:
+The workflow in this repository supports a manuscript framed around:
 
-1. Define a multicenter ICU cohort of hospitalizations with primary lung cancer present on admission.
-2. Use unsupervised state sequence clustering to identify distinct early respiratory support and acute respiratory failure trajectory phenotypes during the first 72 hours of ICU care.
-3. Evaluate whether long-term PM2.5 and NO2 exposure are associated with trajectory severity, trajectory phenotype, and key ICU outcomes.
+1. defining a multicenter ICU cohort of adult hospitalizations with lung cancer present on admission
+2. reconstructing hourly respiratory support and acute respiratory failure states during the first 72 hours after ICU admission
+3. using state sequence clustering to identify consensus respiratory trajectory phenotypes
+4. characterizing those phenotypes using SOFA, Charlson, vasopressor exposure, cancer severity proxies, initial support, and clinical outcomes
+5. evaluating associations between phenotype membership and ICU length of stay, in-hospital death or hospice discharge, and post-72-hour survival
 
-The project also produces descriptive epidemiology outputs to support a manuscript focused on lung cancer ICU epidemiology, including baseline cohort summaries, cluster-specific clinical profiles, early support patterns, and year-level trend summaries.
+Some legacy code and outputs related to long-term air pollution exposures remain in the repository because they were part of the broader project workflow, but they are not the primary emphasis of this README.
 
 ## High-Level Workflow
 
@@ -32,7 +34,7 @@ Sites should run the scripts in [code](/Users/saborpete/Desktop/Peter/Postdoc/CL
 
 ### Step 2: Cohort construction
 
-`01_lungcx_cohort.R` builds the analysis cohort and creates the core objects used downstream:
+`01_lungcx_cohort.R` builds the analytic cohort and creates the core objects used downstream:
 
 - `cohort_lung`
 - `analysis_ready`
@@ -41,25 +43,26 @@ Sites should run the scripts in [code](/Users/saborpete/Desktop/Peter/Postdoc/CL
 
 This step:
 
-- identifies adult hospitalizations with an ICU stay
-- restricts to hospitalizations with primary lung cancer present on admission
+- identifies adult hospitalizations in the study window
+- restricts to hospitalizations with lung cancer present on admission
+- requires an ICU stay
 - assigns the ICU index time
-- links long-term county-level PM2.5 and NO2 exposure
+- derives respiratory support summary features
 - constructs cohort-level outcomes and baseline variables
 
-### Step 3: Federated clustering and modeling
+### Step 3: Trajectory construction and federated modeling
 
-`02_federated_clusters.R` performs local trajectory construction, clustering, site-level modeling, and federated export generation.
+`02_federated_clusters.R` performs local trajectory construction, sequence clustering, cluster characterization, and federated export generation.
 
 This step:
 
 - reconstructs hourly respiratory support and ARF states over the first 72 hours
 - computes optimal matching distances with `TraMineR`
-- selects the number of clusters using peak average silhouette width
-- reorders local clusters so local `Cluster 1` is the healthiest reference cluster
+- selects the local number of clusters using peak average silhouette width
+- reorders local clusters so the healthiest phenotype is the reference cluster
 - summarizes clusters using SOFA, Charlson, vasopressors, and cancer severity proxies
-- fits site-level pollution and outcome models
-- exports aggregated tables, coefficients, response-curve summaries, and site figures
+- fits site-level outcome models
+- exports aggregated tables, model coefficients, trajectory summaries, and site figures
 
 ## Cohort Definition
 
@@ -68,9 +71,10 @@ The intended analytic cohort is:
 - adult hospitalizations
 - lung cancer present on admission
 - ICU stay present
-- valid geography for exposure assignment
 
-The current code defines lung cancer present on admission as at least one diagnosis flagged POA that matches a primary lung cancer code. In the current codebook this corresponds to ICD-10-CM `C34.xx` malignant neoplasm of bronchus/lung codes: `C34.00`, `C34.01`, `C34.02`, `C34.10`, `C34.11`, `C34.12`, `C34.20`, `C34.21`, `C34.30`, `C34.31`, `C34.32`, `C34.80`, `C34.90`, `C34.91`, and `C34.92`. The cohort function also supports ICD-9-CM primary lung cancer codes with prefix `162` if present in a site's source data. The cohort code was tightened to exclude non-primary codes such as respiratory failure diagnoses, personal history codes, and secondary pulmonary metastasis codes.
+The current code defines lung cancer present on admission as at least one diagnosis flagged POA that matches a primary lung cancer code. In the current codebook this corresponds to ICD-10-CM `C34.xx` malignant neoplasm of bronchus/lung codes: `C34.00`, `C34.01`, `C34.02`, `C34.10`, `C34.11`, `C34.12`, `C34.20`, `C34.21`, `C34.30`, `C34.31`, `C34.32`, `C34.80`, `C34.90`, `C34.91`, and `C34.92`. The cohort function also supports ICD-9-CM primary lung cancer codes with prefix `162` if present in a site's source data.
+
+The cohort code was tightened to exclude non-primary codes such as personal history codes and secondary pulmonary metastasis codes.
 
 ## Trajectory Phenotyping
 
@@ -102,29 +106,28 @@ Sequence clustering uses:
 - transition-rate substitution costs
 - Ward hierarchical clustering
 
-Sites choose the local number of clusters based on peak average silhouette width. Local clusters are then relabeled by severity so that the healthiest phenotype serves as the reference cluster in downstream models.
+Sites choose the local number of clusters based on peak average silhouette width. Local clusters are then relabeled by severity so that the healthiest local phenotype serves as the reference cluster in downstream models. Central pooling harmonizes those local clusters into pooled consensus phenotypes.
 
-## Clinical and Exposure Variables
+## Clinical Characterization
 
-The workflow currently uses or derives:
+The trajectory phenotypes are characterized using variables such as:
 
 - age
 - sex
 - race
 - ethnicity
 - admission year
-- county-based PM2.5 exposure
-- county-based NO2 exposure
 - Charlson comorbidity score
 - advanced cancer proxies
 - SOFA total and domain scores
 - respiratory support at ICU admission
 - invasive mechanical ventilation exposure
 - vasopressor exposure
+- ICU length of stay
 - in-hospital death
 - hospice discharge
 - death or hospice discharge
-- 72-hour landmark survival outcome
+- post-72-hour survival
 
 Advanced cancer proxies include:
 
@@ -134,25 +137,21 @@ Advanced cancer proxies include:
 
 ## Site-Level Models
 
-Each site fits models locally using standardized exposures:
+Each site fits models locally for the manuscript-facing clinical analyses, including:
 
-- multinomial logistic regression for trajectory phenotype
+- multinomial logistic regression for trajectory phenotype membership
 - logistic regression for death or hospice discharge
 - generalized linear modeling for ICU length of stay
 - ordinal regression for trajectory severity rank
 - Cox proportional hazards modeling for post-72-hour death or hospice discharge
 
-The pipeline also fits pollutant-by-cluster interaction models and generates exposure-response curves for:
-
-- predicted mortality by cluster
-- predicted ICU length of stay
-- predicted trajectory severity
+These models are designed to support pooled interpretation of how respiratory trajectory phenotype relates to severity, resource use, and survival.
 
 ## Federated Outputs
 
-The site return package is designed to be federated-friendly. Sites should return only aggregated outputs, coefficient tables, or fixed-grid predicted summaries.
+The site return package is designed to be federated-friendly. Sites should return only aggregated outputs, coefficient tables, or fixed-grid summaries.
 
-Core exports include:
+Core trajectory and clinical exports include:
 
 - `consort_flow_counts`
 - `consort_exclusion_reasons`
@@ -166,13 +165,10 @@ Core exports include:
 - `cluster_signature_rs_hourly`
 - `cluster_signature_arf_hourly`
 - `cluster_severity_rank`
-- `cluster_sofa_summary`
-- `cluster_charlson_summary`
 - `model_outputs_standardized`
 - `model_metadata`
-- `mediation_style_decomposition_no2`
 
-New epidemiology-oriented federated outputs include:
+Epidemiology-oriented exports used for pooled figures and manuscript tables include:
 
 - `epi_overall_summary`
 - `epi_device_t0_summary`
@@ -183,26 +179,24 @@ New epidemiology-oriented federated outputs include:
 These are sufficient for central pooling of:
 
 - overall cohort epidemiology summaries
+- phenotype-specific clinical profiles
 - initial respiratory support distributions
-- year-level trends
+- start-support to phenotype alluvial figures
+- year-level trend summaries
 - cancer burden summaries
-- alluvial figures linking initial support to final trajectory phenotype
-
-For the alluvial specifically, central pooling should combine each site’s `epi_start_support_to_cluster_counts` file, remap local clusters to pooled phenotypes using the central mapping table, and then sum counts across sites.
 
 ## Figures Generated Locally at Sites
 
 The site script also generates local figures for quality control and presentation, including:
 
 - sequence plots
+- respiratory support signature figures
+- ARF signature figures
 - cluster SOFA profiles
-- respiratory support and ARF signature figures
-- predicted mortality by pollutant and cluster
-- predicted ICU LOS response curves
-- predicted severity response curves
+- cluster severity summaries
 - initial respiratory support distribution
-- admission-year trend figure
 - start-support to final-cluster alluvial
+- admission-year trend figures
 
 These figures are useful for local review, but central pooling should rely on the returned CSV tables rather than the site PNG files whenever possible.
 
@@ -210,7 +204,7 @@ These figures are useful for local review, but central pooling should rely on th
 
 This project is intended for federated execution. Please do not return patient-level files.
 
-The current workflow avoids county-level spatial exports in the standard site return package because several sites expressed concern about sharing low-count county results. County maps and county-level cluster summaries are therefore not part of the recommended federated deliverables.
+The workflow is structured so that each site runs the same code locally and shares only PHI-safe aggregated outputs for central pooling.
 
 ## Central Pooling
 
@@ -220,11 +214,10 @@ Central postprocessing scripts in [code/postprocessing](/Users/saborpete/Desktop
 - manuscript Table 1 and Table 2
 - pooled hourly trajectory figures
 - pooled SOFA summaries
-- pooled air pollution meta-analysis
-- pooled interaction figures
 - pooled epidemiology figures and tables
+- pooled start-support to phenotype alluvial figures
 
-These scripts assume that each site has returned the standard PHI-safe output bundle generated by `02_federated_clusters.R`.
+Some central scripts also retain broader project outputs from prior analyses, including air-pollution-related files, but the main purpose of the pooled workflow described here is the trajectory and clinical paper.
 
 ## Required CLIF Inputs
 
@@ -251,9 +244,10 @@ Please refer to:
 - [code](/Users/saborpete/Desktop/Peter/Postdoc/CLIF-LungCx-Epi/code): site-side analysis scripts
 - [code/postprocessing](/Users/saborpete/Desktop/Peter/Postdoc/CLIF-LungCx-Epi/code/postprocessing): central pooling and manuscript figure scripts
 - [config](/Users/saborpete/Desktop/Peter/Postdoc/CLIF-LungCx-Epi/config): configuration files
-- [exposome](/Users/saborpete/Desktop/Peter/Postdoc/CLIF-LungCx-Epi/exposome): county-year exposure inputs
 - [output](/Users/saborpete/Desktop/Peter/Postdoc/CLIF-LungCx-Epi/output): local and pooled outputs
 - [sites](/Users/saborpete/Desktop/Peter/Postdoc/CLIF-LungCx-Epi/sites): returned site output folders used for central pooling
 
 ## Notes
 
+- This README is intentionally centered on the trajectory and clinical manuscript framing.
+- Air-pollution-related code remains in the repo as part of the broader project history, but it is not the primary focus of this documentation.
