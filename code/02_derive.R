@@ -1,0 +1,5 @@
+source("code/lib/load.R")
+cfg <- read_run_config()
+prepared <- prepare_revision(cfg)
+derive_revision(prepared, cfg)
+message("Derivation complete. Return share/ for outcome-free consensus matching.")

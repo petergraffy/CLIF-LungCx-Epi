@@ -1,0 +1,8 @@
+source('diagnostics/revision20261022/absorbing_contract.R')
+site<-commandArgs(trailingOnly=TRUE)[1];home<-file.path(fed_root(),'sites',site)
+a<-readRDS(file.path(home,'local/discovery.rds'));proto<-readRDS(file.path(fed_root(),'coordinator/full/prototypes.rds'))
+d<-a$data;x<-fed_patient_features(a$panel,d$hospitalization_id);assignment<-fed_assign(x,proto,72-d$hours_UNKNOWN);d$descriptive_group<-sub('^P','D',assignment$phenotype)
+d$early_event<-ifelse(d$event_time<=d$t0+72*3600,d$event_type,'alive_in_hospital_at_72h')
+fed_write(band_table(d,'descriptive_group','early_event',d$early_event) |> dplyr::mutate(site=site),file.path(home,'export/early_events.csv'))
+saveRDS(list(data=d,assignment=assignment),file.path(home,'local/absorbing_summary.rds'))
+fed_json(list(site=site,n=nrow(d),all_retained=TRUE,descriptive_only=TRUE,no_outcome_regression=TRUE,definition='Separate D groups include terminal outcomes as exposure states and are not primary P groups'),file.path(home,'export/absorbing_manifest.json'))

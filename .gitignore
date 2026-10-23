@@ -30,3 +30,8 @@ CLIF_cohort_identifier*
 # ignore pdf reports and rendered html
 *.pdf
 *.html
+
+# Private site settings and Python runtime caches
+/config/config.json
+__pycache__/
+*.py[cod]

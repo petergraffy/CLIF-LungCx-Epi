@@ -61,11 +61,11 @@ label_resp_support <- function(x) {
 label_arf <- function(x) {
   dplyr::recode(
     x,
-    "NO_ARF" = "No ARF",
-    "MINIMAL_ARF" = "Minimal ARF",
-    "STABLE_ARF" = "Stable ARF",
-    "RESOLVING_ARF" = "Resolving ARF",
-    "PERSISTENT_ARF" = "Persistent ARF",
+    "NO_ARF" = "Normal ABG",
+    "MINIMAL_ARF" = "Resolved",
+    "STABLE_ARF" = "Moderate",
+    "RESOLVING_ARF" = "Mild",
+    "PERSISTENT_ARF" = "Persistent",
     "HYPOX" = "Hypoxemic ARF",
     "HYPER" = "Hypercapnic ARF",
     "MIXED" = "Mixed ARF",
@@ -98,11 +98,16 @@ label_resp_support_short <- function(x) {
 label_arf_short <- function(x) {
   dplyr::recode(
     x,
-    "No ARF" = "No ARF",
-    "Minimal ARF" = "Minimal ARF",
-    "Stable ARF" = "Stable ARF",
-    "Resolving ARF" = "Resolving ARF",
-    "Persistent ARF" = "Persistent ARF",
+    "Normal ABG" = "Normal ABG",
+    "No ARF" = "Normal ABG",
+    "Resolved" = "Resolved",
+    "Moderate" = "Moderate",
+    "Mild" = "Mild",
+    "Persistent" = "Persistent",
+    "Minimal ARF" = "Resolved",
+    "Stable ARF" = "Moderate",
+    "Resolving ARF" = "Mild",
+    "Persistent ARF" = "Persistent",
     "Hypoxemic ARF" = "Hypoxemic ARF",
     "Hypercapnic ARF" = "Hypercapnic ARF",
     "Mixed ARF" = "Mixed ARF",
@@ -1218,6 +1223,30 @@ cluster_membership_covariates <- model_outputs %>%
 
 write_csv_safe(cluster_membership_covariates, file.path(OUT_DIR, "pooled_cluster_membership_covariates.csv"))
 
+cluster_membership_pollution <- model_outputs %>%
+  filter(model == "multinom_traj_cluster", term %in% c("pm25_5y_z", "no2_5y_z")) %>%
+  mutate(local_cluster = suppressWarnings(as.integer(outcome_level))) %>%
+  left_join(
+    cluster_map %>% select(site_run, local_cluster, pooled_cluster, pooled_cluster_label, phenotype_label_short),
+    by = c("site_run", "local_cluster")
+  ) %>%
+  filter(!is.na(pooled_cluster), pooled_cluster != 1L) %>%
+  group_by(pooled_cluster, pooled_cluster_label, phenotype_label_short, term, effect_type) %>%
+  group_modify(~ {
+    effect_type_val <- .y$effect_type[[1]] %||% NA_character_
+    meta_random_effects(.x) %>%
+      mutate(
+        pooled_effect_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(estimate_random), NA_real_),
+        pooled_conf_low_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(conf_low_random), NA_real_),
+        pooled_conf_high_random = ifelse(!is.na(effect_type_val) && effect_type_val != "", exp(conf_high_random), NA_real_),
+        site_included = paste(sort(unique(.x$site_name)), collapse = "; ")
+      )
+  }) %>%
+  ungroup() %>%
+  arrange(term, pooled_cluster)
+
+write_csv_safe(cluster_membership_pollution, file.path(OUT_DIR, "pooled_cluster_membership_pollution.csv"))
+
 mediation_no2 <- map_dfr(site_payload_model, function(x) {
   df <- x$mediation_no2
   if (is.null(df)) return(tibble())
@@ -1413,7 +1442,7 @@ pooled_modeled_contrasts <- bind_rows(
 
 write_csv_safe(pooled_modeled_contrasts, file.path(OUT_DIR, "pooled_modeled_cluster_contrasts.csv"))
 
-meta_plot_df <- pooled_meta %>%
+outcome_meta_plot_df <- pooled_meta %>%
   mutate(
     exposure = pretty_exposure(recode(term, pm25_5y_z = "PM2.5", no2_5y_z = "NO2")),
     outcome = case_when(
@@ -1425,45 +1454,113 @@ meta_plot_df <- pooled_meta %>%
     ),
     effect_display = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random)
   ) %>%
-  filter(!is.na(pooled_effect_random), !is.na(outcome)) %>%
+  filter(!is.na(pooled_effect_random), outcome %in% c("ICU LOS", "Mortality")) %>%
+  transmute(
+    row_label = case_when(
+      outcome == "ICU LOS" ~ "ICU LOS (mean ratio)",
+      outcome == "Mortality" ~ "Mortality (OR)",
+      TRUE ~ outcome
+    ),
+    exposure,
+    pooled_effect_random,
+    pooled_conf_low_random,
+    pooled_conf_high_random,
+    effect_display,
+    row_order = c("ICU LOS" = 5, "Mortality" = 4)[outcome],
+    estimand = case_when(
+      outcome == "ICU LOS" ~ "Mean ratio from quasipoisson model",
+      outcome == "Mortality" ~ "Odds ratio from logistic model",
+      TRUE ~ effect_type
+    )
+  )
+
+cluster_membership_meta_plot_df <- cluster_membership_pollution %>%
   mutate(
-    outcome = factor(outcome, levels = rev(c("ICU LOS", "Mortality", "Post-72h survival", "Trajectory severity"))),
+    exposure = pretty_exposure(term),
+    phenotype_label_short = factor(
+      phenotype_label_short,
+      levels = c("Mild", "Moderate", "Persistent")
+    ),
+    row_label = paste0(as.character(phenotype_label_short), " vs Resolved (RRR)"),
+    effect_display = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random),
+    row_order = c(
+      "Mild" = 2.8,
+      "Moderate" = 1.8,
+      "Persistent" = 0.8
+    )[as.character(phenotype_label_short)],
+    estimand = "Relative risk ratio from multinomial model"
+  ) %>%
+  filter(!is.na(pooled_effect_random), !is.na(row_order)) %>%
+  transmute(
+    row_label,
+    exposure,
+    pooled_effect_random,
+    pooled_conf_low_random,
+    pooled_conf_high_random,
+    effect_display,
+    row_order,
+    estimand
+  )
+
+meta_plot_df <- bind_rows(outcome_meta_plot_df, cluster_membership_meta_plot_df) %>%
+  mutate(
     exposure = factor(exposure, levels = c("NO₂", "PM₂.₅")),
-    y_base = c(
-      "ICU LOS" = 4,
-      "Mortality" = 3,
-      "Post-72h survival" = 2,
-      "Trajectory severity" = 1
-    )[as.character(outcome)],
-    y_pos = y_base + ifelse(exposure == "NO₂", 0.12, -0.12),
+    row_label = factor(
+      row_label,
+      levels = c(
+        "ICU LOS (mean ratio)",
+        "Mortality (OR)",
+        "Mild vs Resolved (RRR)",
+        "Moderate vs Resolved (RRR)",
+        "Persistent vs Resolved (RRR)"
+      )
+    ),
+    y_pos = row_order + ifelse(exposure == "NO₂", 0.12, -0.12),
     label_x = pooled_conf_high_random * 1.03
   )
 
 meta_xmin <- min(meta_plot_df$pooled_conf_low_random, na.rm = TRUE) * 0.97
 meta_xmax <- max(meta_plot_df$label_x, na.rm = TRUE) * 1.04
-meta_xmin <- min(meta_xmin, 0.8)
-meta_xmax <- max(meta_xmax, 1.4)
+meta_xmin <- min(meta_xmin, 0.55)
+meta_xmax <- max(meta_xmax, 1.7)
+meta_xmid <- exp((log(meta_xmin) + log(meta_xmax)) / 2)
 
 p_meta <- ggplot(
   meta_plot_df,
   aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = exposure)
 ) +
   geom_vline(xintercept = 1, linetype = 2, color = "gray45") +
+  annotate("rect", xmin = meta_xmin, xmax = meta_xmax, ymin = 5.38, ymax = 5.78, fill = "#F4F6F8", color = "gray65", linewidth = 0.6) +
+  annotate("rect", xmin = meta_xmin, xmax = meta_xmax, ymin = 3.18, ymax = 3.58, fill = "#F4F6F8", color = "gray65", linewidth = 0.6) +
+  annotate("text", x = meta_xmid, y = 5.58, label = "Clinical outcomes", hjust = 0.5, size = 5.2, fontface = "bold", color = "gray20") +
+  annotate("text", x = meta_xmid, y = 3.38, label = "Respiratory phenotype membership", hjust = 0.5, size = 5.2, fontface = "bold", color = "gray20") +
   geom_errorbar(width = 0.10, linewidth = 0.8, orientation = "y") +
-  geom_point(size = 3.4) +
-  geom_text(aes(x = label_x, label = effect_display), hjust = 0, size = 3.8, color = "gray15", show.legend = FALSE) +
+  geom_point(size = 4.2) +
+  geom_text(aes(x = label_x, label = effect_display), hjust = 0, size = 4.5, color = "gray15", show.legend = FALSE) +
   scale_x_log10(
-    breaks = c(0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4),
-    labels = c("0.8", "0.9", "1.0", "1.1", "1.2", "1.3", "1.4")
+    breaks = c(0.6, 0.8, 0.9, 1.0, 1.1, 1.2, 1.5, 1.7, 2.0),
+    labels = c("0.6", "0.8", "0.9", "1.0", "1.1", "1.2", "1.5", "1.7", "2.0")
   ) +
   scale_y_continuous(
-    breaks = c(4, 3, 2, 1),
-    labels = c("ICU LOS", "Mortality", "Post-72h survival", "Trajectory severity"),
-    expand = expansion(mult = c(0.08, 0.08))
+    breaks = c(5, 4, 2.8, 1.8, 0.8),
+    labels = c(
+      "ICU LOS (mean ratio)",
+      "Mortality (OR)",
+      "Mild vs Resolved (RRR)",
+      "Moderate vs Resolved (RRR)",
+      "Persistent vs Resolved (RRR)"
+    ),
+    expand = expansion(mult = c(0.06, 0.08))
+  ) +
+  scale_color_manual(
+    values = c("NO₂" = "#F8766D", "PM₂.₅" = "#00BFC4"),
+    breaks = c("NO₂", "PM₂.₅"),
+    labels = c(expression(NO[2]), expression(PM[2.5])),
+    name = NULL
   ) +
   labs(
-    title = "Pooled Exposure Associations Across Outcomes",
-    x = "Pooled effect estimate (random-effects, log scale)",
+    title = "Pooled Air Pollution Associations by Estimand",
+    x = "Ratio per 1-SD higher 5-year pollutant exposure (random-effects, log scale)",
     y = NULL,
     color = NULL
   ) +
@@ -1472,13 +1569,17 @@ p_meta <- ggplot(
   theme(
     plot.margin = margin(12, 130, 12, 12),
     legend.position = "bottom",
-    plot.title = element_text(size = 18, face = "bold"),
-    axis.title = element_text(size = 15, face = "bold"),
-    axis.text = element_text(size = 12),
-    legend.text = element_text(size = 12)
+    plot.title = element_text(size = 22, face = "bold"),
+    axis.title = element_text(size = 18, face = "bold"),
+    axis.text.x = element_text(size = 15),
+    axis.text.y = element_text(size = 16),
+    legend.text = element_text(size = 16),
+    legend.key.width = unit(1.2, "cm"),
+    legend.key.height = unit(0.55, "cm")
   )
 
-save_plot_safe(p_meta, file.path(OUT_DIR, "forest_overall_meta_effects.png"), width = 12.5, height = 7.5)
+save_plot_safe(p_meta, file.path(OUT_DIR, "forest_overall_meta_effects.png"), width = 15, height = 8.2)
+save_plot_safe(p_meta, file.path(OUT_DIR, "forest_pollution_outcomes_cluster_membership.png"), width = 15, height = 8.2)
 
 cluster_covariates <- c(
   "Age, per year",
@@ -1488,10 +1589,24 @@ cluster_covariates <- c(
 )
 
 covariate_outcome_plot_df <- pooled_covariate_meta %>%
-  filter(covariate_label %in% outcome_covariates) %>%
+  filter(covariate_label %in% outcome_covariates, term_group %in% c("ICU LOS", "Mortality", "Post-72h survival")) %>%
   mutate(
     covariate_label = factor(covariate_label, levels = rev(outcome_covariates)),
-    term_group = factor(term_group, levels = c("ICU LOS", "Mortality", "Post-72h survival", "Trajectory severity")),
+    term_group = factor(term_group, levels = c("ICU LOS", "Mortality", "Post-72h survival")),
+    term_group_label = recode(
+      as.character(term_group),
+      "ICU LOS" = "ICU length of stay mean ratio",
+      "Mortality" = "Death/hospice odds ratio",
+      "Post-72h survival" = "Post-72h death/hospice hazard ratio"
+    ),
+    term_group_label = factor(
+      term_group_label,
+      levels = c(
+        "ICU length of stay mean ratio",
+        "Death/hospice odds ratio",
+        "Post-72h death/hospice hazard ratio"
+      )
+    ),
     y_base = c(
       "Age, per year" = 4,
       "Charlson score, per point" = 3,
@@ -1499,10 +1614,9 @@ covariate_outcome_plot_df <- pooled_covariate_meta %>%
       "Male sex" = 1
     )[as.character(covariate_label)],
     y_pos = y_base + c(
-      "ICU LOS" = 0.24,
-      "Mortality" = 0.08,
-      "Post-72h survival" = -0.08,
-      "Trajectory severity" = -0.24
+      "ICU LOS" = 0.16,
+      "Mortality" = 0,
+      "Post-72h survival" = -0.16
     )[as.character(term_group)],
     label_text = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random),
     label_x = pooled_conf_high_random * 1.03
@@ -1514,7 +1628,7 @@ covariate_outcome_xmax <- ceiling(covariate_outcome_xmax * 10) / 10
 
 p_covariate_outcomes <- ggplot(
   covariate_outcome_plot_df,
-  aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = term_group)
+  aes(x = pooled_effect_random, y = y_pos, xmin = pooled_conf_low_random, xmax = pooled_conf_high_random, color = term_group_label)
 ) +
   geom_vline(xintercept = 1, linetype = 2, color = "gray45") +
   geom_errorbar(width = 0.10, linewidth = 0.8, orientation = "y") +
@@ -1533,28 +1647,29 @@ p_covariate_outcomes <- ggplot(
   ) +
   scale_color_manual(
     values = c(
-      "ICU LOS" = "#355070",
-      "Mortality" = "#b56576",
-      "Post-72h survival" = "#6d597a",
-      "Trajectory severity" = "#2a9d8f"
+      "ICU length of stay mean ratio" = "#355070",
+      "Death/hospice odds ratio" = "#b56576",
+      "Post-72h death/hospice hazard ratio" = "#6a994e"
     ),
     name = NULL
   ) +
   labs(
     title = "Pooled Covariate Associations Across Main Outcomes",
-    x = "Pooled effect estimate (random-effects)",
+    x = "Pooled adjusted ratio estimate (random-effects)",
     y = NULL
   ) +
   coord_cartesian(xlim = c(0.6, covariate_outcome_xmax), clip = "off") +
   theme_manuscript() +
   theme(
-    plot.margin = margin(10, 95, 10, 10),
+    plot.margin = margin(10, 125, 10, 10),
     legend.position = "bottom",
+    legend.text = element_text(size = 10),
+    legend.key.width = unit(1.2, "cm"),
     panel.grid.minor.x = element_blank(),
     axis.text.x = element_text(size = 10)
   )
 
-save_plot_safe(p_covariate_outcomes, file.path(OUT_DIR, "forest_covariate_effects_outcomes.png"), width = 12, height = 8.5)
+save_plot_safe(p_covariate_outcomes, file.path(OUT_DIR, "forest_covariate_effects_outcomes.png"), width = 13.5, height = 8.2)
 
 cluster_membership_plot_df <- cluster_membership_covariates %>%
   filter(covariate_label %in% cluster_covariates) %>%
@@ -1576,10 +1691,10 @@ cluster_membership_plot_df <- cluster_membership_covariates %>%
   )
 
 phenotype_palette_master <- c(
-  "Minimal ARF" = "#2E8B57",
-  "Stable ARF" = "#D4A017",
-  "Resolving ARF" = "#2B6CB0",
-  "Persistent ARF" = "#C05621"
+  "Resolved" = "#2E8B57",
+  "Mild" = "#2B6CB0",
+  "Moderate" = "#D4A017",
+  "Persistent" = "#C05621"
 )
 
 cluster_plot_palette <- prototype_key %>%
@@ -1834,7 +1949,7 @@ rs_palette <- c(
 )
 
 arf_palette <- c(
-  "No ARF" = "#d8e4bc",
+  "Normal ABG" = "#d8e4bc",
   "Hypoxemic ARF" = "#5ca4a9",
   "Hypercapnic ARF" = "#f6aa1c",
   "Mixed ARF" = "#b33a3a"
@@ -2381,18 +2496,18 @@ site_cluster_n <- bycluster_cont %>%
   summarise(cluster_assigned_n = sum(n_nonmissing, na.rm = TRUE), .groups = "drop")
 
 harmonized_consort_flow <- consort_flow %>%
-  filter(step_order <= 4) %>%
+  filter(step_order <= 3) %>%
   select(site_run, site_name, step_order, step, n_remaining, n_excluded_at_step) %>%
   bind_rows(
     consort_flow %>%
-      filter(step_order == 4) %>%
+      filter(step_order == 3) %>%
       select(site_run, site_name, prev_n = n_remaining) %>%
       left_join(site_analysis_n, by = c("site_run", "site_name")) %>%
       transmute(
         site_run,
         site_name,
         step_order = 5,
-        step = "Lung cancer cases with an ICU stay > 72 hours",
+        step = "Geographically identified lung cancer ICU hospitalizations",
         n_remaining = analysis_ready_n,
         n_excluded_at_step = prev_n - analysis_ready_n
       ),
@@ -2454,7 +2569,9 @@ consort_label_df <- pooled_consort_flow %>%
       ">= 18 years" = "Age 18 years or older",
       "Demographics present" = "Demographics present",
       "Geography present" = "Geography present",
-      "Lung cancer dx POA present" = "Lung cancer diagnosis present on admission",
+      "Lung cancer dx POA present" = "Lung cancer present on ICU admission",
+      "Lung cancer cases with an ICU stay > 72 hours" = "Lung cancer present on ICU admission",
+      "Geographically identified lung cancer ICU hospitalizations" = "Lung cancer present on ICU admission",
       "Any ICU segment present" = "Any ICU segment present",
       .default = step
     ),
@@ -2463,7 +2580,7 @@ consort_label_df <- pooled_consort_flow %>%
       step_order == 2 ~ "Excluded: younger than 18 years",
       step_order == 3 ~ "Excluded: missing demographic data",
       step_order == 4 ~ "Excluded: missing county or geographic linkage",
-      step_order == 5 ~ "Excluded: no lung cancer ICU stay longer than 72 hours",
+      step_order == 5 ~ "Excluded: no lung cancer present on admission",
       step_order == 6 ~ "Excluded: not assigned to a respiratory trajectory phenotype",
       TRUE ~ "Excluded at this step"
     ),
@@ -2477,34 +2594,39 @@ consort_label_df <- pooled_consort_flow %>%
     )
   )
 
-exclusion_df <- consort_label_df %>%
+consort_plot_df <- consort_label_df %>%
+  mutate(plot_step_order = row_number())
+
+exclusion_df <- consort_plot_df %>%
   filter(n_excluded_at_step > 0)
 
-keep_nodes <- vapply(seq_len(nrow(consort_label_df)), function(i) {
+keep_nodes <- vapply(seq_len(nrow(consort_plot_df)), function(i) {
   lbl <- sprintf("%s\nN = %s",
-                 escape_dot_label(consort_label_df$step_text[i]),
-                 scales::comma(consort_label_df$n_remaining[i]))
+                 escape_dot_label(consort_plot_df$step_text[i]),
+                 scales::comma(consort_plot_df$n_remaining[i]))
   sprintf('K%d [label="%s", fillcolor="#F8FBFF", color="#4B5563", fontcolor="#374151", penwidth=1.4];', i, lbl)
 }, character(1))
 
-keep_edges <- if (nrow(consort_label_df) > 1) {
-  sprintf("K%d -> K%d;", 1:(nrow(consort_label_df) - 1), 2:nrow(consort_label_df))
+keep_edges <- if (nrow(consort_plot_df) > 1) {
+  sprintf("K%d -> K%d;", 1:(nrow(consort_plot_df) - 1), 2:nrow(consort_plot_df))
 } else {
   character(0)
 }
 
 drop_nodes <- character(0)
 drop_edges <- character(0)
+align_edges <- character(0)
 rank_same_blocks <- character(0)
 
-for (i in 2:nrow(consort_label_df)) {
-  excl_n <- consort_label_df$n_excluded_at_step[i]
+for (i in 2:nrow(consort_plot_df)) {
+  excl_n <- consort_plot_df$n_excluded_at_step[i]
   if (is.na(excl_n) || excl_n <= 0) next
   lbl <- sprintf("%s\nN = %s",
-                 escape_dot_label(exclusion_df$excl_text[match(i, exclusion_df$step_order)]),
+                 escape_dot_label(exclusion_df$excl_text[match(i, exclusion_df$plot_step_order)]),
                  scales::comma(excl_n))
   drop_nodes <- c(drop_nodes, sprintf('X%d [label="%s", fillcolor="#FFF7ED", color="#C2410C", fontcolor="#7C2D12", penwidth=1.1];', i, lbl))
   drop_edges <- c(drop_edges, sprintf('K%d -> X%d [color="#C2410C", style=dashed, penwidth=1.0, arrowsize=0.7];', i - 1, i))
+  align_edges <- c(align_edges, sprintf('K%d -> X%d [style=invis, weight=8];', i, i))
   rank_same_blocks <- c(rank_same_blocks, sprintf("{rank=same; K%d; X%d}", i, i))
 }
 
@@ -2517,6 +2639,7 @@ dot <- paste(
   paste(drop_nodes, collapse = "\n"),
   paste(keep_edges, collapse = "\n"),
   paste(drop_edges, collapse = "\n"),
+  paste(align_edges, collapse = "\n"),
   paste(rank_same_blocks, collapse = "\n"),
   '}',
   sep = "\n"

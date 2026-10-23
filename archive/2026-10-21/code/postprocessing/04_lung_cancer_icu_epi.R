@@ -63,10 +63,14 @@ clean_device <- function(x) {
 shorten_phenotype <- function(x) {
   dplyr::recode(
     x,
-    "Low-flow oxygen / Minimal ARF" = "Low-flow O2 / Minimal ARF",
-    "Low-flow oxygen / Resolving ARF" = "Low-flow O2 / Resolving ARF",
-    "Noninvasive ventilation / Resolving ARF" = "NIV / Resolving ARF",
-    "Invasive ventilation / Persistent ARF" = "IMV / Persistent ARF",
+    "Minimal ARF" = "Resolved",
+    "Resolving ARF" = "Mild",
+    "Stable ARF" = "Moderate",
+    "Persistent ARF" = "Persistent",
+    "Low-flow oxygen / Minimal ARF" = "Low-flow O2 / Resolved",
+    "Low-flow oxygen / Resolving ARF" = "Low-flow O2 / Mild",
+    "Noninvasive ventilation / Resolving ARF" = "NIV / Mild",
+    "Invasive ventilation / Persistent ARF" = "IMV / Persistent",
     .default = x
   )
 }
@@ -78,14 +82,14 @@ prototype_tbl <- readr::read_csv(file.path(latest_pooled_dir, "pooled_cluster_pr
   ) %>%
   arrange(pooled_cluster)
 
-phenotype_levels <- c("Minimal ARF", "Resolving ARF", "Stable ARF", "Persistent ARF")
+phenotype_levels <- c("Resolved", "Mild", "Moderate", "Persistent")
 phenotype_levels <- phenotype_levels[phenotype_levels %in% prototype_tbl$phenotype]
 
 phenotype_palette_master <- c(
-  "Minimal ARF" = "#2E8B57",
-  "Stable ARF" = "#D4A017",
-  "Resolving ARF" = "#2B6CB0",
-  "Persistent ARF" = "#C05621"
+  "Resolved" = "#2E8B57",
+  "Mild" = "#2B6CB0",
+  "Moderate" = "#D4A017",
+  "Persistent" = "#C05621"
 )
 phenotype_palette <- phenotype_palette_master[phenotype_levels]
 
@@ -544,7 +548,13 @@ if (length(admit_year_paths) > 0) {
     }) %>%
     ungroup()
 
+  anonymous_site_key <- site_year %>%
+    distinct(site_name) %>%
+    arrange(site_name) %>%
+    mutate(site_label = paste("Site", row_number()))
+
   site_year_plot <- bind_rows(site_year, pooled_year) %>%
+    left_join(anonymous_site_key, by = "site_name") %>%
     pivot_longer(
       cols = c(n, death_or_hospice_pct, any_imv_72h_pct, vaso_any_72h_pct, mean_sofa_total),
       names_to = "metric",
@@ -563,30 +573,34 @@ if (length(admit_year_paths) > 0) {
         )
       ),
       value = ifelse(grepl("\\(\\%\\)$", as.character(metric)), 100 * value, value),
-      site_name = factor(site_name, levels = c(sort(unique(setdiff(site_name, "Pooled"))), "Pooled"))
+      site_label = ifelse(site_name == "Pooled", "Pooled", site_label),
+      site_label = factor(site_label, levels = c(paste("Site", seq_len(nrow(anonymous_site_key))), "Pooled"))
     )
 
-  readr::write_csv(site_year_plot, file.path(latest_pooled_dir, "publication_table_site_admission_year_trends.csv"))
+  readr::write_csv(
+    site_year_plot %>% select(-site_name),
+    file.path(latest_pooled_dir, "publication_table_site_admission_year_trends.csv")
+  )
 
-  p_admission_year <- ggplot(site_year_plot, aes(x = admit_year, y = value, group = site_name, color = site_name)) +
-    geom_line(aes(linewidth = site_name == "Pooled"), alpha = 0.9) +
-    geom_point(aes(size = site_name == "Pooled")) +
+  p_admission_year <- ggplot(site_year_plot, aes(x = admit_year, y = value, group = site_label, color = site_label)) +
+    geom_line(aes(linewidth = site_label == "Pooled"), alpha = 0.9) +
+    geom_point(aes(size = site_label == "Pooled")) +
     facet_wrap(~ metric, scales = "free_y", ncol = 2) +
     scale_linewidth_manual(values = c(`FALSE` = 0.8, `TRUE` = 1.6), guide = "none") +
     scale_size_manual(values = c(`FALSE` = 1.6, `TRUE` = 2.8), guide = "none") +
     scale_x_continuous(breaks = sort(unique(site_year_plot$admit_year))) +
     scale_color_manual(
       values = c(
-        "Emory" = "#E76F51",
-        "Hopkins" = "#E9C46A",
-        "Michigan" = "#8D99AE",
-        "NU" = "#2A9D8F",
-        "OHSU" = "#577590",
-        "Penn" = "#5C4D7D",
-        "Rush" = "#F4A261",
-        "UCMC" = "#3A86FF",
-        "UCSF" = "#C77DFF",
-        "UMN" = "#43AA8B",
+        "Site 1" = "#E76F51",
+        "Site 2" = "#E9C46A",
+        "Site 3" = "#8D99AE",
+        "Site 4" = "#2A9D8F",
+        "Site 5" = "#577590",
+        "Site 6" = "#5C4D7D",
+        "Site 7" = "#F4A261",
+        "Site 8" = "#3A86FF",
+        "Site 9" = "#C77DFF",
+        "Site 10" = "#43AA8B",
         "Pooled" = "#111111"
       )
     ) +

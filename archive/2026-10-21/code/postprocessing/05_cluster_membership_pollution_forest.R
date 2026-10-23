@@ -79,9 +79,9 @@ meta_random_effects <- function(df) {
 }
 
 phenotype_palette <- c(
-  "Resolving ARF" = "#2B6CB0",
-  "Stable ARF" = "#D4A017",
-  "Persistent ARF" = "#C05621"
+  "Mild" = "#2B6CB0",
+  "Moderate" = "#D4A017",
+  "Persistent" = "#C05621"
 )
 
 exposure_palette <- c(
@@ -104,7 +104,14 @@ prototype_key <- readr::read_csv(file.path(OUT_DIR, "pooled_cluster_prototypes.c
   transmute(
     pooled_cluster = as.integer(pooled_cluster),
     pooled_cluster_label = as.character(pooled_cluster_label),
-    phenotype_label_short = str_replace(pooled_cluster_label, "^Cluster [0-9]+: ", "")
+    phenotype_label_short = dplyr::recode(
+      str_replace(pooled_cluster_label, "^Cluster [0-9]+: ", ""),
+      "Minimal ARF" = "Resolved",
+      "Resolving ARF" = "Mild",
+      "Stable ARF" = "Moderate",
+      "Persistent ARF" = "Persistent",
+      .default = str_replace(pooled_cluster_label, "^Cluster [0-9]+: ", "")
+    )
   )
 
 multinom_terms <- purrr::map_dfr(site_files, function(path) {
@@ -150,7 +157,7 @@ pooled_cluster_membership_pollution <- multinom_terms %>%
     estimate_ci = fmt_effect(pooled_effect_random, pooled_conf_low_random, pooled_conf_high_random),
     phenotype_label_short = factor(
       phenotype_label_short,
-      levels = c("Resolving ARF", "Stable ARF", "Persistent ARF")
+      levels = c("Mild", "Moderate", "Persistent")
     ),
     exposure = factor(exposure, levels = c("NO2", "PM2.5"))
   ) %>%
@@ -158,7 +165,7 @@ pooled_cluster_membership_pollution <- multinom_terms %>%
 
 reference_rows <- crossing(
   pooled_cluster = 1L,
-  pooled_cluster_label = "Cluster 1: Minimal ARF",
+  pooled_cluster_label = "Cluster 1: Resolved",
   term = c("no2_5y_z", "pm25_5y_z"),
   exposure = c("NO2", "PM2.5")
 ) %>%
@@ -172,7 +179,7 @@ reference_rows <- crossing(
     q = NA_real_,
     i2 = NA_real_,
     site_included = paste(sort(unique(multinom_terms$site_name)), collapse = "; "),
-    phenotype_label_short = factor("Minimal ARF", levels = c("Minimal ARF", "Resolving ARF", "Stable ARF", "Persistent ARF")),
+    phenotype_label_short = factor("Resolved", levels = c("Resolved", "Mild", "Moderate", "Persistent")),
     pooled_effect_random = 1,
     pooled_conf_low_random = 1,
     pooled_conf_high_random = 1,
@@ -186,7 +193,7 @@ pooled_cluster_membership_pollution_plot <- bind_rows(
   mutate(
     phenotype_label_short = factor(
       as.character(phenotype_label_short),
-      levels = c("Minimal ARF", "Resolving ARF", "Stable ARF", "Persistent ARF")
+      levels = c("Resolved", "Mild", "Moderate", "Persistent")
     ),
     exposure = factor(exposure, levels = c("NO2", "PM2.5"))
   )
@@ -200,10 +207,10 @@ plot_df <- pooled_cluster_membership_pollution_plot %>%
   mutate(
     phenotype_label_short = forcats::fct_rev(phenotype_label_short),
     y_base = c(
-      "Persistent ARF" = 4,
-      "Stable ARF" = 3,
-      "Resolving ARF" = 2,
-      "Minimal ARF" = 1
+      "Persistent" = 4,
+      "Moderate" = 3,
+      "Mild" = 2,
+      "Resolved" = 1
     )[as.character(phenotype_label_short)],
     y_pos = y_base + c("NO2" = 0.12, "PM2.5" = -0.12)[as.character(exposure)],
     label_x = case_when(
@@ -238,7 +245,7 @@ p_cluster_membership_pollution <- ggplot(
   ) +
   scale_y_continuous(
     breaks = c(1, 2, 3, 4),
-    labels = c("Minimal ARF", "Resolving ARF", "Stable ARF", "Persistent ARF"),
+    labels = c("Resolved", "Mild", "Moderate", "Persistent"),
     expand = expansion(mult = c(0.08, 0.08))
   ) +
   scale_color_manual(

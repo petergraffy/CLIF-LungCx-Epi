@@ -1,0 +1,6 @@
+source("code/lib/load.R")
+source("code/lib/central.R")
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) < 3) stop("Usage: Rscript code/postprocessing/01_consensus.R NEW_OUTPUT_DIR SITE1_SHARE SITE2_SHARE [...]")
+make_consensus_package(args[-1], args[1])
+message("Consensus ready. Return consensus_mapping.csv to sites for model pass.")

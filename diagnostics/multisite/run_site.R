@@ -1,0 +1,7 @@
+source("code/lib/load.R")
+args <- commandArgs(trailingOnly=TRUE)
+cfg <- read_run_config(args[1])
+p <- prepare_revision(cfg)
+message(cfg$site_name, ": eligible hospitalizations=", nrow(p$cohort), "; patients=", dplyr::n_distinct(p$cohort$patient_id))
+print(p$cohort |> dplyr::count(admission_year, event_type, valid_outcome))
+if (!file.exists(file.path(p$root,"local","derivation.rds"))) derive_revision(p,cfg)

@@ -1,0 +1,8 @@
+source('diagnostics/revision20261022/lib.R')
+site<-commandArgs(trailingOnly=TRUE)[1];home<-file.path(rev_root(),'sites',site);m<-jsonlite::fromJSON(paste0('output/run_',site,'_waterfall_20261022/local/input_manifest.json'))
+x<-arrow::open_dataset(file.path(dirname(m$source_file),'clif_code_status.parquet'))
+z<-x |> dplyr::select(code_status_name,code_status_category) |> dplyr::distinct() |> dplyr::collect()
+z$site<-site;raw<-toupper(gsub('[^A-Za-z]','',z$code_status_category));nm<-toupper(z$code_status_name)
+z$interpretation<-ifelse(raw%in%c('DNRDNI','DNARDNI','DNI') & !grepl('DNI|DO NOT INTUBATE',nm),'canonical_DNI_not_explicit_in_source_order_name',ifelse(raw=='OTHER','limitations_not_resolved_by_canonical_other','no_label_conflict_identified'))
+fed_write(z,file.path(home,'export/code_source_catalogue.csv'))
+fed_json(list(site=site,comfort_category_present=any(raw%in%c('AND','ALLOWNATURALDEATH','CMO','COMFORTMEASURESONLY')),explicit_DNI_in_order_name=any(grepl('DNI|DO NOT INTUBATE',nm)),canonical_DNI_with_nonspecific_order_name=any(z$interpretation=='canonical_DNI_not_explicit_in_source_order_name'),interpretation='Catalogue audit, not source EHR validation; lack of a category does not establish absence of a clinical preference'),file.path(home,'export/code_source_audit.json'))
