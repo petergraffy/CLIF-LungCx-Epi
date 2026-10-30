@@ -43,3 +43,9 @@ Lead-team work remaining after site returns
     and manifest.json. Use identical matched SOFA/APACHE-complete cases for
     every model. Return counts for both endpoints and 200 patient-cluster
     replicates. Do not send individual scores or average finished site ROCs.
+
+13. Sankey counts: verify categorical.csv includes first_hour_support by local
+    cluster in phase1 and by shared phenotype after phase2 assignment. Include
+    denominators.csv and availability.csv. Keep UNKNOWN and I explicit; do not
+    pool local cluster labels or include Overall twice. These use existing
+    federated/descriptives/ returns; no patient-level records are needed.

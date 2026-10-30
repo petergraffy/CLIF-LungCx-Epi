@@ -22,6 +22,11 @@ summaries remain in supplementary nested-model comparisons requested by the
 reviewers. SOFA and APACHE are CLIF-derived adaptations, not validated standard
 scores. Complete-case score comparisons do not represent the full cohort.
 
+Initial-support-to-cluster Sankey figures use the existing aggregate descriptor
+cross-tabulations: [Sankey workflow](diagnostics/sankey/README.txt). Phase1 plots
+retain site-local labels; pooled plots require the refreshed shared-phenotype
+returns after assignment.
+
 ## Site workflow
 
 **Current return contract:** see [site return workflow](docs/site_return_workflow.md)

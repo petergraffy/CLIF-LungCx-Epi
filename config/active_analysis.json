@@ -16,5 +16,6 @@
   "pooled_survival_returns_required_for_final_collection": true,
   "site_return_collection": "output/run_nearest_assignment_20261030/reports/verified_discharge_site_returns_v2",
   "pooled_roc_root": "output/run_nearest_assignment_20261030/pooled_roc",
-  "pooled_roc_site_returns": "output/run_nearest_assignment_20261030/pooled_roc/sites/SITE/share"
+  "pooled_roc_site_returns": "output/run_nearest_assignment_20261030/pooled_roc/sites/SITE/share",
+  "sankey_root": "output/run_nearest_assignment_20261030/sankey"
 }

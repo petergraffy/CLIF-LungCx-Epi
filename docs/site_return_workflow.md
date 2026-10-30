@@ -250,3 +250,24 @@ patient-cluster bootstrap count replicates are included. The coordinator uses
 These are additional required returns for this figure: the earlier site ROC
 curves at a common false-positive-rate grid cannot reconstruct pooled ROC.
 See diagnostics/pooled_roc/README.txt for quantization and estimand details.
+
+
+Initial support to cluster Sankey
+
+Phase1 descriptor returns must include `first_hour_support` in categorical.csv,
+cross-tabulated by `provisional_local_clusters`, with denominators.csv and
+availability.csv. These are captured by the existing derive/supplement workflow.
+Initial support is the analysis-panel state in the first ICU hour (h=0), retaining
+UNKNOWN; do not substitute a later known device. Keep CPAP and NIPPV separate.
+
+After frozen shared phenotype assignment, return the corresponding cross-tab
+for `primary_phenotypes` under federated/descriptives/. Local labels cannot be
+pooled across sites, and the final nearest-template assignment cannot be
+reconstructed from phase1 local-cluster totals alone. Keep I and unknown support
+explicit; no early terminal stays receive a future primary phenotype.
+
+`python3 diagnostics/sankey/plot.py NEW_OUTPUT SITE_SHARE [SITE_SHARE ...]`
+reads only the aggregate descriptor returns, checks margins/consensus/hashes,
+and produces per-site diagrams plus a pooled diagram for shared assignments.
+The plot script rejects unavailable/suppressed partitions instead of inventing
+counts. See diagnostics/sankey/README.txt for definitions and example outputs.
