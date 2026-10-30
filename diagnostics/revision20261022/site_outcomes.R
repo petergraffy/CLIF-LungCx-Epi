@@ -17,7 +17,7 @@ d$followup<-pmin(28,d$time_from_landmark)
 base<-base_matrix(d);for(nm in setdiff(colnames(base),"(Intercept)"))d[[nm]]<-base[,nm]
 phenotypes<-rownames(proto);pterms<-paste0("phenotype_",phenotypes[-1]);for(j in seq_along(pterms))d[[pterms[j]]]<-as.numeric(d$phenotype==phenotypes[j+1])
 composition<-d |> dplyr::count(phenotype,assignment_status,name="n")
-composition$n_lower<-10*floor(composition$n/10);composition$n_upper<-composition$n_lower+9;composition$n<-NULL
+bands<-t(vapply(composition$n,fed_band_n,numeric(2)));composition$n_lower<-bands[,1];composition$n_upper<-bands[,2]
 fed_write(composition |> dplyr::mutate(site=site,version=version),file.path(out,"assignment_counts.csv"))
 assoc<-list();covariances<-list();metadata<-list();fits<-list()
 for(spec in c("unadjusted","core","measured_sofa"))for(endpoint in c("death","hospice","death_or_hospice")){
@@ -34,7 +34,7 @@ for(spec in c("unadjusted","core","measured_sofa"))for(endpoint in c("death","ho
  nb<-fed_band_n(nrow(z));eb<-fed_band_n(sum(z$event));metadata[[key]]<-tibble::tibble(site=site,version=version,model=spec,endpoint=endpoint,n_lower=nb[1],n_upper=nb[2],events_lower=eb[1],events_upper=eb[2],status=if(good)"ok" else if(inherits(fit,"error"))conditionMessage(fit) else paste(warnings,collapse=";"),formula=paste(deparse(formula),collapse=" "))
  safe_terms<-character()
  for(j in seq_along(pterms)){
- ph<-phenotypes[j+1];groups<-c("P1",ph);safe<-all(vapply(groups,function(g){zz<-z[z$phenotype==g,];sum(zz$event)>=10 && sum(!zz$event)>=10},logical(1)))
+ ph<-phenotypes[j+1];groups<-c("P1",ph);safe<-all(vapply(groups,function(g){zz<-z[z$phenotype==g,];sum(zz$event)>=aggregate_min_cell(10) && sum(!zz$event)>=aggregate_min_cell(10)},logical(1)))
  term<-pterms[j];estimable<-good && term%in%names(coef(fit)) && safe
  status<-if(!good)"model_nonestimable" else if(!safe)"withheld_small_event_partition" else if(!term%in%names(coef(fit)))"phenotype_absent" else "ok"
  assoc[[paste(key,ph)]]<-tibble::tibble(site=site,version=version,consensus_id=manifest$consensus_id,model=spec,endpoint=endpoint,phenotype=ph,reference="P1",estimate=if(estimable)unname(coef(fit)[term]) else NA_real_,std_error=if(estimable)sqrt(vcov(fit)[term,term]) else NA_real_,status=status,effect_type="28day_cause_specific_log_HR")
@@ -45,15 +45,8 @@ for(spec in c("unadjusted","core","measured_sofa"))for(endpoint in c("death","ho
 fed_write(dplyr::bind_rows(assoc),file.path(out,"associations.csv"));fed_write(dplyr::bind_rows(metadata),file.path(out,"model_metadata.csv"))
 fed_write(dplyr::bind_rows(covariances),file.path(out,"association_covariances.csv"))
 # Local Aalen-Johansen curves. Early/rare event partitions are masked jointly.
-cif<-aj_grid(d);cif$cell_status<-rep("observed",nrow(cif));cif$estimate<-cif$cumulative_incidence;cif$cumulative_incidence<-NULL
-for(ph in unique(cif$phenotype))for(day in unique(cif$day[cif$phenotype==ph])){
- ix<-which(cif$phenotype==ph & cif$day==day);z<-d[d$phenotype==ph,];counts<-table(factor(z$event_type[z$time_from_landmark<=day],levels=c("death","hospice","live_discharge")))
- unsafe<-any(counts>0 & counts<10) || any(cif$n_at_risk[ix]>0 & cif$n_at_risk[ix]<10)
- if(unsafe){cif$estimate[ix]<-NA_real_;cif$std_error[ix]<-NA_real_}
- cif$cell_status[ix]<-if(unsafe)"suppressed_partition" else "observed"
-}
-cif$n_lower<-10*floor(cif$denominator/10);cif$n_upper<-cif$n_lower+9;cif$at_risk_lower<-10*floor(cif$n_at_risk/10);cif$at_risk_upper<-cif$at_risk_lower+9
-cif$denominator<-NULL;cif$n_at_risk<-NULL
+source('diagnostics/manuscript_figures/cif_lib.R')
+cif<-released_cif_grid(d,days=c(0,1,3,7,14,28))
 fed_write(cif |> dplyr::mutate(site=site,version=version),file.path(out,"cumulative_incidence.csv"))
 # Predictive models are learned locally; exported coefficients have no IDs.
 y<-as.integer(d$time_from_landmark<=28 & d$event_type%in%c("death","hospice"));prediction<-list();predfits<-list()
@@ -61,7 +54,7 @@ for(kind in c("baseline","plus_phenotype")){
  xx<-model_matrix(d,phenotypes,plus=kind=="plus_phenotype");f<-ridge_logistic(xx,y,d$patient_id);stopifnot(f$converged);predfits[[kind]]<-f
  for(term in colnames(xx)){
  member<-if(grepl("^phenotype_",term))d$phenotype==sub("^phenotype_","",term) else if(all(xx[,term]%in%c(0,1)) && term!="(Intercept)")xx[,term]==1 else rep(TRUE,nrow(d))
- safe<-sum(y[member])>=10 && sum(1-y[member])>=10 && f$covariance[term,term]>0
+ safe<-any(member)&&sum(y[member])>=aggregate_min_cell(10) && sum(1-y[member])>=aggregate_min_cell(10) && f$covariance[term,term]>0
  prediction[[paste(kind,term)]]<-tibble::tibble(site=site,version=version,model=kind,term=term,estimate=if(safe)f$beta[term] else NA_real_,std_error=if(safe)sqrt(f$covariance[term,term]) else NA_real_,status=if(safe)"ok" else "withheld_small_partition_or_absent")
  }
 }

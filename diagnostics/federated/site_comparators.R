@@ -8,7 +8,7 @@ for(version in c("full","loo_UCMC","loo_NU","loo_RUSH")){
  x<-comparator_matrix(d,phenotypes,plus=kind=="summaries_plus_phenotype");f<-ridge_logistic(x,y,d$patient_id);stopifnot(f$converged)
  for(term in colnames(x)){
  member<-if(grepl("^phenotype_",term))d$phenotype==sub("^phenotype_","",term) else if(all(x[,term]%in%c(0,1)) && term!="(Intercept)")x[,term]==1 else rep(TRUE,nrow(d))
- safe<-sum(y[member])>=10 && sum(1-y[member])>=10 && f$covariance[term,term]>0
+ safe<-any(member)&&sum(y[member])>=aggregate_min_cell(10) && sum(1-y[member])>=aggregate_min_cell(10) && f$covariance[term,term]>0
  rows[[paste(kind,term)]]<-tibble::tibble(site=site,version=version,model=kind,term=term,estimate=if(safe)f$beta[term] else NA_real_,std_error=if(safe)sqrt(f$covariance[term,term]) else NA_real_,status=if(safe)"ok" else "withheld_small_partition_or_absent")
  }
  }

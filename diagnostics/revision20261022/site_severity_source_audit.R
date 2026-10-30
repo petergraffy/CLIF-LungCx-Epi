@@ -1,7 +1,8 @@
 source('diagnostics/revision20261022/lib.R')
 site<-commandArgs(trailingOnly=TRUE)[1];home<-file.path(rev_root(),'sites',site)
 a<-readRDS(file.path(old_root(),'sites',site,'local/discovery.rds'));d<-a$data;m<-jsonlite::fromJSON(file.path(a$input_root,'local/input_manifest.json'))
-x<-arrow::open_dataset(file.path(dirname(m$source_file),'clif_labs.parquet'))
+source_dir<-Sys.getenv(paste0('CLIF_SITE_TABLES_',site),unset=dirname(m$source_file))
+x<-arrow::open_dataset(file.path(source_dir,'clif_labs.parquet'))
 labels<-x |> dplyr::select(lab_name,lab_category,lab_loinc_code) |> dplyr::distinct() |> dplyr::collect()
 labels<-labels[grepl('hct|hematocrit|haematocrit',labels$lab_name,ignore.case=TRUE)|grepl('4544-3|20570-8',labels$lab_loinc_code),]
 n<-0

@@ -35,3 +35,4 @@ CLIF_cohort_identifier*
 /config/config.json
 __pycache__/
 *.py[cod]
+/config/site_metadata.csv

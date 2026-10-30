@@ -21,7 +21,7 @@ prepare_revision <- function(cfg) {
   if (!is.null(tables$oncology)) {
     need_columns(tables$oncology, "hospitalization_id", "oncology")
     if (anyDuplicated(tables$oncology$hospitalization_id)) stop("oncology requires one row per hospitalization")
-    allowed <- intersect(c("hospitalization_id", "histology", "stage", "ecog", "therapy_line", "therapy_intent"), names(tables$oncology))
+    allowed <- intersect(c("hospitalization_id", "histology", "stage", "ecog", "therapy_line", "therapy_intent", "molecular_subtype", "treatment_type"), names(tables$oncology))
     d <- dplyr::left_join(d, tables$oncology[allowed], by = "hospitalization_id")
   }
   write_share(protect_aggregate(built$flow, "n", character(), cfg$analysis$min_cell), root, "cohort_exclusions", cfg)
@@ -167,6 +167,7 @@ model_revision <- function(cfg, mapping_path) {
   # write_share writes to <root>/share; use an isolated model package root.
   model_root <- file.path(root, "local", paste0("model_package_", consensus_id))
   dir.create(file.path(model_root, "share"), recursive = TRUE)
+  exact_model_metadata <- list()
   for (id in names(cache$analyses)) {
     analysis <- cache$analyses[[id]]
     if (analysis$specification$outcome_modeling == "descriptive_only") next
@@ -184,8 +185,15 @@ model_revision <- function(cfg, mapping_path) {
     for (subset in names(subsets)) {
       x <- d[subsets[[subset]], ]
       if (subset == "sofa_missing_zero_sensitivity") x$sofa_total <- x$sofa_missing_zero_sensitivity
-      if (!reference %in% x$phenotype) next
+      if (!reference %in% x$phenotype) {
+        status <- tibble::tibble(analysis_id=id, subset=subset, consensus_id=consensus_id,
+          status="reference_absent_no_model_fit")
+        write_share(status, model_root, paste0(id,"_",subset,"_status"),cfg)
+        next
+      }
       assoc <- fit_associations(x, reference)
+      if (nrow(assoc$metadata)) exact_model_metadata[[paste(id,subset)]] <- assoc$metadata |>
+        dplyr::mutate(analysis_id=id,subset=subset,consensus_id=consensus_id)
       for (kind in names(assoc)) {
         z <- assoc[[kind]]
         if (!nrow(z)) next
@@ -234,6 +242,11 @@ model_revision <- function(cfg, mapping_path) {
       }
     }
   }
+  readr::write_csv(dplyr::bind_rows(exact_model_metadata),
+    file.path(root,"local",paste0("model_denominators_exact_",consensus_id,".csv")),na="")
+  inventory <- tibble::tibble(file=list.files(file.path(model_root,"share")),
+    status="captured_check_model_metadata_for_estimability")
+  write_share(inventory,model_root,"return_file_inventory",cfg)
   files <- list.files(file.path(model_root, "share"), full.names = TRUE)
   if (!all(file.copy(files, model_dir))) stop("Could not finalize model package")
   file.copy(mapping_path, file.path(model_dir, "consensus_mapping.csv"))

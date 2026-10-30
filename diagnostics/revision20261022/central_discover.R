@@ -6,7 +6,7 @@ features<-fed_features();rows<-list();meta<-list();manifests<-list();read_log<-c
 for(site in sites){dir<-file.path(root,"exchange","discovery",site)
  for(name in c("fingerprints.csv","clusters.csv","manifest.json"))if(!file.exists(file.path(dir,name)))stop("Missing approved aggregate export")
  f<-readr::read_csv(file.path(dir,"fingerprints.csv"),show_col_types=FALSE);m<-readr::read_csv(file.path(dir,"clusters.csv"),show_col_types=FALSE)
- stopifnot(identical(sort(names(f)),sort(c("domain","bin","state","feature","site","local_cluster","lower","upper"))),
+ stopifnot(all(c("domain","bin","state","feature","site","local_cluster","lower","upper")%in%names(f)),
  all(f$site==site),all(f$feature %in% features$feature),all(f$lower>=0),all(f$upper<=1),all(f$lower<f$upper))
  manifests[[site]]<-jsonlite::fromJSON(file.path(dir,"manifest.json"));stopifnot(manifests[[site]]$spec_hash==fed_hash(fed_spec()))
  read_log<-c(read_log,file.path(dir,c("fingerprints.csv","clusters.csv","manifest.json")))

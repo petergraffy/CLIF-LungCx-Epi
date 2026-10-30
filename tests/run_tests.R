@@ -134,8 +134,10 @@ consensus <- fit_consensus(signatures)
 check(all(consensus$mapping$matched), "outcome-free consensus matches complete signatures")
 check(all(consensus_loso(signatures, consensus)$held_out_agreement == 1), "leave-one-site-out recovers equivalent synthetic profiles")
 
+options(clif.aggregate_policy='legacy')
 masked <- protect_aggregate(tibble::tibble(group = "a", n = c(2, 98), probability = c(.02, .98)), "n", "group", 10, c("n", "probability"))
 check(all(is.na(masked$n)) && all(masked$cell_status == "suppressed_partition"), "complementary suppression masks whole partition")
+options(clif.aggregate_policy="exact")
 check(expect_error(write_share(tibble::tibble(patient_id = "p"), tempdir(), "unsafe", cfg)), "patient IDs rejected from share export")
 
 clinical <- land |> dplyr::left_join(cf |> dplyr::select(hospitalization_id, charlson_noncancer, advanced_cancer), by = "hospitalization_id") |>

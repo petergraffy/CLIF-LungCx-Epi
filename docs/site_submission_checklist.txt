@@ -1,0 +1,45 @@
+Lead-team work remaining after site returns
+
+1. Reconcile every site return inventory and model-specific N/event/status.
+   Keep unavailable, suppressed and non-estimable values distinct from zero.
+2. Confirm all primary discovery/model packages use the same frozen contracts.
+   Never mix raw-baseline one-to-one mappings with waterfall/template mappings.
+3. Decide whether to adopt recovered SOFA scores; if adopted, create new model
+   versions and repeat same-patient nested/held-out comparisons before reporting.
+4. Present landmark inference first; label composite death-or-hospice accurately.
+   Remove unsupported prognostic-superiority, biological-endotype and causal
+   threshold claims. Separate death effects remain sparse/imprecise.
+5. Explain missing/modified SOFA, unavailable validated APACHE, stage/ECOG/therapy
+   intent and care-preference limitations. ICU-free days have not been validated;
+   total ICU LOS regression was removed rather than replaced with an invented
+   outcome. State three-site development scope versus any future ten-site rerun.
+6. Site confirmation: board, study number/date/title, consent waiver, source ETL
+   and timestamp semantics, order mappings, oncology timing, disclosures and
+   data availability. Complete the provided field/value form without patient data.
+7. Rework rationale/literature, including respiratory longitudinal phenotyping,
+   Sathe studies, Calfee/Sinha modality-dominance concern and pulse-oximetry bias.
+   Outputs do not establish when an intervention would change a trajectory.
+8. Complete RECORD/STROBE and point-by-point editor/reviewer response. Produce
+   clean/tracked manuscript versions. Decision letter requests3000 words,
+   abstract250 words, five main figures/tables combined, at most50 references;
+   use supplemental tables/figures for detailed site diagnostics/sensitivities.
+9. Review complete linked aggregate packages under each institution's disclosure
+   rules before exchange. An automated header/masking audit is not approval.
+
+10. Return publication descriptors and cohort audits. Table 1 uses separate eligible
+    and landmark denominators; Table 2 uses frozen shared P groups plus I.
+    Retain observed/missing N and suppression; do not average site medians or
+    sum site-distinct patient counts as a globally unique patient count.
+
+11. REQUIRED for pooled survival/discharge: return the first-pass event-duration
+    registry and cohort counts; receive the common coordinator grid; return
+    exact risk/event counts plus 200 patient-cluster bootstrap count replicates.
+    Include death, death-or-hospice, live non-hospice discharge and all known
+    exits. Bundle both passes using pooled_survival/add_to_return.R. Verify
+    pooled_survival_discharge_complete=true in the final packet manifest.
+
+12. REQUIRED for four-model pooled day7/14/28 ROC: run pooled_roc/site_capture.R
+    and return score_histograms.csv, cohort_counts.csv, local_validation.csv
+    and manifest.json. Use identical matched SOFA/APACHE-complete cases for
+    every model. Return counts for both endpoints and 200 patient-cluster
+    replicates. Do not send individual scores or average finished site ROCs.

@@ -5,13 +5,13 @@ for(v in c('hypox_fraction','hyper_fraction','mixed_fraction'))d[[paste0(v,'_24h
 terms<-paste0(c('hypox_fraction','hyper_fraction','mixed_fraction'),'_24h');rows<-list();wald<-list()
 for(endpoint in c('death','hospice','death_or_hospice')){
  d$event<-as.integer(d$time_from_landmark<=28 & if(endpoint=='death_or_hospice')d$event_type%in%c('death','hospice') else d$event_type==endpoint)
- covars<-c(model_spec()$core,paste0('phenotype_P',2:4),terms);covars<-covars[vapply(d[covars],function(x)length(unique(x))>1,logical(1))]
+ covars<-c(model_spec()$core,paste0('phenotype_',setdiff(revision_phenotypes(),'P1')),terms);covars<-covars[vapply(d[covars],function(x)length(unique(x))>1,logical(1))]
  f<-as.formula(paste('survival::Surv(followup,event)~',paste(c(covars,'strata(info_status)','cluster(patient_id)'),collapse='+')))
  warn<-character();fit<-tryCatch(withCallingHandlers(survival::coxph(f,data=d),warning=function(w){warn<<-c(warn,conditionMessage(w));invokeRestart('muffleWarning')}),error=identity)
  good<-inherits(fit,'coxph') && !length(warn) && all(is.finite(coef(fit)))
  safe_all<-TRUE
  for(term in terms){
- pos<-d[[term]]>0;safe<-all(vapply(c(FALSE,TRUE),function(v)sum(d$event[pos==v])>=10 && sum(1-d$event[pos==v])>=10,logical(1)));safe_all<-safe_all && safe
+ pos<-d[[term]]>0;safe<-all(vapply(c(FALSE,TRUE),function(v)sum(d$event[pos==v])>=aggregate_min_cell(10) && sum(1-d$event[pos==v])>=aggregate_min_cell(10),logical(1)));safe_all<-safe_all && safe
  ok<-good && safe && term%in%names(coef(fit));rows[[paste(endpoint,term)]]<-tibble::tibble(site=site,endpoint=endpoint,term=term,estimate=if(ok)unname(coef(fit)[term]) else NA_real_,std_error=if(ok)sqrt(vcov(fit)[term,term]) else NA_real_,status=if(ok)'ok' else if(!safe)'withheld_small_partition' else 'nonestimable',effect='cause-specific log HR per additional 24h evidence, conditional on other channels, phenotype and core covariates')
  }
  good<-good && safe_all && all(terms%in%names(coef(fit)));stat<-if(good)tryCatch(drop(t(coef(fit)[terms])%*%solve(vcov(fit)[terms,terms],coef(fit)[terms])),error=function(e)NA_real_) else NA_real_

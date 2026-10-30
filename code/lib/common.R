@@ -8,7 +8,7 @@ run_defaults <- function() list(
   physiology_carry_hours = 6, pairing_hours = 1, hyper_pairing_hours = 2,
   bootstrap_reps = 100L,
   validation_folds = 5L, validation_bootstrap_reps = 200L,
-  min_cell = 10L, k_max = 8L, prediction_days = 28,
+  min_cell = 0L, k_max = 8L, prediction_days = 28,
   run_id = "ccx_revision_v3", consensus_k = NULL,
   code_status_lookback_hours = 0, sf_threshold = 315,
   consensus_min_overlap = 0.5
@@ -35,6 +35,7 @@ read_run_config <- function(path = "config/config.json") {
   for (nm in c("site_name", "tables_path", "repo"))
     if (is.null(cfg[[nm]]) || !nzchar(cfg[[nm]])) stop("Missing config field: ", nm)
   cfg$analysis <- modifyList(run_defaults(), cfg$analysis %||% list())
+  cfg$analysis$min_cell <- aggregate_min_cell(cfg$analysis$min_cell)
   # Retired pilot parameter: support coverage is descriptive, never eligibility.
   cfg$analysis$minimum_support_coverage <- NULL
   a <- cfg$analysis
@@ -94,7 +95,7 @@ load_clif <- function(cfg) {
   optional_columns <- list(patient = c("death_dttm", "ethnicity_category"),
     respiratory_support = c("fio2_set", "lpm_set", "flow_rate"),
     code_status = c("patient_id", "start_dttm", "code_status_category"),
-    oncology = c("hospitalization_id", "histology", "stage", "ecog", "therapy_line", "therapy_intent"))
+    oncology = c("hospitalization_id", "histology", "stage", "ecog", "therapy_line", "therapy_intent", "molecular_subtype", "treatment_type"))
   for (nm in c(names(required), "code_status", "oncology")) {
     if (nm == "respiratory_support") {
       eligible <- build_cohort(out, cfg)$cohort
@@ -137,13 +138,31 @@ init_run <- function(cfg) {
   root
 }
 
-# Each partition is fully masked if any constituent count is small. This avoids
+# Exact aggregate release is the project default. Legacy mode exists solely to
+# reproduce historical disclosure-filtered exports; no patient rows are allowed.
+aggregate_exact <- function() identical(getOption('clif.aggregate_policy','exact'),'exact')
+aggregate_min_cell <- function(requested=10L) if(aggregate_exact())0L else requested
+aggregate_count_band <- function(n,width=10L) {
+ if(aggregate_exact())return(c(lower=n,upper=n))
+ c(lower=width*floor(n/width),upper=width*floor(n/width)+width-1)
+}
+promote_exact_counts <- function(x) {
+ if(!aggregate_exact())return(x)
+ for(base in c('n','events','patients','observed','missing','at_risk','classified')){
+  lo<-paste0(base,'_lower');hi<-paste0(base,'_upper')
+  if(all(c(lo,hi)%in%names(x)) && !base%in%names(x) && all(is.na(x[[lo]]) | is.na(x[[hi]]) | x[[lo]]==x[[hi]]))x[[base]]<-x[[lo]]
+ }
+ x
+}
+
+# Historical mode: each partition is fully masked if any constituent count is small. This avoids
 # recovering a suppressed cell from the other cells and a known denominator.
 # Central code must not treat suppressed numeric values as zero.
 protect_aggregate <- function(x, count_cols, partition, min_cell, value_cols = NULL) {
   if (!nrow(x)) return(x)
   count_cols <- intersect(count_cols, names(x))
   x$cell_status <- "observed"
+  if(aggregate_exact())return(x)
   bad <- rep(FALSE, nrow(x))
   for (nm in count_cols) bad <- bad | (!is.na(x[[nm]]) & x[[nm]] > 0 & x[[nm]] < min_cell)
   if (length(partition)) {
@@ -157,6 +176,7 @@ protect_aggregate <- function(x, count_cols, partition, min_cell, value_cols = N
 }
 
 write_share <- function(x, root, name, cfg) {
+  x <- promote_exact_counts(x)
   forbidden <- intersect(names(x), c("patient_id", "hospitalization_id", "t0", "event_time", "admission_dttm", "discharge_dttm"))
   if (length(forbidden)) stop("Patient-level columns in aggregate export: ", paste(forbidden, collapse = ", "))
   if (any(vapply(x, inherits, logical(1), "POSIXt"))) stop("Raw timestamps in aggregate export")

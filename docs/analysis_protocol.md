@@ -1,88 +1,235 @@
-# CCX revision analysis protocol
+# Active three-site analysis and site-return protocol
 
-This protocol describes the new implementation. Parameters are proposed analysis choices to freeze after a clinical pilot, not findings from the new cohort. No historical cluster labels, counts, or site-specific repairs are reused.
+This describes the October 26 three-site development workflow. The earlier
+baseline protocol is preserved in `archive/2026-10-26/analysis_protocol_baseline.md`.
+It used different support preprocessing, matching, and validation methods. Do not
+combine its raw-profile consensus returns with the current interval-fingerprint
+consensus. The scripts under `code/` prepare source data and baseline comparisons;
+the adopted waterfall/template procedure is under `diagnostics/federated/` and
+`diagnostics/revision20261022/`. `docs/site_return_workflow.md` specifies returns.
 
-## Analysis hierarchy
+## Cohort and landmark
 
-The sole primary analysis (`h72_primary`) clusters the corrected joint support × hypoxemic/hypercapnic ARF states in the ICU-admission +72-hour landmark cohort. Hospital death after that landmark is the primary inferential endpoint; hospice and death-or-hospice are separate secondary endpoints. Outcome events do not enter the primary clustering inputs.
+Include adult hospitalizations beginning in the configured study period with
+primary lung cancer (ICD-10 C34 or ICD-9 162) present on admission and an ICU ADT
+segment. History-only and secondary lung metastasis alone do not qualify. This
+is a lung-cancer ICU cohort, not a cohort requiring measured ARF. The current
+study interval is 2018–2024. No geography, pollution, complete demographics, or
+minimum support coverage is required. All landmark-eligible stays remain,
+including entirely unknown support and ambiguous shared assignments.
 
-Prespecified sensitivity derivations are full-cohort absorbing terminal states, support-only clustering, first-detected-ARF anchoring, ICU 24- and 48-hour landmarks, estimated low-flow FiO₂, and ARF persistence of zero or twelve hours. The absorbing analysis is descriptive only. All other sensitivity outcome models begin after their respective landmarks. `analysis_plan.csv` and run manifests record each analysis role, origin, inputs, and outcome-modeling status. Predictive validation and patient bootstrap stability target the primary analysis.
+The unit is hospitalization. Retain repeat admissions; resample patients with
+all their hospitalizations, cluster model uncertainty by patient, and perform a
+first-eligible-hospitalization sensitivity. First ICU arrival is t0. Primary
+sequences cover [t0,t0+72h); primary members are alive and in hospital through
+that landmark. ICU-to-ward transfers remain included using hospital-wide
+observations. Do not interpret unknown support as proof the patient is in ICU.
 
-### First-detected-ARF sensitivity
+Final outcome and time must be classifiable. Unknown source dispositions and
+invalid times are audited separately; no follow-up is fabricated. In-hospital
+patient death time is used if within ICU arrival and hospital discharge;
+otherwise discharge time is a documented death-time proxy. Hospice and other
+live discharge use discharge time. No last-vital fallback or subsequent
+outpatient death is used. Source event times, mappings, and timezone semantics
+require site inspection.
 
-Use the first qualifying positive physiology evidence detected during the first 72 ICU hours, with a six-hour pre-ICU lookback bounded by hospital admission. Detection occurs only when both members of a required pair are available; a later FiO₂ or pH measurement cannot assign an earlier detection time. Recent pre-ICU evidence anchors at ICU arrival. Evidence first detected after ICU arrival shifts the trajectory origin to detection, followed by a full 72-hour trajectory and an alive/in-hospital landmark at detection +72 hours. Patients without detected positive ARF have no onset anchor; they remain in the primary cohort when otherwise eligible. Report no evaluable measurements separately from observed nonqualifying evidence.
+## Support and ARF inputs
 
-This is an observed detection-time sensitivity, not proven biological onset or incident ARF. Measurements and testing frequency can delay detection. The measured-FiO₂ ARF definition is used; estimated low-flow FiO₂ is a separate sensitivity. ICU-admission code status and the prepared ICU baseline severity remain baseline covariates even when the trajectory origin shifts. The landmark-flow audit reports early events relative to the shifted window. Missing support remains unknown and never excludes a hospitalization.
+Support states are room air, low-flow oxygen, HFNC, CPAP, NIPPV, IMV, other,
+and unknown. HFNC/CPAP/NIPPV are distinct. Original hourly source panels use
+highest recorded support, with latest-record tie breaking and bounded six-hour
+prior carry. A same-admission six-hour pre-origin lookback is allowed.
 
-## Cohort and time axes
+The adopted primary uses bounded CLIFpy2.1.0 waterfall support and preserves
+ARF evidence from the CLIF source before the analysis-side waterfall. Numeric
+bfill is disabled. Standard categorical waterfall rules can use within-window
+lookahead and device forward fill has no six-hour expiry. Input/output are
+bounded at each patient's landmark/terminal event. Empty scaffold markers add
+no observed device values. These are explicit preprocessing assumptions, not
+new bedside observations. Raw-support and other carry variants are sensitivities.
+"Raw evidence" means source CLIF before our waterfall, not independently
+verified raw EHR data or absence of source-ETL inference.
 
-Include hospitalizations starting in `[start_date,end_date)` among adults with a primary lung cancer ICD-10-CM C34 or ICD-9-CM 162 diagnosis marked present on admission and an ICU ADT segment. Personal-history and secondary lung metastasis codes alone do not qualify. The unit is hospitalization; repeat admissions are retained, counted, grouped during resampling, and handled with patient-clustered Cox standard errors. A first-eligible-hospitalization sensitivity is included. This does not identify a patient's first lifetime hospitalization.
+The physiology channel separately retains hypoxemia positive H1, observed
+nonqualifying H0, unknown HU, and hypercapnia/acidemia positive C1,
+nonqualifying C0, unknown CU. Missing is not negative. Primary positive hypoxemia
+is paired arterial PaO2/FiO2<=300, or SpO2<90 on documented room air. FiO2 is
+normalized from fraction/percent; only 0.21–1 is accepted. Explicit room air
+permits0.21; other devices require source FiO2. Nearest pairing is within1h.
+Hypercapnia/acidemia uses arterial PaCO2>=45 and pH<7.35 within2h. Recent
+positive/nonqualifying evidence persists up to6h, with positive precedence;
+expired evidence becomes unknown. Low-flow FiO2/SF estimation and0/12h carry
+are separate sensitivities. Pulse oximetry bias remains a limitation.
 
-Geography, pollution linkage, and complete sex/race fields are not inclusion requirements. Covariate missingness is accounted for at model fitting. Cancer inclusion and POA covariates rely on retrospective coding and may misclassify active disease or baseline information availability.
+## Discovery, fingerprints, and frozen assignment
 
-First ICU arrival is `t0`. The primary derivation cohort is alive and in hospital at `t0 + 72 hours`. ICU-to-ward transfers remain eligible and use hospital-wide CLIF respiratory observations. The 24- and 48-hour analyses each have their own eligible cohort, phenotype derivation, and follow-up landmark. Their performance measures describe different populations and cannot be interpreted as a paired comparison without further restriction.
+Each site fits optimal-matching state sequences with common substitution cost2,
+indel1, Ward.D2, and silhouette-selected k=2..8 (limited by sample size). This
+replaces the earlier baseline TRATE-cost procedure. One hundred patient
+bootstraps characterize local stability conditional on the chosen procedure.
+No historical number or clinical name is imposed.
 
-Known final hospital disposition and a valid event time are required in this implementation. Unknown disposition, missing discharge, and invalid timestamps are explicitly audited and excluded; there is no fabricated follow-up for still-admitted encounters. Recognized live dispositions are explicitly mapped in `cohort.R`; `Other` is deliberately unknown pending site adjudication. Review the disposition audit before release.
+Sites return interval-valued six-hour modal joint/channel distributions and
+support-change fingerprints, with banded cluster size/stability. The coordinator
+reconstructs feasible templates with equal site weighting and size weighting
+within site. Candidate global k=2..6 requires each shared group represented in
+at least two training sites, then uses silhouette selection. Outcomes, SOFA,
+vasopressors and LOS do not enter primary matching, reference selection or
+ordering. Local-to-consensus mapping distances remain diagnostic outputs.
 
-For hospital deaths, use the patient death time only if it falls between ICU arrival and hospital discharge; otherwise use discharge time as a documented proxy. Hospice and other live discharge always use hospital discharge time. Last vital signs and subsequent outpatient death never define these events. Sites must inspect discharge-proxy timing and ambiguous dispositions.
+Frozen per-hospitalization classification allows many local clusters to share a
+phenotype. Every hospitalization with sufficient known respiratory support is
+assigned to the closest template by the weighted profile distance. Exact ties
+use the frozen template order. Distance>0.75 and margin<0.01 are diagnostic flags
+only and never reject an otherwise eligible assignment. Fewer than12 known-
+support hours gives I in the72h primary (proportionally scaled in shorter-window
+sensitivities). I remains in the main analysis under a separate baseline-hazard
+stratum and represents insufficient support data, not a clinical phenotype.
+This October30 policy revision replaces the prior ambiguity/distance rejection
+rules; historical results remain preserved and classification-dependent models
+are rerun. Templates/local clusters are unchanged in the assignment-only update. Reconstruction and six-hour
+bins lose information; these are not exact pooled OM/Ward clusters or observed
+patient fractions. Local and shared cluster-count reproducibility does not
+establish stability of every group or biological endotypes.
 
-## Respiratory sequences
+Full and leave-one-site-out discovery are separately frozen. A held-out site
+must not contribute to templates, classifier fitting or predictor coefficients.
+This is internal-external development after the data have been examined, not
+untouched prospective validation. Central run scripts currently orchestrate the
+three named development sites; site-local capture itself accepts a configured
+site name without hardcoded private paths.
 
-Each window contains exactly 24, 48, or 72 bins `[h,h+1)`. The highest recorded support tier in a bin is used; ties use the latest record. In empty bins, carry the latest prior known support for at most six hours. A pre-ICU observation may initialize the first bin only if it is inside the same hospitalization and carry limit. Never backward-fill from later observations. Unknown device values stay unknown. No hospitalization is excluded for missing support or insufficient support coverage; entirely unknown support sequences remain eligible. Support coverage and imputation are reported descriptively.
+## Outcomes and adjustment
 
-Support states are room air, low-flow oxygen, HFNC, CPAP, NIPPV, IMV, other, and unknown. “Other” has no validated severity interpretation and is excluded from reference-ranking calculations.
+Fit separate cause-specific models for hospital death, hospice and death-or-
+hospice. Follow-up begins at ICU+72h and is capped at28 days afterward. Other
+terminal events end cause-specific risk time. Export competing-event
+Aalen–Johansen summaries and site absolute risks. The composite must never be
+called mortality; subsequent post-discharge deaths are not observed.
 
-The physiology state preserves each component separately:
+Core covariates are age per10y, sex indicator, Black and other/unknown race
+indicators, admission year, noncancer Charlson per5 points, POA advanced-cancer
+proxy, and admission non-full/unknown code-status indicators. Patient-clustered
+uncertainty and a separate I stratum retain all primary stays. Exact formulas,
+actual fitted N/events, excluded cases, failed fits, and PH diagnostics are
+captured locally; released model metadata are masked or banded. Measured SOFA
+is a separate complete-case sensitivity, not in the core association estimates.
 
-- Hypoxemia positive `H1`, nonqualifying observed evidence `H0`, or unknown `HU`.
-- Hypercapnia/acidemia positive `C1`, nonqualifying paired evidence `C0`, or unknown `CU`.
+Advanced cancer means POA metastasis, malignant pleural effusion, or cachexia.
+It is not stage. Cancer and metastatic-cancer components are removed from
+Charlson. Report proxy components separately. These are retrospective billing
+features, and the current transported predictor also uses the implemented
+baseline feature matrix. Do not describe it as a fully prospective bedside
+predictor with all covariates known at ICU admission. Associations are not
+causal. Stage/ECOG/therapy intent and actual preferences may confound them.
 
-The primary joint alphabet is all support-by-physiology combinations, plus terminal states only in the absorbing sensitivity. `H0_CU` does not establish normal blood gases or rule out respiratory failure. No physiology state is labeled “normal ABG.”
+Code status is reported at admission and landmark, with transitions/new orders,
+source vocabulary, and full-code sensitivities. No recorded comfort/DNI category
+is not absence of preference. Window-end code adjustment is explicitly a
+sensitivity, not admission confounding control. Optional oncology fields are
+descriptive until their timing/provenance is confirmed. No cancer field is
+inferred to fill unavailable stage, molecular subtype, performance or therapy.
 
-Primary hypoxemia evidence is paired arterial PaO₂/FiO₂ ≤300, or SpO₂ <90% on documented room air. Room air is assigned FiO₂ 0.21 only from an explicit room-air support record; other devices require measured FiO₂. FiO₂ fractions and percentages are normalized and values outside 0.21–1 are rejected. Nearest FiO₂ pairing allows at most one hour, including either direction within the completed trajectory window. Hypercapnic evidence requires arterial PaCO₂ ≥45 and paired arterial pH <7.35 within two hours. Results use CLIF reference units. A normal result for one component does not resolve missingness in the other.
+Site effects are pooled with REML and modified Hartung–Knapp intervals, tau2,
+I2 and prediction intervals. Export contributor counts and withheld/failed
+statuses. No missing coefficient becomes zero for association pooling.
+Historical site counts are never rescaled; blanks are never interpreted as zero.
+No total ICU LOS regression is fit. Validated ICU-free days remain unavailable.
 
-Recent positive or nonqualifying evidence contributes for up to six hours; any positive evidence within the permitted lookback takes precedence. After expiry, the component becomes unknown. Sensitivities use zero- and twelve-hour persistence. The low-flow sensitivity estimates FiO₂ only for low-flow observations with flow 1–6 L/min using `min(0.45,0.21 + 0.04 × flow)` and applies SpO₂/FiO₂ ≤315 for saturation ≤97%. These approximations are sensitivity assumptions, not measured FiO₂. Pulse oximetry measurement bias, including differential bias by skin pigmentation, remains a limitation.
+## Direct severity comparison and completeness supplement
 
-No support-coverage threshold is applied. The primary analysis retains every landmark-eligible hospitalization, and the absorbing sensitivity retains every cohort hospitalization with a valid terminal outcome/time, even if no pre-event hourly bins exist. Terminal states begin in the bin containing the event, discretizing timing by up to one hour. They are absorbing through the window. This analysis describes early outcomes; it is excluded from subsequent phenotype-outcome models. Unknown support may form its own clusters, which must be interpreted as documentation patterns rather than established clinical phenotypes.
+The frozen comparison uses first24h measured-component modified SOFA: measured
+P/F, conventional measured MAP/standard vasoactive thresholds, platelets,
+bilirubin, creatinine, and GCS. Renal scoring is creatinine-only; urine output is
+not used. Missing domains remain missing. A separate zero-domain/missing-
+indicator sensitivity retains all primary cases; it is not standard SOFA and
+never changes clustering physiology. APACHE II/IV are not fabricated when
+recorded scores/required context are unavailable or unverified.
 
-## Derivation and harmonization
+Nested held-out comparisons include score alone, baseline, baseline+phenotype,
+baseline+score, baseline+respiratory summaries, and their phenotype additions.
+Harder summaries include the last completed hour's support, modality durations,
+ARF detection, and support/physiology missingness. Evaluation patients are
+identical across models within score cohort and endpoint. Export AUC/Brier,
+calibration, paired increments and exploratory decision curves for death and
+composite. Coefficient-wise two-stage ridge synthesis is exploratory;
+unsupported predictive terms use a flagged zero prior. Patient-bootstrap
+uncertainty conditions on frozen learners and does not propagate all discovery
+uncertainty. No consistent superiority over severity/simple summaries is claimed.
 
-Local derivation uses optimal matching, transition-rate substitution costs, unit insertion/deletion costs, Ward D2 linkage, and the highest mean silhouette among k=2 through the configured maximum, capped at N−1. Ties select the smaller k. Four clusters are not enforced. Patient bootstrap stability resamples entire sets of eligible hospitalizations belonging to a patient, reclusters using the original dissimilarities, assigns original sequences to bootstrap medoids, and reports matched Jaccard and adjusted Rand indices. This assesses stability conditional on the original substitution-cost estimate and selected k.
+Every site captures component/total completeness, joint missingness patterns,
+source lab vocabulary, P/F evidence availability, GCS component/text audit,
+vasoactive units/mapping flags, and recent-weight availability. Recovery candidates
+include calculated MAP from unambiguous simultaneous SBP/DBP and explicit source
+arterial labels/panel FiO2. Recent measured pre-ICU weight and SpO2-estimated PaO2
+are separate sensitivities. SpO2 estimation is restricted to50<=SpO2<97 with
+contemporaneous raw FiO2/documented room air; no missing domain becomes zero.
+These are diagnostics only: frozen scores/models are NOT silently replaced.
+Adoption requires new model versions and held-out evaluation.
 
-Central harmonization compares hourly state probability profiles with root-mean-square distances over available common features. Whole hourly distributions are suppressed when necessary; missing features are not set to zero. At least 50% common features are required by default. All possible prototypes are considered in rectangular one-to-one assignment. Extra clusters or insufficiently overlapping profiles can remain unmatched. A seed site is chosen deterministically using profile availability, then site name. Prototypes are updated using unsuppressed cluster-size weights until assignments stabilize; failure to converge stops consensus generation.
+## Sensitivities and terminal events
 
-The default consensus k is the integer median of local k; it may be explicitly specified. Phenotypes P1…Pk are ordered only by average respiratory support intensity among known ranked support states. This ordering chooses a consistent reference, not a validated ordinal disease scale. No outcome, vasopressor, SOFA, or LOS information enters matching or ordering. The absorbing sensitivity is an explicit exception because terminal outcomes are its sequence inputs. Mapping and matching distances are exported, and leaving out each site tests consensus sensitivity. This is a reproducibility check, not external validation of a prognostic model.
+Eight inferential variants repeat discovery, stability, consensus, frozen local
+outcomes, pooling and held-out evaluation:24h,48h, first-detected ARF, support-
+only, low-flow FiO2/SF,0h and12h evidence persistence, and raw-support/no-waterfall.
+Earlier windows use twelve relative-time bins and proportionally scaled known-
+support thresholds. Different populations/labels/k are not assumed equivalent.
+First detection is documentation-based, not biological onset. Its shifted
+origin is followed by a full72h window and its own landmark.
 
-## Clinical characterization and outcomes
+A separate full-cohort absorbing analysis includes death, hospice and live
+hospital discharge from the event-containing hour through72h. Terminal
+transitions have no clinical escalation rank. D groups are descriptive and are
+not regressed on the outcomes encoded in their exposures. Early events are
+reported by those groups/local clusters, not imputed primary survivor P groups.
+Other frozen-classifier sensitivities include first hospitalization, admission
+and strict-through-landmark full code, POA U07.1 exclusion, and ARF/high support.
 
-Code status uses documented orders in the current admission, with an optional explicit preadmission lookback. Unknown stays unknown. DNR without documented DNI is separate from DNI. Report admission status, status at window completion, and new DNI/comfort orders. Changes within the window are descriptive; they are not treated as baseline confounders. These orders do not fully capture goals-of-care discussions or actual treatment ceilings.
+## Site returns and manuscript work
 
-Noncancer Charlson removes the cancer and metastatic-cancer domains and applies severity hierarchy within other domains. Advanced cancer means recorded POA metastatic disease, malignant pleural effusion, or cachexia; its components are reported separately. This is a proxy, not stage. C80/199 unspecified malignancy and generic pleural effusion J91 are not automatically treated as metastatic disease or malignant effusion. Optional `clif_oncology`/`oncology` input may supply one row per hospitalization with histology, stage, ECOG, therapy line, and therapy intent. Availability does not establish baseline timing; these fields are descriptive until independently validated.
+`share/supplement/` contains aggregate diagnostics with disclosure masking;
+exact values and patient-level candidate scores remain in `local/`. The complete
+federated return adds allowlisted discovery/model/validation/sensitivity files,
+with frozen consensus IDs, source versions and an inventory. Sites provide or
+explicitly leave pending IRB/waiver details, release/ETL/timestamp provenance,
+order semantics, oncology timing, funding/conflicts and availability statements.
+A completion manifest records capture, not institutional disclosure approval.
 
-The implemented severity comparator is a **modified SOFA proxy**: measured PaO₂/FiO₂ paired in time, conventional thresholds for measured MAP/standard SOFA vasoactives, platelets, bilirubin, creatinine, and GCS. Renal scoring does not include urine output. Missing domains stay missing. No weight is invented for dose conversion and no saturation-derived PaO₂ is used. Unconvertible standard vasoactive doses make the cardiovascular domain unknown. This cannot be described as complete standard SOFA or APACHE IV. Sedation-related GCS and nonstandard vasoactive agents require clinical review. A separately labeled missing-domain-zero sensitivity is run for both associations and predictive validation; it never silently replaces the primary score. All-missing severity remains missing even in this sensitivity.
+The lead team must still complete manuscript reframing, the point-by-point
+response, clean/tracked versions, RECORD/STROBE, source limitations and literature
+discussion. The decision letter specifies3000 words,250-word abstract, five main
+figures/tables combined, and50 references; additional results belong in the
+supplement. `docs/site_return_requirements.csv` maps concerns to site/coordinator
+outputs, with non-computable analyses and author work identified explicitly.
 
-Primary inferential estimates are post-landmark cause-specific hazard ratios for hospital death. Hospice discharge and death-or-hospice are separate endpoints. Other terminal hospital events end cause-specific risk time. Aalen–Johansen curves treat death, hospice, and other live discharge as competing events, using hospitalization as the episode identifier and patient-clustered uncertainty for repeat admissions. Whole-stay outcomes are descriptive in phenotype tables. No total ICU LOS regression is fit. Actual fitted N, patient N, events, exclusions, formulas, and proportional-hazards diagnostics accompany each model.
+### Additional model diagnostics in the site supplement
 
-Adjusted associations include measured severity, demographics, year, noncancer Charlson, cancer proxy, and admission code status. Constant covariates are omitted and the exact formula is exported. Models are retrospective associations, not causal treatment effects. Sensitivities use first hospitalization, admission full code, no POA U07.1 diagnosis, and measured ARF or high support. POA U07.1 exclusion does not exclude hospital-acquired COVID or all pandemic effects.
+Global and term-level proportional-hazards tests are returned. Older fits are
+reconstructed locally for diagnostics only, with coefficient equality required.
+NU's core composite diagnostic flags possible time-varying phenotype effects.
+Consequently all sites additionally return exploratory posthoc0–7 and7–28-day
+cause-specific estimates and risk-set/event metadata. These do not replace the
+frozen primary estimates and are not a formal demonstration that PH holds or a
+prespecified confirmatory interaction analysis. Time-variation and the
+interpretation of a single pooled HR remain matters for manuscript assessment.
 
-## Prognostic comparison
+### Implemented adapted APACHE comparison — October30
 
-The endpoint is **in-hospital death within 28 days after the landmark**, not all-cause 28-day mortality. Earlier hospice/other live discharge is a competing outcome. All included encounters have known final hospital outcomes; therefore this fixed-horizon binary endpoint has no administratively censored observations. Discharged patients' subsequent deaths are not observed or imputed.
+A separate corrected CLIF-adapted APACHE-II APS+age sensitivity now runs alongside
+SOFA, with consistent Hb-derived hematocrit across sites, first-ICU-24h windows,
+explicit unit/pairing/boundary rules and missing-component indicators. It omits
+unverified chronic-health points/renal doubling and is not standard APACHE II
+or APACHE IV. The original full-score-unavailability statements refer to those
+standard scores. Complete-score and all-case analyses remain distinct; a matched
+cohort supplies same-patient APACHE-proxy/SOFA comparisons. All original primary
+artifacts remain frozen. Detailed methods/results: `apache_adapted_methods.md`.
 
-Models share the same complete-case sample:
 
-1. Age, sex, race, admission year, measured modified SOFA, and admission code status.
-2. Model 1 plus last completed hourly support state and cumulative hours in each nonreference modality, including unknown hours.
-3. Model 2 plus phenotype.
-
-Diagnosis-based comorbidity/cancer features are excluded from this prospective-information comparator because discharge billing diagnoses are not reliably known at the landmark. They remain in retrospective association models. Predictive validation groups all admissions of a patient in the same fold, and relearns transition costs, selected k, clusters, medoids, and test assignments using the training fold only. Performance is for the local phenotype-learning procedure, not a centrally trained deployable classifier. The full-data consensus mapping is not used to learn validation phenotypes.
-
-Exports include out-of-fold AUC, Brier score, calibration intercept and slope, paired model increments, calibration bins, and decision curves. Patient bootstrap intervals are conditional on the out-of-fold predictions; they do not rerun the entire cross-validation procedure. Fold failures, separation, and unseen factor levels are reported; incomplete validation yields no performance claim. Decision curves describe hypothetical risk thresholds and do not validate treatment or goals-of-care decisions.
-
-## Pooling and additional work
-
-Pool identical phenotype-vs-P1 cause-specific log hazard ratios using REML heterogeneity estimation and modified Hartung–Knapp inference. Export site effects, contributing site count, τ², I², confidence intervals, and prediction intervals. One-site effects are not labeled pooled estimates. Never combine different consensus versions, references, or source versions. Site validation results remain site-specific; they are not presented as pooled external validation.
-
-Complete 28-day ICU-free days require a validated observation scheme for subsequent ICU stays and deaths. The code deliberately does not invent post-discharge ICU-free time. A common-population paired comparison of early landmarks, a deployable external prediction model, and oncology-enhanced adjustment are further analyses to specify if data permit. Confirm IRB/waiver details, data availability, conflicts, and RECORD/STROBE reporting outside the analysis code.
-
-Method references: [CLIF 2.1 dictionary](https://clif-icu.com/data-dictionary/data-dictionary-2.1.0), [survival competing-risk methods](https://stat.ethz.ch/R-manual/R-devel/RHOME/library/survival/doc/compete.pdf), [metafor inference](https://wviechtb.github.io/metafor/reference/rma.uni.html), [prediction intervals](https://wviechtb.github.io/metafor/reference/predict.rma.html).
+The main descriptive time-to-event figure pairs cause-specific hospital-death
+Kaplan–Meier survival with cumulative incidence of live non-hospice discharge.
+The latter uses Aalen–Johansen with hospital death and hospice as competing
+outcomes; it is not the complement of death-or-hospice-free KM. Both estimates
+use exact pooled site risk/event counts, with 200 patient-cluster resamples
+within each site for pointwise intervals. Unknown dispositions are censored at
+observed exit. Cohort-wide curves start at ICU admission; phenotype curves
+start at the 72-hour landmark. No postdischarge survival is inferred.

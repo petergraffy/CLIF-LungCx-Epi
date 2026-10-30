@@ -73,7 +73,8 @@ Important design choices:
   solution. Finer privacy-compatible summaries remain a future sensitivity.
 - Sites are equally weighted in template learning. Local clusters can map
   many-to-one. Final patient classification uses frozen template distances.
-- Below 12 known-support hours, distance >.75 or margin <.01 produces I.
+- Below12 known-support hours produces I. All other stays receive their nearest template.
+  Distance>.75 and margin<.01 are diagnostic flags only; exact ties use frozen template order.
   All cases are retained, including I; I is not a clinical phenotype.
 - Cox models censor follow-up at day 28 and use separate baseline hazards
   for classified versus I cases. Baseline age/sex/race/year/comorbidity,

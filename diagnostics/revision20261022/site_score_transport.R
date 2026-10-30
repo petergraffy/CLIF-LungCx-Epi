@@ -8,11 +8,11 @@ for(cohort in score_spec()$cohorts){
  for(endpoint in score_spec()$endpoints){
  y<-as.integer(z$time_from_landmark<=28 & if(endpoint=='death')z$event_type=='death' else z$event_type%in%c('death','hospice'));pred<-list();metrics<-list()
  for(kind in score_spec()$models){
- x<-score_matrix(z,kind,cohort);bb<-b[b$cohort==cohort & b$endpoint==endpoint & b$model==kind,];stopifnot(setequal(bb$term,colnames(x)));bb<-setNames(bb$estimate,bb$term)
+ x<-score_matrix(z,kind,cohort,revision_phenotypes(version));bb<-b[b$cohort==cohort & b$endpoint==endpoint & b$model==kind,];stopifnot(setequal(bb$term,colnames(x)));bb<-setNames(bb$estimate,bb$term)
  pred[[kind]]<-plogis(drop(x%*%bb[colnames(x)]));metrics[[kind]]<-pred_metrics(y,pred[[kind]])
  }
  # Endpoint/event partition must be safe before releasing performance estimates.
- safe<-sum(y)>=10 && sum(1-y)>=10
+ safe<-sum(y)>=aggregate_min_cell(10) && sum(1-y)>=aggregate_min_cell(10)
  pairs<-list(phenotype_beyond_sofa=c('sofa_summaries_phenotype','sofa_summaries'),phenotype_vs_sofa=c('phenotype','sofa_only'),phenotype_beyond_summaries=c('summaries_phenotype','summaries'),phenotype_vs_baseline_sofa=c('phenotype','sofa'))
  set.seed(20261022);by<-split(seq_len(nrow(z)),z$patient_id);patients<-names(by);boot<-list();dcboot<-list();thresholds<-seq(.05,.6,.05)
  for(i in 1:200){ix<-unlist(by[sample(patients,length(patients),replace=TRUE)],use.names=FALSE)

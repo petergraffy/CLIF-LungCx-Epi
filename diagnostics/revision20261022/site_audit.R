@@ -26,7 +26,7 @@ d<-readRDS(file.path(old_root(),'sites',site,'local',version,'outcomes.rds'))$da
 pv<-readRDS(file.path(home,'local/score_transport.rds'))
 for(cohort in score_spec()$cohorts)for(endpoint in score_spec()$endpoints){
  z<-if(cohort=='measured_sofa')d[!is.na(d$sofa_total),] else d;pr<-pv[[paste(cohort,endpoint)]];stopifnot(identical(z$hospitalization_id,pr$ids))
- for(kind in score_spec()$models){xx<-score_matrix(z,kind,cohort);bb<-b[b$cohort==cohort & b$endpoint==endpoint & b$model==kind,];beta<-setNames(bb$estimate,bb$term);pred<-plogis(drop(xx%*%beta[colnames(xx)]));stopifnot(max(abs(pred-pr$predictions[[kind]]))<1e-12)}
+ for(kind in score_spec()$models){xx<-score_matrix(z,kind,cohort,revision_phenotypes(version));bb<-b[b$cohort==cohort & b$endpoint==endpoint & b$model==kind,];beta<-setNames(bb$estimate,bb$term);pred<-plogis(drop(xx%*%beta[colnames(xx)]));stopifnot(max(abs(pred-pr$predictions[[kind]]))<1e-12)}
 }
 # Non-overlapping original fixed artifacts remain unchanged.
 ledger<-jsonlite::fromJSON(file.path(old_root(),'reports/frozen_artifact_ledger.json'),simplifyVector=FALSE)$ledger

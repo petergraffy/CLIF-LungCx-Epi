@@ -161,3 +161,180 @@ canonical DNR/DNI. These are unverified care-limit semantics, not evidence that
 comfort care/DNI preferences were absent. The detailed status analyses require
 this qualification. Catalogue exports are included in the new report package;
 no source mapping was silently rewritten.
+
+## UCMC source refresh verified: 2026-10-26
+
+A newer respiratory table is present in Box under `03-CLIF-2.1/2.1.0` (October
+23 update, about 225 MB). The configured Desktop table is still the prior copy;
+its matched source records equal the saved snapshot after sorting. The source
+refresh audit keeps the same 650 landmark hospitalizations and other clinical
+inputs fixed. Eligible/landmark membership remains 849/650, with no changes in
+matched event times/types, ICU origins, demographics or hospital admission/
+discharge times.
+
+Raw-source plus six-hour-carry UNKNOWN hours decrease from 14,525/46,800 (31.04%)
+to 3,233 (6.91%). All 64 previously entirely unknown stays now have source device
+information and none remains entirely unknown. With the same bounded waterfall,
+UNKNOWN hours decrease from 6,166 (13.18%) to 30 (0.064%), across 11 stays. In this
+paired respiratory-only comparison, raw-evidence ARF detection changes from 215
+to 237 hospitalizations. The conservative waterfall comparison preserves updated
+raw physiology rather than using filled FiO2.
+
+This establishes major source coverage restoration, not a new pooled analysis.
+Producing-ETL inference versus bedside-observed provenance still needs to be
+represented accurately. The updated source has unannotated timestamps; overlap
+with prior events is highest without a shift. Waterfall conflict flags are
+recorded in the audit. Existing UCMC/NU/Rush/federated artifacts are unchanged.
+A fresh UCMC run against the Box tables, regenerated fingerprints, versioned
+consensus, and new outcome/pooling/transport passes are required before revised
+results can be reported. The current private configuration still points to the
+old Desktop copy; do not reuse its cached run as refreshed data.
+
+Implementation: `diagnostics/etl_refresh/README.txt`. Paired report:
+`output/run_UCMC_etl_refresh_audit_20261026/etl_refresh_report.txt`.
+
+## Completed three-site refresh: 2026-10-26
+
+The fresh UCMC preparation reloads all required updated Box tables with run ID
+`ccx_box_20261026_joint`; its primary cohort remains 650 stays, with raw ARF
+positive evidence in 237 and complete measured-component modified SOFA in 103.
+The default private UCMC configuration now points to this Box source/run ID;
+the previous configuration is backed up in the ignored orchestrator directory.
+NU/Rush validated source caches are reused, and their panels are independently
+verified unchanged. All three sites' local clusters, stability assessments,
+shared definitions, assignments, outcome models and sensitivities are refitted.
+
+The primary retains all 3,310 stays. Local k is 4/4/5 at UCMC/NU/Rush; the global
+solution selects four groups in the full fit and in every held-out-site fit.
+Its consensus ID is `6245d53b0469ab7d1a5b`. Predominant support labels are room
+air, low-flow oxygen, HFNC and IMV. Core composite HRs versus room-air support
+are 1.82 (95% CI 1.16–2.86), 2.61 (1.56–4.36), and 2.81 (1.41–5.59). The IMV
+association remains heterogeneous (I² 46.4%; prediction interval 0.97–8.17).
+Separate death effects now have two contributing sites, but very wide intervals.
+
+Held-out baseline-plus-phenotype AUCs are .751/.756/.728. Increment beyond
+simple summaries is inconsistent across sites; complete-component modified-SOFA
+plus summary comparisons likewise do not establish universal added predictive
+value. SOFA remains modified/incomplete; APACHE and oncology/care-preference
+limitations remain. One small UCMC local group has a released mean-Jaccard band
+of .5–.6, so reproducibility of global k does not imply every local group is
+stable. Physiological unknown states remain explicitly represented.
+
+All eight inferential sensitivities were refederated through full and three
+held-out consensuses, local outcomes, pooling and prediction (32 sensitivity
+consensuses; 96 sensitivity outcome passes). The separate absorbing analysis
+remains descriptive. Primary plus sensitivity outcome passes total 108. The
+24-hour full solution selects five groups; some physiology variants also differ
+in held-out k. No historical k or clinical labels are imposed on separate fits.
+All member-retention, training-split, frozen-prediction/hash, terminal-boundary,
+original-artifact and export audits pass. Original results are preserved; MIMIC
+remains excluded. Historical numerical manuscript drafts were not regenerated.
+
+Current report:
+`output/run_three_site_refresh_20261026/reports/three_site_refresh_report.txt`.
+Primary results/figures: `output/run_federated_rehearsal_20261026/reports/`.
+Sensitivity/score results: `output/run_revision_gaps_20261026/reports/`.
+Reproduction/parameter details: `diagnostics/refresh20261026/README.txt`.
+
+## SOFA component audit: 2026-10-26
+
+First-24h source recovery increases complete measured-component modified SOFA
+from 384 to 416 of 3,310 stays. UCMC calculated MAP from paired SBP/DBP raises
+CV coverage 306->650 and complete totals 103->116. NU source arterial PO2
+mappings and panel FiO2 raise respiratory coverage 444->489 and totals219->238;
+additional evidence changes30 existing respiratory scores and18 complete totals.
+Rush totals remain62; simultaneous GCS components and numeric strings provide
+no missing CNS recovery. A separate recent measured pre-ICU weight sensitivity
+raises complete totals to441. A further explicitly estimated-PaO2-from-SpO2
+sensitivity reaches1066, not measured or validated standard SOFA. Bilirubin
+and Rush GCS remain major gaps. Source drug-category flags are documented.
+These are candidate audit scores; original primary outcomes, comparisons and
+phenotype artifacts are preserved and require fresh model passes before updated
+performance or severity-adjusted associations can be reported. See
+`diagnostics/sofa_completeness/README.txt` and
+`output/run_sofa_completeness_20261026/reports/sofa_completeness_report.txt`.
+
+## Site supplement/return audit: 2026-10-26
+
+The editor/reviewer letter was reread against the actual outputs. A distribution
+gap was found: several diagnostic/reviewer tables were rehearsal-only and were
+not returned by the default site command. The source/baseline `derive` entry point
+now captures a portable supplement automatically; `supplement` captures one for
+an existing derivation. Arbitrary configured site names and CSV/parquet/FST
+sources are supported. Source recovery diagnostics are not silently substituted
+into frozen outcome models. Exact counts/candidate scores remain local.
+
+The reviewer runner now assembles a per-site return containing allowlisted
+primary discovery/models, transported/nested score performance, ARF/code/cancer
+characterization, all eight sensitivity versions, absorbing-event descriptions,
+waterfall conflict checks and PH/denominator diagnostics. The coordinator-only
+collector validates file hashes, site identity, common consensus and required
+families; it reads aggregate return folders only. Suppression statuses remain
+explicit and counts are not centrally repaired. Three current sites were captured
+into `output/run_site_returns_20261026/`; candidate SOFA scores exactly reproduce
+the previous audit. The verified collection is in that run's `verified_collection/`.
+
+A concern-by-concern checklist is `docs/site_return_requirements.csv`. Administrative
+and provenance fields are requested in `config/site_metadata_template.csv`;
+blank IRB/waiver, order semantics or ETL fields remain pending site confirmation.
+Molecular subtype and treatment type are now accepted in optional oncology
+inputs/availability summaries. Model passes retain exact denominator metadata
+locally and explicitly report reference-absent subsets.
+
+The active protocol and site workflow now distinguish the adopted bounded-
+waterfall/common-cost/template procedure from the earlier raw/TRATE/one-to-one
+baseline procedure. The older protocol is archived. This does not turn the
+three-site central orchestration into an already executed ten-site federation.
+Remaining scientific/reporting limitations are unchanged: incomplete modified
+SOFA, no validated APACHE, incomplete cancer/preferences, sparse separate death
+and full-code effects, no validated ICU-free-day endpoint, source provenance
+confirmation, and manuscript/RECORD/STROBE/literature work. No prognostic-
+superiority, biological-endotype or causal intervention claim is supported.
+
+The final Cox diagnostic review found that old federated objects lacked local
+model matrices. Future runs retain them. Diagnostic refits on all three sites
+reproduce original coefficients exactly and return global/term PH tests. NU
+core composite PH global p=0.023, with phenotype-term flags; constant-HR
+interpretation needs assessment. Every site now also returns exploratory
+posthoc0–7/7–28-day effects and actual risk-set metadata. Original models remain
+unchanged. Current complete packets are in
+`output/run_site_returns_20261026/site_packets/SITE/share/`, with the verified
+combined supplement at `reports/site_supplement/` under the same output root.
+
+## External CLIF APACHE implementation reviewed: 2026-10-30
+
+`parkegan/clif_hospice_trend` includes an APACHE II-named helper. At reviewed commit
+`e71e6a36130e4e011c652fd93ce9433d22a86cb6`, its actual caller uses24h after
+hospital admission, despite a48h helper default. It substitutes hemoglobin,
+uses thresholds incompatible with our audited g/dL units without conversion,
+defaults missing GCS/other components to0 points, fixes chronic points at0,
+omits the renal doubling modifier, and labels>=10 point columns complete.
+Synthetic probes reproduce decimal-bin gaps and forward-FiO2 matching under
+its rolling-join end settings. Do not import it unchanged or call it APACHE IV.
+A corrected explicitly modified APACHE-II-like sensitivity is feasible, while
+full validated APACHE availability remains unresolved. No frozen analysis or
+comparison was altered. Full review: `docs/apache_implementation_review.md`.
+
+## Adapted APACHE sensitivity completed: 2026-10-30
+
+The accepted recommendation is implemented independently in
+`code/lib/apache_adapted.R` and `diagnostics/apache_adapted/`. New comparison
+artifacts are under `output/run_APACHE_adapted_20261030_v2/`. Complete adapted
+physiology is available for636 stays (171/391/74); the explicit partial-sum plus
+missing-indicator sensitivity retains3,310. Matched APACHE-proxy/SOFA evaluation
+uses341 stays (96/198/47), with identical patients across models. Original
+phenotypes, outcomes, and SOFA model artifacts remain unchanged.
+
+APACHE-proxy and SOFA score-only AUC differences are uncertain at every site.
+In the complete adapted-component cohort, phenotype additions beyond the proxy
+and respiratory summaries do not improve AUC at any site. All-case results show
+small gains at NU/Rush, not UCMC. Modified-score availability does not establish
+a validated APACHE II/IV comparison or justify superiority claims.
+
+NU's original source folder moved. The new2.1.1 source supplies metadata only on
+exact frozen numeric keys; newer measurements are ignored. Units absent from
+matched metadata retain explicit CLIF-canonical assumptions. Source correspondence
+counts are returned. Site supplement and reviewer runners now capture the new
+component/model/validation outputs; collector checks score specification/consensus
+compatibility and refuses mixed score-extension phases. See
+`docs/apache_adapted_methods.md` and `diagnostics/apache_adapted/README.txt`.

@@ -1,8 +1,9 @@
 source("code/lib/load.R")
-FED_SCHEMA <- "federated-rehearsal-20261022-v1"
+FED_SCHEMA <- "federated-nearest-20261030-v2"
 fed_spec <- function() list(schema=FED_SCHEMA,window=72L,bin_hours=6L,seed=20261022L,k_max=8L,
  bootstrap_reps=100L,transport_bootstrap=200L,min_cell=10L,minimum_known_support_hours=12L,
- assignment_max_distance=.75,assignment_min_margin=.01,local_om="constant substitution 2; indel 1; Ward.D2",
+ assignment_rule="nearest_template_for_all_information_sufficient_stays; first_template_breaks_exact_ties",
+ diagnostic_distance_flag=.75,diagnostic_margin_flag=.01,local_om="constant substitution 2; indel 1; Ward.D2",
  exposure="bounded waterfall support with original raw-evidence ARF states",consensus_weight="equal site; size within site",
  fingerprint="interval-valued modal joint/channel distributions and support-change distributions",
  probability_min_width=.05,model_horizon_days=28L,ridge_lambda=1,
@@ -10,13 +11,14 @@ fed_spec <- function() list(schema=FED_SCHEMA,window=72L,bin_hours=6L,seed=20261
 fed_root <- function() normalizePath(Sys.getenv("CLIF_FEDERATED_OUTPUT",unset="output/run_federated_rehearsal_20261022"),mustWork=FALSE)
 fed_hash <- function(x) digest::digest(x,algo="sha256")
 fed_write <- function(x,path) {
+ x<-promote_exact_counts(x)
  forbidden<-intersect(names(x),c("patient_id","hospitalization_id","recorded_dttm","admission_dttm","discharge_dttm","t0","event_time","sequence"))
  if(length(forbidden)||any(vapply(x,inherits,logical(1),"POSIXt")))stop("Forbidden patient-level export")
  dir.create(dirname(path),recursive=TRUE,showWarnings=FALSE)
  readr::write_csv(x,path,na="")
 }
 fed_json <- function(x,path) {dir.create(dirname(path),recursive=TRUE,showWarnings=FALSE);jsonlite::write_json(x,path,auto_unbox=TRUE,pretty=TRUE,null="null",digits=16)}
-fed_band_n <- function(n) {c(lower=10*floor(n/10),upper=10*floor(n/10)+9)}
+fed_band_n <- function(n) aggregate_count_band(n)
 fed_interval <- function(p,n) {
  if(n<10)return(c(lower=0,upper=1))
  w<-max(.05,ceiling((10/n)/.05-1e-10)*.05);w<-min(1,w)
@@ -58,12 +60,14 @@ fed_patient_features <- function(panel,ids) {
  x
 }
 fed_assign <- function(x,proto,known_hours) {
+ stopifnot(ncol(x)==ncol(proto),nrow(proto)>=1L,length(known_hours)==nrow(x),all(is.finite(x)),all(is.finite(proto)),all(is.finite(known_hours)))
  w<-fed_weights(fed_features());xx<-sweep(x,2,w,"*");pp<-sweep(proto,2,w,"*")
  dist<-outer(rowSums(xx^2),rowSums(pp^2),"+")-2*tcrossprod(xx,pp)
  dist[dist<0]<-0;dist<-sqrt(dist)
  best<-max.col(-dist,ties.method="first");ds<-dist[cbind(seq_len(nrow(x)),best)]
- second<-apply(dist,1,function(z)sort(z,partial=2)[2]);margin<-second-ds
- status<-ifelse(known_hours<fed_spec()$minimum_known_support_hours,"insufficient_support",
- ifelse(ds>fed_spec()$assignment_max_distance,"poor_match",ifelse(margin<fed_spec()$assignment_min_margin,"ambiguous","classified")))
- tibble::tibble(phenotype=ifelse(status=="classified",rownames(proto)[best],"I"),assignment_status=status,distance=ds,margin=margin)
+ second<-if(nrow(proto)>1L)apply(dist,1,function(z)sort(z,partial=2)[2]) else rep(Inf,nrow(x));margin<-second-ds
+ status<-ifelse(known_hours<fed_spec()$minimum_known_support_hours,"insufficient_support","classified")
+ tibble::tibble(phenotype=ifelse(status=="classified",rownames(proto)[best],"I"),assignment_status=status,
+ closest_phenotype=rownames(proto)[best],distance=ds,runner_up_distance=second,margin=margin,
+ diagnostic_large_distance=ds>fed_spec()$diagnostic_distance_flag,diagnostic_low_margin=margin<fed_spec()$diagnostic_margin_flag)
 }

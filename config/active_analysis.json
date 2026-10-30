@@ -1,0 +1,20 @@
+{
+  "status": "complete",
+  "assignment_policy": "Always nearest template for support-sufficient stays; distance/margin are diagnostic only",
+  "primary_consensus_id": "871830de01865b861fd4",
+  "primary_root": "output/run_nearest_assignment_20261030/primary",
+  "revision_root": "output/run_nearest_assignment_20261030/revision",
+  "apache_root": "output/run_nearest_assignment_20261030/apache_adapted",
+  "exact_root": "output/run_nearest_assignment_20261030/exact",
+  "pooled_survival_root": "output/run_nearest_assignment_20261030/pooled_discharge_alive",
+  "site_returns": "output/run_nearest_assignment_20261030/site_packets_discharge",
+  "environment_script": "diagnostics/nearest_assignment/environment.sh",
+  "audit": "output/run_nearest_assignment_20261030/reports/final_integration_audit.json",
+  "survival_figure_root": "output/run_nearest_assignment_20261030/discharge_figures",
+  "discharge_endpoint": "Aalen-Johansen cumulative incidence of live non-hospice discharge; death/hospice competing",
+  "discharge_audit": "output/run_nearest_assignment_20261030/pooled_discharge_alive/reports/discharge_audit.json",
+  "pooled_survival_returns_required_for_final_collection": true,
+  "site_return_collection": "output/run_nearest_assignment_20261030/reports/verified_discharge_site_returns_v2",
+  "pooled_roc_root": "output/run_nearest_assignment_20261030/pooled_roc",
+  "pooled_roc_site_returns": "output/run_nearest_assignment_20261030/pooled_roc/sites/SITE/share"
+}

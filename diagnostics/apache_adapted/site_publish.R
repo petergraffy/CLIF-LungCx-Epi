@@ -1,0 +1,9 @@
+source('diagnostics/apache_adapted/lib.R');site<-commandArgs(trailingOnly=TRUE)[1];home<-file.path(ap_root(),'sites',site)
+a<-readRDS(file.path(home,'local/components.rds'));d<-ap_data(site,paste0('loo_',site))
+counts<-dplyr::bind_rows(lapply(c(APACHE_COMPONENTS,'adapted_total','observed_hct_total'),function(k){v<-a[[paste0('apache_',k)]];tibble::tibble(site=site,component=k,n=nrow(a),observed_n=sum(is.finite(v)),missing_n=sum(!is.finite(v)))}))
+counts<-protect_aggregate(counts,c('n','observed_n','missing_n'),'component',10)
+ap_export(counts,file.path(home,'export/component_counts.csv'))
+cohorts<-dplyr::bind_rows(lapply(ap_spec()$cohorts,function(c){z<-ap_cases(d,c);tibble::tibble(site=site,cohort=c,n=nrow(z),missing_n=nrow(d)-nrow(z))}))
+cohorts<-protect_aggregate(cohorts,c('n','missing_n'),'cohort',10);ap_export(cohorts,file.path(home,'export/cohort_counts.csv'))
+quality<-readr::read_csv(file.path(home,'local/source_metadata_match_audit.csv'),show_col_types=FALSE);quality$site<-site
+quality<-protect_aggregate(quality,setdiff(names(quality),'site'),character(),10);ap_export(quality,file.path(home,'export/source_metadata_quality.csv'))

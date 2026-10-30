@@ -1,16 +1,18 @@
 source('diagnostics/federated/comparator_lib.R')
 rev_root<-function()normalizePath(Sys.getenv('CLIF_REVISION_OUTPUT',unset='output/run_revision_gaps_20261022'),mustWork=FALSE)
-old_root<-function()normalizePath('output/run_federated_rehearsal_20261022')
+old_root<-function()normalizePath(Sys.getenv('CLIF_REVISION_PRIMARY_INPUT',unset='output/run_federated_rehearsal_20261022'))
+revision_site_input<-function(site)normalizePath(Sys.getenv(paste0('CLIF_FEDERATED_INPUT_',site),unset=paste0('output/run_',site,'_waterfall_20261022')))
+revision_phenotypes<-function(version='full')rownames(readRDS(file.path(old_root(),'coordinator',version,'prototypes.rds')))
 rev_write<-function(x,path)fed_write(x,file.path(rev_root(),path))
 # Release interval-valued categorical counts; linked package still needs review.
 band_table<-function(d,groups,variable,value){
  d$category<-as.character(value);d$category[is.na(d$category)]<-'unknown'
  z<-d |> dplyr::count(dplyr::across(dplyr::all_of(groups)),category,name='count')
- z$variable<-variable;z$n_lower<-10*floor(z$count/10);z$n_upper<-z$n_lower+9;z$count<-NULL;z
+ z$variable<-variable;bands<-t(vapply(z$count,fed_band_n,numeric(2)));z$n_lower<-bands[,1];z$n_upper<-bands[,2];z$n<-z$count;z$count<-NULL;z
 }
 revision_input<-function(site){
- variant<-Sys.getenv('CLIF_REVISION_VARIANT');wf<-readRDS(paste0('output/run_',site,'_waterfall_20261022/local/waterfall_derivation.rds'))$analyses
- m<-jsonlite::fromJSON(paste0('output/run_',site,'_waterfall_20261022/local/input_manifest.json'))
+ variant<-Sys.getenv('CLIF_REVISION_VARIANT');wf<-readRDS(file.path(revision_site_input(site),'local/waterfall_derivation.rds'))$analyses
+ m<-jsonlite::fromJSON(file.path(revision_site_input(site),'local/input_manifest.json'))
  raw<-readRDS(file.path(m$baseline_root,'local/derivation.rds'))$analyses
  key<-switch(variant,h24='h24_landmark_sensitivity',h48='h48_landmark_sensitivity',onset='h72_arf_onset',support_only='h72_primary',low_flow='h72_low_flow_fio2',carry0='h72_arf_carry_0',carry12='h72_arf_carry_12',raw_support='h72_primary',stop('Unknown sensitivity'))
  a<-wf[[key]];sq<-raw[[key]]$fit$sequence

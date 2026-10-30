@@ -12,7 +12,7 @@ fed_modal<-function(panel){
  ix<-p$domain=='change' & (paste(p$hospitalization_id,p$bin)%in%terminal_keys|is.na(p$state));p$state[ix]<-'unknown';p
 }
 revision_input<-function(site){
- a<-readRDS(paste0('output/run_',site,'_waterfall_20261022/local/waterfall_derivation.rds'))$analyses$h72_absorbing
+ a<-readRDS(file.path(revision_site_input(site),'local/waterfall_derivation.rds'))$analyses$h72_absorbing
  ix<-!a$panel$terminal;a$panel$physiology[ix]<-a$panel$old_physiology[ix];a$panel$hypox[ix]<-sub('_.*','',a$panel$physiology[ix]);a$panel$hyper[ix]<-sub('.*_','',a$panel$physiology[ix]);a$panel$joint[ix]<-paste(a$panel$support[ix],a$panel$physiology[ix],sep='|')
  a$data<-a$data |> dplyr::select(-dplyr::any_of(c('phenotype','local_cluster')));a
 }

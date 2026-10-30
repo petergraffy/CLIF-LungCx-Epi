@@ -16,7 +16,7 @@
         "bootstrap_reps": 100,
         "validation_folds": 5,
         "validation_bootstrap_reps": 200,
-        "min_cell": 10,
+        "min_cell": 0,
         "k_max": 8,
         "prediction_days": 28,
         "code_status_lookback_hours": 0,

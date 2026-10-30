@@ -22,8 +22,9 @@ for(metric in c("auc","brier")){key<-grep(paste0("^delta_",metric),colnames(boot
 full<-readRDS(file.path(home,"local","full","outcomes.rds"))$data
 stopifnot(identical(full$hospitalization_id,d$hospitalization_id))
 classified<-d$phenotype!="I";n<-nrow(d);nb<-fed_band_n(n);cb<-fed_band_n(sum(classified))
-agreement<-mean(d$phenotype==full$phenotype);ab<-fed_interval(agreement,n)
-coverage<-tibble::tibble(site=site,n_lower=nb[1],n_upper=nb[2],classified_lower=cb[1],classified_upper=cb[2],agreement_lower=ab[1],agreement_upper=ab[2])
+full_k<-jsonlite::fromJSON(file.path(root,"coordinator","full","frozen_manifest.json"))$k
+held_k<-nrow(proto);agreement<-if(full_k==held_k)mean(d$phenotype==full$phenotype) else NA_real_;ab<-if(is.finite(agreement))fed_interval(agreement,n) else c(NA_real_,NA_real_)
+coverage<-tibble::tibble(site=site,n_lower=nb[1],n_upper=nb[2],classified_lower=cb[1],classified_upper=cb[2],agreement_lower=ab[1],agreement_upper=ab[2],comparison_status=if(full_k==held_k)"ordered_labels_descriptive" else "different_k_not_compared")
 fed_write(dplyr::bind_rows(rows),file.path(out,"metrics.csv"));fed_write(coverage,file.path(out,"coverage.csv"))
 fed_json(list(schema=FED_SCHEMA,site=site,predictor_id=manifest$predictor_id,consensus_id=manifest$consensus_id,
  training_sites=manifest$training_sites,held_out_site=site,patient_bootstrap_reps=200,all_hospitalizations_evaluated=TRUE,

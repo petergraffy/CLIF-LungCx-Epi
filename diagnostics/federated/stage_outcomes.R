@@ -7,7 +7,7 @@ for(site in c("UCMC","NU","RUSH"))for(version in c("full","loo_UCMC","loo_NU","l
  for(name in expected){p<-file.path(from,name)
  if(grepl("csv$",name)){z<-readr::read_csv(p,show_col_types=FALSE);stopifnot(!any(names(z)%in%c("patient_id","hospitalization_id","t0","event_time","admission_dttm","discharge_dttm")))
  if(name=="associations.csv")stopifnot(all(is.na(z$estimate[z$status!="ok"])))
- if(name=="assignment_counts.csv")stopifnot(all(z$n_upper-z$n_lower==9))
+ if(name=="assignment_counts.csv")stopifnot(all(z$n_upper-z$n_lower==if(aggregate_exact())0 else 9))
  }
  stopifnot(file.copy(p,file.path(to,name),overwrite=FALSE))
  }

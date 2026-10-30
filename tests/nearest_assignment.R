@@ -1,0 +1,10 @@
+source('diagnostics/federated/contract.R')
+p<-tidyr::expand_grid(hospitalization_id=c('syntheticA','syntheticB'),h=0:71) |>
+ dplyr::mutate(support=ifelse(hospitalization_id=='syntheticA','ROOM_AIR','IMV'),hypox='H0',hyper='CU',joint=paste(support,paste(hypox,hyper,sep='_'),sep='|'))
+x<-fed_patient_features(p,c('syntheticA','syntheticB'));proto<-x;rownames(proto)<-c('P1','P2')
+z<-fed_assign(x,proto,c(72,72));stopifnot(identical(z$phenotype,c('P1','P2')),all(z$assignment_status=='classified'))
+same<-proto[c(1,1),];rownames(same)<-c('P1','P2');z<-fed_assign(x,same,c(72,72))
+stopifnot(all(z$phenotype=='P1'),all(z$assignment_status=='classified'),all(z$diagnostic_low_margin),z$diagnostic_large_distance[2],z$distance[2]>.75)
+z<-fed_assign(x,same,c(0,72));stopifnot(z$phenotype[1]=='I',z$assignment_status[1]=='insufficient_support',z$phenotype[2]=='P1')
+stopifnot(!any(z$assignment_status%in%c('ambiguous','poor_match')))
+cat('PASS: sufficient stays always get closest phenotype, including exact ties and large distances; only insufficient support remains I\n')

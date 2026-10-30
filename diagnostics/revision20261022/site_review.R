@@ -20,9 +20,9 @@ z<-p |> dplyr::left_join(d |> dplyr::select(hospitalization_id,phenotype),by='ho
 fed_write(band_table(z,c('phenotype','bin'),'arf_evidence_type',z$category) |> dplyr::mutate(site=site),file.path(out,'arf_type_profiles.csv'))
 # Local clinical table has explicit denominators. Export only n/event bands.
 continuous<-d |> dplyr::group_by(phenotype) |> dplyr::summarise(n=dplyr::n(),dplyr::across(c(age_years,charlson_noncancer,sofa_total,hours_IMV,hours_HFNC,hours_NIPPV,hours_UNKNOWN,hypox_fraction,hyper_fraction,mixed_fraction,positive_fraction),~mean(.x,na.rm=TRUE)),.groups='drop')
-for(i in seq_len(nrow(continuous)))for(v in setdiff(names(continuous),c('phenotype','n')))if(sum(!is.na(d[[v]][d$phenotype==continuous$phenotype[i]]))<10)continuous[[v]][i]<-NA_real_
-continuous$n_lower<-10*floor(continuous$n/10);continuous$n_upper<-continuous$n_lower+9
-for(i in which(continuous$n<10))continuous[i,setdiff(names(continuous),c('phenotype','n','n_lower','n_upper'))]<-NA_real_
+for(i in seq_len(nrow(continuous)))for(v in setdiff(names(continuous),c('phenotype','n')))if(sum(!is.na(d[[v]][d$phenotype==continuous$phenotype[i]]))<aggregate_min_cell(10))continuous[[v]][i]<-NA_real_
+bands<-t(vapply(continuous$n,fed_band_n,numeric(2)));continuous$n_lower<-bands[,1];continuous$n_upper<-bands[,2]
+for(i in which(continuous$n<aggregate_min_cell(10)))continuous[i,setdiff(names(continuous),c('phenotype','n','n_lower','n_upper'))]<-NA_real_
 continuous$n<-NULL;fed_write(continuous |> dplyr::mutate(site=site),file.path(out,'clinical_table.csv'))
 # Actual model denominators are retained locally, with banded public metadata.
 subsets<-list(all=rep(TRUE,nrow(d)),full_at_admission=d$code_at_admission=='full',full_through_landmark=d$code_at_admission=='full' & d$code_at_landmark=='full' & !is.na(d$code_changed) & !d$code_changed & !is.na(d$new_dni) & !d$new_dni & !is.na(d$new_comfort) & !d$new_comfort,no_covid=!d$covid,first_hospitalization=d$first_hospitalization,arf_or_high_support=d$measured_arf|d$high_support)
@@ -34,15 +34,15 @@ for(sub in names(subsets))for(spec in if(sub=='all')c('core','end_code','arf_cha
  z$landmark_nonfull<-as.numeric(z$end_code=='nonfull');z$landmark_unknown<-as.numeric(z$end_code=='unknown');z$new_dni_observed<-as.numeric(!is.na(z$new_dni)&z$new_dni);z$new_comfort_observed<-as.numeric(!is.na(z$new_comfort)&z$new_comfort);covars<-c(covars,'landmark_nonfull','landmark_unknown','new_dni_observed','new_comfort_observed')
  }
  if(spec=='arf_channels')covars<-c(covars,'hypox_fraction','hyper_fraction','mixed_fraction')
- terms<-c(paste0('phenotype_P',2:4),covars);terms<-terms[vapply(z[terms],function(x)length(unique(x))>1,logical(1))]
+ terms<-c(paste0('phenotype_',setdiff(revision_phenotypes(),'P1')),covars);terms<-terms[vapply(z[terms],function(x)length(unique(x))>1,logical(1))]
  f<-as.formula(paste('survival::Surv(followup,event)~',paste(c(terms,'strata(info_status)','cluster(patient_id)'),collapse='+')))
  warn<-character();fit<-tryCatch(withCallingHandlers(survival::coxph(f,data=z),warning=function(w){warn<<-c(warn,conditionMessage(w));invokeRestart('muffleWarning')}),error=identity)
  good<-inherits(fit,'coxph') && !length(warn) && all(is.finite(coef(fit)))
  key<-paste(sub,spec,endpoint,sep='_');fits[[key]]<-fit
  exact[[key]]<-tibble::tibble(site=site,subset=sub,model=spec,endpoint=endpoint,n=nrow(z),patients=dplyr::n_distinct(z$patient_id),events=sum(z$event),status=if(good)'ok' else paste(c(if(inherits(fit,'error'))conditionMessage(fit),warn),collapse=';'))
  nb<-fed_band_n(nrow(z));eb<-fed_band_n(sum(z$event));meta[[key]]<-tibble::tibble(site=site,subset=sub,model=spec,endpoint=endpoint,n_lower=nb[1],n_upper=nb[2],events_lower=eb[1],events_upper=eb[2],status=if(good)'ok' else 'nonestimable',formula=paste(deparse(f),collapse=' '))
- for(ph in paste0('P',2:4)){
- term<-paste0('phenotype_',ph);safe<-all(vapply(c('P1',ph),function(q){zz<-z[z$phenotype==q,];sum(zz$event)>=10 & sum(1-zz$event)>=10},logical(1)))
+ for(ph in setdiff(revision_phenotypes(),'P1')){
+ term<-paste0('phenotype_',ph);safe<-all(vapply(c('P1',ph),function(q){zz<-z[z$phenotype==q,];sum(zz$event)>=aggregate_min_cell(10) & sum(1-zz$event)>=aggregate_min_cell(10)},logical(1)))
  ok<-good && safe && term%in%names(coef(fit));rows[[paste(key,ph)]]<-tibble::tibble(site=site,subset=sub,model=spec,endpoint=endpoint,phenotype=ph,reference='P1',estimate=if(ok)unname(coef(fit)[term]) else NA_real_,std_error=if(ok)sqrt(vcov(fit)[term,term]) else NA_real_,status=if(ok)'ok' else if(!safe)'withheld_small_partition' else 'nonestimable')
  }
 }

@@ -80,7 +80,7 @@ summarize_clusters <- function(d, cluster = "local_cluster") {
   categories <- intersect(c("death_in_hosp", "hospice_discharge", "death_or_hospice", "any_imv", "any_vasopressor",
     "advanced_cancer", "metastatic_cancer", "malignant_pleural_effusion", "cachexia", "code_at_admission",
     "code_at_landmark", "new_dni", "new_comfort", "sex_category", "race_category", "first_hospitalization",
-    "landmark_reason", "histology", "stage", "ecog", "therapy_line", "therapy_intent"), names(d))
+    "landmark_reason", "histology", "stage", "ecog", "therapy_line", "therapy_intent", "molecular_subtype", "treatment_type"), names(d))
   categorical <- dplyr::bind_rows(lapply(categories, function(v) {
     z <- d; z$value <- ifelse(is.na(z[[v]]), "MISSING", as.character(z[[v]]))
     z |> dplyr::group_by(.data[[cluster]]) |> dplyr::mutate(denominator = dplyr::n()) |> dplyr::ungroup() |>

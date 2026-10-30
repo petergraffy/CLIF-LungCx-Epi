@@ -1,0 +1,23 @@
+source('diagnostics/mimic/portable_lib.R')
+root<-mimic_root();a<-readRDS(file.path(root,'local/prepared.rds'));d<-a$landmark[a$landmark$landmark_reason=='eligible',];cfg<-a$cfg
+frozen<-jsonlite::fromJSON(file.path(root,'coordinator/frozen_predictor.json'))
+stopifnot(frozen$held_out_site=='MIMIC',!('MIMIC'%in%frozen$training_sites),frozen$prototype_sha256==digest::digest(file=frozen$prototype_file,algo='sha256'))
+raw<-build_panel(d,a$tables,72,cfg)
+wf<-a$tables;wf$respiratory_support<-arrow::read_parquet(file.path(root,'local/h72_primary_waterfall.parquet'));wf$respiratory_support$recorded_dttm<-utc(wf$respiratory_support$recorded_dttm)
+# Avoid recomputing ARF from filled FiO2: only take the support channel.
+new<-build_panel(d,wf,72,cfg)
+stopifnot(identical(raw[c('hospitalization_id','h')],new[c('hospitalization_id','h')]))
+panel<-raw;panel$support<-new$support;panel$support_observed<-raw$support_observed & raw$support==new$support
+panel$support_carried<-panel$support!='UNKNOWN' & !panel$support_observed;panel$joint<-paste(panel$support,panel$physiology,sep='|')
+stopifnot(nrow(panel)==72*nrow(d),!any(panel$terminal),identical(panel$physiology,raw$physiology))
+d<-d |> dplyr::left_join(support_summaries(panel),by='hospitalization_id') |> dplyr::left_join(code_status_features(d,a$tables$code_status,72,cfg),by='hospitalization_id') |> dplyr::left_join(vasopressor_features(d,a$tables$medication_admin_continuous,72),by='hospitalization_id')
+x<-fed_patient_features(panel,d$hospitalization_id);proto<-readRDS(frozen$prototype_file);assigned<-fed_assign(x,proto,72-d$hours_UNKNOWN);d<-dplyr::bind_cols(d,assigned)
+stopifnot(nrow(d)==nrow(a$landmark[a$landmark$landmark_reason=='eligible',]),!anyNA(d$phenotype),all(d$phenotype[d$hours_UNKNOWN==72]=='I'))
+d$followup<-pmin(28,d$time_from_landmark);d$info_status<-ifelse(d$phenotype=='I','insufficient','classified')
+fed_write(d |> dplyr::count(phenotype,assignment_status,name='n') |> dplyr::mutate(n_lower=10*floor(n/10),n_upper=10*floor(n/10)+9) |> dplyr::select(-n),file.path(root,'aggregate/assignment_counts.csv'))
+fed_write(tibble::tibble(site='MIMIC',n=nrow(d),patients=dplyr::n_distinct(d$patient_id),prior_completed_lung_cancer_encounter_n=sum(d$prior_completed_lung_cancer_encounter),raw_unknown_pct=100*mean(raw$support=='UNKNOWN'),waterfall_unknown_pct=100*mean(panel$support=='UNKNOWN'),entirely_unknown_stays=sum(d$hours_UNKNOWN==72),arf_positive_n=sum(d$measured_arf),measured_sofa_n=sum(!is.na(d$sofa_total))),file.path(root,'aggregate/panel_quality.csv'))
+profiles<-panel |> dplyr::left_join(d |> dplyr::select(hospitalization_id,phenotype),by='hospitalization_id') |> dplyr::group_by(phenotype,h) |> dplyr::count(support,name='n')
+profiles$n_lower<-10*floor(profiles$n/10);profiles$n_upper<-profiles$n_lower+9;profiles$n<-NULL;fed_write(profiles,file.path(root,'aggregate/support_profiles.csv'))
+saveRDS(list(data=d,panel=panel,raw_panel=raw,assignment=assigned),file.path(root,'local/derivation.rds'))
+fed_json(list(status='passed',all_landmark_cases_retained=TRUE,poa_not_assumed=TRUE,raw_arf_unchanged=TRUE,frozen_consensus_unchanged=TRUE,no_mimic_discovery_or_outcomes_used=TRUE,n=nrow(d),source=as.list(tools::md5sum(c('diagnostics/mimic/derive.R','diagnostics/mimic/prepare.R')))),file.path(root,'aggregate/derivation_audit.json'))
+message('MIMIC frozen assignment complete: ',nrow(d),' hospitalizations retained')

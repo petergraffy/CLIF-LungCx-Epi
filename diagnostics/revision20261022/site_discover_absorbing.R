@@ -32,7 +32,7 @@ for(cl in sort(unique(labels))) {
  counts<-m[m$local_cluster==cl,] |> dplyr::count(domain,bin,state,name="count")
  f<-features |> dplyr::left_join(counts,by=c("domain","bin","state"));f$count[is.na(f$count)]<-0
  intervals<-t(vapply(f$count/n,function(p)fed_interval(p,n),numeric(2)))
- sig[[as.character(cl)]]<-f |> dplyr::select(domain,bin,state,feature) |> dplyr::mutate(site=site,local_cluster=cl,lower=intervals[,1],upper=intervals[,2])
+ sig[[as.character(cl)]]<-f |> dplyr::select(domain,bin,state,feature,count) |> dplyr::mutate(site=site,local_cluster=cl,denominator=n,lower=intervals[,1],upper=intervals[,2])
 }
 fed_write(dplyr::bind_rows(sig),file.path(out,"fingerprints.csv"));fed_write(dplyr::bind_rows(meta),file.path(out,"clusters.csv"))
 fed_write(sil |> dplyr::mutate(site=site),file.path(out,"silhouette.csv"))
@@ -40,7 +40,7 @@ method_files<-c("diagnostics/revision20261022/absorbing_contract.R","diagnostics
 fed_json(list(schema=FED_SCHEMA,site=site,specification=fed_spec(),spec_hash=fed_hash(fed_spec()),
  method_hash=fed_hash(as.list(tools::md5sum(method_files))),input_processing=manifest$boundary_rule,
  waterfall_source_sha256=jsonlite::fromJSON(file.path(input_root,"local","waterfall_manifest.json"))$waterfall_source_sha256,
- release="interval fingerprints and banded cluster sizes; no patient rows; not differential privacy; local rehearsal"),file.path(out,"manifest.json"))
+ release="interval templates with exact aggregate counts; no patient rows; not differential privacy; local rehearsal"),file.path(out,"manifest.json"))
 fit$distance<-NULL
 saveRDS(list(data=d,panel=panel,fit=fit,stability=st,input_root=input_root,legacy_adjusted_rand=adjusted_rand(a$fit$labels,labels[match(a$fit$ids,ids)])),cache)
 fed_json(list(site=site,n=nrow(d),k=k,all_assigned=TRUE,support_exclusions=0,source=manifest$baseline_root),file.path(local,"discovery_audit.json"))
