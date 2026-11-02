@@ -1,7 +1,7 @@
 # Two stage deployment contract
 
 This deployment packages the adopted three-site rehearsal method. It does not
-use the legacy raw-profile one-to-one consensus commands. The initial site job
+use the legacy raw-profile one-to-one consensus commands. The run instructions are in `code/README.md`. The initial site job
 is scripts/site.R stage1. The coordinator alone releases Stage 2 parameters.
 
 Stage 1 produces local OM/Ward discoveries for primary, h24, h48, onset,

@@ -1,6 +1,6 @@
 # Site return payload reference
 
-**For a new two-stage run, follow the root README and use `scripts/site.R`.**
+**For a new two-stage run, follow the code README and use `scripts/site.R`.**
 Run `preflight` and `stage1`, return only `stage1_return/`, then stop. The
 coordinator reviews/pools the discovery returns and issues the Stage 2 parameter
 bundle. Sites must not use historical consensus mappings or the legacy
@@ -8,7 +8,7 @@ bundle. Sites must not use historical consensus mappings or the legacy
 
 The remainder describes individual payload families and historical extension
 commands. The new runner assembles them at the correct stage automatically.
-[Two-stage commands](../README.md) · [Environment setup](environment.md).
+[Two-stage commands](../code/README.md) · [Environment setup](environment.md).
 
 
 **Current aggregate policy (October30): return exact aggregate counts, including

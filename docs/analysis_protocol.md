@@ -262,4 +262,4 @@ list rather than only the three development-site names. These deployment
 changes do not change the scientific exposure, assignment rule or estimands.
 Stage 2 includes a coordinator exchange for frozen other-site prediction and
 a common survival grid; these cannot be computed from Stage 1 fingerprints alone.
-See the root README and docs/two_stage_run.md for exact commands and returns.
+See the code README and docs/two_stage_run.md for exact commands and returns.
