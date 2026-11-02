@@ -10,7 +10,7 @@ for name in tracked:
     assert Path(name).suffix.lower() not in {'.rds','.parquet','.fst','.rdata','.zip','.shp','.dbf','.png','.tif'}, name
     if Path(name).suffix in {'.R','.py','.sh','.json'}:
         text=(root/name).read_text()
-        assert '/Users/saborpete/' not in text, f'Private machine path in {name}'
+        assert not re.search(r'/(?:Users|home)/[^/\s]+/',text), f'Private machine path in {name}'
         for dependency in re.findall(r'''source\(['"]((?:code|scripts|diagnostics|tests)/[^'"]+\.R)['"]''',text):
             assert dependency in tracked_set, f'{name} imports untracked {dependency}'
 for name in ['README.md','code/README.md','config/README.md']:
