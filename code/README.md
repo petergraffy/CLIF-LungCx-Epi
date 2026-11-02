@@ -26,7 +26,8 @@ grid. Neither exchange shares patient identifiers or individual predictions.
 
 ## 1 Set up the same environment at every site
 
-Use the coordinator-issued commit of this repository and **R 4.4.2** and
+Use a **Git checkout** of the coordinator-issued commit (Git must be installed),
+**R 4.4.2**, and
 **Python 3.12**. Do not update packages or edit `renv.lock` at a site.
 Run all commands from the repository root. The R setup restores exact package
 versions into the ignored project library `renv/library/`; it does not upgrade
@@ -197,14 +198,14 @@ Developer synthetic checks (no clinical data):
 
 ```sh
 bash run.sh test
+python3 tests/repository_hygiene.py
 Rscript --vanilla tests/deployment.R
 python3 tests/arf_display.py
 python3 tests/sankey.py
 ```
 
-Earlier `code/02_derive.R` → raw-profile consensus/model commands and dated
-`diagnostics/*/run.sh` files are comparison or rehearsal workflows, not site
-instructions for this deployment. The submitted implementation is preserved in
-[archive/2026-10-21](../archive/2026-10-21/README_ARCHIVE.md). Historical local figures
-and `config/active_analysis.json` describe the three-site rehearsal, not parameters
-that new sites should apply before the coordinator completes Stage 1 review.
+Earlier `code/02_derive.R` → raw-profile consensus/model commands are retained
+for comparison and synthetic tests, not site instructions for this deployment.
+Retired rehearsal runners, local result pointers, site returns, exposome data
+and old implementation snapshots are excluded from the shared tree. Use the
+coordinator-issued bundle, never historical local outputs, for Stage 2.

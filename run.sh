@@ -17,6 +17,7 @@ case "${1:-help}" in
     Rscript code/03_model.R "$2"
     ;;
   test)
+    python3 tests/repository_hygiene.py
     Rscript tests/run_tests.R
     Rscript tests/apache_adapted.R
     Rscript tests/sofa_recovery.R

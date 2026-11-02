@@ -58,8 +58,8 @@ sensitivities. This step does not refit outcomes or replace frozen scores.
 
 ## Complete federated return after all frozen site passes
 
-The current `diagnostics/revision20261022/run.sh` now automatically captures each
-site's complete return after local models, validation and sensitivity audits.
+The `scripts/site.R stage2-evaluate` command captures each site's complete
+return after local models, validation and sensitivity audits.
 For an already completed run, execute on that site's machine:
 
 ```sh

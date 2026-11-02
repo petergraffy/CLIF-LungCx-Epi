@@ -2,7 +2,12 @@ source('scripts/runtime.R')
 source('code/lib/load.R')
 DEPLOY_VARIANTS<-c('primary','h24','h48','onset','support_only','low_flow','carry0','carry12','raw_support','absorbing')
 deploy_hash<-function() {
- files<-sort(c(unlist(lapply(c('code','diagnostics','scripts'),function(p)list.files(p,pattern='[.](R|py|sh|bat)$',recursive=TRUE,full.names=TRUE))), 'renv.lock','config/waterfall_requirements.txt'))
+ # Hash shared source only; ignored historical copies must not change a site contract.
+ git<-Sys.which('git');if(!nzchar(git))stop('Git is required for source-contract checks; use a Git checkout of the coordinator-issued commit.')
+ files<-system2(git,c('ls-files','--','code','diagnostics','scripts','renv.lock','config/waterfall_requirements.txt'),stdout=TRUE,stderr=TRUE)
+ if(!is.null(attr(files,'status')))stop('Unable to read the tracked source inventory. Run from a Git checkout.')
+ files<-sort(files[grepl('^(code|diagnostics|scripts)/.*[.](R|py|sh|bat)$',files)|files%in%c('renv.lock','config/waterfall_requirements.txt')])
+ if(!length(files)||any(!file.exists(files)))stop('Tracked source files are missing; restore the coordinator-issued checkout.')
  digest::digest(as.list(setNames(unname(tools::md5sum(files)),files)),algo='sha256')
 }
 deploy_json<-function(x,path){dir.create(dirname(path),recursive=TRUE,showWarnings=FALSE);jsonlite::write_json(x,path,auto_unbox=TRUE,pretty=TRUE,null='null',digits=16)}

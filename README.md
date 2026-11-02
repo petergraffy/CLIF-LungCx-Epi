@@ -18,9 +18,8 @@ Supporting documentation:
 - [Reviewer requirements](docs/site_return_requirements.csv)
 - [Site return reference](docs/site_return_workflow.md)
 - [Reproducible environment](docs/environment.md)
-- [Archived submitted implementation](archive/2026-10-21/README_ARCHIVE.md)
 
 The current workflow is a new analysis for the manuscript revision. Historical
-returns and figures are preserved separately and are not automatically used as
-inputs to a new federation. Modified SOFA and adapted APACHE comparisons are
+returns, figures and retired implementations are excluded from the shared tree
+and remain available in Git history or local archives. Modified SOFA and adapted APACHE comparisons are
 explicitly qualified adaptations rather than validated standard scores.

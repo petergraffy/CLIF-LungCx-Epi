@@ -40,3 +40,7 @@ Python requirements and runtime-check output. Its manifest also records source
 and lockfile hashes. Stage 2 rejects returns/bundles from a different source
 or environment contract. Source CLIF tables and numeric local diagnostics are
 never part of the environment return.
+
+Source-contract checks use Git's tracked-file inventory. Use a Git checkout and
+keep Git available in PATH. Ignored local outputs, old site returns and retired
+source copies do not alter the deployment hash or participate in a new run.

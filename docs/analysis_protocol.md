@@ -1,8 +1,8 @@
-# Active three-site analysis and site-return protocol
+# Federated analysis and site-return protocol
 
-This describes the October 26 three-site development workflow. The earlier
-baseline protocol is preserved in `archive/2026-10-26/analysis_protocol_baseline.md`.
-It used different support preprocessing, matching, and validation methods. Do not
+This specifies the method developed in the three-site rehearsal and packaged
+for the portable two-stage run. Earlier baseline implementations are available
+in Git history and used different preprocessing, matching and validation. Do not
 combine its raw-profile consensus returns with the current interval-fingerprint
 consensus. The scripts under `code/` prepare source data and baseline comparisons;
 the adopted waterfall/template procedure is under `diagnostics/federated/` and
