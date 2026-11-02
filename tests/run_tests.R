@@ -154,7 +154,7 @@ check(nrow(repeated_aj) > 0 && all(is.finite(repeated_aj$std_error)), "competing
 check(nrow(aj) > 0 && all(aj$cumulative_incidence >= 0 & aj$cumulative_incidence <= 1), "competing-event cumulative incidence stays within probability bounds")
 check(!any(vapply(aj, function(x) is.matrix(x) || is.list(x), logical(1))), "cumulative-incidence exports contain scalar columns")
 models <- fit_associations(clinical)
-check(nrow(models$metadata) == 3 && all(models$metadata$fitted_n == nrow(clinical)), "separate death hospice composite models report actual fitted denominator")
+check(nrow(models$metadata) == 4 && setequal(models$metadata$endpoint, cox_endpoints()) && all(models$metadata$fitted_n == nrow(clinical)), "separate death hospice composite live-discharge models report actual fitted denominator")
 seq <- fit$sequence[match(clinical$hospitalization_id, fit$ids), , drop = FALSE]
 validation <- validate_nested(clinical, seq, cfg)
 check(validation$audit$status == "ok", paste("fold-isolated nested validation completes:", validation$audit$status))

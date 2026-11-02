@@ -76,10 +76,7 @@ plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top
 N=next(r['n'] for r in metrics)
 site_ns={r['site']:int(r['n']) for r in den if r['endpoint']=='death_or_hospice'}
 for endpoint,title in [('death_or_hospice','Hospital death or hospice'),('death','Hospital death')]:
- fig,axes=plt.subplots(1,3,figsize=(15,7));fig.subplots_adjust(left=.065,right=.98,bottom=.29,top=.73,wspace=.22)
- fig.suptitle('Pooled held-out ROC curves at 7, 14 and 28 days',x=.035,ha='left',fontsize=21,y=.97)
- fig.text(.035,.90,f'{title} after the 72-hour landmark | identical evaluation hospitalizations for all four models',fontsize=12)
- fig.text(.035,.85,f'Complete modified SOFA + adapted APACHE: N={N:,} | '+', '.join(f'{s} {n}' for s,n in site_ns.items()),fontsize=11)
+ fig,axes=plt.subplots(1,3,figsize=(15,5));fig.subplots_adjust(left=.065,right=.98,bottom=.14,top=.90,wspace=.22)
  for ax,day in zip(axes,[7,14,28]):
   counts=next(r for r in metrics if r['endpoint']==endpoint and r['day']==day)
   for model,label,color in zip(models,labels,colors):
@@ -93,8 +90,7 @@ for endpoint,title in [('death_or_hospice','Hospital death or hospice'),('death'
        'Controls include competing hospital exits and those still free of the endpoint. Scores are frozen 28-day risks evaluated at each horizon.\n'
        'AUCs use scores grouped into fixed 0.00001-wide bins; parentheses: pointwise 95% intervals from 200 paired within-site patient-cluster bootstrap resamples.\n'
        'Unadjusted combined-cohort ROC; larger sites contribute more observations. Modified SOFA and adapted APACHE are CLIF-derived proxies.')
- fig.text(.035,.045,note,fontsize=9,color='#444444',va='bottom')
- for ext in ['png','pdf']:fig.savefig(out/f'pooled_roc_{endpoint}.{ext}',dpi=180,facecolor='white')
+ for ext in ['png','pdf']:fig.savefig(out/f'pooled_roc_{endpoint}.{ext}',dpi=180,facecolor='white',bbox_inches='tight')
  plt.close(fig)
-manifest=dict(status='passed',sites=[m['site'] for m in meta],consensus_id=meta[0]['consensus_id'],n=N,site_n=site_ns,patient_level_inputs_read=False,method='ROC of pooled exact counts in common 0.00001 score bins; not average site ROCs',cohort='Same matched complete-SOFA/adapted-APACHE patients across all four frozen held-out models',bootstrap=200,bootstrap_scope='Independent within-site patient-cluster resamples; same replicate across models/days/endpoints; conditional on frozen learners',unrounded_auc_ambiguity_bound_max=max(r['quantization_bound'] for r in metrics),local_exact_vs_binned_auc_max=max(float(r['absolute_difference']) for r in site_audit if r['absolute_difference']),limitations=['Complete-case selection; restricted sample','Mixture of site-held-out predictors, not one common fitted predictor','Combined-site case mix and calibration affect pooled ROC; site curves retained','Modified SOFA and adapted APACHE are not validated standard scores'],inputs={str(Path(s)/'manifest.json'):hashlib.md5((Path(s)/'manifest.json').read_bytes()).hexdigest() for s in a.shares})
+manifest=dict(status='passed',captions_and_subtitles=False,sites=[m['site'] for m in meta],consensus_id=meta[0]['consensus_id'],n=N,site_n=site_ns,patient_level_inputs_read=False,method='ROC of pooled exact counts in common 0.00001 score bins; not average site ROCs',cohort='Same matched complete-SOFA/adapted-APACHE patients across all four frozen held-out models',bootstrap=200,bootstrap_scope='Independent within-site patient-cluster resamples; same replicate across models/days/endpoints; conditional on frozen learners',unrounded_auc_ambiguity_bound_max=max(r['quantization_bound'] for r in metrics),local_exact_vs_binned_auc_max=max(float(r['absolute_difference']) for r in site_audit if r['absolute_difference']),limitations=['Complete-case selection; restricted sample','Mixture of site-held-out predictors, not one common fitted predictor','Combined-site case mix and calibration affect pooled ROC; site curves retained','Modified SOFA and adapted APACHE are not validated standard scores'],inputs={str(Path(s)/'manifest.json'):hashlib.md5((Path(s)/'manifest.json').read_bytes()).hexdigest() for s in a.shares})
 (out/'manifest.json').write_text(json.dumps(manifest,indent=2));print(json.dumps(manifest,indent=2))

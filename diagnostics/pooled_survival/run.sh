@@ -18,3 +18,4 @@ for POOL_SITE in "${POOL_SITES[@]}"; do
 done
 Rscript diagnostics/pooled_survival/central_pool.R "$POOL_OUTPUT/reports" "$POOL_OUTPUT/coordinator/grid" "${POOL_RISK_RETURNS[@]}"
 CLIF_POOLED_SURVIVAL_OUTPUT="$POOL_OUTPUT" python3 diagnostics/pooled_survival/plot.py
+python3 diagnostics/pooled_survival/plot_competing.py "$POOL_OUTPUT/reports"

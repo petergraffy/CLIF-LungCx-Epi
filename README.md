@@ -27,6 +27,10 @@ cross-tabulations: [Sankey workflow](diagnostics/sankey/README.txt). Phase1 plot
 retain site-local labels; pooled plots require the refreshed shared-phenotype
 returns after assignment.
 
+Post-landmark associations include hospital death, hospice, death/hospice and
+live non-hospice discharge. [Four-endpoint Cox workflow](diagnostics/four_endpoint_cox/README.txt)
+updates completed site returns while preserving frozen phenotypes and predictors.
+
 ## Site workflow
 
 **Current return contract:** see [site return workflow](docs/site_return_workflow.md)

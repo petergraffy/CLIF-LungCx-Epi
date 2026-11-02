@@ -271,3 +271,22 @@ reads only the aggregate descriptor returns, checks margins/consensus/hashes,
 and produces per-site diagrams plus a pooled diagram for shared assignments.
 The plot script rejects unavailable/suppressed partitions instead of inventing
 counts. See diagnostics/sankey/README.txt for definitions and example outputs.
+
+
+Four-endpoint post-landmark Cox associations
+
+Fresh primary and inferential-sensitivity site workers now return death, hospice,
+death_or_hospice and live_discharge association models (live discharge excludes
+hospice), with unadjusted/core/measured-SOFA specifications. Return estimates,
+clustered SE/covariance, actual N/event counts, nonestimability and PH tests.
+Saved completed runs can use the association-only four_endpoint_cox/site_capture.R
+script and add_to_return.R to attach all four endpoints without relearning
+phenotypes or refitting prediction models. The final extension is located under
+federated/four_endpoint_cox/primary/ and matching sensitivity subfolders.
+The corresponding site manifest must set four_endpoint_cox_complete=true.
+Set CLIF_REQUIRE_FOUR_ENDPOINT_COX=true during final collection to require this
+extension from every site. Original primary model files remain historical when
+appending an extension; use the explicit four-endpoint path for updated Table2.
+See diagnostics/four_endpoint_cox/README.txt for commands and competing-event
+semantics. Retain the exported0-7/7-28day exploratory sensitivity: discharge P4
+PH tests show time variation in the current three-site analysis.

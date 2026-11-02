@@ -1,3 +1,11 @@
+# Mutually exclusive hospital exits; the composite combines death and hospice.
+cox_endpoints <- function() c('death','hospice','death_or_hospice','live_discharge')
+cox_event <- function(d,endpoint,horizon=28) {
+  if(!endpoint%in%cox_endpoints())stop('Unknown cause-specific endpoint: ',endpoint)
+  types<-if(endpoint=='death_or_hospice')c('death','hospice') else endpoint
+  as.integer(d$time_from_landmark<=horizon & d$event_type%in%types)
+}
+
 association_terms <- function(d) {
   candidates <- c("age_years", "sex_category", "race_category", "admission_year",
     "sofa_total", "charlson_noncancer", "advanced_cancer", "code_at_admission")
@@ -6,15 +14,15 @@ association_terms <- function(d) {
 
 fit_associations <- function(d, reference = "P1") {
   d$phenotype <- stats::relevel(factor(d$phenotype), ref = reference)
-  # Use one common complete-case population for all three endpoints.
+  # Use one common complete-case population for all four endpoints.
   baseline <- c("age_years", "sex_category", "race_category", "admission_year", "sofa_total",
                 "charlson_noncancer", "advanced_cancer", "code_at_admission")
   keep <- stats::complete.cases(d[c(baseline, "phenotype", "time_from_landmark", "event_type", "patient_id")]) & d$time_from_landmark > 0
   audit <- tibble::tibble(variable = c(baseline, "phenotype"), missing_n = vapply(d[c(baseline, "phenotype")], function(x) sum(is.na(x)), integer(1)))
   x <- droplevels(d[keep, ])
   metadata <- list(); estimates <- list(); covariance <- list()
-  for (endpoint in c("death", "hospice", "death_or_hospice")) {
-    event <- if (endpoint == "death_or_hospice") x$event_type %in% c("death", "hospice") else x$event_type == endpoint
+  for (endpoint in cox_endpoints()) {
+    event <- as.logical(cox_event(x,endpoint,horizon=Inf))
     x$event <- as.integer(event)
     formula <- stats::as.formula(paste("survival::Surv(time_from_landmark, event) ~ phenotype +",
        paste(c(association_terms(x), "cluster(patient_id)"), collapse = " + ")))

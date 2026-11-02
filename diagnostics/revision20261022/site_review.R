@@ -27,8 +27,8 @@ continuous$n<-NULL;fed_write(continuous |> dplyr::mutate(site=site),file.path(ou
 # Actual model denominators are retained locally, with banded public metadata.
 subsets<-list(all=rep(TRUE,nrow(d)),full_at_admission=d$code_at_admission=='full',full_through_landmark=d$code_at_admission=='full' & d$code_at_landmark=='full' & !is.na(d$code_changed) & !d$code_changed & !is.na(d$new_dni) & !d$new_dni & !is.na(d$new_comfort) & !d$new_comfort,no_covid=!d$covid,first_hospitalization=d$first_hospitalization,arf_or_high_support=d$measured_arf|d$high_support)
 rows<-list();meta<-list();fits<-list();exact<-list()
-for(sub in names(subsets))for(spec in if(sub=='all')c('core','end_code','arf_channels') else 'core')for(endpoint in c('death','hospice','death_or_hospice')){
- z<-d[which(subsets[[sub]]),];z$event<-as.integer(z$time_from_landmark<=28 & if(endpoint=='death_or_hospice')z$event_type%in%c('death','hospice') else z$event_type==endpoint)
+for(sub in names(subsets))for(spec in if(sub=='all')c('core','end_code','arf_channels') else 'core')for(endpoint in cox_endpoints()){
+ z<-d[which(subsets[[sub]]),];z$event<-cox_event(z,endpoint)
  covars<-model_spec()$core
  if(spec=='end_code'){
  z$landmark_nonfull<-as.numeric(z$end_code=='nonfull');z$landmark_unknown<-as.numeric(z$end_code=='unknown');z$new_dni_observed<-as.numeric(!is.na(z$new_dni)&z$new_dni);z$new_comfort_observed<-as.numeric(!is.na(z$new_comfort)&z$new_comfort);covars<-c(covars,'landmark_nonfull','landmark_unknown','new_dni_observed','new_comfort_observed')

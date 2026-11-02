@@ -49,3 +49,10 @@ Lead-team work remaining after site returns
     denominators.csv and availability.csv. Keep UNKNOWN and I explicit; do not
     pool local cluster labels or include Overall twice. These use existing
     federated/descriptives/ returns; no patient-level records are needed.
+
+14. Return all FOUR post-landmark cause-specific Cox outcomes: hospital death,
+    hospice, death/hospice and live non-hospice discharge. Include all three
+    model specifications, PH diagnostics, N/events/status and robust covariance.
+    For completed runs append four_endpoint_cox/site_capture.R exports using
+    add_to_return.R; verify four_endpoint_cox_complete=true. Keep interval
+    sensitivities with single-HR tables when PH diagnostics indicate variation.

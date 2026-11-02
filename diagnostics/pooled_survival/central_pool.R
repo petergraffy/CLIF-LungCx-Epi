@@ -40,10 +40,10 @@ for(i in seq_len(nrow(keys))){
   q$survival<-ps_product(q$n_risk,q$n_event);q$survival[q$time>q$max_followup]<-NA_real_;site_curves[[paste(i,s)]]<-q
  }
 }
-# Compute live-discharge incidence from summed counts, never from averaged site curves.
+# Compute both competing incidences from summed counts, never averaged site curves.
 incidence<-list();site_incidence<-list()
-for(curve_key in unique(grid$curve)){
- z<-nom[nom$curve==curve_key&nom$endpoint=='live_discharge',] |> dplyr::arrange(time)
+for(curve_key in unique(grid$curve))for(endpoint_key in c('death_or_hospice','live_discharge')){
+ z<-nom[nom$curve==curve_key&nom$endpoint==endpoint_key,] |> dplyr::arrange(time)
  exits<-nom[nom$curve==curve_key&nom$endpoint=='any_exit',] |> dplyr::arrange(time)
  stopifnot(identical(z$time,exits$time),identical(z$n_risk,exits$n_risk))
  point<-ps_incidence(z$n_risk,z$n_event,exits$n_event)
@@ -57,23 +57,33 @@ for(curve_key in unique(grid$curve)){
  z$conf_low<-ci[,1];z$conf_high<-ci[,2];z$bootstrap_replicates<-finite
  z$n_competing<-exits$n_event-z$n_event
  stopifnot(all(diff(point[is.finite(point)])>=-1e-12),all(point[is.finite(point)]<=1+1e-12))
- incidence[[curve_key]]<-z
+ incidence[[paste(curve_key,endpoint_key)]]<-z
  for(s in sites){
-  q<-site[site$site==s&site$curve==curve_key&site$endpoint=='live_discharge',] |> dplyr::arrange(time)
+  q<-site[site$site==s&site$curve==curve_key&site$endpoint==endpoint_key,] |> dplyr::arrange(time)
   e<-site[site$site==s&site$curve==curve_key&site$endpoint=='any_exit',] |> dplyr::arrange(time)
   q$estimate<-ps_incidence(q$n_risk,q$n_event,e$n_event)
-  q$estimate[q$time>q$max_followup]<-NA_real_;site_incidence[[paste(curve_key,s)]]<-q
+  q$estimate[q$time>q$max_followup]<-NA_real_;site_incidence[[paste(curve_key,endpoint_key,s)]]<-q
  }
 }
-ps_export(dplyr::bind_rows(incidence),file.path(out,'pooled_discharge_incidence.csv'))
-ps_export(dplyr::bind_rows(site_incidence),file.path(out,'site_discharge_incidence.csv'))
+incidence<-dplyr::bind_rows(incidence);site_incidence<-dplyr::bind_rows(site_incidence)
+# The two absorbing causes exhaust known hospital exits at every event time.
+for(curve_key in unique(grid$curve)){
+ d<-incidence[incidence$curve==curve_key&incidence$endpoint=='death_or_hospice',]
+ l<-incidence[incidence$curve==curve_key&incidence$endpoint=='live_discharge',]
+ e<-nom[nom$curve==curve_key&nom$endpoint=='any_exit',] |> dplyr::arrange(time)
+ stopifnot(identical(d$time,l$time),all(abs(d$estimate+l$estimate+ps_product(e$n_risk,e$n_event)-1)<1e-10,na.rm=TRUE))
+}
+ps_export(incidence,file.path(out,'pooled_competing_incidence.csv'))
+ps_export(site_incidence,file.path(out,'site_competing_incidence.csv'))
+ps_export(dplyr::filter(incidence,endpoint=='live_discharge'),file.path(out,'pooled_discharge_incidence.csv'))
+ps_export(dplyr::filter(site_incidence,endpoint=='live_discharge'),file.path(out,'site_discharge_incidence.csv'))
 pooled<-dplyr::bind_rows(pooled)
 ps_export(pooled,file.path(out,'pooled_survival.csv'))
 ps_export(pooled |> dplyr::filter(time%in%c(0,7,14,21,28)),file.path(out,'risk_tables.csv'))
 ps_export(dplyr::bind_rows(site_curves),file.path(out,'site_survival.csv'))
 ps_export(dplyr::bind_rows(audit),file.path(out,'pooling_denominators.csv'))
 jsonlite::write_json(list(status='passed',sites=sites,consensus_id=cm$consensus_id,patient_level_inputs_read=FALSE,method='Pooled product-limit: product over exact shared event-duration grid of1 - sum_site(events)/sum_site(risk)',
- discharge_endpoint='Live non-hospice discharge; death and hospice are competing events; unknown exits censored',discharge_method='Aalen-Johansen cumulative incidence from exact summed risk and all-exit counts; 200 within-site patient-cluster bootstrap intervals',target='Observed combined hospitalization cohort; risk-set weighting, not equal-site averaging',bootstrap='200 independent patient-cluster resamples within site; all admissions carried together; pointwise percentile intervals; conditional on these three sites',
+ competing_incidence_endpoints=c('death_or_hospice','live_discharge'),probability_partition_checked=TRUE,discharge_endpoint='Live non-hospice discharge; death and hospice are competing events; unknown exits censored',discharge_method='Aalen-Johansen cumulative incidence from exact summed risk and all-exit counts; 200 within-site patient-cluster bootstrap intervals',target='Observed combined hospitalization cohort; risk-set weighting, not equal-site averaging',bootstrap='200 independent patient-cluster resamples within site; all admissions carried together; pointwise percentile intervals; conditional on these three sites',
  clocks='All eligible admissions at ICU t0; frozen primary phenotypes at72h',limitations=c('Unadjusted curves; retain site-specific heterogeneity and adjusted meta-analysis','Competing hospital exits censored in cause-specific KM; not post-discharge all-cause survival','Unknown whole-cohort dispositions censored at observed discharge','Cannot link repeated patients across institutions'),
  shared_data='Relative follow-up duration grid and exact aggregate risk/event counts; no identifiers or calendar timestamps',clinical_models_refitted=FALSE,source_md5=as.list(tools::md5sum(c('diagnostics/pooled_survival/lib.R','diagnostics/pooled_survival/central_pool.R')))),file.path(out,'pooling_manifest.json'),auto_unbox=TRUE,pretty=TRUE)
 cat('Exact pooled KM curves and patient-cluster bootstrap intervals passed\n')

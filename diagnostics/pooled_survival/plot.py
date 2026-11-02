@@ -33,12 +33,9 @@ def risk_table(ax,entries):
  for cell in tab.get_celld().values():cell.set_edgecolor('#EEEEEE')
  ax.set_title('Exact number at risk',fontsize=10,pad=10)
 def save(fig,name,caption):
- fig.text(.035,.025,caption,fontsize=9,color='#444444',va='bottom')
- for ext in ['png','pdf']:fig.savefig(OUT/f'{name}.{ext}',dpi=180,facecolor='white')
+ for ext in ['png','pdf']:fig.savefig(OUT/f'{name}.{ext}',dpi=180,facecolor='white',bbox_inches='tight')
  plt.close(fig)
-fig=plt.figure(figsize=(14,9));gs=fig.add_gridspec(2,2,height_ratios=[3,1.1],left=.09,right=.98,top=.82,bottom=.19,hspace=.42,wspace=.20)
-fig.suptitle('Pooled survival and discharge by 72-hour phenotype',x=.035,ha='left',fontsize=21,y=.97)
-fig.text(.035,.91,'UCMC + NU + Rush | 3,310 landmark hospitalizations | exact pooled risk sets and event counts',fontsize=12)
+fig=plt.figure(figsize=(14,9));gs=fig.add_gridspec(2,2,height_ratios=[3,1.1],left=.09,right=.98,top=.92,bottom=.06,hspace=.42,wspace=.20)
 for j,(endpoint,title) in enumerate([('death','A   Hospital-death Kaplan–Meier function'),('live_discharge','B   Discharge alive without hospice')]):
  ax=fig.add_subplot(gs[0,j])
  for ph,label in zip(PH,PN):
@@ -49,9 +46,7 @@ for j,(endpoint,title) in enumerate([('death','A   Hospital-death Kaplan–Meier
  risk_table(fig.add_subplot(gs[1,j]),[(ph,select(pooled,curve='landmark72h_'+ph,endpoint='death')) for ph in PH])
 save(fig,'pooled_phenotype_survival','Unadjusted combined cohort: A, cause-specific KM; B, Aalen–Johansen probability of live non-hospice discharge, with death/hospice competing.\nShading: pointwise 95% intervals from 200 patient-cluster bootstrap resamples within each site; uncertainty is conditional on these three sites.\nA censors other hospital exits; B retains death/hospice as competing outcomes. Neither panel measures survival after discharge.\nI is an information category. Larger sites contribute more observations; site-specific curves and adjusted meta-analysis remain companions.')
 
-fig=plt.figure(figsize=(14,9));gs=fig.add_gridspec(2,2,height_ratios=[3,1.1],left=.09,right=.98,top=.82,bottom=.19,hspace=.42,wspace=.20)
-fig.suptitle('Pooled survival and discharge from ICU admission',x=.035,ha='left',fontsize=21,y=.97)
-fig.text(.035,.91,'All 4,533 eligible hospitalizations enter at time zero; no 72-hour survivor requirement',fontsize=12)
+fig=plt.figure(figsize=(14,9));gs=fig.add_gridspec(2,2,height_ratios=[3,1.1],left=.09,right=.98,top=.92,bottom=.06,hspace=.42,wspace=.20)
 for j,(endpoint,title) in enumerate([('death','A   Hospital-death Kaplan–Meier function'),('live_discharge','B   Discharge alive without hospice')]):
  ax=fig.add_subplot(gs[0,j])
  for s in SITES:line(ax,select(site_discharge if endpoint=='live_discharge' else site,curve='icu_admission_Overall',endpoint=endpoint,site=s),SC[s],s,ci=False,ls=':',lw=1.4,value='estimate' if endpoint=='live_discharge' else 'survival')

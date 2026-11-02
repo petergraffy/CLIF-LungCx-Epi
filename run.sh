@@ -23,6 +23,7 @@ case "${1:-derive}" in
     Rscript tests/pooled_survival.R
     Rscript tests/pooled_roc.R
     Rscript tests/nearest_assignment.R
+    Rscript tests/four_endpoint_cox.R
     Rscript tests/site_return_collection.R
     Rscript tests/model_supplement_diagnostics.R
     ;;

@@ -30,6 +30,8 @@ if "%STAGE%"=="test" (
   if errorlevel 1 exit /b 1
   Rscript tests\pooled_roc.R
   if errorlevel 1 exit /b 1
+  Rscript tests\four_endpoint_cox.R
+  if errorlevel 1 exit /b 1
   Rscript tests\nearest_assignment.R
   if errorlevel 1 exit /b 1
   Rscript tests\model_supplement_diagnostics.R

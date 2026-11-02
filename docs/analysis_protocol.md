@@ -233,3 +233,19 @@ use exact pooled site risk/event counts, with 200 patient-cluster resamples
 within each site for pointwise intervals. Unknown dispositions are censored at
 observed exit. Cohort-wide curves start at ICU admission; phenotype curves
 start at the 72-hour landmark. No postdischarge survival is inferred.
+
+
+The adopted post-landmark association set includes four cause-specific Cox
+endpoints: hospital death, hospice discharge, death-or-hospice, and live
+non-hospice discharge. Each uses the same 28-day post-landmark clock and the
+same cohort/covariates within each model specification. Competing exits are
+censored at observed exit; patients with no terminal event by28days are
+administratively censored. Discharge HR>1 means a faster live-discharge rate
+among patients still hospitalized, not improved all-cause survival or an
+absolute discharge probability. Site clustered SEs, nonestimability, robust
+covariances and PH diagnostics are returned for all endpoints; pooled effects
+use REML and modified Hartung-Knapp. Exploratory0-7/7-28day post-landmark effects
+accompany PH assessment. The discharge P4 term shows time variation in all three
+current sites, so single-HR interpretation requires the interval sensitivity.
+The updated association-only extension preserves all frozen assignments and
+original prediction models; prior death/hospice/composite coefficients reproduce.

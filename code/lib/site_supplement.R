@@ -185,7 +185,7 @@ supplement_model_diagnostics <- function(saved,metadata) {
   p<-NA_real_;delta<-NA_real_;status<-'original_model_not_estimable'
   if(inherits(fit,'coxph')&&nrow(meta)==1&&meta$status=='ok'){
    z<-saved$data;if(spec=='measured_sofa')z<-z[!is.na(z$sofa_total),,drop=FALSE]
-   z$event<-as.integer(z$time_from_landmark<=28 & if(endpoint=='death_or_hospice')z$event_type%in%c('death','hospice') else z$event_type==endpoint)
+   z$event<-cox_event(z,endpoint)
    # Refit only to materialize the original local design; compare all coefficients.
    refit<-tryCatch(suppressWarnings(survival::coxph(formula(fit),data=z,ties='efron',x=TRUE,y=TRUE,model=FALSE)),error=identity)
    if(inherits(refit,'coxph')){
@@ -211,10 +211,10 @@ supplement_piecewise_associations <- function(d,min_cell=10) {
  pterms<-grep('^phenotype_P[0-9]+$',names(d),value=TRUE)
  core<-c('age10','male','black','other_or_unknown_race','year','charlson5','advanced','code_nonfull','code_unknown')
  rows<-list();meta<-list();fits<-list()
- for(start in c(0,7))for(endpoint in c('death','hospice','death_or_hospice')){
+ for(start in c(0,7))for(endpoint in cox_endpoints()){
   end<-if(start==0)7 else 28;z<-d[d$followup>start,,drop=FALSE]
   z$interval_time<-pmin(z$followup,end)-start
-  z$interval_event<-as.integer(z$time_from_landmark<=end & if(endpoint=='death_or_hospice')z$event_type%in%c('death','hospice') else z$event_type==endpoint)
+  z$interval_event<-cox_event(z,endpoint,horizon=end)
   terms<-c(pterms,core);terms<-terms[vapply(z[terms],function(x)length(unique(x))>1,logical(1))]
   f<-as.formula(paste('survival::Surv(interval_time,interval_event)~',paste(c(terms,'strata(info_status)','cluster(patient_id)'),collapse='+')))
   warnings<-character();fit<-tryCatch(withCallingHandlers(survival::coxph(f,data=z,ties='efron',x=TRUE,y=TRUE,model=FALSE),warning=function(w){warnings<<-c(warnings,conditionMessage(w));invokeRestart('muffleWarning')}),error=identity)

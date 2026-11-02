@@ -117,6 +117,18 @@ if(any(pool_flags)){
  }
  stopifnot(length(unique(grid_hashes))==1)
 }
+cox_flags<-vapply(meta,function(m)isTRUE(m$four_endpoint_cox_complete),logical(1))
+if(identical(Sys.getenv('CLIF_REQUIRE_FOUR_ENDPOINT_COX'),'true')&&!all(cox_flags))stop('Final return requires four-endpoint Cox exports from every site')
+if(any(cox_flags)){
+ if(!all(cox_flags))stop('Mixed four-endpoint Cox return phases')
+ extensions<-file.path(returns,'federated/four_endpoint_cox')
+ for(i in seq_along(extensions)){
+  cm<-jsonlite::fromJSON(file.path(extensions[i],'manifest.json'))
+  stopifnot(cm$site==sites[i],cm$primary_consensus_id==consensus[1],cm$status=='passed',setequal(cm$endpoints,cox_endpoints()))
+ }
+ rc<-system2(file.path(R.home('bin'),'Rscript'),c('diagnostics/four_endpoint_cox/collect.R',shQuote(file.path(out,'four_endpoint_cox')),shQuote(extensions)))
+ if(rc!=0)stop('Four-endpoint Cox collection failed')
+}
 coverage<-dplyr::bind_rows(lapply(seq_along(returns),function(i)tibble::tibble(site=sites[i],family=unique(unlist(files)),status=ifelse(unique(unlist(files))%in%files[[i]],'received','not_returned'))))
 readr::write_csv(coverage,file.path(out,'collection_coverage.csv'))
-jsonlite::write_json(list(status='aggregate_collection_complete',sites=sites,primary_consensus_id=consensus[1],site_count=length(sites),counts_pooled=FALSE,suppressed_values_preserved=TRUE,patient_level_inputs_read=FALSE,author_confirmation_required=TRUE,apache_adapted_extension_complete=all(apache_flags),publication_descriptives_complete=all(descriptor_flags),daily_competing_event_curves_complete=all(curve_flags),survival_tdauc_complete=all(survival_flags),pooled_survival_discharge_complete=all(pool_flags)),file.path(out,'collection_manifest.json'),auto_unbox=TRUE,pretty=TRUE)
+jsonlite::write_json(list(status='aggregate_collection_complete',sites=sites,primary_consensus_id=consensus[1],site_count=length(sites),counts_pooled=FALSE,suppressed_values_preserved=TRUE,patient_level_inputs_read=FALSE,author_confirmation_required=TRUE,apache_adapted_extension_complete=all(apache_flags),publication_descriptives_complete=all(descriptor_flags),daily_competing_event_curves_complete=all(curve_flags),survival_tdauc_complete=all(survival_flags),pooled_survival_discharge_complete=all(pool_flags),four_endpoint_cox_complete=all(cox_flags)),file.path(out,'collection_manifest.json'),auto_unbox=TRUE,pretty=TRUE)

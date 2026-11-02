@@ -3,8 +3,8 @@ site<-commandArgs(trailingOnly=TRUE)[1];home<-file.path(rev_root(),'sites',site)
 # Fraction coefficients are scaled to 24 positive hours (one third of window).
 for(v in c('hypox_fraction','hyper_fraction','mixed_fraction'))d[[paste0(v,'_24h')]]<-d[[v]]*3
 terms<-paste0(c('hypox_fraction','hyper_fraction','mixed_fraction'),'_24h');rows<-list();wald<-list()
-for(endpoint in c('death','hospice','death_or_hospice')){
- d$event<-as.integer(d$time_from_landmark<=28 & if(endpoint=='death_or_hospice')d$event_type%in%c('death','hospice') else d$event_type==endpoint)
+for(endpoint in cox_endpoints()){
+ d$event<-cox_event(d,endpoint)
  covars<-c(model_spec()$core,paste0('phenotype_',setdiff(revision_phenotypes(),'P1')),terms);covars<-covars[vapply(d[covars],function(x)length(unique(x))>1,logical(1))]
  f<-as.formula(paste('survival::Surv(followup,event)~',paste(c(covars,'strata(info_status)','cluster(patient_id)'),collapse='+')))
  warn<-character();fit<-tryCatch(withCallingHandlers(survival::coxph(f,data=d),warning=function(w){warn<<-c(warn,conditionMessage(w));invokeRestart('muffleWarning')}),error=identity)

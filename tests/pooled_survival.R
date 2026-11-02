@@ -32,3 +32,11 @@ stopifnot(all(abs(ci-expected)<1e-12),abs(tail(ci,1)-.4)<1e-12)
 stopifnot(tail(1-ps_product(live$risk,live$events),1)>tail(ci,1))
 stopifnot(all(is.na(ps_incidence(rep(0,3),rep(0,3),rep(0,3)))))
 cat('PASS: discharge incidence matches multistate Aalen-Johansen with tied death/live exits, hospice and censoring\n')
+
+# Composite death/hospice matches multistate AJ and complements live discharge.
+adverse<-ps_counts(d$time,ps_event(d,'death_or_hospice'),g)
+adverse_ci<-ps_incidence(adverse$risk,adverse$events,all_exit$events)
+expected_adverse<-rowSums(summary(fit,times=g,extend=TRUE)$pstate[,c('death','hospice')])
+stopifnot(all(abs(adverse_ci-expected_adverse)<1e-12))
+stopifnot(all(abs(adverse_ci+ci+ps_product(all_exit$risk,all_exit$events)-1)<1e-12))
+cat('PASS: composite death/hospice incidence matches multistate AJ; both causes plus event-free probability sum to one\n')

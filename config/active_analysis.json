@@ -7,15 +7,35 @@
   "apache_root": "output/run_nearest_assignment_20261030/apache_adapted",
   "exact_root": "output/run_nearest_assignment_20261030/exact",
   "pooled_survival_root": "output/run_nearest_assignment_20261030/pooled_discharge_alive",
-  "site_returns": "output/run_nearest_assignment_20261030/site_packets_discharge",
+  "site_returns": "output/run_nearest_assignment_20261030/site_packets_four_cox",
   "environment_script": "diagnostics/nearest_assignment/environment.sh",
   "audit": "output/run_nearest_assignment_20261030/reports/final_integration_audit.json",
   "survival_figure_root": "output/run_nearest_assignment_20261030/discharge_figures",
   "discharge_endpoint": "Aalen-Johansen cumulative incidence of live non-hospice discharge; death/hospice competing",
   "discharge_audit": "output/run_nearest_assignment_20261030/pooled_discharge_alive/reports/discharge_audit.json",
   "pooled_survival_returns_required_for_final_collection": true,
-  "site_return_collection": "output/run_nearest_assignment_20261030/reports/verified_discharge_site_returns_v2",
+  "site_return_collection": "output/run_nearest_assignment_20261030/reports/verified_four_cox_site_returns",
   "pooled_roc_root": "output/run_nearest_assignment_20261030/pooled_roc",
   "pooled_roc_site_returns": "output/run_nearest_assignment_20261030/pooled_roc/sites/SITE/share",
-  "sankey_root": "output/run_nearest_assignment_20261030/sankey"
+  "sankey_root": "output/run_nearest_assignment_20261030/sankey",
+  "four_endpoint_cox_root": "output/run_nearest_assignment_20261030/four_endpoint_cox_v2",
+  "four_endpoint_cox_reports": "output/run_nearest_assignment_20261030/four_endpoint_cox_v2/reports_with_piecewise",
+  "cause_specific_cox_endpoints": [
+    "death",
+    "hospice",
+    "death_or_hospice",
+    "live_discharge"
+  ],
+  "four_endpoint_cox_required_for_final_collection": true,
+  "main_phenotype_figure": "output/run_manuscript_proposal_20261101/figure_1.png",
+  "main_phenotype_figure_manifest": "output/run_manuscript_proposal_20261101/figure_1_manifest.json",
+  "main_phenotype_figure_panels": {
+    "top": "Respiratory support trajectories",
+    "bottom": "Documented ARF evidence trajectories"
+  },
+  "standalone_sankey_figure": "output/run_manuscript_proposal_20261101/standalone_initial_support_sankey.png",
+  "manuscript_review_root": "output/run_manuscript_proposal_20261101",
+  "manuscript_review_pdf": "output/pdf/run_manuscript_proposal_20261101_review.pdf",
+  "pooled_competing_incidence_root": "output/run_competing_incidence_20261101",
+  "pooled_competing_incidence_figure": "output/run_competing_incidence_20261101/reports/pooled_phenotype_competing_incidence.png"
 }

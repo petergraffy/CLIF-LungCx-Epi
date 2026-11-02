@@ -80,3 +80,19 @@ This preserves the earlier packet, adds both aggregate phases, updates the
 inventory and hashes, and sets pooled_survival_discharge_complete=true.
 Use CLIF_REQUIRE_POOLED_SURVIVAL=true for final site_return/collect.R collection.
 Current complete packets: output/run_nearest_assignment_20261030/site_packets_discharge/SITE/share/.
+
+Paired competing incidence curves
+--------------------------------
+central_pool.R also returns pooled_competing_incidence.csv and
+site_competing_incidence.csv for death_or_hospice and live_discharge.
+These are the two absorbing causes: unknown dispositions are censored at
+observed exit. Both CIFs use all known terminal exits in the common
+Aalen-Johansen survival product. Their sum plus the probability of remaining
+in hospital without either event is checked to equal one at every time.
+The same existing aggregate risksets and patient-cluster bootstrap counts
+support both curves; no additional patient-level exports are required.
+Plot the landmark phenotype curves with:
+  python3 diagnostics/pooled_survival/plot_competing.py PATH_TO_POOLED_REPORTS
+The figure omits embedded captions/subtitles, retains all phenotype groups,
+and reports pointwise bootstrap uncertainty and numbers at risk. Curves are
+unadjusted and describe the pooled observed cohort, not equal site averages.
