@@ -1,0 +1,20 @@
+{
+  "output": "output/run_coordinator_federated_20261101_v1",
+  "stage1_returns": [
+    "/absolute/path/to/returns/SITE_A/stage1_return",
+    "/absolute/path/to/returns/SITE_B/stage1_return",
+    "/absolute/path/to/returns/SITE_C/stage1_return"
+  ],
+  "selected_k": {
+    "primary": null,
+    "h24": null,
+    "h48": null,
+    "onset": null,
+    "support_only": null,
+    "low_flow": null,
+    "carry0": null,
+    "carry12": null,
+    "raw_support": null,
+    "absorbing": null
+  }
+}

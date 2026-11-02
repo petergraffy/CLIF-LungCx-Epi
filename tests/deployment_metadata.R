@@ -1,0 +1,18 @@
+# Source audit portability: absent optional names/tables are unknown, not zero.
+source('scripts/deployment_lib.R')
+base<-tempfile('run_metadata_contract_',tmpdir='output');dir.create(base);base<-normalizePath(base)
+site<-'DELTA';primary<-file.path(base,'primary');revision<-file.path(base,'revision');waterfall<-file.path(base,'waterfall');tables<-file.path(base,'tables');dir.create(tables)
+home<-file.path(primary,'sites',site,'local');dir.create(home,recursive=TRUE);dir.create(file.path(waterfall,'local'),recursive=TRUE)
+t0<-utc('2020-01-01');saveRDS(list(data=tibble::tibble(hospitalization_id='synthetic',t0=t0),input_root=waterfall),file.path(home,'discovery.rds'))
+deploy_json(list(source_file=file.path(tables,'clif_respiratory_support.parquet')),file.path(waterfall,'local/input_manifest.json'))
+env<-c(CLIF_REVISION_PRIMARY_INPUT=primary,CLIF_REVISION_OUTPUT=revision);env[paste0('CLIF_FEDERATED_INPUT_',site)]<-waterfall;do.call(Sys.setenv,as.list(env))
+lab<-tibble::tibble(hospitalization_id='synthetic',lab_category='other',lab_result_dttm=t0+60,lab_value_numeric=30)
+arrow::write_parquet(lab,file.path(tables,'CLIF_LABS.parquet'))
+run<-function(script){status<-system2(file.path(R.home('bin'),'Rscript'),c('--vanilla',paste0('diagnostics/revision20261022/',script,'.R'),site),stdout=file.path(base,paste0(script,'.log')),stderr=file.path(base,paste0(script,'.log')));stopifnot(status==0)}
+run('site_severity_source_audit');x<-readr::read_csv(file.path(revision,'sites',site,'export/severity_source_audit.csv'),show_col_types=FALSE);stopifnot(x$status=='source_labels_and_LOINC_unavailable',is.na(x$available_lower))
+run('site_code_source_audit');m<-deploy_read(file.path(revision,'sites',site,'export/code_source_audit.json'));stopifnot(!m$source_available,is.null(m$explicit_DNI_in_order_name))
+arrow::write_parquet(tibble::tibble(code_status_category='Full'),file.path(tables,'clif_code_status.parquet'))
+run('site_code_source_audit');m<-deploy_read(file.path(revision,'sites',site,'export/code_source_audit.json'));stopifnot(m$source_available,!m$source_order_names_available,is.null(m$explicit_DNI_in_order_name))
+lab$lab_name<-'Hematocrit';lab$lab_loinc_code<-'4544-3';arrow::write_parquet(lab,file.path(tables,'CLIF_LABS.parquet'))
+run('site_severity_source_audit');x<-readr::read_csv(file.path(revision,'sites',site,'export/severity_source_audit.csv'),show_col_types=FALSE);stopifnot(x$available_lower==1,x$status=='source_label_or_LOINC_hematocrit_present')
+cat('PASS: arbitrary site and nested/case-insensitive source filenames; absent code table and optional order/lab labels remain unavailable; observed hematocrit counts retained\n')

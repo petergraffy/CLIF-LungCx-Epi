@@ -1,7 +1,7 @@
 source("diagnostics/revision20261022/absorbing_contract.R")
 args<-commandArgs(trailingOnly=TRUE);site<-args[1];root<-fed_root();home<-file.path(root,"sites",site)
 local<-file.path(home,"local");out<-file.path(home,"export","discovery");dir.create(local,recursive=TRUE,showWarnings=FALSE)
-stopifnot(site %in% c("UCMC","NU","RUSH"));cache<-file.path(local,"discovery.rds")
+stopifnot(length(site)==1L,nzchar(site),grepl("^[A-Za-z0-9_-]+$",site));cache<-file.path(local,"discovery.rds")
 if(file.exists(cache))stop("Fresh rehearsal required; discovery already exists")
 input_root<-Sys.getenv(paste0("CLIF_FEDERATED_INPUT_",site),unset=paste0("output/run_",site,"_waterfall_20261022"))
 manifest<-jsonlite::fromJSON(file.path(input_root,"local","input_manifest.json"))

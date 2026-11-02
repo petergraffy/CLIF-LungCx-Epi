@@ -1,6 +1,6 @@
 source('diagnostics/revision20261022/score_lib.R')
 site<-commandArgs(trailingOnly=TRUE)[1];home<-file.path(rev_root(),'sites',site);out<-file.path(home,'export','scores');rows<-list();meta<-list();fits<-list()
-for(version in paste0('loo_',c('UCMC','NU','RUSH'))){
+for(version in paste0('loo_',fed_sites())){
  d<-readRDS(file.path(old_root(),'sites',site,'local',version,'outcomes.rds'))$data
  for(cohort in score_spec()$cohorts){
  z<-if(cohort=='measured_sofa')d[!is.na(d$sofa_total),] else d

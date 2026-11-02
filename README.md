@@ -1,144 +1,212 @@
 # CLIF lung cancer respiratory trajectories
 
-**Current assignment update:** every support-sufficient stay receives the nearest
-shared phenotype; distance and margin are diagnostic flags only. The current
-versioned results and complete aggregate site returns are under
-`output/run_nearest_assignment_20261030/`. See
-[nearest-assignment workflow](diagnostics/nearest_assignment/README.txt) and
-`config/active_analysis.json`. Source `diagnostics/nearest_assignment/environment.sh`
-from the repository root to select these outputs for further work.
+## Sites start here
 
+**Run Stage 1 only. Return its aggregate results, then STOP and wait for the
+coordinator’s Stage 2 parameter bundle.** This is the same local discovery →
+central fingerprints/consensus → frozen local assignment/outcomes workflow
+rehearsed with UCMC, NU and Rush. Sites do not choose a shared phenotype count,
+use another site's private data, or run coordinator commands.
 
-This is a new federated CLIF run for the CCX revision. It rederives respiratory trajectories from source CLIF tables. Existing returns under `sites/` and prior manuscript outputs are historical and are not inputs to this workflow.
+| Who | What to run | What happens next |
+|---|---|---|
+| Each site, now | Environment setup, preflight, `stage1` | Return `stage1_return/`; stop |
+| Coordinator | Review Stage 1 returns, choose parameters, `freeze` | Send the frozen `stage2_parameters/` bundle to sites |
+| Each site, after that bundle | `stage2-fit` | Return `stage2_fit_return/` |
+| Coordinator | Freeze held-out predictors and common survival grid | Send `stage2_evaluation/` |
+| Each site | `stage2-evaluate` | Return `stage2_final_return/` |
+| Coordinator | `collect` | Pool associations, competing risks, ROC and supplemental returns |
 
-The submitted implementation, including local edits present on October 21, 2026, is preserved under [archive/2026-10-21](archive/2026-10-21/README_ARCHIVE.md). New code does not source it.
+There are **two scientific stages**. Stage 2 includes a required coordinator
+round trip: other-site prediction coefficients cannot be learned before sites
+fit the frozen phenotypes, and exact pooled AJ curves require a common event-time
+grid. Neither exchange shares patient identifiers or individual predictions.
 
-The current figure workflow includes pooled mortality and live non-hospice
-discharge curves ([two-pass aggregate returns](diagnostics/pooled_survival/README.txt))
-and pooled day-7/14/28 ROC comparisons of clinical covariates alone and plus
-modified SOFA, adapted APACHE or phenotype
-([matched-cohort ROC returns](diagnostics/pooled_roc/README.txt)). Respiratory
-summaries remain in supplementary nested-model comparisons requested by the
-reviewers. SOFA and APACHE are CLIF-derived adaptations, not validated standard
-scores. Complete-case score comparisons do not represent the full cohort.
+## 1 Set up the same environment at every site
 
-Initial-support-to-cluster Sankey figures use the existing aggregate descriptor
-cross-tabulations: [Sankey workflow](diagnostics/sankey/README.txt). Phase1 plots
-retain site-local labels; pooled plots require the refreshed shared-phenotype
-returns after assignment.
-
-Post-landmark associations include hospital death, hospice, death/hospice and
-live non-hospice discharge. [Four-endpoint Cox workflow](diagnostics/four_endpoint_cox/README.txt)
-updates completed site returns while preserving frozen phenotypes and predictors.
-
-## Site workflow
-
-**Current return contract:** see [site return workflow](docs/site_return_workflow.md)
-and the [reviewer-to-output checklist](docs/site_return_requirements.csv).
-`derive` now automatically captures SOFA component/recovery diagnostics and the
-site supplement in `share/supplement/`. Exact diagnostics and candidate scores
-remain local. `supplement` captures these for a completed derivation separately.
-The current three-site reviewer runner also assembles complete per-site frozen
-model/validation/sensitivity returns and a combined supplement collection.
-
-The generic source/baseline commands below retain the earlier raw-profile
-consensus as a comparison workflow. The adopted three-site primary uses bounded
-waterfall support plus source ARF, common-cost OM and interval-template matching
-under `diagnostics/federated/` and `diagnostics/revision20261022/`. Do not mix the
-two return/mapping contracts. See the active [protocol](docs/analysis_protocol.md).
-
-Run from the repository root. Create `config/config.json` using [the template](config/config_template.json). Keep scientific analysis settings consistent across sites and choose a new `run_id` whenever settings or the source version change.
+Use the coordinator-issued commit of this repository and **R 4.4.2** and
+**Python 3.12**. Do not update packages or edit `renv.lock` at a site.
+Run all commands from the repository root. The R setup restores exact package
+versions into the ignored project library `renv/library/`; it does not upgrade
+your global library or install R itself.
 
 ```sh
-Rscript code/00_setup.R
-Rscript code/02_derive.R
+Rscript --vanilla scripts/setup.R
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r config/waterfall_requirements.txt
 ```
 
-Preparation is included in derivation; `Rscript code/01_prepare.R` can run it separately. Review aggregate audits and return **only**:
+On Windows, use `py -3.12 -m venv .venv` and
+`.venv\Scripts\python.exe -m pip install -r config\waterfall_requirements.txt`.
+The `Rscript --vanilla ...` commands below work on Windows too. Set the Python
+executable in the site config to the corresponding absolute path.
+
+`renv.lock` pins the R packages and dependency closure. Python requirements pin
+CLIFpy 2.1.0 and its waterfall dependencies. A compiler/system dependencies may
+be needed if packages such as Arrow must build from source; inspect setup errors
+rather than substituting package versions. [Environment details](docs/environment.md).
+
+## 2 Configure your site
+
+Copy `config/site_template.json` to **`config/site.json`**. Change only:
+
+- `site_name`: the coordinator-approved site ID, using letters, numbers, `_` or `-`;
+- `repo`: absolute path to this checkout;
+- `tables_path`: absolute path containing your CLIF parquet tables;
+- `python`: absolute path to the Python virtual-environment executable;
+- `analysis.run_id`: the coordinator-issued run label.
+
+Keep all other scientific settings unchanged. The study period is 2018–2024.
+The portable waterfall workflow currently requires **parquet** inputs. Required
+tables: patient, hospitalization, ADT, hospital_diagnosis (including POA),
+respiratory_support, vitals, labs, medication_admin_continuous and
+patient_assessments. Code status and optional oncology data have explicit
+availability reporting. Stage/histology/treatment/ECOG are not inferred.
+
+Copy `config/site_metadata_template.csv` to `config/site_metadata.csv` and fill
+in institutional/source metadata where known. Missing confirmations remain
+explicit. Both site config files are git-ignored.
+
+## 3 Run Stage 1 and return the results
+
+```sh
+Rscript --vanilla scripts/site.R preflight config/site.json
+Rscript --vanilla scripts/site.R stage1 config/site.json
+```
+
+Preflight checks R/package versions, the Python waterfall runtime and required
+table files. Stage 1 prepares the cohort, applies bounded CLIF waterfall support
+while retaining source-evidence ARF, discovers local clusters, and assesses
+stability. It runs the primary, eight inferential sensitivity discoveries and
+the descriptive absorbing-event discovery. It also captures provisional local
+characteristics, cohort flow, missing-support/ARF diagnostics and SOFA/APACHE
+component/source completeness for the supplement. No shared phenotype assignment
+or post-landmark association/prediction fitting occurs in Stage 1.
+
+**Send this directory only**, using your institution’s approved transfer method:
 
 ```text
-output/run_<SITE>_<RUN_ID>/share/
+output/run_<SITE>_<RUN_ID>_federated/stage1_return/
 ```
 
-**Never return `local/` or the whole run directory.** Local caches contain patient identifiers, dates, clinical data, and sequences. They are required for the second pass.
+The command prints the exact path. A complete return contains
+`return_manifest.json`, `discovery/`, `descriptives/`, `cohort_audit/`,
+`supplement/` and `environment/`. The coordinator uses `discovery/` to learn
+phenotypes; clinical/outcome diagnostics are separate and do not enter matching.
+Local cluster labels are provisional and cannot be pooled as shared phenotypes.
 
-After the coordinator returns the frozen consensus mapping:
+**STOP after Stage 1.** Preserve the checkout, config and **all** corresponding
+`output/run_<SITE>_<RUN_ID>*` folders on the same machine: the prepared baseline,
+waterfall panels, sequences and discovery caches are required for Stage 2.
+Never send the whole run directory, `local/`, CLIF tables, RDS caches, logs or
+individual predictions. Counts in the designated return are exact aggregates,
+including small cells. The runner validates inventory, hashes and CSV headers;
+institutional review of the aggregate return still applies.
+
+Completed steps can be resumed with the same command and unchanged code/config.
+Failed workers may leave partial files: inspect `local/steps/*.log`; if the worker
+cannot resume, use a fresh coordinator-approved run ID. Do not delete caches or
+mix files from different runs. A completion manifest is written only after all
+required work succeeds.
+
+## 4 Stage 2 only after the coordinator releases parameters
+
+Do **not** use `config/active_analysis.json` or the old three-site results as your
+Stage 2 inputs. The coordinator will send a new bundle derived from the actual
+Stage 1 returns. Keep the original Stage 1 checkout and site config.
 
 ```sh
-Rscript code/03_model.R path/to/consensus_mapping.csv
+Rscript --vanilla scripts/site.R stage2-fit config/site.json /absolute/path/to/stage2_parameters
 ```
 
-Return the resulting `share/models_<CONSENSUS_ID>/` after local disclosure review. `run.sh` and `run.bat` support `setup`, `prepare`, `derive`, `supplement`, `model <mapping>`, and `test`.
+The runner checks that your exact Stage 1 return was used, verifies code and
+lockfile compatibility, then applies the frozen full and leave-one-site-out
+phenotype templates. Every support-sufficient stay gets the closest phenotype;
+insufficient-support stays remain in the analysis. Sites fit four post-landmark
+cause-specific Cox endpoints, reviewer sensitivities and severity/simple-summary
+comparators, and export training aggregates plus relative event-time counts.
 
-## Coordinator workflow
-
-Supply explicit directories for new returns. Historical `sites/` directories are never discovered automatically.
+Return only the printed `stage2_fit_return/` directory. The coordinator then
+sends a frozen predictor/shared-grid bundle. Run:
 
 ```sh
-Rscript code/postprocessing/01_consensus.R output/consensus_v1 returns/siteA/share returns/siteB/share
-# Return output/consensus_v1/consensus_mapping.csv to sites.
-Rscript code/postprocessing/02_pool.R output/pooled_revision_v1 returns/siteA/models_ID returns/siteB/models_ID
+Rscript --vanilla scripts/site.R stage2-evaluate config/site.json /absolute/path/to/stage2_evaluation
 ```
 
-Consensus matching uses hourly respiratory state profiles and preserves time ordering. Matching, labels, and references use no mortality, hospice, SOFA, vasopressor, or length-of-stay information. Terminal-state sensitivity phenotypes are descriptive and excluded from outcome modeling. Pooled effects use REML and modified Hartung–Knapp inference, with site estimates, heterogeneity, and prediction intervals.
+Return only the printed **`stage2_final_return/`** directory. It includes the
+complete model/supplement packet under `share/`, exact hourly/count exports,
+pooled ROC score-bin counts, and survival/tdAUC summaries. Evaluation uses frozen
+other-site predictors without held-out-site refitting. Risk-set exports include
+200 patient-cluster bootstrap count replicates for pooled AJ/KM uncertainty.
+Read [the site return guide](docs/site_return_workflow.md) for output definitions.
 
-## Analysis specification
+## Coordinator only
 
-The primary analysis derives joint respiratory-support × ARF phenotypes among adults with primary lung cancer present on admission who are alive and hospitalized at first ICU admission plus 72 hours. Follow-up starts at that ICU landmark. Early deaths, hospice discharges, and live discharges are counted separately and represented in a full-cohort absorbing-state sensitivity.
-
-The workflow includes 24- and 48-hour landmarks, support-only clustering, first-detected-ARF anchoring with follow-up after its own 72-hour landmark, estimated low-flow FiO₂ sensitivity, ARF persistence sensitivities, patient bootstrap stability, and leave-one-site-out harmonization. Missing support and physiology are explicit states. No hospitalization is excluded for insufficient support documentation, including entirely unknown support sequences. HFNC, CPAP, and NIPPV remain separate.
-
-Read the [analysis protocol](docs/analysis_protocol.md), [reviewer implementation map](docs/reviewer_implementation.md), and [export contract](docs/export_contract.md) before distributing a run. These document estimands, assumptions, validation boundaries, and analyses requiring additional data.
-
-## Verification
+Sites must not run these commands. Copy `config/coordinator_template.json` to
+`config/coordinator.json` and list explicit Stage 1 return directories. Use the
+same commit/environment as sites. **No historical `sites/` folder is scanned.**
 
 ```sh
-Rscript tests/run_tests.R
-Rscript tests/test_descriptives.R
-Rscript tests/run_integration.R
+Rscript --vanilla scripts/coordinator.R inspect config/coordinator.json
+# Review fingerprints, selected local k/stability, missingness and descriptors.
+# Set selected_k per analysis if desired; null selects the supported silhouette maximum.
+Rscript --vanilla scripts/coordinator.R freeze config/coordinator.json
 ```
 
-Tests use synthetic data, including ward-to-ICU transfers, early events, missing observations, variable cluster counts, suppressed cells, and a complete two-site round trip. The integration test also runs the regression checks and takes several minutes. Real site execution and clinical validation remain necessary before interpreting new results.
+`freeze` learns outcome-free full and leave-one-site-out consensus templates
+and writes `stage2_parameters/` under your configured coordinator output.
+Send that entire bundle to all listed sites. You can select a supported shared k
+in the config; unsupported choices fail. Never choose it using outcome performance.
+At least three sites are needed so each held-out discovery still has two sites.
+Changing selected parameters after freezing requires a new coordinator output.
 
-## Respiratory support missingness audit
+After all sites return their Stage 2 fit aggregates:
 
-Run `Rscript diagnostics/01_audit_support.R` after a completed derivation. This diagnostic traces unknown hours to source records, care location, and calendar year, then tests an explicitly exploratory oxygen-unspecified state using measured flow and bounded forward carry. It preserves the primary derivation and stores all outputs locally under an ignored `output/run_*/` directory. `CLIF_SUPPORT_AUDIT_OUTPUT` can select a different local audit directory. The diagnostic is separate from the prespecified analysis registry.
+```sh
+Rscript --vanilla scripts/coordinator.R predictors config/coordinator.json /returns/A/stage2_fit_return /returns/B/stage2_fit_return /returns/C/stage2_fit_return
+# Send the generated stage2_evaluation/ bundle to sites.
+```
 
-## CLIF waterfall comparison
+After all final returns:
 
-`diagnostics/02_compare_waterfall.sh` compares the configured completed baseline with official CLIFpy waterfall preprocessing, preserving patient-specific landmark and terminal-event boundaries. It reruns all nine derivations and adds a comparison that holds ARF states fixed while changing support. Outputs remain in a separate ignored run directory; baseline files and the production primary specification remain unchanged. See `diagnostics/waterfall/README.txt` for the pinned environment, exact boundaries, provenance, and source-context QA.
+```sh
+Rscript --vanilla scripts/coordinator.R collect config/coordinator.json /returns/A/stage2_final_return /returns/B/stage2_final_return /returns/C/stage2_final_return
+```
 
-Reviewer-gap and direct severity comparisons are implemented in
-[`diagnostics/revision20261022/README.txt`](diagnostics/revision20261022/README.txt).
-This extends the three-site development rehearsal with refederated sensitivities,
-ARF/code-status characterization, direct **modified-SOFA** comparisons and an
-explicit APACHE feasibility audit. APACHE II/IV cannot be validly calculated from
-the available extracts; absent performance is never replaced by a proxy result.
+Extend the return lists for all participating sites; names are not hardcoded.
+The coordinator only reads aggregate packets. The full primary consensus,
+held-out predictors, common survival grid and site inventories are versioned and
+hash-checked. Pooling uses REML/modified Hartung–Knapp associations and exact
+risk/event count pooling for AJ curves. Set the coordinator config `python` if
+your plotting environment is not `.venv/bin/python` (Windows: `.venv/Scripts/python.exe`).
 
-## Updated UCMC three-site analysis
+## Analysis and verification
 
-The completed October 26 refresh uses the corrected UCMC Box tables and refits
-federated discovery, outcomes and sensitivities across UCMC, NU and Rush. See
-[`diagnostics/refresh20261026/README.txt`](diagnostics/refresh20261026/README.txt)
-for versioned inputs, execution and audits. NU/Rush source panels are unchanged;
-all three sites' models are rerun. MIMIC remains excluded. Historical outputs
-are preserved; current local results are under
-`output/run_three_site_refresh_20261026/reports/`.
+Primary: joint respiratory support–ARF sequences over the first 72 ICU hours,
+among hospitalizations alive and in hospital at ICU +72 hours; outcomes start
+then. Separate hospital death, hospice, composite and live non-hospice discharge
+models follow through 28 post-landmark days. Absorbing death/discharge groups
+are descriptive, never regressed on their defining outcomes. Unknown physiology
+is not negative. HFNC/CPAP/NIPPV are distinct. Modified SOFA and adapted APACHE
+are qualified adaptations; these are not validated standard APACHE IV comparisons.
 
-The implemented [CLIF-adapted APACHE sensitivity](docs/apache_adapted_methods.md)
-now supplies corrected APS+age proxy comparisons, component missingness and
-same-patient SOFA benchmarks. It remains distinct from validated standard
-APACHE II/IV. New reviewer runs package its site exports automatically;
-[execution details](diagnostics/apache_adapted/README.txt) and current local
-results are under `output/run_APACHE_adapted_20261030_v2/reports/`.
+[Protocol](docs/analysis_protocol.md) ·
+[Reviewer requirements](docs/site_return_requirements.csv) ·
+[Site return details](docs/site_return_workflow.md) ·
+[Two-stage deployment details](docs/two_stage_run.md).
 
-Publication descriptors are now captured automatically: Table 1 separates the
-eligible and primary landmark cohorts; Table 2 uses frozen shared phenotypes,
-including I. See [site return workflow](docs/site_return_workflow.md) for
-explicit denominators, missingness, pooled means/SD and median/IQR limitations.
-The current descriptor return is under `output/run_descriptives_20261030_v2/`.
+Developer synthetic checks (no clinical data):
 
-Aggregate returns now default to exact counts, including small cells and exact
-numbers at risk. See [exact aggregate workflow](diagnostics/exact_aggregates/README.txt).
-Patient-level records and predictions remain local. Current count/curve packets
-are under `output/run_exact_aggregates_20261030/`; original model fits are preserved.
+```sh
+bash run.sh test
+Rscript --vanilla tests/deployment.R
+python3 tests/arf_display.py
+python3 tests/sankey.py
+```
+
+Earlier `code/02_derive.R` → raw-profile consensus/model commands and dated
+`diagnostics/*/run.sh` files are comparison or rehearsal workflows, not site
+instructions for this deployment. The submitted implementation is preserved in
+[archive/2026-10-21](archive/2026-10-21/README_ARCHIVE.md). Historical local figures
+and `config/active_analysis.json` describe the three-site rehearsal, not parameters
+that new sites should apply before the coordinator completes Stage 1 review.

@@ -1,6 +1,6 @@
 source("diagnostics/federated/comparator_lib.R")
 site<-commandArgs(trailingOnly=TRUE)[1];root<-fed_root();home<-file.path(root,"sites",site)
-for(version in c("full","loo_UCMC","loo_NU","loo_RUSH")){
+for(version in fed_versions()){
  manifest<-jsonlite::fromJSON(file.path(root,"coordinator",version,"frozen_manifest.json"));phenotypes<-paste0("P",1:manifest$k)
  d<-readRDS(file.path(home,"local",version,"outcomes.rds"))$data;y<-as.integer(d$time_from_landmark<=28 & d$event_type%in%c("death","hospice"))
  rows<-list()

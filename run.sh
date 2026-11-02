@@ -2,8 +2,13 @@
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
-case "${1:-derive}" in
-  setup) Rscript code/00_setup.R ;;
+case "${1:-help}" in
+  setup) Rscript --vanilla scripts/setup.R ;;
+  preflight|stage1|stage2-fit|stage2-evaluate)
+    phase="$1"; shift
+    Rscript --vanilla scripts/site.R "$phase" "$@"
+    ;;
+  coordinator) shift; Rscript --vanilla scripts/coordinator.R "$@" ;;
   prepare) Rscript code/01_prepare.R ;;
   derive) Rscript code/02_derive.R ;;
   supplement) Rscript code/04_supplement.R ;;
@@ -27,5 +32,5 @@ case "${1:-derive}" in
     Rscript tests/site_return_collection.R
     Rscript tests/model_supplement_diagnostics.R
     ;;
-  *) echo "Usage: ./run.sh [setup|prepare|derive|supplement|model MAPPING|test]" >&2; exit 1 ;;
+  *) echo "Usage: ./run.sh setup | preflight CONFIG | stage1 CONFIG | stage2-fit CONFIG BUNDLE | stage2-evaluate CONFIG BUNDLE | coordinator COMMAND CONFIG [RETURNS...] | test. Legacy comparison: prepare/derive/supplement/model MAPPING" >&2; exit 1 ;;
 esac

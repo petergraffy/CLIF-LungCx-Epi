@@ -9,6 +9,13 @@ fed_spec <- function() list(schema=FED_SCHEMA,window=72L,bin_hours=6L,seed=20261
  probability_min_width=.05,model_horizon_days=28L,ridge_lambda=1,
  primary_endpoint="28-day in-hospital death or hospice for prediction; post-landmark cause-specific hazards for association")
 fed_root <- function() normalizePath(Sys.getenv("CLIF_FEDERATED_OUTPUT",unset="output/run_federated_rehearsal_20261022"),mustWork=FALSE)
+# Participating sites are supplied by the deployment bundle, never inferred from data.
+fed_sites <- function() {
+ x<-trimws(strsplit(Sys.getenv("CLIF_FEDERATED_SITES",unset="UCMC,NU,RUSH"),",",fixed=TRUE)[[1]])
+ if(!length(x)||any(!grepl("^[A-Za-z0-9_-]+$",x))||anyDuplicated(x))stop("Invalid participating-site list")
+ x
+}
+fed_versions <- function() c("full",paste0("loo_",fed_sites()))
 fed_hash <- function(x) digest::digest(x,algo="sha256")
 fed_write <- function(x,path) {
  x<-promote_exact_counts(x)

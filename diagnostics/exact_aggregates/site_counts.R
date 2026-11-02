@@ -55,7 +55,7 @@ for(domain in c('support','hypox','hyper','joint')){
 }
 write(disc$data |> dplyr::count(local_cluster,name='n') |> dplyr::left_join(disc$stability,by='local_cluster'),'discovery/local_cluster_counts')
 # These are already aggregate diagnostics, saved before historical masking.
-exact<-file.path('output/run_site_returns_20261026',site,'local/supplement_exact')
+exact<-Sys.getenv('CLIF_EXACT_SUPPLEMENT',unset=file.path('output/run_site_returns_20261026',site,'local/supplement_exact'))
 if(dir.exists(exact))for(f in list.files(exact,pattern='[.]csv$',full.names=TRUE)){
  if(basename(f)%in%c('return_file_inventory.csv','analysis_return_inventory.csv'))next
  write(readr::read_csv(f,show_col_types=FALSE),paste0('supplement/',tools::file_path_sans_ext(basename(f))))

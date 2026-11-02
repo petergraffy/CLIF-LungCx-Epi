@@ -1,6 +1,6 @@
 source("diagnostics/federated/comparator_lib.R")
 root<-fed_root()
-for(version in c("full","loo_UCMC","loo_NU","loo_RUSH")){
+for(version in fed_versions()){
  if(file.exists(file.path(root,"coordinator",version,"outcomes","frozen_comparator_predictor.json")))stop("Comparator predictor already frozen")
  m<-jsonlite::fromJSON(file.path(root,"coordinator",version,"frozen_manifest.json"));rows<-list();paths<-character()
  for(site in m$training_sites){from<-file.path(root,"sites",site,"export","comparators",version);to<-file.path(root,"exchange","comparators",version,site)

@@ -1,6 +1,6 @@
 source("diagnostics/revision20261022/variant_contract.R")
 args<-commandArgs(trailingOnly=TRUE);hold<-if(length(args))args[1] else "none"
-root<-fed_root();sites<-setdiff(c("UCMC","NU","RUSH"),hold);version<-if(hold=="none")"full" else paste0("loo_",hold)
+root<-fed_root();sites<-setdiff(fed_sites(),hold);version<-if(hold=="none")"full" else paste0("loo_",hold)
 out<-file.path(root,"coordinator",version);if(file.exists(file.path(out,"frozen_manifest.json")))stop("Consensus already frozen")
 features<-fed_features();rows<-list();meta<-list();manifests<-list();read_log<-character()
 for(site in sites){dir<-file.path(root,"exchange","discovery",site)
@@ -31,7 +31,14 @@ for(k in candidates){lab<-as.integer(cutree(hc,k));coverage<-vapply(split(ks$sit
  scores[[as.character(k)]]<-tibble::tibble(k=k,weighted_silhouette=sum(w*si),min_contributing_sites=min(coverage),eligible=valid)
  cuts[[as.character(k)]]<-lab}
 sc<-dplyr::bind_rows(scores);ok<-which(sc$eligible);if(!length(ok))stop("No candidate phenotype solution represented in >=2 training sites")
-best<-ok[which.max(sc$weighted_silhouette[ok])];k<-sc$k[best];lab<-cuts[[as.character(k)]]
+requested_k<-Sys.getenv("CLIF_CONSENSUS_K")
+best<-ok[which.max(sc$weighted_silhouette[ok])]
+if(nzchar(requested_k)){
+ selected<-which(sc$eligible & sc$k==as.integer(requested_k))
+ if(length(selected)!=1L)stop("Coordinator-selected k is not a supported candidate: ",requested_k)
+ best<-selected
+}
+k<-sc$k[best];lab<-cuts[[as.character(k)]]
 proto<-matrix(NA_real_,k,ncol(y))
 for(j in seq_len(k)){ix<-which(lab==j);ww<-ks$n_weight[ix]/ave(ks$n_weight[ix],ks$site[ix],FUN=sum)/length(unique(ks$site[ix]));proto[j,]<-colSums(y[ix,,drop=FALSE]*ww)}
 colnames(proto)<-features$feature
@@ -50,7 +57,7 @@ dir.create(out,recursive=TRUE,showWarnings=FALSE)
 fed_write(proto_long,file.path(out,"prototypes.csv"));fed_write(keys,file.path(out,"local_cluster_diagnostic_mapping.csv"));fed_write(sc |> dplyr::mutate(selected=k==.env$k),file.path(out,"candidate_solutions.csv"))
 saveRDS(proto,file.path(out,"prototypes.rds"))
 fed_json(list(schema=FED_SCHEMA,consensus_id=consensus_id,version=version,training_sites=sites,held_out_site=hold,k=k,
- specification=fed_spec(),spec_hash=fed_hash(fed_spec()),reference="P1",discovery_inputs=read_log,
+ specification=fed_spec(),spec_hash=fed_hash(fed_spec()),reference="P1",selection=if(nzchar(requested_k))"coordinator_selected_supported_k" else "supported_silhouette_maximum",discovery_inputs=read_log,
  source_hashes=source_hashes,assignment="frozen per-hospitalization six-hour modal profile distance; local identifiers stay local",
  coordinator_source=as.list(tools::md5sum("diagnostics/federated/central_discover.R"))),file.path(out,"frozen_manifest.json"))
 message(version,": frozen ",k," outcome-free prototypes; training sites ",paste(sites,collapse=","))

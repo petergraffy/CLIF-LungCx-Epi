@@ -249,3 +249,17 @@ accompany PH assessment. The discharge P4 term shows time variation in all three
 current sites, so single-HR interpretation requires the interval sensitivity.
 The updated association-only extension preserves all frozen assignments and
 original prediction models; prior death/hospice/composite coefficients reproduce.
+
+
+## Portable two stage deployment
+
+The external-site entry point is scripts/site.R, with the pinned environment
+restored by scripts/setup.R from renv.lock. Stage 1 stops after local discovery,
+stability, provisional descriptors and source/missingness diagnostics. The
+coordinator alone reviews returns and issues frozen Stage 2 parameters using
+scripts/coordinator.R. Reusable discovery/model workers accept a supplied site
+list rather than only the three development-site names. These deployment
+changes do not change the scientific exposure, assignment rule or estimands.
+Stage 2 includes a coordinator exchange for frozen other-site prediction and
+a common survival grid; these cannot be computed from Stage 1 fingerprints alone.
+See the root README and docs/two_stage_run.md for exact commands and returns.

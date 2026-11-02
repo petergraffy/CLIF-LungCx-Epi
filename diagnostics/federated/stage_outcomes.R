@@ -1,6 +1,6 @@
 source("diagnostics/federated/model_lib.R")
 root<-fed_root();expected<-c("assignment_counts.csv","associations.csv","model_metadata.csv","association_covariances.csv","cumulative_incidence.csv","prediction_coefficients.csv","manifest.json")
-for(site in c("UCMC","NU","RUSH"))for(version in c("full","loo_UCMC","loo_NU","loo_RUSH")){
+for(site in fed_sites())for(version in fed_versions()){
  from<-file.path(root,"sites",site,"export","outcomes",version);to<-file.path(root,"exchange","outcomes",version,site)
  stopifnot(setequal(list.files(from),expected));m<-jsonlite::fromJSON(file.path(from,"manifest.json"));stopifnot(m$site==site,m$version==version,m$model_spec_hash==fed_hash(model_spec()))
  dir.create(to,recursive=TRUE,showWarnings=FALSE)

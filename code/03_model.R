@@ -1,6 +1,6 @@
 source("code/lib/load.R")
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 1L) stop("Usage: Rscript code/03_model.R path/to/consensus_mapping.csv")
-cfg <- read_run_config()
+cfg <- read_run_config(Sys.getenv("CLIF_RUN_CONFIG",unset="config/config.json"))
 model_revision(cfg, args[1])
 message("Model pass complete. Review share/models_<consensus_id>/ before returning.")

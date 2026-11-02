@@ -1,5 +1,5 @@
 source("code/lib/load.R")
-cfg <- read_run_config()
+cfg <- read_run_config(Sys.getenv("CLIF_RUN_CONFIG",unset="config/config.json"))
 prepared <- prepare_revision(cfg)
 derive_revision(prepared, cfg)
 capture_site_supplement(cfg,prepared$root)

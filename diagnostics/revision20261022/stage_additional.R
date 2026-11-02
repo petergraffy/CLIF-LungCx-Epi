@@ -1,5 +1,5 @@
 source('diagnostics/revision20261022/lib.R');root<-rev_root();groups<-list()
-for(s in c('UCMC','NU','RUSH')){
+for(s in fed_sites()){
  for(family in c('absorbing','review')){
  from<-if(family=='absorbing')file.path(root,'sensitivities/absorbing_v2/sites',s,'export') else file.path(root,'sites',s,'export')
  to<-file.path(root,'exchange',family,s);dir.create(to,recursive=TRUE,showWarnings=FALSE)

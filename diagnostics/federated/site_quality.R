@@ -1,7 +1,7 @@
 source("diagnostics/federated/comparator_lib.R")
 site<-commandArgs(trailingOnly=TRUE)[1];root<-fed_root();home<-file.path(root,"sites",site)
 a<-readRDS(file.path(home,"local","discovery.rds"));checks<-list()
-for(version in c("full","loo_UCMC","loo_NU","loo_RUSH")){
+for(version in fed_versions()){
  d<-readRDS(file.path(home,"local",version,"outcomes.rds"))$data
  stopifnot(setequal(d$hospitalization_id,a$data$hospitalization_id),nrow(d)==nrow(a$data),!anyNA(d$phenotype),all(d$time_from_landmark>0))
  insufficient<-72-d$hours_UNKNOWN<12;stopifnot(all(d$phenotype[insufficient]=="I"))
