@@ -12,7 +12,7 @@ x$respiratory_support$device_category<-c('Room Air'='room air','IMV'='imv','High
 x$respiratory_support$device_name<-x$respiratory_support$device_category
 x$respiratory_support$lpm_set<-ifelse(x$respiratory_support$device_category=='room air',0,4)
 for(n in names(x))arrow::write_parquet(x[[n]],file.path(tables,paste0('clif_',n,'.parquet')))
-cfg<-jsonlite::fromJSON('config/site_template.json');cfg$site_name<-'SYNTHETIC_SITE';cfg$repo<-clif_root;cfg$tables_path<-tables;cfg$python<-if(grepl("^/|^[A-Za-z]:",python))python else file.path(clif_root,python);cfg$analysis$run_id<-basename(base)
+cfg<-jsonlite::fromJSON('config/config_template.json');cfg$site_name<-'SYNTHETIC_SITE';cfg$repo<-clif_root;cfg$tables_path<-tables;cfg$python<-if(grepl("^/|^[A-Za-z]:",python))python else file.path(clif_root,python);cfg$analysis$run_id<-basename(base)
 config<-file.path(base,'site.json');deploy_json(cfg,config)
 for(command in c('preflight','stage1')){
  log<-file.path(base,paste0(command,'.log'))

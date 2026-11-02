@@ -13,9 +13,8 @@ Lead-team work remaining after site returns
    intent and care-preference limitations. ICU-free days have not been validated;
    total ICU LOS regression was removed rather than replaced with an invented
    outcome. State three-site development scope versus any future ten-site rerun.
-6. Site confirmation: board, study number/date/title, consent waiver, source ETL
-   and timestamp semantics, order mappings, oncology timing, disclosures and
-   data availability. Complete the provided field/value form without patient data.
+6. Lead team: use the separately maintained ethics, disclosures and reporting
+   information for manuscript submission. No site metadata form is required.
 7. Rework rationale/literature, including respiratory longitudinal phenotyping,
    Sathe studies, Calfee/Sinha modality-dominance concern and pulse-oximetry bias.
    Outputs do not establish when an intervention would change a trajectory.

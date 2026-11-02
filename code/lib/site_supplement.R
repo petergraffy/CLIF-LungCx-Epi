@@ -152,21 +152,11 @@ site_source_and_reporting_tables <- function(prepared,cfg,root) {
   catalogue$interpretation<-ifelse(cat%in%c('DNRDNI','DNARDNI','DNI') & (is.na(nm)|!grepl('DNI|DO NOT INTUBATE',nm)),'canonical_DNI_not_explicit_in_source_name','source_vocabulary_requires_site_confirmation')
   supplement_write(catalogue,root,'code_status_source_catalogue',cfg)
  }else supplement_write(tibble::tibble(status='source_names_not_available_semantics_unverified'),root,'code_status_source_catalogue',cfg)
- # Sites complete these administrative/provenance fields; do not fabricate them.
- fields<-c('governing_IRB_board','study_number','approval_date','approved_study_title','consent_or_waiver_statement','data_availability_statement','funding','conflicts_of_interest','source_CLIF_release_date','source_ETL_commit_or_version','source_time_zone_and_timestamp_semantics','respiratory_observed_vs_inferred_provenance','DNR_DNI_comfort_mapping_confirmation','oncology_baseline_timing_confirmation')
- form<-tibble::tibble(field=fields,value='',status='site_confirmation_required')
- metadata_path<-Sys.getenv('CLIF_SITE_METADATA',unset=file.path(dirname(normalizePath('config/config.json',mustWork=FALSE)),'site_metadata.csv'))
- if(file.exists(metadata_path)){
-  supplied<-readr::read_csv(metadata_path,show_col_types=FALSE);need_columns(supplied,c('field','value'),'site metadata')
-  if(anyDuplicated(supplied$field))stop('Duplicate site metadata fields')
-  ix<-match(form$field,supplied$field);form$value<-ifelse(is.na(ix),'',as.character(supplied$value[ix]));form$value[is.na(form$value)]<-''
-  form$status[nzchar(trimws(form$value))]<-'provided_requires_author_review'
- }
- supplement_write(form,root,'site_reporting_metadata',cfg)
+
 }
 supplement_readiness <- function(root,cfg) {
  source<-file.path(root,'local/supplement_package/share')
- needed<-c('publication_descriptors_status','apache_adapted_components','apache_adapted_provenance','apache_adapted_status','sofa_original_components','sofa_missing_patterns','sofa_recovery_components','sofa_source_audit_status','sofa_evidence_availability','sofa_extra_source_counts','sofa_expanded_lab_window','sofa_gcs_value_audit','sofa_recovery_flags','sofa_vasoactive_mapping_flags','sofa_vasoactive_units','sofa_source_lab_catalogue','oncology_availability','landmark_reconciliation','repeated_admissions','analysis_return_inventory','early_events_by_absorbing_cluster','annual_hourly_evidence','arf_channel_contribution','interpretation_limits','source_table_availability','code_status_source_catalogue','site_reporting_metadata')
+ needed<-c('publication_descriptors_status','apache_adapted_components','apache_adapted_provenance','apache_adapted_status','sofa_original_components','sofa_missing_patterns','sofa_recovery_components','sofa_source_audit_status','sofa_evidence_availability','sofa_extra_source_counts','sofa_expanded_lab_window','sofa_gcs_value_audit','sofa_recovery_flags','sofa_vasoactive_mapping_flags','sofa_vasoactive_units','sofa_source_lab_catalogue','oncology_availability','landmark_reconciliation','repeated_admissions','analysis_return_inventory','early_events_by_absorbing_cluster','annual_hourly_evidence','arf_channel_contribution','interpretation_limits','source_table_availability','code_status_source_catalogue')
  inventory<-tibble::tibble(family=needed,phase='local_supplement',status=ifelse(file.exists(file.path(source,paste0(needed,'.csv'))),'captured','missing'))
  # Tiny cohorts may legitimately have no absorbing fit. Report this explicitly.
  inventory$status[inventory$family=='early_events_by_absorbing_cluster' & inventory$status=='missing']<-'not_estimable_check_derivation_status'

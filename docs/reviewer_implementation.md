@@ -274,9 +274,8 @@ explicit and counts are not centrally repaired. Three current sites were capture
 into `output/run_site_returns_20261026/`; candidate SOFA scores exactly reproduce
 the previous audit. The verified collection is in that run's `verified_collection/`.
 
-A concern-by-concern checklist is `docs/site_return_requirements.csv`. Administrative
-and provenance fields are requested in `config/site_metadata_template.csv`;
-blank IRB/waiver, order semantics or ETL fields remain pending site confirmation.
+A concern-by-concern checklist is `docs/site_return_requirements.csv`. Administrative and site reporting information is maintained by the lead team
+outside this repository; no manual metadata form is part of site execution.
 Molecular subtype and treatment type are now accepted in optional oncology
 inputs/availability summaries. Model passes retain exact denominator metadata
 locally and explicitly report reference-absent subsets.

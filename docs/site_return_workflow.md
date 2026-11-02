@@ -49,13 +49,6 @@ code changes the source fingerprint, so new derivations require fresh run IDs.
 The explicit supplement command may read a historical cache without relabeling
 its original source/method version.
 
-Copy `config/site_metadata_template.csv` to `config/site_metadata.csv` and fill
-site statements/provenance, or set `CLIF_SITE_METADATA` to a separate CSV with
-`field,value` columns. Blank fields remain `site_confirmation_required`.
-Do not place patient identifiers or patient-level clinical narratives in this form.
-Fields include IRB board, number/date/title, consent/waiver, source release/ETL,
-timezone/provenance, DNR/DNI/comfort mapping, oncology timing and disclosures.
-
 SOFA capture uses each site's configured source tables and prepared cache, not
 hardcoded UCMC/NU/Rush paths. CSV, parquet and FST source tables are supported.
 Missing optional source labels produce explicit unverified coverage rather than
@@ -83,7 +76,7 @@ The only folder to return is **`NEW_RETURN_ROOT/share/`**. It contains:
 
 | Folder | Contents |
 |---|---|
-| `supplement/` | SOFA completeness/recovery/source audits, missingness patterns, cohort/early-event reconciliation, oncology/code-status availability, annual evidence, reporting form |
+| `supplement/` | SOFA completeness/recovery/source audits, missingness patterns, cohort/early-event reconciliation, oncology/code-status availability, annual evidence |
 | `federated/primary/` | Local k/silhouette/stability/fingerprints, mapping coverage, separate death/hospice/composite models, actual released model denominators/formulas, competing events, risks, transported prediction |
 | `federated/scores/` | Modified-SOFA nested comparisons, paired increments, calibration/Brier, decision curves and model metadata |
 | `federated/review/` | ARF types/timing/contribution, code transitions/outcomes, cancer proxy components, COVID/full-code/first-hospitalization subgroups and source feasibility |
@@ -109,8 +102,7 @@ existing meta-analysis and frozen-prediction scripts remain responsible for
 inferential synthesis; this collector assembles supplement diagnostics.
 
 Review `site_return_requirements.csv` against actual manifests. A capture-complete
-package can still have non-estimable models, unavailable oncology/APACHE data or
-pending author confirmations. These must be reported, not treated as successful
+package can still have non-estimable models, unavailable oncology/APACHE data. These must be reported, not treated as successful
 comparisons or proof that treatment limitations were absent.
 
 The diagnostic return includes global and term-level Schoenfeld tests. For older

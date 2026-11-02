@@ -30,7 +30,7 @@ for(i in seq_along(returns)){
 consensus<-vapply(meta,function(m)m$primary_consensus_id,character(1));stopifnot(length(unique(consensus))==1)
 dir.create(out,recursive=TRUE)
 files<-lapply(returns,function(p)list.files(file.path(p,'supplement'),pattern='[.]csv$',full.names=FALSE))
-required<-c('return_file_inventory.csv','sofa_original_components.csv','sofa_recovery_components.csv','sofa_source_audit_status.csv','site_reporting_metadata.csv')
+required<-c('return_file_inventory.csv','sofa_original_components.csv','sofa_recovery_components.csv','sofa_source_audit_status.csv')
 stopifnot(all(vapply(files,function(f)all(required%in%f),logical(1))))
 for(f in sort(unique(unlist(files)))){
  rows<-list()

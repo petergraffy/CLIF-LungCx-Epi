@@ -12,9 +12,9 @@ deploy_config<-function(path){
  cfg<-read_run_config(path);cfg$repo<-normalizePath(cfg$repo,winslash='/')
  if(cfg$repo!=clif_root)stop('config repo must match the current repository checkout.')
  if(cfg$file_type!='parquet')stop('The adopted waterfall deployment requires CLIF parquet tables.')
- if(is.null(cfg$python)||!file.exists(cfg$python))stop('Set python to the Python 3.12 virtual-environment executable in config/site.json.')
- expected<-read_run_config('config/site_template.json')$analysis
- if(!identical(cfg$analysis[names(expected)[names(expected)!='run_id']],expected[names(expected)[names(expected)!='run_id']]))stop('Scientific Stage 1 parameters differ from config/site_template.json. Only the coordinator may issue a new study specification.')
+ if(is.null(cfg$python)||!file.exists(cfg$python))stop('Set python to the Python 3.12 virtual-environment executable in config/config.json.')
+ expected<-read_run_config('config/config_template.json')$analysis
+ if(!identical(cfg$analysis[names(expected)[names(expected)!='run_id']],expected[names(expected)[names(expected)!='run_id']]))stop('Scientific Stage 1 parameters differ from config/config_template.json. Only the coordinator may issue a new study specification.')
  cfg
 }
 deploy_env<-function(cfg,root,sites=cfg$site_name){

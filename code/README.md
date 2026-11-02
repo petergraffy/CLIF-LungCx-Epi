@@ -50,7 +50,7 @@ rather than substituting package versions. [Environment details](../docs/environ
 
 ## 2 Configure your site
 
-Copy `config/site_template.json` to **`config/site.json`**. Change only:
+Copy `config/config_template.json` to **`config/config.json`**. Change only:
 
 - `site_name`: the coordinator-approved site ID, using letters, numbers, `_` or `-`;
 - `repo`: absolute path to this checkout;
@@ -65,15 +65,11 @@ respiratory_support, vitals, labs, medication_admin_continuous and
 patient_assessments. Code status and optional oncology data have explicit
 availability reporting. Stage/histology/treatment/ECOG are not inferred.
 
-Copy `config/site_metadata_template.csv` to `config/site_metadata.csv` and fill
-in institutional/source metadata where known. Missing confirmations remain
-explicit. Both site config files are git-ignored.
-
 ## 3 Run Stage 1 and return the results
 
 ```sh
-Rscript --vanilla scripts/site.R preflight config/site.json
-Rscript --vanilla scripts/site.R stage1 config/site.json
+Rscript --vanilla scripts/site.R preflight config/config.json
+Rscript --vanilla scripts/site.R stage1 config/config.json
 ```
 
 Preflight checks R/package versions, the Python waterfall runtime and required
@@ -118,7 +114,7 @@ Stage 2 inputs. The coordinator will send a new bundle derived from the actual
 Stage 1 returns. Keep the original Stage 1 checkout and site config.
 
 ```sh
-Rscript --vanilla scripts/site.R stage2-fit config/site.json /absolute/path/to/stage2_parameters
+Rscript --vanilla scripts/site.R stage2-fit config/config.json /absolute/path/to/stage2_parameters
 ```
 
 The runner checks that your exact Stage 1 return was used, verifies code and
@@ -132,7 +128,7 @@ Return only the printed `stage2_fit_return/` directory. The coordinator then
 sends a frozen predictor/shared-grid bundle. Run:
 
 ```sh
-Rscript --vanilla scripts/site.R stage2-evaluate config/site.json /absolute/path/to/stage2_evaluation
+Rscript --vanilla scripts/site.R stage2-evaluate config/config.json /absolute/path/to/stage2_evaluation
 ```
 
 Return only the printed **`stage2_final_return/`** directory. It includes the

@@ -7,7 +7,7 @@ R versions are not installed by renv. Run from the repository root:
 Rscript --vanilla scripts/setup.R
 python3.12 -m venv .venv
 .venv/bin/python -m pip install -r config/waterfall_requirements.txt
-Rscript --vanilla scripts/site.R preflight config/site.json
+Rscript --vanilla scripts/site.R preflight config/config.json
 ```
 
 `setup.R` bootstraps renv 1.1.5 if needed and restores `renv.lock` into

@@ -21,10 +21,9 @@ for(s in sites){
 ledger<-jsonlite::fromJSON(file.path(primary,'reports/frozen_artifact_ledger.json'),simplifyVector=FALSE)$ledger
 for(z in ledger)stopifnot(unname(tools::md5sum(z$path))==z$md5)
 requirements<-readr::read_csv('docs/site_return_requirements.csv',show_col_types=FALSE)
-forms<-readr::read_csv(file.path(collection,'site_reporting_metadata.csv'),show_col_types=FALSE)
 ph<-readr::read_csv(file.path(collection,'model_PH_and_denominators.csv'),show_col_types=FALSE)
 counts<-readr::read_csv(file.path(primary,'reports/tables/cohort_counts.csv'),show_col_types=FALSE)
-jsonlite::write_json(list(status='passed',sites=sites,cohort_n=sum(counts$n),reviewer_checklist_rows=nrow(requirements),aggregate_files_by_site=as.list(files_n),source_audits_all_completed=TRUE,required_families_captured=TRUE,global_and_term_PH_tests_captured=TRUE,diagnostic_coefficients_equal_original=TRUE,piecewise_riskset_and_event_conservation=TRUE,original_frozen_artifacts_unchanged=TRUE,site_confirmation_fields_pending=sum(forms$status=='site_confirmation_required'),no_patient_level_collection=TRUE,source_md5=as.list(tools::md5sum(c(list.files('diagnostics/site_return',full.names=TRUE), 'code/lib/site_supplement.R')))),file.path(root,'reports/site_return_audit.json'),auto_unbox=TRUE,pretty=TRUE)
+jsonlite::write_json(list(status='passed',sites=sites,cohort_n=sum(counts$n),reviewer_checklist_rows=nrow(requirements),aggregate_files_by_site=as.list(files_n),source_audits_all_completed=TRUE,required_families_captured=TRUE,global_and_term_PH_tests_captured=TRUE,diagnostic_coefficients_equal_original=TRUE,piecewise_riskset_and_event_conservation=TRUE,original_frozen_artifacts_unchanged=TRUE,no_patient_level_collection=TRUE,source_md5=as.list(tools::md5sum(c(list.files('diagnostics/site_return',full.names=TRUE), 'code/lib/site_supplement.R')))),file.path(root,'reports/site_return_audit.json'),auto_unbox=TRUE,pretty=TRUE)
 notes<-c('Site return / reviewer coverage review — 2026-10-26','',
  paste('Sites:',paste(sites,collapse=', ')),paste('Primary cohort:',sum(counts$n)),paste('Reviewer-to-output checklist rows:',nrow(requirements)),
  paste('Aggregate return files:',paste(paste(names(files_n),files_n,sep='='),collapse=', ')),
@@ -35,8 +34,6 @@ notes<-c('Site return / reviewer coverage review — 2026-10-26','',
  '', 'REMAINING INTERPRETATION / CONFIRMATIONS',
  'NU core composite global PH test p about0.023; P2/P3 term flags suggest time-varying associations. Exploratory time-window returns are available; they do not replace primary HRs or establish PH within windows.',
  'SOFA remains modified/incomplete. Candidate recovered scores are diagnostic only until outcome/comparator models are versioned and rerun. Validated APACHE II/IV unavailable; cancer stage/ECOG/therapy/preferences incomplete; rare death/full-code effects may be withheld or nonestimable. ICU-free days not validated.',
- paste('Pending site-confirmation fields:',sum(forms$status=='site_confirmation_required')),
- 'Site confirmations include IRB/waiver details, release/ETL and timezone/provenance, treatment-limit order semantics and oncology timing, funding/conflicts and data availability. No missing preference is treated as absence.',
  'Lead team: descriptive/association framing, current cohort scope, literature, RECORD/STROBE, clean/tracked manuscript and point-by-point response. Do not claim consistent predictive superiority, biological endotypes, a causal intervention threshold, or an already executed ten-site revision.',
  '', 'WHERE TO USE',
  paste0('Final per-site return: ',root,'/site_packets/SITE/share/'),

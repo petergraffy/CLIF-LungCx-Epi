@@ -102,7 +102,6 @@ stopifnot(!any(grepl('[.](rds|parquet|fst)$',files)))
 manifest<-list(status='complete_local_capture_pending_site_review',site=site,run_id=cfg$analysis$run_id,primary_consensus_id=jsonlite::fromJSON(file.path(home,'export/outcomes/full/manifest.json'))$consensus_id,
  versions=versions,primary_cause_specific_cox_endpoints=cox_endpoints(),inferential_sensitivities=variants,absorbing_descriptive_only=TRUE,SOFA_recovery_diagnostic_only_models_use_frozen_original_scores=TRUE,apache_adapted_extension_complete=apache_present,apache_not_standard_II_or_IV=TRUE,publication_descriptives_complete=TRUE,publication_table2_grouping='frozen_shared_primary',daily_competing_event_curves_complete=TRUE,
  source_method='constant-cost local OM; interval fingerprints; frozen per-hospitalization template classification',
- required_author_metadata='share/supplement/site_reporting_metadata.csv; unresolved fields must be completed or acknowledged',
  files=as.list(setNames(unname(tools::md5sum(files)),substring(files,nchar(file.path(out,'share'))+2))),capture_source_md5=as.list(tools::md5sum(c('diagnostics/site_return/capture.R','code/lib/site_supplement.R'))),privacy='Return share/ only after local linked-package review; private clinical inputs and diagnostics remain local/')
 jsonlite::write_json(manifest,file.path(out,'share/site_return_manifest.json'),auto_unbox=TRUE,pretty=TRUE,null='null')
 message('Complete site supplement/return captured: ',file.path(out,'share'))

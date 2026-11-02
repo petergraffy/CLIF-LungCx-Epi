@@ -190,9 +190,8 @@ and strict-through-landmark full code, POA U07.1 exclusion, and ARF/high support
 `share/supplement/` contains aggregate diagnostics with disclosure masking;
 exact values and patient-level candidate scores remain in `local/`. The complete
 federated return adds allowlisted discovery/model/validation/sensitivity files,
-with frozen consensus IDs, source versions and an inventory. Sites provide or
-explicitly leave pending IRB/waiver details, release/ETL/timestamp provenance,
-order semantics, oncology timing, funding/conflicts and availability statements.
+with frozen consensus IDs, source versions and an inventory. Administrative/reporting information is maintained by the lead team outside
+the code workflow. No manual site metadata form is required or exported.
 A completion manifest records capture, not institutional disclosure approval.
 
 The lead team must still complete manuscript reframing, the point-by-point
