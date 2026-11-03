@@ -19,7 +19,7 @@ if(command=='preflight'){
 }
 dir.create(file.path(root,'local'),recursive=TRUE,showWarnings=FALSE)
 statefile<-file.path(root,'local/deployment.json')
-state<-list(site=site,parameters=cfg$analysis,source_hash=deploy_hash(),r_lock_md5=unname(tools::md5sum('renv.lock')))
+state<-list(site=site,parameters=cfg$analysis,source_hash=deploy_hash(),r_lock_md5=deploy_lock_hash())
 if(file.exists(statefile)){
  old<-deploy_read(statefile)
  if(old$source_hash!=state$source_hash||!identical(jsonlite::toJSON(old$parameters,auto_unbox=TRUE),jsonlite::toJSON(state$parameters,auto_unbox=TRUE)))stop('Code/environment/settings changed since Stage 1. Use the original checkout or a new coordinated run_id.')

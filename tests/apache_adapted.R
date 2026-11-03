@@ -13,6 +13,12 @@ l<-bind_rows(lapply(ids,function(id)tibble::tibble(hospitalization_id=id,lab_res
 r<-tibble::tibble(hospitalization_id=ids,recorded_dttm=t0+3500,device_category='Nasal Cannula',fio2_set=.4)
 g<-tibble::tibble(hospitalization_id=ids,recorded_dttm=t0+3600,assessment_category='gcs_total',numerical_value=c(15,NA))
 a<-apache_adapted_features(d,list(vitals=v,labs=l,respiratory_support=r,patient_assessments=g))
+ucum<-l;ucum$reference_unit[ucum$lab_category=='po2_arterial']<-'mm[Hg]'
+ucum_score<-apache_adapted_features(d,list(vitals=v,labs=ucum,respiratory_support=r,patient_assessments=g))
+stopifnot(identical(a,ucum_score))
+gas<-data.frame(lab_category=c('po2_arterial','pco2_arterial','po2_arterial','po2_arterial'),lab_value_numeric=c(80,40,80,10),reference_unit=c(' mm[Hg] ','MM[HG]','mg/dL','kPa'))
+normalized<-apache_lab_normalize(gas)
+stopifnot(identical(normalized$apache_value[1:2],c(80,40)),is.na(normalized$apache_value[3]),normalized$apache_unit_rejected[3],abs(normalized$apache_value[4]-75.0062)<1e-8)
 stopifnot(a$apache_adapted_total[1]==5,a$apache_observed_components[1]==12,a$apache_adapted_complete[1],!a$apache_adapted_complete[2],is.na(a$apache_adapted_total[2]),a$apache_observed_components[2]==11,a$apache_partial_sum[2]==5,a$apache_map_derived[1],all(is.na(a$apache_chronic_points)),all(is.na(a$apache_acute_renal_modifier)))
 raw<-l;raw$lab_value_numeric[1]<-99
 cached<-l[,setdiff(names(l),'reference_unit')]

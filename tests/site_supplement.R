@@ -2,7 +2,7 @@ options(clif.aggregate_policy='legacy') # Historical export compatibility test
 source('code/lib/load.R')
 source('diagnostics/sofa_completeness/context.R')
 check<-function(x,label){stopifnot(isTRUE(x));cat('PASS:',label,'\n')}
-base<-tempfile('site_supplement_');dir.create(base)
+base<-tempfile('site supplement ');dir.create(base)
 cfg<-list(site_name='TEST_NEW_SITE',repo=base,tables_path=file.path(base,'tables'),file_type='csv',analysis=run_defaults());cfg$analysis$run_id<-'supplement_test';cfg$analysis$min_cell<-3L
 root<-supplement_path(cfg);dir.create(file.path(root,'local'),recursive=TRUE);dir.create(cfg$tables_path)
 n<-12L;t0<-utc('2020-01-03 00:00:00');ids<-paste0('h',seq_len(n));tm<-rep(t0,n)
@@ -21,6 +21,10 @@ sq<-matrix('ROOM_AIR|H0_C0',n,72)
 analyses<-list(h72_primary=list(data=d,fit=list(sequence=sq,ids=ids,field='joint'),window=72,variant='primary'))
 saveRDS(a,file.path(root,'local/prepared.rds'));saveRDS(list(analyses=analyses),file.path(root,'local/derivation.rds'))
 config<-file.path(base,'config.json');jsonlite::write_json(cfg,config,auto_unbox=TRUE)
+homecfg<-cfg;homecfg$repo<-'~';homecfg$tables_path<-'~/source tables';homecfg$python<-'~/python env/bin/python'
+homeconfig<-file.path(base,'home_config.json');jsonlite::write_json(homecfg,homeconfig,auto_unbox=TRUE)
+parsed<-read_run_config(homeconfig)
+check(parsed$repo==normalizePath(path.expand('~'),winslash='/')&&!any(startsWith(c(parsed$tables_path,parsed$python),'~')),'configuration expands home paths before any child process')
 site_supplement_tables(a,analyses,cfg,root)
 x<-readr::read_csv(file.path(root,'local/supplement_package/share/sofa_original_components.csv'),show_col_types=FALSE)
 check(all(is.na(x$available_n[x$component=='sofa_cns'])),'small complementary SOFA missingness masks linked component counts')
@@ -30,7 +34,14 @@ check(!any(names(x)%in%c('patient_id','hospitalization_id','t0')),'aggregate sup
 # The entire portable source audit must work on a new site and CSV tables with
 # optional labels/units absent, not just the three hardcoded rehearsal folders.
 site_source_and_reporting_tables(a,cfg,root)
-run_site_sofa_audit(cfg,root,config)
+# Reproduce a cached ~/... root, including spaces, without writing in the home directory.
+audit_root<-root
+if(.Platform$OS.type=='unix'){
+ home_parts<-strsplit(sub('^/','',normalizePath(path.expand('~'))),'/',fixed=TRUE)[[1]]
+ audit_root<-paste(c('~',rep('..',length(home_parts)),sub('^/','',normalizePath(root))),collapse='/')
+ stopifnot(normalizePath(path.expand(audit_root))==normalizePath(root))
+}
+run_site_sofa_audit(cfg,audit_root,config,baseline=root)
 ap<-capture_apache_adapted_components(a,analyses,cfg,root)
 capture_descriptive_tables(a,d,cfg,root,panel=descriptive_panel_from_sequence(analyses$h72_primary$fit),apache=ap)
 supplement_write(tibble::tibble(status='captured_local_baseline_groups_shared_Table2_requires_frozen_model_phase',path='share/descriptives'),root,'publication_descriptors_status',cfg)

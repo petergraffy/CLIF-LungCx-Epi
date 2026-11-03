@@ -108,6 +108,54 @@ cannot resume, use a fresh coordinator-approved run ID. Do not delete caches or
 mix files from different runs. A completion manifest is written only after all
 required work succeeds.
 
+If `07_descriptors_supplement` reports `sh: ~/.../audit.log: No such file or
+directory`, an older runner passed an unexpanded home-directory path to shell
+redirection. The corrected runner expands configuration paths and canonicalizes
+the audit output before starting child processes, including paths with spaces.
+As a workaround on the original checkout, use full absolute paths in the site
+config (for example `/Users/YOUR_ACCOUNT/Desktop/CLIF_Projects/CLIF-LungCx-Epi`
+for `repo`) and a fresh coordinator-issued run ID, then repeat preflight and
+Stage 1. Preserve the previous run folders: a failed descriptor step may already
+have written an immutable partial package, so simply repeating the old run ID
+may fail with `Descriptor package exists`. Updating source also requires a fresh
+run ID under the code-contract checks; do not edit deployment hashes or markers.
+
+### Refresh after the November 2026 compatibility and blood-gas fixes
+
+The corrected code accepts the UCUM blood-gas unit `mm[Hg]` as `mmHg` for the
+adapted APS-plus-age comparator. It does not substitute normal values for absent
+measurements. Each site now returns `supplement/apache_adapted_lab_units.csv`,
+which counts first-24-hour lab rows by source unit and acceptance/rejection.
+Review this alongside component completeness before interpreting a missing score.
+
+Source and R lockfile contracts normalize Windows CRLF to LF. All other text
+differences remain detectable. Returns include per-file source hashes so the
+coordinator can identify changed files. Uploaded artifacts retain exact byte-level
+checksums; empty files are rejected. The coordinator does not waive older hash
+mismatches or rewrite their manifests.
+
+For sites that already ran Stage 1, preserve the original checkout/config and all
+run folders. Obtain the same corrected checkout from the coordinator, keep the
+issued `renv.lock`, and set a **new common coordinator-issued run ID** in each
+site's private config (for example, `federated_20261103_v2`). Then run:
+
+```sh
+Rscript --vanilla scripts/setup.R
+Rscript --vanilla scripts/site.R preflight config/config.json
+Rscript --vanilla scripts/site.R stage1 config/config.json
+```
+
+Return the new complete `stage1_return/` folder. This refresh regenerates local
+severity components and discovery diagnostics under one code contract; the
+coordinator must use the refreshed returns together. Simply rerunning the old
+completed run ID cannot refresh scores. Do not edit hashes, remove step markers,
+replace individual result files, or combine old and refreshed packets.
+
+Sites must investigate truly missing PaO2, bilirubin or discharge disposition in
+their source/ETL locally. Unknown measurements and dispositions remain explicitly
+unknown; a central aggregate upload cannot recover them. Preserve their counts
+in the supplement and cohort reconciliation.
+
 ## 4 Stage 2 only after the coordinator releases parameters
 
 Do **not** use `config/active_analysis.json` or the old three-site results as your

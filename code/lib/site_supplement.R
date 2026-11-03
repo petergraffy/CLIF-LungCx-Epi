@@ -72,11 +72,14 @@ site_supplement_tables <- function(prepared, analyses, cfg, root=prepared$root) 
 run_site_sofa_audit <- function(cfg, root, config_path, baseline=root) {
  output<-file.path(root,'local','supplement_sofa')
  dir.create(file.path(output,'local'),recursive=TRUE,showWarnings=FALSE)
+ # Cached runs may still contain a tilde path from an older configuration reader.
+ # Use the canonical path for BOTH environment variables and stdout/stderr.
+ output<-normalizePath(path.expand(output),winslash='/',mustWork=TRUE)
  # Scientific parameters come from the cached run, not diagnostic defaults.
  envnames<-c('CLIF_SOFA_CONFIG','CLIF_SOFA_BASELINE','CLIF_SOFA_OUTPUT')
  before<-Sys.getenv(envnames,unset=NA_character_)
  on.exit(for(i in seq_along(envnames))if(is.na(before[i]))Sys.unsetenv(envnames[i]) else do.call(Sys.setenv,setNames(list(before[i]),envnames[i])),add=TRUE)
- Sys.setenv(CLIF_SOFA_CONFIG=normalizePath(config_path),CLIF_SOFA_BASELINE=normalizePath(baseline),CLIF_SOFA_OUTPUT=normalizePath(output))
+ Sys.setenv(CLIF_SOFA_CONFIG=normalizePath(path.expand(config_path),winslash='/',mustWork=TRUE),CLIF_SOFA_BASELINE=normalizePath(path.expand(baseline),winslash='/',mustWork=TRUE),CLIF_SOFA_OUTPUT=output)
  statuses<-list()
  for(stage in c('audit','extra_source_audit','extend')){
   script<-file.path('diagnostics/sofa_completeness',paste0(stage,'.R'));log<-file.path(output,'local',paste0(stage,'.log'))

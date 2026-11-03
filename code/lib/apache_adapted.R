@@ -44,7 +44,10 @@ apache_lab_normalize<-function(l){
  ix<-((loinc%in%c('2703-7','19254-2','19255-9'))|(grepl('PO2',nm)&grepl('ARTERIAL',nm)))&arterial;ix[is.na(ix)]<-FALSE;cat[ix]<-'po2_arterial'
  ix<-grepl('FIO2|FRACTION.*INSPIRED.*OXYGEN',nm)&!grepl('CORD|VENOUS',nm);ix[is.na(ix)]<-FALSE;cat[ix]<-'fio2_lab'
  ix<-(loinc%in%c('4544-3','20570-8')|grepl('HEMATOCRIT|HAEMATOCRIT',nm))&!grepl('URINE|PLEURAL|PERITONEAL',nm);ix[is.na(ix)]<-FALSE;cat[ix]<-'hematocrit'
- val<-num(l$lab_value_numeric);u<-tolower(gsub('[[:space:]]','',gsub('[µμ]','u',l$reference_unit)));missing<-is.na(u)|!nzchar(u)
+ val<-num(l$lab_value_numeric);u<-tolower(gsub('[[:space:]]','',gsub('[µμ]','u',l$reference_unit)))
+ # UCUM mm[Hg] denotes the same pressure as mmHg; preserve rejection of other units.
+ u[!is.na(u)&u=='mm[hg]']<-'mmhg'
+ missing<-is.na(u)|!nzchar(u)
  accepted<-rep(TRUE,nrow(l));assumed<-missing
  for(k in c('hemoglobin','hematocrit','creatinine','po2_arterial','pco2_arterial','sodium','potassium','bicarbonate','wbc')){
   ix<-which(cat==k);if(!length(ix))next
@@ -132,6 +135,12 @@ capture_apache_adapted_components<-function(prepared,analyses,cfg,root){
  raw<-sofa_source_rows(cfg$tables_path,'labs',d$hospitalization_id)
  cached<-tables$labs[tables$labs$hospitalization_id%in%d$hospitalization_id,]
  enriched<-apache_enrich_cached_labs(cached,raw);tables$labs<-enriched$labs
+ # Audit actual first-24h inputs, preserving source unit spellings and rejection flags.
+ audit<-apache_lab_normalize(enriched$labs) |>
+  dplyr::inner_join(d |> dplyr::select(hospitalization_id,t0),by='hospitalization_id') |>
+  dplyr::filter(lab_result_dttm>=t0,lab_result_dttm<t0+86400) |>
+  dplyr::count(lab_category,apache_category,reference_unit,apache_unit_rejected,apache_unit_assumed,name='n')
+ supplement_write(audit,root,'apache_adapted_lab_units',cfg,'n',c('apache_category','reference_unit'))
  a<-apache_adapted_features(d,tables)
  dir.create(file.path(root,'local/apache_adapted'),recursive=TRUE,showWarnings=FALSE)
  saveRDS(a,file.path(root,'local/apache_adapted/components.rds'))

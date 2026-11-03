@@ -1,14 +1,26 @@
 source('scripts/runtime.R')
 source('code/lib/load.R')
 DEPLOY_VARIANTS<-c('primary','h24','h48','onset','support_only','low_flow','carry0','carry12','raw_support','absorbing')
-deploy_hash<-function() {
+deploy_source_files<-function() {
  # Hash shared source only; ignored historical copies must not change a site contract.
  git<-Sys.which('git');if(!nzchar(git))stop('Git is required for source-contract checks; use a Git checkout of the coordinator-issued commit.')
  files<-system2(git,c('ls-files','--','code','diagnostics','scripts','renv.lock','config/waterfall_requirements.txt'),stdout=TRUE,stderr=TRUE)
  if(!is.null(attr(files,'status')))stop('Unable to read the tracked source inventory. Run from a Git checkout.')
  files<-sort(files[grepl('^(code|diagnostics|scripts)/.*[.](R|py|sh|bat)$',files)|files%in%c('renv.lock','config/waterfall_requirements.txt')])
  if(!length(files)||any(!file.exists(files)))stop('Tracked source files are missing; restore the coordinator-issued checkout.')
- digest::digest(as.list(setNames(unname(tools::md5sum(files)),files)),algo='sha256')
+ files
+}
+deploy_source_inventory<-function()as.list(source_text_md5(deploy_source_files()))
+deploy_hash<-function()digest::digest(deploy_source_inventory(),algo='sha256')
+deploy_lock_hash<-function()unname(source_text_md5('renv.lock'))
+deploy_assert_contract<-function(m){
+ if(!identical(m$source_hash,deploy_hash())){
+  expected<-deploy_source_inventory();received<-m$source_files_md5
+  changed<-if(is.null(received))'per-file provenance unavailable in this older return' else paste(sort(union(setdiff(names(received),names(expected)),names(expected)[vapply(names(expected),function(k)!identical(received[[k]],expected[[k]]),logical(1))])),collapse=', ')
+  stop('Source contract mismatch: ',changed,'. Preserve the original return; use the coordinator-issued checkout and a fresh run_id. See code/README.md.')
+ }
+ if(!identical(m$r_lock_md5,deploy_lock_hash()))stop('R lockfile contract mismatch. Use the coordinator-issued lockfile; older byte-hashed returns need a coordinated refresh.')
+ invisible(TRUE)
 }
 deploy_json<-function(x,path){dir.create(dirname(path),recursive=TRUE,showWarnings=FALSE);jsonlite::write_json(x,path,auto_unbox=TRUE,pretty=TRUE,null='null',digits=16)}
 deploy_read<-function(path)jsonlite::fromJSON(path,simplifyVector=FALSE)
@@ -54,6 +66,7 @@ deploy_tree<-function(from,to,extensions=c('csv','json','rds')){
 deploy_inventory<-function(dir) {
  files<-sort(list.files(dir,recursive=TRUE,full.names=TRUE))
  files<-files[!basename(files)%in%c('return_manifest.json','bundle_manifest.json')]
+ if(any(file.info(files)$size==0))stop('Empty return/bundle file: ',paste(files[file.info(files)$size==0],collapse=', '))
  setNames(as.list(unname(tools::md5sum(files))),substring(files,nchar(dir)+2))
 }
 deploy_validate_inventory<-function(dir,manifest='return_manifest.json'){
@@ -71,6 +84,6 @@ deploy_check_csvs<-function(dir){
 }
 deploy_finish<-function(dir,stage,site,extra=list()){
  deploy_check_csvs(dir)
- deploy_json(c(list(status='complete',stage=stage,site=site,source_hash=deploy_hash(),r_version=as.character(getRversion()),r_lock_md5=unname(tools::md5sum('renv.lock')),files=deploy_inventory(dir)),extra),file.path(dir,'return_manifest.json'))
+ deploy_json(c(list(status='complete',stage=stage,site=site,source_hash=deploy_hash(),source_hash_policy='text-md5-crlf-to-lf-v1',source_files_md5=deploy_source_inventory(),r_version=as.character(getRversion()),r_lock_md5=deploy_lock_hash(),files=deploy_inventory(dir)),extra),file.path(dir,'return_manifest.json'))
 }
 deploy_analysis_root<-function(root,variant)if(variant=='primary')file.path(root,'primary') else file.path(root,'revision/sensitivities',if(variant=='absorbing')'absorbing_v2' else variant)

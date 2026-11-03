@@ -6,7 +6,7 @@ clif_check_environment();command<-a[1];config<-deploy_read(a[2]);root<-normalize
 returns<-unlist(config$stage1_returns)
 meta<-lapply(returns,deploy_validate_inventory);sites<-vapply(meta,`[[`,character(1),'site')
 if(length(sites)<3||anyDuplicated(sites))stop('At least three distinct sites are required for full and leave-one-site-out discovery.')
-for(m in meta)if(m$stage!='stage1'||m$source_hash!=deploy_hash()||m$r_lock_md5!=unname(tools::md5sum('renv.lock')))stop('Mixed Stage 1 code/environment contracts.')
+for(m in meta){if(m$stage!='stage1')stop('Expected Stage 1 returns.');deploy_assert_contract(m)}
 params<-lapply(meta,function(m){p<-m$parameters;p$run_id<-NULL;p})
 if(length(unique(vapply(params,jsonlite::toJSON,character(1),auto_unbox=TRUE)))!=1)stop('Sites used different scientific parameters.')
 Sys.setenv(CLIF_FEDERATED_SITES=paste(sites,collapse=','),CLIF_APACHE_SITES=paste(sites,collapse=','),CLIF_REVISION_OUTPUT=file.path(root,'revision'),CLIF_REVISION_PRIMARY_INPUT=file.path(root,'primary'),CLIF_APACHE_OUTPUT=file.path(root,'apache'),CLIF_APACHE_PRIMARY=file.path(root,'primary'),R_LIBS=paste(.libPaths(),collapse=.Platform$path.sep))
@@ -38,7 +38,7 @@ if(command=='freeze'){
   deploy_tree(file.path(work,'coordinator'),file.path(bundle,v,'coordinator'))
  }
  primary<-deploy_read(file.path(root,'primary/coordinator/full/frozen_manifest.json'))
- deploy_json(list(stage='stage2_parameters',source_hash=deploy_hash(),r_lock_md5=unname(tools::md5sum('renv.lock')),sites=sites,primary_consensus_id=primary$consensus_id,stage1_manifest_md5=setNames(as.list(vapply(returns,function(p)unname(tools::md5sum(file.path(p,'return_manifest.json'))),character(1))),sites),selected_k=config$selected_k,assignment='closest template for all support-sufficient stays; I retained for insufficient support',files=deploy_inventory(bundle)),file.path(bundle,'bundle_manifest.json'))
+ deploy_json(list(stage='stage2_parameters',source_hash=deploy_hash(),r_lock_md5=deploy_lock_hash(),sites=sites,primary_consensus_id=primary$consensus_id,stage1_manifest_md5=setNames(as.list(vapply(returns,function(p)unname(tools::md5sum(file.path(p,'return_manifest.json'))),character(1))),sites),selected_k=config$selected_k,assignment='closest template for all support-sufficient stays; I retained for insufficient support',files=deploy_inventory(bundle)),file.path(bundle,'bundle_manifest.json'))
  cat('Frozen. Send this entire coordinator-created bundle to every participating site:\n',bundle,'\nSites run stage2-fit using it.\n');quit(status=0)
 }
 if(length(a)<3)stop('Supply all Stage 2 aggregate return directories after the coordinator config.')

@@ -1,5 +1,13 @@
 # Shared contracts for the new CCX run. Never source archived analysis code.
 RUN_SCHEMA <- "ccx-2026-10-21-v3"
+# Source contracts ignore CRLF vs LF only. Returned artifacts keep byte-level hashes.
+source_text_md5 <- function(paths) {
+  setNames(vapply(paths, function(path) {
+    bytes <- readBin(path, 'raw', n = file.info(path)$size)
+    text <- gsub('\r\n', '\n', rawToChar(bytes), fixed = TRUE)
+    digest::digest(charToRaw(text), algo = 'md5', serialize = FALSE)
+  }, character(1), USE.NAMES = FALSE), paths)
+}
 `%||%` <- function(x, y) if (is.null(x) || length(x) == 0L) y else x
 
 run_defaults <- function() list(
@@ -34,6 +42,10 @@ read_run_config <- function(path = "config/config.json") {
   cfg <- jsonlite::fromJSON(path, simplifyVector = TRUE)
   for (nm in c("site_name", "tables_path", "repo"))
     if (is.null(cfg[[nm]]) || !nzchar(cfg[[nm]])) stop("Missing config field: ", nm)
+  # R file APIs expand ~, but quoted shell redirections do not. Resolve paths once.
+  for (nm in intersect(c('repo','tables_path','python'), names(cfg)))
+    if (is.character(cfg[[nm]]) && length(cfg[[nm]]) == 1L && nzchar(cfg[[nm]]))
+      cfg[[nm]] <- normalizePath(path.expand(cfg[[nm]]), winslash = '/', mustWork = FALSE)
   cfg$analysis <- modifyList(run_defaults(), cfg$analysis %||% list())
   cfg$analysis$min_cell <- aggregate_min_cell(cfg$analysis$min_cell)
   # Retired pilot parameter: support coverage is descriptive, never eligibility.

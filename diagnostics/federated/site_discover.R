@@ -38,7 +38,7 @@ fed_write(dplyr::bind_rows(sig),file.path(out,"fingerprints.csv"));fed_write(dpl
 fed_write(sil |> dplyr::mutate(site=site),file.path(out,"silhouette.csv"))
 method_files<-c("diagnostics/federated/contract.R","diagnostics/federated/site_discover.R")
 fed_json(list(schema=FED_SCHEMA,site=site,specification=fed_spec(),spec_hash=fed_hash(fed_spec()),
- method_hash=fed_hash(as.list(tools::md5sum(method_files))),input_processing=manifest$boundary_rule,
+ method_hash=fed_hash(as.list(source_text_md5(method_files))),input_processing=manifest$boundary_rule,
  waterfall_source_sha256=jsonlite::fromJSON(file.path(input_root,"local","waterfall_manifest.json"))$waterfall_source_sha256,
  release="interval templates with exact aggregate counts; no patient rows; not differential privacy; local rehearsal"),file.path(out,"manifest.json"))
 fit$distance<-NULL

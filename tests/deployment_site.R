@@ -22,6 +22,9 @@ for(command in c('preflight','stage1')){
 root<-deploy_root(read_run_config(config));share<-file.path(root,'stage1_return');m<-deploy_validate_inventory(share)
 stopifnot(m$status=='complete',m$stage=='stage1',!m$shared_phenotypes_assigned,!m$local_outcome_models_fit)
 stopifnot(setequal(unlist(m$variants),DEPLOY_VARIANTS),file.exists(file.path(share,'descriptives/categorical.csv')))
+stopifnot(file.exists(file.path(share,'supplement/apache_adapted_lab_units.csv')),m$source_hash_policy=='text-md5-crlf-to-lf-v1')
+units<-readr::read_csv(file.path(share,'supplement/apache_adapted_lab_units.csv'),show_col_types=FALSE)
+stopifnot(all(c('reference_unit','apache_unit_rejected','n')%in%names(units)),!any(c('patient_id','hospitalization_id','t0')%in%names(units)))
 stopifnot(!dir.exists(file.path(root,'primary/coordinator')),!dir.exists(file.path(root,'primary/sites/SYNTHETIC_SITE/export/outcomes')))
 cat('PASS: full Stage 1 on synthetic source parquet; ten discoveries, descriptors, supplement, environment inventory and mandatory stop\n')
 # An empty coordinator directory must not allow Stage 2.
