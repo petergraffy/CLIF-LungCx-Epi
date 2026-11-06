@@ -4,9 +4,10 @@ Use one site configuration: copy `config_template.json` to `config.json`.
 The complete setup and run instructions are in [the code README](../code/README.md).
 Run commands from the repository root, not this directory.
 
-Set `site_name`, `repo`, `tables_path`, `python`, and the coordinator-issued
-`analysis.run_id`. Use absolute paths and retain the template's scientific
-settings. The adopted two-stage waterfall workflow requires CLIF parquet tables.
+Set only `site_name`, `repo`, `tables_path`, and `python` for Stage 2. The run
+name is pre-filled as `analysis.run_id: "stage2_v1"`; leave it unchanged. Existing
+completed runs keep their original run name. Use absolute paths and retain the
+template's scientific settings. The adopted two-stage waterfall workflow requires CLIF parquet tables.
 The earlier comparison loader also supports CSV/FST; it is not the deployment
 entry point.
 
@@ -22,7 +23,8 @@ Copy it to the ignored `coordinator.json` only when coordinating a run.
 Stage 2 needs only a site config, the source CLIF tables, pinned environment and
 tracked frozen bundle. It rebuilds all local input data without clustering.
 `stage1_root` is ignored; no original Stage 1 run ID or output folders are needed.
-Use a fresh `analysis.run_id` if starting another Stage 2 run or changing inputs.
+The same command resumes the fixed run. If the runner reports changed inputs or
+code, contact the coordinator for restart instructions.
 The runner creates an isolated Stage 2 workspace and records the input-file
 sizes/mtimes and frozen timestamp policy for safe resume.
 
@@ -31,9 +33,10 @@ records bind approved legacy discovery snapshots to their original manifest
 hashes. They do not waive checksums for files used to learn templates. Sites
 should use only their coordinator-issued released bundle.
 
-The end date is exclusive: `2025-01-01` includes all of 2024. Change a run ID
-when inputs or scientific parameters change. Sites must not modify the
-coordinator-issued analysis settings or reuse caches under a different contract.
+For Stage 1 only, use the run label supplied by the coordinator.
+
+The end date is exclusive: `2025-01-01` includes all of 2024. Sites must not modify
+the coordinator-issued analysis settings or reuse caches under a different contract.
 
 Stage 2 is one site pass: `scripts/site.R stage2 config/config.json` uses the
 tracked `frozen/stage2_v1/` bundle by default and produces one `stage2_return/`.

@@ -48,7 +48,10 @@ Copy [config/config_template.json](../config/config_template.json) to
 | `repo` | Absolute path to this repository checkout |
 | `tables_path` | Absolute path to your CLIF parquet tables |
 | `python` | Absolute path to the Python executable in your pinned environment |
-| `analysis.run_id` | A name for this run, such as `stage2_v1` |
+
+The run name is already set to **`stage2_v1`** in the template; leave it unchanged.
+Your site ID keeps each site’s output folder separate. Existing configs from a
+completed run can keep their original run name.
 
 Keep all other settings unchanged. In Windows JSON paths, use `/` or escaped
 backslashes (`\\`). Your config stays local and is excluded from Git.
@@ -109,9 +112,10 @@ required to run Stage 2.
 Open the log file named in the error message. Contact the coordinator with the
 error if you need help; do not upload a partial return.
 
-To resume, rerun the same command with the same config, code and bundle. If inputs
-or code have changed, use a fresh `analysis.run_id`. Do not edit hashes or delete
-completion markers to bypass an error. A site-admission error requires a bundle
+To resume, rerun the same command with the same config, code and bundle. If the
+runner reports changed inputs or code, contact the coordinator for restart
+instructions. Do not rename a completed run, edit hashes or delete completion
+markers to bypass an error. A site-admission error requires a bundle
 update from the coordinator.
 
 [Coordinator instructions and workflow details](../docs/two_stage_run.md)
