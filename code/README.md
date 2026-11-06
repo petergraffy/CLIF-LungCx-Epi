@@ -72,6 +72,44 @@ the frozen mappings, and runs all models, sensitivities, diagnostics and exports
 It uses the **`frozen/stage2_v1/` bundle already included in the repository**.
 No local clustering is performed.
 
+### Alternative: Python fallback when R Arrow fails
+
+Use this separate route if R Arrow will not install, lacks Dataset/Parquet
+support, or your machine has a different R Arrow version. It uses the same
+frozen phenotypes and runs the complete Stage 2 analysis and supplement.
+**R Arrow is not installed, loaded, or version-checked by this route.** An
+installed Arrow 25 can remain installed. Keep the repository `renv.lock`
+unchanged.
+
+Use the same `config/config.json` and pinned Python environment described
+above. Run from the repository root:
+
+```sh
+Rscript --vanilla python_fallback/setup.R
+Rscript --vanilla python_fallback/site.R stage2-preflight config/config.json
+Rscript --vanilla python_fallback/site.R stage2 config/config.json
+```
+
+Use `python_fallback/setup.R` for this route. The standard `scripts/setup.R`
+restores R Arrow from the lockfile.
+
+The fallback rebuilds from CLIF with no Stage 1 folders and no clustering.
+Its fixed run name is **`stage2_python_v1`**. It creates its own workspace;
+rerun the same fallback command to resume. It does not resume a partially
+completed standard R Arrow run.
+
+When it prints **`PYTHON FALLBACK COMPLETE`**, upload only:
+
+```text
+output/run_<SITE>_stage2_python_v1/analysis/stage2_return/
+```
+
+The packet contains the same model, sensitivity, descriptor, supplement,
+survival, ROC and tdAUC export families, with explicit PyArrow provenance.
+Do not upload `local/pipeline/` or the whole run folder.
+
+[Fallback details and coordinator collection](../python_fallback/README.md)
+
 ### 4. Return the results
 
 When the command prints **`STAGE 2 COMPLETE`**, send the coordinator **only the

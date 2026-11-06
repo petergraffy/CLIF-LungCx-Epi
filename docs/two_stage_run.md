@@ -52,6 +52,18 @@ returns, collect all packets with the same private coordinator config:
 Rscript --vanilla scripts/coordinator.R collect config/coordinator.json /path/SITE_A/stage2_return /path/SITE_B/stage2_return /path/SITE_C/stage2_return
 ```
 
+If any site used the separate Python fallback, collect the complete roster
+with the compatible collector instead (continue the command with every site):
+
+```sh
+Rscript --vanilla python_fallback/collect.R frozen/stage2_v1 output/run_pooled_stage2_v1 .venv/bin/python /path/SITE_A/stage2_return /path/SITE_B/stage2_return /path/SITE_C/stage2_return
+```
+
+It validates native and fallback packets against their distinct issued
+contracts and the same frozen parent phenotypes, then uses the existing
+pooling methods. Received manifests are preserved. See the
+[fallback instructions](../python_fallback/README.md).
+
 The coordinator checks the release identity and source hashes, pools association
 estimates and prediction histograms, reconstructs pooled survival/competing-risk
 curves, and retains all site tables for the supplement. No outcome-predictor

@@ -28,6 +28,34 @@ source build on a platform without matching binaries; retain the version and
 resolve system-library/compiler requirements. renv library/cache contents are
 ignored; only the lockfile and restoration scripts belong in Git.
 
+## R Arrow installation or capability failures
+
+Use the separate [Python fallback pipeline](../python_fallback/README.md) if
+R Arrow cannot be installed, lacks Dataset/Parquet support, or has a different
+version from the lockfile. From the repository root:
+
+```sh
+Rscript --vanilla python_fallback/setup.R
+Rscript --vanilla python_fallback/site.R stage2-preflight config/config.json
+Rscript --vanilla python_fallback/site.R stage2 config/config.json
+```
+
+Keep `renv.lock` at the coordinator-issued version. The fallback setup restores
+all locked R dependencies except Arrow. It does not install, downgrade, load,
+or version-check R Arrow; an existing Arrow 25 installation can remain.
+Python uses the same pinned waterfall environment already required by the
+study. Preflight performs an actual synthetic Parquet/Dataset read-write test.
+
+The fallback uses its own fixed workspace and rebuilds from source CLIF. Do
+not change the native run ID to work around an Arrow error. Upload only the
+fallback's printed `stage2_return/` folder after `PYTHON FALLBACK COMPLETE`.
+
+If maintaining the native reader instead, note that matching the Arrow package
+version does not guarantee the required compiled capabilities. The
+[Arrow installation guide](https://arrow.apache.org/docs/r/articles/install.html)
+explains its build options. Native preflight currently checks versions; it
+can pass with a minimal Arrow build that lacks Dataset/Parquet support.
+
 Python requirements capture the dependency closure used by official CLIFpy
 2.1.0 waterfall, excluding unrelated manuscript/agent tooling. The runtime
 check verifies Python major/minor, pinned package versions and records the
