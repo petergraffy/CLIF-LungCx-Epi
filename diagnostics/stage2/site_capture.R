@@ -19,6 +19,7 @@ deploy_tree(file.path(root,'apache/sites',site,'export'),file.path(return,'apach
 deploy_tree(file.path(root,'four_cox/share'),file.path(return,'four_endpoint_cox'),c('csv','json'))
 deploy_tree(file.path(root,'prediction'),file.path(return,'prediction'),c('csv','json'))
 deploy_tree(file.path(root,'survival_share'),file.path(return,'survival'),c('csv','json'))
+deploy_tree(file.path(root,'input_audit'),file.path(return,'input_audit'),c('csv','json'))
 # Exact hourly states, standalone Sankey inputs and full/LOO assignment agreement.
 panel<-disc$panel |> dplyr::left_join(full |> dplyr::select(hospitalization_id,phenotype),by='hospitalization_id')
 for(domain in c('support','hypox','hyper','joint')){

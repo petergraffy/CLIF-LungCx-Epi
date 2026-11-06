@@ -19,12 +19,12 @@ accompany returns.
 it lists Stage 1 return folders and shared-cluster choices. Sites do not use it.
 Copy it to the ignored `coordinator.json` only when coordinating a run.
 
-For Stage 2, retain the original `site_name`, `analysis.run_id` and analysis
-settings. If using a new checkout, set `repo` to that checkout and `stage1_root`
-to the original `output/run_<SITE>_<RUN_ID>_federated/` directory. `stage1_root`
-is optional for Stage 1 and when the default original run location is available.
-The runner creates a separate Stage 2 workspace from the bundle's release ID;
-do not change the Stage 1 run ID to create that workspace.
+Stage 2 needs only a site config, the source CLIF tables, pinned environment and
+tracked frozen bundle. It rebuilds all local input data without clustering.
+`stage1_root` is ignored; no original Stage 1 run ID or output folders are needed.
+Use a fresh `analysis.run_id` if starting another Stage 2 run or changing inputs.
+The runner creates an isolated Stage 2 workspace and records the input-file
+sizes/mtimes and frozen timestamp policy for safe resume.
 
 All participating sites are expected to contribute to all analyses. Explicit `accepted_stage1`
 records bind approved legacy discovery snapshots to their original manifest

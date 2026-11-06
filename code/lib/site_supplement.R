@@ -38,7 +38,7 @@ site_supplement_tables <- function(prepared, analyses, cfg, root=prepared$root) 
  early<-analyses$h72_absorbing$data
  if(!is.null(early)){
   early$early_event<-ifelse(early$event_time<=early$t0+72*3600,early$event_type,'alive_in_hospital_at72h')
-  e<-early |> dplyr::count(local_cluster,early_event,name='n') |> dplyr::mutate(group_type='local_absorbing_descriptive_only',analysis_id='h72_absorbing')
+  e<-early |> dplyr::count(local_cluster,early_event,name='n') |> dplyr::mutate(group_type=if(is.null(analyses$h72_absorbing$grouping))'local_absorbing_descriptive_only' else 'frozen_absorbing_descriptive_only',analysis_id='h72_absorbing')
   supplement_write(e,root,'early_events_by_absorbing_cluster',cfg,'n','local_cluster')
  }
  # Treatment documentation and terminal outcomes remain separate variables.
@@ -124,14 +124,15 @@ capture_site_supplement <- function(cfg,root=supplement_path(cfg),config_path='c
  baseline<-root
  root<-Sys.getenv('CLIF_SUPPLEMENT_OUTPUT',unset=root)
  if(dir.exists(file.path(root,'share','supplement')))stop('Supplement already exists; do not overwrite a reviewed package')
- prepared<-readRDS(file.path(baseline,'local/prepared.rds'));analyses<-readRDS(file.path(baseline,'local/derivation.rds'))$analyses
+ prepared<-readRDS(file.path(baseline,'local/prepared.rds'));analyses<-readRDS(Sys.getenv('CLIF_SUPPLEMENT_DERIVATION',unset=file.path(baseline,'local/derivation.rds')))$analyses
  site_supplement_tables(prepared,analyses,cfg,root)
  site_source_and_reporting_tables(prepared,cfg,root)
  run_site_sofa_audit(cfg,root,config_path,baseline)
  ap<-capture_apache_adapted_components(prepared,analyses,cfg,root)
  panel<-descriptive_panel_from_sequence(analyses$h72_primary$fit)
- capture_descriptive_tables(prepared,analyses$h72_primary$data,cfg,root,panel=panel,apache=ap)
- supplement_write(tibble::tibble(status='captured_local_baseline_groups_shared_Table2_requires_frozen_model_phase',path='share/descriptives'),root,'publication_descriptors_status',cfg)
+ primary<-analyses$h72_primary
+ if(!is.null(primary$consensus_id)){d<-primary$data;d$phenotype<-d$local_cluster;capture_descriptive_tables(prepared,d,cfg,root,panel=panel,apache=ap,phenotypes=paste0('P',seq_len(primary$fit$k)),consensus_id=primary$consensus_id)}else capture_descriptive_tables(prepared,primary$data,cfg,root,panel=panel,apache=ap)
+ supplement_write(tibble::tibble(status=if(is.null(primary$consensus_id))'captured_local_baseline_groups_shared_Table2_requires_frozen_model_phase' else 'captured_frozen_shared_phenotypes',path='share/descriptives'),root,'publication_descriptors_status',cfg)
  supplement_readiness(root,cfg)
  finalize_site_supplement(root,cfg,baseline=baseline)
 }

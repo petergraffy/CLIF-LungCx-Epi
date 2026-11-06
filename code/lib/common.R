@@ -43,7 +43,7 @@ read_run_config <- function(path = "config/config.json") {
   for (nm in c("site_name", "tables_path", "repo"))
     if (is.null(cfg[[nm]]) || !nzchar(cfg[[nm]])) stop("Missing config field: ", nm)
   # R file APIs expand ~, but quoted shell redirections do not. Resolve paths once.
-  for (nm in intersect(c('repo','tables_path','python','stage1_root'), names(cfg)))
+  for (nm in intersect(c('repo','tables_path','python','stage1_root','work_root'), names(cfg)))
     if (is.character(cfg[[nm]]) && length(cfg[[nm]]) == 1L && nzchar(cfg[[nm]])) {
       value <- path.expand(cfg[[nm]])
       # A venv executable is often a symlink: resolving the file itself loses
@@ -125,7 +125,8 @@ load_clif <- function(cfg) {
     ext <- tolower(tools::file_ext(hits))
     if (ext == "parquet") {
       query <- arrow::open_dataset(hits)
-      columns <- query$schema$names
+      schema <- query$schema
+      columns <- schema$names
       selected <- columns[tolower(columns) %in% c(required[[nm]], optional_columns[[nm]])]
       query <- dplyr::select(query, dplyr::all_of(selected))
       # Push cohort filtering into Arrow before materializing large clinical tables.
@@ -140,7 +141,7 @@ load_clif <- function(cfg) {
     names(x) <- tolower(names(x))
     if (nm %in% names(required)) x <- need_columns(x, required[[nm]], nm)
     for (id in intersect(c("patient_id", "hospitalization_id"), names(x))) x[[id]] <- as.character(x[[id]])
-    for (ts in grep("_dttm$", names(x), value = TRUE)) x[[ts]] <- utc(x[[ts]])
+    for (ts in grep("_dttm$", names(x), value = TRUE)) x[[ts]] <- source_time(x[[ts]], if(ext=="parquet")schema$GetFieldByName(schema$names[match(ts,tolower(schema$names))])$type else NULL)
     if (!is.null(cohort_ids) && "hospitalization_id" %in% names(x)) x <- x[x$hospitalization_id %in% cohort_ids, ]
     else if (!is.null(patient_ids) && "patient_id" %in% names(x)) x <- x[x$patient_id %in% patient_ids, ]
     message("Loaded ", nm, ": ", nrow(x), " rows")
@@ -150,7 +151,7 @@ load_clif <- function(cfg) {
 }
 
 init_run <- function(cfg) {
-  root <- file.path(cfg$repo, "output", paste0("run_", cfg$site_name, "_", cfg$analysis$run_id))
+  root <- cfg$work_root %||% file.path(cfg$repo, "output", paste0("run_", cfg$site_name, "_", cfg$analysis$run_id))
   dir.create(file.path(root, "local"), recursive = TRUE, showWarnings = FALSE)
   dir.create(file.path(root, "share"), recursive = TRUE, showWarnings = FALSE)
   root
@@ -218,4 +219,17 @@ run_manifest <- function(cfg, root, phase) {
 code_fingerprint <- function() {
   files <- sort(list.files("code", recursive = TRUE, full.names = TRUE, pattern = "\\.R$"))
   digest::digest(as.list(tools::md5sum(files)), algo = "sha256")
+}
+
+# Interpret only timezone-naive source timestamps using the issued source policy.
+# Timestamp-aware Arrow fields already represent absolute instants.
+source_time <- function(x,type=NULL) {
+ zone<-Sys.getenv('CLIF_SOURCE_TIMEZONE',unset='UTC')
+ aware<-!is.null(type)&&grepl('tz=',type$ToString(),fixed=TRUE)
+ if(aware||zone=='UTC')return(utc(x))
+ if(inherits(x,'POSIXt')){
+  return(utc(lubridate::force_tz(x,tzone=zone,roll_dst=c('NA','NA'))))
+ }
+ if(is.character(x)&&any(grepl('(Z|[+-][0-9]{2}:?[0-9]{2})$',x),na.rm=TRUE))return(utc(x))
+ utc(lubridate::force_tz(utc(x),tzone=zone,roll_dst=c('NA','NA')))
 }

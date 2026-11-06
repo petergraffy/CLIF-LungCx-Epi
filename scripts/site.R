@@ -24,9 +24,10 @@ if(command%in%c('stage2-preflight','stage2')){
  if(command=='stage2'&&bm$stage!='stage2_parameters')stop('Stage2 requires the released parameter bundle.')
  context<-deploy_stage2_context(cfg,bundle,bm,copy_caches=command!='stage2-preflight');cfg<-context$cfg;root<-context$root
  if(command=='stage2-preflight'){
-  cat('PASS: Stage2 code/environment, approved Stage1 lineage, and all local discovery caches.\n')
-  cat('Original Stage1 preserved: ',context$original,'\nStage2 workspace: ',root,'\n',sep='');quit(status=0)
+  cat('PASS: Stage2 code/environment, site admission, fixed templates and CLIF source tables. Stage1 outputs are not required.\n')
+  cat('Stage2 workspace: ',root,'\nInput mode: rebuild from CLIF; clustering disabled.\n',sep='');quit(status=0)
  }
+ config<-context$config;Sys.setenv(CLIF_RUN_CONFIG=config)
  dir.create(file.path(root,'local'),recursive=TRUE,showWarnings=FALSE)
 }else{
 dir.create(file.path(root,'local'),recursive=TRUE,showWarnings=FALSE)
@@ -64,12 +65,12 @@ if(command=='stage1'){
  baseline<-init_run(cfg)
  deploy_tree(file.path(baseline,'share/supplement'),file.path(return,'supplement'),c('csv','json','txt'))
  for(f in c('cohort_exclusions.csv','cohort_by_year.csv','cohort_patient_counts.csv','outcome_timestamp_audit.csv','source_availability.csv','analysis_plan.csv','arf_detection_audit.csv','derivation_status.csv'))deploy_copy(file.path(baseline,'share',f),file.path(return,'cohort_audit',f))
- writeLines(c('STAGE 1 COMPLETE. Return this folder only.','No shared phenotype has been selected or assigned.','Discovery inputs: discovery/. Descriptors and supplement are review diagnostics, not consensus features.','Preserve this checkout, the site config and all output/run_SITE_RUN_ID* folders locally.','STOP and wait for the coordinator Stage 2 bundle. Do not run legacy consensus/model commands.'),file.path(return,'READ_ME_FIRST.txt'))
+ writeLines(c('STAGE 1 COMPLETE. Return this folder only.','No shared phenotype has been selected or assigned.','Discovery inputs: discovery/. Descriptors and supplement are review diagnostics, not consensus features.','Keep the submitted aggregate return for records. Stage2 rebuilds from source CLIF; these run folders are not required.','STOP and wait for the coordinator Stage 2 bundle. Do not run legacy consensus/model commands.'),file.path(return,'READ_ME_FIRST.txt'))
  deploy_copy('renv.lock',file.path(return,'environment/r_lock.json'))
  deploy_copy('config/waterfall_requirements.txt',file.path(return,'environment/waterfall_requirements.txt'))
  writeLines(capture.output(sessionInfo()),file.path(return,'environment/R_sessionInfo.txt'))
  deploy_finish(return,'stage1',site,list(variants=DEPLOY_VARIANTS,parameters=cfg$analysis,shared_phenotypes_assigned=FALSE,local_outcome_models_fit=FALSE,python_environment=status))
- cat('\nSTAGE 1 COMPLETE. STOP HERE.\nReturn only: ',return,'\nKeep all local caches. Wait for the coordinator Stage 2 bundle.\n',sep='');quit(status=0)
+ cat('\nSTAGE 1 COMPLETE. STOP HERE.\nReturn only: ',return,'\nStage2 rebuilds from source CLIF. Wait for the coordinator Stage 2 bundle.\n',sep='');quit(status=0)
 }
 sites<-unlist(bm$sites);if(!site%in%sites)stop('This site is not included in the coordinator bundle.')
 deploy_env(cfg,root,sites)

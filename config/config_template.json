@@ -27,6 +27,5 @@
     "code_status_lookback_hours": 0,
     "sf_threshold": 315,
     "consensus_min_overlap": 0.5
-  },
-  "stage1_root": null
+  }
 }

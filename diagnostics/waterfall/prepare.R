@@ -19,7 +19,9 @@ files<-list.files(cfg$tables_path,recursive=TRUE,full.names=TRUE,pattern="\\.par
 base<-tolower(sub("^clif_","",tools::file_path_sans_ext(basename(files)),ignore.case=TRUE))
 path<-files[base=="respiratory_support"];stopifnot(length(path)==1L)
 ids<-prepared$cohort$hospitalization_id
-raw<-arrow::open_dataset(path) |> dplyr::filter(hospitalization_id %in% ids) |> dplyr::collect()
+dataset<-arrow::open_dataset(path)
+raw<-dataset |> dplyr::filter(hospitalization_id %in% ids) |> dplyr::collect()
+raw$recorded_dttm<-source_time(raw$recorded_dttm,dataset$schema$GetFieldByName("recorded_dttm")$type)
 # Retain the primary analysis's row-wise FiO2 normalization and bounds.
 raw$fio2_set<-standard_fio2(raw$fio2_set)
 arrow::write_parquet(raw,file.path(out,"local","raw_respiratory.parquet"))

@@ -40,11 +40,13 @@ deploy_config<-function(path){
  if(cfg$file_type!='parquet')stop('The adopted waterfall deployment requires CLIF parquet tables.')
  if(is.null(cfg$python)||!file.exists(cfg$python))stop('Set python to the Python 3.12 virtual-environment executable in config/config.json.')
  expected<-read_run_config('config/config_template.json')$analysis
- if(!identical(cfg$analysis[names(expected)[names(expected)!='run_id']],expected[names(expected)[names(expected)!='run_id']]))stop('Scientific Stage 1 parameters differ from config/config_template.json. Only the coordinator may issue a new study specification.')
+ keys<-setdiff(names(expected),'run_id')
+ if(any(!vapply(keys,function(k)isTRUE(all.equal(cfg$analysis[[k]],expected[[k]],check.attributes=FALSE)),logical(1))))stop('Scientific analysis settings differ from config/config_template.json. Only the coordinator may issue a new study specification.')
  cfg
 }
 deploy_env<-function(cfg,root,sites=cfg$site_name){
  env<-c(CLIF_RUN_CONFIG=normalizePath(Sys.getenv('CLIF_RUN_CONFIG')),CLIF_FEDERATED_OUTPUT=file.path(root,'primary'),CLIF_REVISION_OUTPUT=file.path(root,'revision'),CLIF_REVISION_PRIMARY_INPUT=file.path(root,'primary'),CLIF_APACHE_OUTPUT=file.path(root,'apache'),CLIF_APACHE_PRIMARY=file.path(root,'primary'),CLIF_WATERFALL_OUTPUT=file.path(root,'waterfall'),CLIF_FEDERATED_SITES=paste(sites,collapse=','),CLIF_APACHE_SITES=paste(sites,collapse=','),CLIF_LOCAL_DEPLOYMENT='true',R_LIBS=paste(.libPaths(),collapse=.Platform$path.sep))
+ if(isTRUE(cfg$stage2_independent)){env['CLIF_STAGE2_NO_CLUSTERING']<-'true';env['CLIF_SOURCE_TIMEZONE']<-cfg$source_timezone}
  env[paste0('CLIF_FEDERATED_INPUT_',cfg$site_name)]<-file.path(cfg$stage1_root%||%root,'waterfall')
  env[paste0('CLIF_SITE_TABLES_',cfg$site_name)]<-cfg$tables_path
  env[paste0('CLIF_APACHE_TABLES_',cfg$site_name)]<-cfg$tables_path
@@ -114,19 +116,12 @@ deploy_stage1_input<-function(dir,approval=NULL,variants=DEPLOY_VARIANTS){
 deploy_stage2_context<-function(cfg,bundle,bm,copy_caches=FALSE){
  site<-cfg$site_name
  if(bm$source_hash!=deploy_hash()||bm$r_lock_md5!=deploy_lock_hash())stop('Use the coordinator-issued Stage2 checkout and pinned environment.')
- if(!site%in%unlist(bm$sites))stop('This site has not been admitted to this release. Complete Stage1 and contact the coordinator.')
- original<-normalizePath(cfg$stage1_root%||%deploy_root(cfg),winslash='/',mustWork=TRUE)
- approval<-bm$stage1_acceptance[[site]]
- if(is.null(approval))stop('Bundle lacks the original Stage1 acceptance record for this site.')
- m<-deploy_stage1_input(file.path(original,'stage1_return'),approval,'primary')
- state<-deploy_read(file.path(original,'local/deployment.json'))
- if(state$source_hash!=m$source_hash)stop('Original Stage1 state and return disagree; do not edit either hash.')
- canonical<-function(x)jsonlite::toJSON(x[sort(names(x),method='radix')],auto_unbox=TRUE,null='null')
- if(canonical(cfg$analysis)!=canonical(m$parameters))stop('Keep the original Stage1 analysis settings, site ID and run ID for Stage2.')
- workspace_id<-bm$workspace_id%||%substr(bm$primary_consensus_id,1,12)
- if(!grepl('^[A-Za-z0-9_-]+$',workspace_id))stop('Invalid Stage2 workspace ID.')
+ if(!identical(bm$input_mode,'rebuild_from_clif'))stop('Use the independent Stage2 bundle shipped with this checkout.')
+ if(!site%in%unlist(bm$sites))stop('Site not admitted to this release; contact the coordinator.')
+ workspace_id<-bm$workspace_id
+ if(!grepl('^[A-Za-z0-9_-]+$',workspace_id))stop('Invalid workspace ID.')
  root<-file.path(cfg$repo,'output',paste0('run_',site,'_',cfg$analysis$run_id,'_stage2_',workspace_id))
- variants<-unlist(bm$variants%||%as.list(DEPLOY_VARIANTS));audit<-list()
+ variants<-unlist(bm$variants)
  for(v in variants)for(version in c('full',paste0('loo_',unlist(bm$sites)))){
   modeldir<-file.path(bundle,v,'coordinator',version);mp<-file.path(modeldir,'frozen_manifest.json');pp<-file.path(modeldir,'prototypes.rds')
   if(!file.exists(mp)||(!file.exists(pp)&&!file.exists(file.path(modeldir,'prototypes.csv'))))stop('Released templates are missing: ',v,'/',version)
@@ -137,31 +132,21 @@ deploy_stage2_context<-function(cfg,bundle,bm,copy_caches=FALSE){
   if(v=='primary'&&version=='full'&&fm$consensus_id!=bm$primary_consensus_id)stop('Primary consensus identity mismatch.')
  }
 
- for(v in variants){
-  from<-file.path(deploy_analysis_root(original,v),'sites',site,'local/discovery.rds')
-  if(!file.exists(from))stop('Original Stage1 cache is missing for ',v,'. Preserve/recover the local Stage1 run; do not create new labels.')
-  a<-readRDS(from);d<-a$data;p<-a$panel;window<-if(v=='h24')24 else if(v=='h48')48 else 72
-  if(is.null(d)||is.null(p)||anyDuplicated(d$hospitalization_id)||nrow(p)!=window*nrow(d)||!setequal(unique(p$hospitalization_id),d$hospitalization_id))stop('Invalid original local cache: ',v)
-  if(v!='absorbing'&&any(d$time_from_landmark<=0))stop('Nonpositive post-landmark follow-up in ',v)
-  if(!is.null(a$input_root)&&!dir.exists(a$input_root))stop('Original waterfall/source caches were moved; restore their original path.')
-  audit[[v]]<-list(variant=v,n=nrow(d),cache_md5=unname(tools::md5sum(from)))
-  if(copy_caches)deploy_copy(from,file.path(deploy_analysis_root(root,v),'sites',site,'local/discovery.rds'))
-  for(name in c('fingerprints.csv','clusters.csv','silhouette.csv','manifest.json')){
-   src<-file.path(deploy_analysis_root(original,v),'sites',site,'export/discovery',name)
-   expected<-m$files[[file.path('discovery',v,name)]]
-   if(is.null(expected)||!file.exists(src)||file.info(src)$size==0||unname(tools::md5sum(src))!=expected)stop('Recover the original local discovery export for ',v,'/',name,'; it does not match the original Stage1 manifest.')
-   if(copy_caches)deploy_copy(src,file.path(deploy_analysis_root(root,v),'sites',site,'export/discovery',name))
-  }
- }
- cfg$stage1_root<-original
+ cfg$stage1_root<-NULL;cfg$work_root<-file.path(root,'inputs');cfg$stage2_independent<-TRUE
+ cfg$source_timezone<-bm$source_timestamp_policy[[site]]$source_timezone%||%'UTC'
+ if(!cfg$source_timezone%in%c('UTC',OlsonNames()))stop('Invalid source timezone in frozen bundle.')
+ files<-sort(list.files(cfg$tables_path,pattern='[.]parquet$',full.names=TRUE,recursive=TRUE,ignore.case=TRUE))
+ info<-file.info(files)
+ parameter_names<-sort(union(names(cfg$analysis),names(run_defaults())),method='radix')
+ parameters<-setNames(lapply(parameter_names,function(k)cfg$analysis[[k]]),parameter_names)
+ state<-list(site=site,source_hash=deploy_hash(),bundle_md5=unname(tools::md5sum(file.path(bundle,'bundle_manifest.json'))),parameters=parameters,tables_path=cfg$tables_path,source_timezone=cfg$source_timezone,files=setNames(lapply(seq_along(files),function(i)list(bytes=info$size[i],mtime=as.numeric(info$mtime[i]))),files))
+ statefile<-file.path(root,'local/rebuild_inputs.json')
+ if(file.exists(statefile)&&!identical(deploy_read(statefile),jsonlite::fromJSON(jsonlite::toJSON(state,auto_unbox=TRUE,digits=16,null='null'),simplifyVector=FALSE)))stop('Source tables, code, config or bundle changed since Stage2 started; use a fresh analysis.run_id.')
+ config<-file.path(root,'local/runtime_config.json')
  if(copy_caches){
-  lineage<-file.path(root,'local/stage1_lineage.json')
-  record<-list(site=site,original_return_manifest_md5=approval$return_manifest_md5,original_stage1_source_hash=m$source_hash,stage2_source_hash=deploy_hash(),primary_consensus_id=bm$primary_consensus_id,cache_audit=audit,timestamp_policy='preserve original cached instants and landmark membership; no source timestamp reinterpretation or cohort rederivation')
-  if(file.exists(lineage)){
-   old<-deploy_read(lineage);if(!identical(jsonlite::toJSON(old,auto_unbox=TRUE),jsonlite::toJSON(record,auto_unbox=TRUE)))stop('Stage2 cache lineage changed; do not mix runs.')
-  }else deploy_json(record,lineage)
+  deploy_json(state,statefile);deploy_json(cfg,config)
  }
- list(cfg=cfg,root=root,original=original,cache_audit=audit)
+ list(cfg=cfg,root=root,config=config,input_mode='rebuild_from_clif')
 }
 
 # Released templates are portable aggregate CSVs; RDS caches are created only locally.

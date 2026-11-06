@@ -1,4 +1,5 @@
 sequence_fit <- function(panel, field = "joint", k_max = 8L, fixed_k = NULL) {
+  if(Sys.getenv("CLIF_STAGE2_NO_CLUSTERING")=="true")stop("Clustering is prohibited in independent Stage2.")
   wide <- panel |> dplyr::select(hospitalization_id, h, state = dplyr::all_of(field)) |>
     tidyr::pivot_wider(names_from = h, values_from = state, names_prefix = "h") |>
     dplyr::arrange(hospitalization_id)
@@ -42,6 +43,7 @@ rectangular_assignment <- function(cost) {
 }
 
 bootstrap_stability <- function(fit, patient_id, reps, seed) {
+  if(Sys.getenv("CLIF_STAGE2_NO_CLUSTERING")=="true")stop("Cluster bootstrap is prohibited in independent Stage2.")
   set.seed(seed)
   patients <- unique(patient_id)
   out <- list()

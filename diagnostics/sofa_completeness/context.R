@@ -15,7 +15,8 @@ sofa_source_rows <- function(path, table, ids) {
  files<-files[bases==table];if(length(files)!=1)stop('Expected one source table: ',table)
  ext<-tolower(tools::file_ext(files))
  if(ext=='parquet'){
-  x<-arrow::open_dataset(files);x<-x |> dplyr::filter(hospitalization_id%in%ids) |> dplyr::collect()
+  dataset<-arrow::open_dataset(files);x<-dataset |> dplyr::filter(hospitalization_id%in%ids) |> dplyr::collect()
+  for(ts in grep('_dttm$',names(x),value=TRUE))x[[ts]]<-source_time(x[[ts]],dataset$schema$GetFieldByName(ts)$type)
  } else {
   x<-if(ext=='csv')readr::read_csv(files,show_col_types=FALSE) else fst::read_fst(files)
   names(x)<-tolower(names(x));x<-x[x$hospitalization_id%in%ids,,drop=FALSE]
