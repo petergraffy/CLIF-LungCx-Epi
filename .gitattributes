@@ -6,3 +6,6 @@
 *.lock text eol=lf
 *.txt text eol=lf
 *.bat text eol=crlf
+
+# Frozen bundle checksums must survive Windows Git checkout without CRLF conversion.
+/frozen/** text eol=lf

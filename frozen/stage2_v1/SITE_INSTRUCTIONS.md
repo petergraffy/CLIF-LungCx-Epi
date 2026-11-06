@@ -1,7 +1,7 @@
 # Stage 2: one run, one return
 
 Follow [the complete site instructions](../../code/README.md). Restore the pinned
-R/Python environments and retain the original Stage 1 config and caches. From the
+R/Python environments and configure the source CLIF table paths. No Stage 1 folders or caches are needed. From the
 repository root:
 
 ```sh

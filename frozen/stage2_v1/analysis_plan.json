@@ -1,11 +1,165 @@
 {
   "schema": "stage2-one-pass-v1",
   "workflow": "One frozen bundle, one local site run, one aggregate return",
-  "primary": {"landmark_hours": 72, "phenotypes": 4, "features": "joint support and raw physiologic ARF evidence", "assignment": "closest frozen prototype; insufficient support retained as I", "outcome_horizon_days": 28},
-  "cox": {"endpoints": ["death", "hospice", "death_or_hospice", "live_discharge"], "models": ["unadjusted", "core", "measured_sofa"], "core_covariates": ["age10", "male", "black", "other_or_unknown_race", "year", "charlson5", "advanced", "code_nonfull", "code_unknown"], "standard_errors": "patient-clustered", "competing_exits": "censored at exit", "code_status": "unknown category retained; no complete-case requirement"},
-  "sensitivities": ["h24", "h48", "onset", "support_only", "low_flow", "carry0", "carry12", "raw_support", "absorbing_descriptive_only", "full_at_admission", "full_through_landmark", "no_covid", "first_hospitalization", "arf_or_high_support", "landmark_code_status", "arf_channels"],
-  "prediction": {"validation": "patient_grouped_local_cross_validation", "external_site_outcome_validation": false, "folds": 5, "seed": 20261105, "bootstrap": 200, "ridge_lambda": 1, "endpoints": ["death", "death_or_hospice"], "tdauc_days": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28], "roc_days": [7,14,28], "decision_thresholds": [0.05,0.10,0.15,0.20,0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.60], "four_model_comparison": ["baseline", "baseline_sofa", "baseline_adapted", "phenotype"], "summaries_retained": true, "matched_four_model_cohort": "complete adapted APACHE and measured-component SOFA", "score_marker": "out-of-fold 28-day hospital endpoint risk", "bootstrap_scope": "resample patients and their fixed out-of-fold predictions; conditional on frozen phenotypes and fitted CV models"},
-  "survival": {"clocks": ["ICU admission, overall eligible cohort", "72h landmark, overall and by frozen phenotype"], "methods": ["cause-specific Kaplan-Meier", "Aalen-Johansen hospital death/hospice versus live non-hospice discharge"], "pooling": "exact relative-duration event and censor histograms; reconstruct pooled risk sets centrally", "unknown_outcomes": "censored at observed hospital exit"},
-  "returns": ["all four Cox endpoints and diagnostics", "all sensitivities and denominators", "Table 1 and phenotype Table 2 descriptors", "SOFA and adapted APACHE components, units and completeness", "exact hourly support and ARF states", "initial support to phenotype Sankey counts", "full versus leave-one-site-out phenotype assignment agreement", "out-of-fold ROC and daily tdAUC aggregate histograms", "calibration and decision-curve aggregates", "event and censor histories with patient-cluster bootstrap counts", "environment and source hashes"],
-  "limitations": ["Adapted APACHE is neither standard APACHE II nor APACHE IV", "Prediction validation is internal to each site, not a predictor trained on other sites", "No post-discharge mortality ascertainment", "Cancer stage, histology and treatment unavailable in common CLIF tables"]
+  "primary": {
+    "landmark_hours": 72,
+    "phenotypes": 4,
+    "features": "joint support and raw physiologic ARF evidence",
+    "assignment": "closest frozen prototype; insufficient support retained as I",
+    "outcome_horizon_days": 28
+  },
+  "cox": {
+    "endpoints": [
+      "death",
+      "hospice",
+      "death_or_hospice",
+      "live_discharge"
+    ],
+    "models": [
+      "unadjusted",
+      "core",
+      "measured_sofa"
+    ],
+    "core_covariates": [
+      "age10",
+      "male",
+      "black",
+      "other_or_unknown_race",
+      "year",
+      "charlson5",
+      "advanced",
+      "code_nonfull",
+      "code_unknown"
+    ],
+    "standard_errors": "patient-clustered",
+    "competing_exits": "censored at exit",
+    "code_status": "unknown category retained; no complete-case requirement"
+  },
+  "sensitivities": [
+    "h24",
+    "h48",
+    "onset",
+    "support_only",
+    "low_flow",
+    "carry0",
+    "carry12",
+    "raw_support",
+    "absorbing_descriptive_only",
+    "full_at_admission",
+    "full_through_landmark",
+    "no_covid",
+    "first_hospitalization",
+    "arf_or_high_support",
+    "landmark_code_status",
+    "arf_channels"
+  ],
+  "prediction": {
+    "validation": "patient_grouped_local_cross_validation",
+    "external_site_outcome_validation": false,
+    "folds": 5,
+    "seed": 20261105,
+    "bootstrap": 200,
+    "ridge_lambda": 1,
+    "endpoints": [
+      "death",
+      "death_or_hospice"
+    ],
+    "tdauc_days": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ],
+    "roc_days": [
+      7,
+      14,
+      28
+    ],
+    "decision_thresholds": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.55,
+      0.6
+    ],
+    "four_model_comparison": [
+      "baseline",
+      "baseline_sofa",
+      "baseline_adapted",
+      "phenotype"
+    ],
+    "summaries_retained": true,
+    "matched_four_model_cohort": "complete adapted APACHE and measured-component SOFA",
+    "score_marker": "out-of-fold 28-day hospital endpoint risk",
+    "bootstrap_scope": "resample patients and their fixed out-of-fold predictions; conditional on frozen phenotypes and fitted CV models"
+  },
+  "survival": {
+    "clocks": [
+      "ICU admission, overall eligible cohort",
+      "72h landmark, overall and by frozen phenotype"
+    ],
+    "methods": [
+      "cause-specific Kaplan-Meier",
+      "Aalen-Johansen hospital death/hospice versus live non-hospice discharge"
+    ],
+    "pooling": "exact relative-duration event and censor histograms; reconstruct pooled risk sets centrally",
+    "unknown_outcomes": "censored at observed hospital exit"
+  },
+  "returns": [
+    "all four Cox endpoints and diagnostics",
+    "all sensitivities and denominators",
+    "Table 1 and phenotype Table 2 descriptors",
+    "SOFA and adapted APACHE components, units and completeness",
+    "exact hourly support and ARF states",
+    "initial support to phenotype Sankey counts",
+    "full versus leave-one-site-out phenotype assignment agreement",
+    "out-of-fold ROC and daily tdAUC aggregate histograms",
+    "calibration and decision-curve aggregates",
+    "event and censor histories with patient-cluster bootstrap counts",
+    "environment and source hashes"
+  ],
+  "limitations": [
+    "Adapted APACHE is neither standard APACHE II nor APACHE IV",
+    "Prediction validation is internal to each site, not a predictor trained on other sites",
+    "No post-discharge mortality ascertainment",
+    "Cancer stage, histology and treatment unavailable in common CLIF tables"
+  ],
+  "input_data": {
+    "mode": "rebuild_from_clif",
+    "stage1_outputs_required": false,
+    "local_clustering": false,
+    "prototype_learning": false,
+    "cohort_comparison": "Return rebuilt eligible and landmark counts against available Stage1 aggregate references; counts do not prove identical membership."
+  }
 }
