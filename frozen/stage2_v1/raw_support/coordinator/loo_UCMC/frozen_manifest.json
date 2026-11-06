@@ -1,0 +1,106 @@
+{
+  "schema": "federated-nearest-20261030-v2",
+  "consensus_id": "a2d69f9a58b6a2dd7135",
+  "version": "loo_UCMC",
+  "training_sites": [
+    "NU",
+    "Rush",
+    "penn",
+    "umn",
+    "hopkins",
+    "UCSF",
+    "Emory",
+    "U_Michigan",
+    "Sunnybrook"
+  ],
+  "held_out_site": "UCMC",
+  "k": 4,
+  "specification": {
+    "schema": "revision-raw_support-v1",
+    "window": 72,
+    "bin_hours": 6,
+    "seed": 20261022,
+    "k_max": 8,
+    "bootstrap_reps": 100,
+    "transport_bootstrap": 200,
+    "min_cell": 10,
+    "minimum_known_support_hours": 12,
+    "assignment_rule": "nearest_template_for_all_information_sufficient_stays; first_template_breaks_exact_ties",
+    "diagnostic_distance_flag": 0.75,
+    "diagnostic_margin_flag": 0.01,
+    "local_om": "constant substitution 2; indel 1; Ward.D2",
+    "exposure": "bounded waterfall support with RAW physiology sensitivity raw_support",
+    "consensus_weight": "equal site; size within site",
+    "fingerprint": "interval-valued modal joint/channel distributions and support-change distributions",
+    "probability_min_width": 0.050000000000000003,
+    "model_horizon_days": 28,
+    "ridge_lambda": 1,
+    "primary_endpoint": "28-day in-hospital death or hospice for prediction; post-landmark cause-specific hazards for association"
+  },
+  "spec_hash": "f82db722e862027c562aa3e588b5fc481e3dfb879b8d29c156c3b85f467b9021",
+  "reference": "P1",
+  "fingerprint_source": "exact_counts",
+  "outcome_training_sites": [
+    "NU",
+    "Rush",
+    "penn",
+    "umn",
+    "hopkins",
+    "UCSF",
+    "Emory",
+    "U_Michigan",
+    "Sunnybrook"
+  ],
+  "selection": "supported_silhouette_maximum",
+  "source_hashes": [
+    {
+      "fingerprints.csv": "022efcac8b3dce358a204f0c5e17e159",
+      "clusters.csv": "e176fab81aa835dec851615a3080aba9",
+      "manifest.json": "2d5cdf141766120f40d2d28f825bac52"
+    },
+    {
+      "fingerprints.csv": "3c54b7bbd2225f3fd3e533a7ad5c37bf",
+      "clusters.csv": "9ab3af46eec9b598d7018427a293dcee",
+      "manifest.json": "85fd5de8b3afd8185181e8c29563d337"
+    },
+    {
+      "fingerprints.csv": "4fe3a141f1a8648b27e5fd160da39795",
+      "clusters.csv": "a2a5e2a550a9cc1e0e5675473373636f",
+      "manifest.json": "cf487af79a91442375e6b0bc7fb64049"
+    },
+    {
+      "fingerprints.csv": "0a0da035388dabc9dcfcdfdd6b588c8a",
+      "clusters.csv": "1c67ea4eb275e362fd55e8038baea12b",
+      "manifest.json": "7c40bfe30c4fde9d4d6d792ee8c9b368"
+    },
+    {
+      "fingerprints.csv": "bf0e79294369648db219591372c6a895",
+      "clusters.csv": "643796124ecc8e41c772990158d5a683",
+      "manifest.json": "8eef6dcf51d1aa2a5e9931c8e090bffa"
+    },
+    {
+      "fingerprints.csv": "17818f1305cb06b8173e8811acb6f9bb",
+      "clusters.csv": "7843e2121f6d0a32eeac02ca3057c2d6",
+      "manifest.json": "7f69344f71dd5fa559c79cd148883fde"
+    },
+    {
+      "fingerprints.csv": "9e600227ba4db536e141429830eec7ba",
+      "clusters.csv": "d61344f7db82acf4355ec219e58e245e",
+      "manifest.json": "7137ca24e8ef4114ace19aeee1028b9c"
+    },
+    {
+      "fingerprints.csv": "7f8f00871ab3ab436d599f41f7edc554",
+      "clusters.csv": "da258cd3c6f8019a724d530488ddc08b",
+      "manifest.json": "428ce5f51caf82cf71b379b6d793c3d2"
+    },
+    {
+      "fingerprints.csv": "f6d963a2e7aaee003de4ed365864a45e",
+      "clusters.csv": "51dfacb1a352586d0d980669e59da8d7",
+      "manifest.json": "8047c59fd146aced12b07891942e04df"
+    }
+  ],
+  "assignment": "frozen per-hospitalization six-hour modal profile distance; local identifiers stay local",
+  "coordinator_source": {
+    "diagnostics/federated/central_discover.R": "7ed1d55b97ad2258ceff58691890087a"
+  }
+}
