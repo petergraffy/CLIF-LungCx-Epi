@@ -79,7 +79,7 @@ deploy_inventory<-function(dir) {
  setNames(as.list(unname(tools::md5sum(files))),substring(files,nchar(dir)+2))
 }
 deploy_validate_inventory<-function(dir,manifest='return_manifest.json'){
- m<-deploy_read(file.path(dir,manifest));expected<-m$files;actual<-deploy_inventory(dir)
+ m<-deploy_read(file.path(dir,manifest));expected<-m$files;actual<-deploy_inventory(dir);actual[[manifest]]<-NULL
  if(!identical(sort(names(actual)),sort(names(expected))))stop('Return/bundle inventory differs from its manifest.')
  for(k in names(expected))if(!identical(actual[[k]],expected[[k]]))stop('Hash mismatch: ',k)
  m
@@ -129,8 +129,8 @@ deploy_stage2_context<-function(cfg,bundle,bm,copy_caches=FALSE){
  variants<-unlist(bm$variants%||%as.list(DEPLOY_VARIANTS));audit<-list()
  for(v in variants)for(version in c('full',paste0('loo_',unlist(bm$sites)))){
   modeldir<-file.path(bundle,v,'coordinator',version);mp<-file.path(modeldir,'frozen_manifest.json');pp<-file.path(modeldir,'prototypes.rds')
-  if(!file.exists(mp)||!file.exists(pp))stop('Released templates are missing: ',v,'/',version)
-  fm<-deploy_read(mp);proto<-readRDS(pp)
+  if(!file.exists(mp)||(!file.exists(pp)&&!file.exists(file.path(modeldir,'prototypes.csv'))))stop('Released templates are missing: ',v,'/',version)
+  fm<-deploy_read(mp);proto<-deploy_load_prototypes(modeldir)
   if(!is.matrix(proto)||nrow(proto)!=fm$k||!ncol(proto)||any(!is.finite(proto))||any(proto<0)||anyDuplicated(rownames(proto))||anyDuplicated(colnames(proto)))stop('Invalid released prototype matrix: ',v,'/',version)
   if(v=='primary'&&nrow(proto)!=4L)stop('This release requires four primary phenotypes.')
   if(version!='full'&&sub('^loo_','',version)%in%unlist(fm$training_sites))stop('Held-out site leaked into template learning.')
@@ -162,4 +162,26 @@ deploy_stage2_context<-function(cfg,bundle,bm,copy_caches=FALSE){
   }else deploy_json(record,lineage)
  }
  list(cfg=cfg,root=root,original=original,cache_audit=audit)
+}
+
+# Released templates are portable aggregate CSVs; RDS caches are created only locally.
+deploy_load_prototypes<-function(dir){
+ csv<-file.path(dir,'prototypes.csv')
+ if(!file.exists(csv))return(readRDS(file.path(dir,'prototypes.rds')))
+ z<-readr::read_csv(csv,show_col_types=FALSE);ph<-sort(unique(z$phenotype),method='radix');f<-unique(z$feature)
+ if(anyDuplicated(z[c('phenotype','feature')])||nrow(z)!=length(ph)*length(f))stop('Incomplete prototype CSV.')
+ p<-matrix(NA_real_,length(ph),length(f),dimnames=list(ph,f));p[cbind(match(z$phenotype,ph),match(z$feature,f))]<-z$probability;p
+}
+
+# Publish aggregate CSV/JSON templates only, without private coordinator paths or RDS caches.
+deploy_release_templates<-function(from,to){
+ for(f in list.files(from,recursive=TRUE,full.names=TRUE)){
+  rel<-substring(f,nchar(from)+2L);if(!tools::file_ext(f)%in%c('csv','json'))next
+  dest<-file.path(to,rel)
+  if(tools::file_ext(f)=='json'){
+   m<-deploy_read(f);m$discovery_inputs<-NULL
+   if(!is.null(m$source_hashes))m$source_hashes<-lapply(m$source_hashes,function(x)setNames(x,basename(names(x))))
+   deploy_json(m,dest)
+  }else deploy_copy(f,dest)
+ }
 }

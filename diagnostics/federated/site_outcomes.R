@@ -29,10 +29,10 @@ fed_write(cif |> dplyr::mutate(site=site,version=version),file.path(out,"cumulat
 # Predictive models are learned locally; exported coefficients have no IDs.
 y<-as.integer(d$time_from_landmark<=28 & d$event_type%in%c("death","hospice"));prediction<-list();predfits<-list()
 for(kind in c("baseline","plus_phenotype")){
- xx<-model_matrix(d,phenotypes,plus=kind=="plus_phenotype");f<-ridge_logistic(xx,y,d$patient_id);stopifnot(f$converged);predfits[[kind]]<-f
+ xx<-model_matrix(d,phenotypes,plus=kind=="plus_phenotype");f<-if(length(unique(y))==2L)tryCatch(ridge_logistic(xx,y,d$patient_id),error=identity) else NULL;good<-is.list(f)&&!inherits(f,"error")&&isTRUE(f$converged);predfits[[kind]]<-f
  for(term in colnames(xx)){
  member<-if(grepl("^phenotype_",term))d$phenotype==sub("^phenotype_","",term) else if(all(xx[,term]%in%c(0,1)) && term!="(Intercept)")xx[,term]==1 else rep(TRUE,nrow(d))
- safe<-any(member)&&sum(y[member])>=aggregate_min_cell(10) && sum(1-y[member])>=aggregate_min_cell(10) && f$covariance[term,term]>0
+ safe<-good&&any(member)&&sum(y[member])>=aggregate_min_cell(10) && sum(1-y[member])>=aggregate_min_cell(10) && f$covariance[term,term]>0
  prediction[[paste(kind,term)]]<-tibble::tibble(site=site,version=version,model=kind,term=term,estimate=if(safe)f$beta[term] else NA_real_,std_error=if(safe)sqrt(f$covariance[term,term]) else NA_real_,status=if(safe)"ok" else "withheld_small_partition_or_absent")
  }
 }

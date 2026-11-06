@@ -1,10 +1,10 @@
 # Site-facing entry point. Run with Rscript --vanilla scripts/site.R ...
 source('scripts/deployment_lib.R')
 a<-commandArgs(trailingOnly=TRUE)
-if(length(a)<2)stop('Usage: scripts/site.R preflight|stage1|stage2-preflight|stage2-fit|stage2-evaluate CONFIG [COORDINATOR_BUNDLE]')
+if(length(a)<2)stop('Usage: scripts/site.R preflight|stage1|stage2-preflight|stage2 CONFIG [COORDINATOR_BUNDLE]')
 command<-a[1];config<-normalizePath(a[2],mustWork=TRUE);Sys.setenv(CLIF_RUN_CONFIG=config)
 clif_check_environment();cfg<-deploy_config(config);site<-cfg$site_name;root<-deploy_root(cfg)
-if(!command%in%c('preflight','stage1','stage2-preflight','stage2-fit','stage2-evaluate'))stop('Unknown command.')
+if(!command%in%c('preflight','stage1','stage2-preflight','stage2'))stop('Unknown command.')
 # Source availability checks only: table contents are read by the local analysis.
 files<-list.files(cfg$tables_path,pattern='[.]parquet$',recursive=TRUE,full.names=TRUE,ignore.case=TRUE)
 bases<-tolower(sub('^clif_','',tools::file_path_sans_ext(basename(files)),ignore.case=TRUE))
@@ -17,12 +17,11 @@ if(command=='preflight'){
  cat('Site: ',site,'\nStage 1 return: ',file.path(root,'stage1_return'), '\n',sep='')
  cat('This check does not derive cohorts or contact the coordinator.\n');quit(status=0)
 }
-if(command%in%c('stage2-preflight','stage2-fit','stage2-evaluate')){
- if(length(a)!=3L)stop('Stage2 requires the coordinator-issued bundle directory.')
- bundle<-normalizePath(a[3],mustWork=TRUE);bm<-deploy_validate_inventory(bundle,'bundle_manifest.json')
+if(command%in%c('stage2-preflight','stage2')){
+ if(length(a)>3L)stop('Supply at most one bundle directory.')
+ bundle<-normalizePath(if(length(a)==3L)a[3] else 'frozen/stage2_v1',mustWork=TRUE);bm<-deploy_validate_inventory(bundle,'bundle_manifest.json')
  if(command=='stage2-preflight'&&bm$stage!='stage2_parameters')stop('Preflight requires the Stage2 parameter bundle.')
- if(command=='stage2-fit'&&bm$stage!='stage2_parameters')stop('Fit requires the Stage2 parameter bundle.')
- if(command=='stage2-evaluate'&&bm$stage!='stage2_evaluation')stop('Evaluation requires the coordinator evaluation bundle.')
+ if(command=='stage2'&&bm$stage!='stage2_parameters')stop('Stage2 requires the released parameter bundle.')
  context<-deploy_stage2_context(cfg,bundle,bm,copy_caches=command!='stage2-preflight');cfg<-context$cfg;root<-context$root
  if(command=='stage2-preflight'){
   cat('PASS: Stage2 code/environment, approved Stage1 lineage, and all local discovery caches.\n')
@@ -74,62 +73,4 @@ if(command=='stage1'){
 }
 sites<-unlist(bm$sites);if(!site%in%sites)stop('This site is not included in the coordinator bundle.')
 deploy_env(cfg,root,sites)
-if(command=='stage2-fit'){
- if(bm$stage!='stage2_parameters')stop('Expected the coordinator Stage 2 parameter bundle.')
- local_stage1<-deploy_stage1_input(file.path(cfg$stage1_root,'stage1_return'),bm$stage1_acceptance[[site]],'primary')
- for(v in DEPLOY_VARIANTS)deploy_tree(file.path(bundle,v,'coordinator'),file.path(deploy_analysis_root(root,v),'coordinator'))
- versions<-c('full',paste0('loo_',sites))
- for(v in setdiff(DEPLOY_VARIANTS,'absorbing')){
-  Sys.setenv(CLIF_FEDERATED_OUTPUT=deploy_analysis_root(root,v),CLIF_REVISION_VARIANT=v)
-  script<-if(v=='primary')'diagnostics/federated/site_outcomes.R' else 'diagnostics/revision20261022/site_outcomes.R'
-  for(version in versions)step(paste('fit',v,version,sep='_'),script,c(site,version))
- }
- Sys.setenv(CLIF_FEDERATED_OUTPUT=file.path(root,'primary'))
- step('comparators','diagnostics/federated/site_comparators.R',site)
- for(script in c('site_review','site_descriptive_tables','site_arf_effects','site_severity_source_audit','site_code_source_audit','site_scores'))step(script,paste0('diagnostics/revision20261022/',script,'.R'),site)
- step('apache_prepare','diagnostics/apache_adapted/site_prepare.R',site);step('apache_train','diagnostics/apache_adapted/site_train.R',site)
- Sys.setenv(CLIF_FEDERATED_OUTPUT=deploy_analysis_root(root,'absorbing'))
- step('absorbing_summary','diagnostics/revision20261022/site_absorbing_summary.R',site);step('absorbing_audit','diagnostics/revision20261022/site_absorbing_audit.R',site)
- Sys.setenv(CLIF_FEDERATED_OUTPUT=file.path(root,'primary'))
- step('survival_times','diagnostics/pooled_survival/site_times.R',c(site,file.path(root,'primary'),file.path(root,'survival/sites',site,'times')))
- return<-file.path(root,'stage2_fit_return')
- for(v in DEPLOY_VARIANTS)deploy_tree(file.path(deploy_analysis_root(root,v),'sites',site,'export'),file.path(return,v),c('csv','json'))
- deploy_tree(file.path(root,'revision/sites',site,'export'),file.path(return,'review'),c('csv','json'))
- deploy_tree(file.path(root,'apache/sites',site,'export'),file.path(return,'apache'),c('csv','json'))
- deploy_tree(file.path(root,'survival/sites',site,'times'),file.path(return,'survival_times'),c('csv','json'))
- deploy_finish(return,'stage2_fit',site,list(parameter_bundle_md5=unname(tools::md5sum(file.path(bundle,'bundle_manifest.json'))),primary_consensus_id=bm$primary_consensus_id))
- cat('STAGE 2 LOCAL FIT COMPLETE. Return only: ',return,'\nAwait the coordinator frozen-predictor/shared-grid bundle for evaluation.\n');quit(status=0)
-}
-# The remaining pass evaluates frozen other-site predictors and supplies exact risk counts.
-if(bm$stage!='stage2_evaluation')stop('Expected coordinator frozen-predictor/shared-grid evaluation bundle.')
-if(!file.exists(file.path(root,'stage2_fit_return/return_manifest.json')))stop('Complete stage2-fit first.')
-fitmeta<-deploy_validate_inventory(file.path(root,'stage2_fit_return'))
-if(bm$fit_manifest_md5[[site]]!=unname(tools::md5sum(file.path(root,'stage2_fit_return/return_manifest.json'))))stop('Evaluation bundle was not learned from this site fit return.')
-for(v in DEPLOY_VARIANTS)deploy_tree(file.path(bundle,v,'coordinator'),file.path(deploy_analysis_root(root,v),'coordinator'))
-deploy_tree(file.path(bundle,'scores/coordinator'),file.path(root,'revision/coordinator'))
-deploy_tree(file.path(bundle,'apache/coordinator'),file.path(root,'apache/coordinator'))
-deploy_tree(file.path(bundle,'survival_grid'),file.path(root,'survival/coordinator/grid'))
-for(v in setdiff(DEPLOY_VARIANTS,c('primary','absorbing'))){
- Sys.setenv(CLIF_FEDERATED_OUTPUT=deploy_analysis_root(root,v));step(paste0('transport_',v),'diagnostics/federated/site_transport.R',site)
-}
-Sys.setenv(CLIF_FEDERATED_OUTPUT=file.path(root,'primary'))
-for(script in c('site_transport','site_transport_extended','site_quality','site_risks'))step(script,paste0('diagnostics/federated/',script,'.R'),site)
-step('score_transport','diagnostics/revision20261022/site_score_transport.R',site)
-step('revision_audit','diagnostics/revision20261022/site_audit.R',site)
-for(script in c('site_evaluate','site_publish','site_audit'))step(paste0('apache_',script),paste0('diagnostics/apache_adapted/',script,'.R'),site)
-step('complete_capture','diagnostics/site_return/capture.R',c(site,file.path(root,'primary'),file.path(root,'revision'),file.path(root,'complete_capture')))
-step('four_cox_capture','diagnostics/four_endpoint_cox/site_capture.R',c(site,file.path(root,'primary'),file.path(root,'revision'),file.path(root,'four_cox')))
-step('four_cox_attach','diagnostics/four_endpoint_cox/add_to_return.R',c(site,file.path(root,'four_cox/share'),file.path(root,'complete_capture/share'),file.path(root,'with_four_cox/share')))
-step('risksets','diagnostics/pooled_survival/site_risksets.R',c(site,file.path(root,'primary'),file.path(root,'survival/coordinator/grid'),file.path(root,'survival/sites',site,'risksets')))
-step('survival_attach','diagnostics/pooled_survival/add_to_return.R',c(site,file.path(root,'survival/sites',site,'times'),file.path(root,'survival/sites',site,'risksets'),file.path(root,'with_four_cox/share'),file.path(root,'final_packet/share')))
-step('roc_capture','diagnostics/pooled_roc/site_capture.R',c(site,file.path(root,'primary'),file.path(root,'apache'),file.path(root,'roc/share')))
-step('survival_tdauc','diagnostics/manuscript_figures/site_survival_tdauc.R',c(site,file.path(root,'primary'),file.path(root,'survival_tdauc')))
-step('survival_tdauc_attach','diagnostics/manuscript_figures/add_survival_to_return.R',c(site,file.path(root,'survival_tdauc/share'),file.path(root,'final_packet/share'),file.path(root,'with_tdauc/share')))
-Sys.setenv(CLIF_EXACT_SUPPLEMENT=file.path(root,'complete_capture/local/supplement_exact'))
-step('exact_counts','diagnostics/exact_aggregates/site_counts.R',c(site,file.path(root,'exact_counts')))
-return<-file.path(root,'stage2_final_return');deploy_tree(file.path(root,'with_tdauc/share'),file.path(return,'share'),c('csv','json','txt'))
-deploy_tree(file.path(root,'exact_counts'),file.path(return,'exact_counts'),c('csv','json'))
-deploy_tree(file.path(root,'roc/share'),file.path(return,'pooled_roc'),c('csv','json'))
-deploy_tree(file.path(root,'survival_tdauc/share'),file.path(return,'survival_tdauc'),c('csv','json'))
-deploy_finish(return,'stage2_final',site,list(primary_consensus_id=bm$primary_consensus_id,evaluation_bundle_md5=unname(tools::md5sum(file.path(bundle,'bundle_manifest.json')))))
-cat('STAGE 2 COMPLETE. Return only: ',return,'\n')
+source('scripts/stage2_run.R')

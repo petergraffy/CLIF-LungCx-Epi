@@ -34,3 +34,10 @@ should use only their coordinator-issued released bundle.
 The end date is exclusive: `2025-01-01` includes all of 2024. Change a run ID
 when inputs or scientific parameters change. Sites must not modify the
 coordinator-issued analysis settings or reuse caches under a different contract.
+
+Stage 2 is one site pass: `scripts/site.R stage2 config/config.json` uses the
+tracked `frozen/stage2_v1/` bundle by default and produces one `stage2_return/`.
+`stage2_analysis.json` is the coordinator's fixed specification, copied into the
+bundle at freeze time; sites must not edit it. A coordinator may explicitly name
+missing discovery contributions in `discovery_exceptions`; every site still runs
+all Stage 2 analyses under the shared frozen mappings.

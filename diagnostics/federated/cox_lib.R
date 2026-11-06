@@ -31,5 +31,6 @@ for(spec in c("unadjusted","core","measured_sofa"))for(endpoint in cox_endpoints
  if(length(safe_terms)){v<-as.data.frame(as.table(vcov(fit)[safe_terms,safe_terms,drop=FALSE]));names(v)<-c("term1","term2","covariance");covariances[[key]]<-v |> dplyr::mutate(site=site,version=version,model=spec,endpoint=endpoint)}
 }
 
- list(data=d,associations=dplyr::bind_rows(assoc),metadata=dplyr::bind_rows(metadata),covariances=dplyr::bind_rows(covariances),fits=fits)
+ covariance_table<-if(length(covariances))dplyr::bind_rows(covariances) else tibble::tibble(term1=character(),term2=character(),covariance=double(),site=character(),version=character(),model=character(),endpoint=character())
+ list(data=d,associations=dplyr::bind_rows(assoc),metadata=dplyr::bind_rows(metadata),covariances=covariance_table,fits=fits)
 }
