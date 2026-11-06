@@ -2,7 +2,7 @@ source("diagnostics/federated/model_lib.R")
 source("diagnostics/revision20261022/variant_contract.R")
 source("code/lib/central.R")
 root<-fed_root();version<-commandArgs(trailingOnly=TRUE)[1];out<-file.path(root,"coordinator",version,"outcomes")
-manifest<-jsonlite::fromJSON(file.path(root,"coordinator",version,"frozen_manifest.json"));sites<-manifest$training_sites
+manifest<-jsonlite::fromJSON(file.path(root,"coordinator",version,"frozen_manifest.json"));sites<-manifest$outcome_training_sites %||% manifest$training_sites
 if(file.exists(file.path(out,"frozen_predictor.json")))stop("Predictor already frozen")
 all<-list();prediction<-list();read_log<-character()
 for(site in sites){dir<-file.path(root,"exchange","outcomes",version,site)

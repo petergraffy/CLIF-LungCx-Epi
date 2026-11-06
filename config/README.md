@@ -19,6 +19,18 @@ accompany returns.
 it lists Stage 1 return folders and shared-cluster choices. Sites do not use it.
 Copy it to the ignored `coordinator.json` only when coordinating a run.
 
+For Stage 2, retain the original `site_name`, `analysis.run_id` and analysis
+settings. If using a new checkout, set `repo` to that checkout and `stage1_root`
+to the original `output/run_<SITE>_<RUN_ID>_federated/` directory. `stage1_root`
+is optional for Stage 1 and when the default original run location is available.
+The runner creates a separate Stage 2 workspace from the bundle's release ID;
+do not change the Stage 1 run ID to create that workspace.
+
+All participating sites are expected to contribute to all analyses. Explicit `accepted_stage1`
+records bind approved legacy discovery snapshots to their original manifest
+hashes. They do not waive checksums for files used to learn templates. Sites
+should use only their coordinator-issued released bundle.
+
 The end date is exclusive: `2025-01-01` includes all of 2024. Change a run ID
 when inputs or scientific parameters change. Sites must not modify the
 coordinator-issued analysis settings or reuse caches under a different contract.

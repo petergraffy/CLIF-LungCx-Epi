@@ -6,7 +6,7 @@
     "/absolute/path/to/returns/SITE_C/stage1_return"
   ],
   "selected_k": {
-    "primary": null,
+    "primary": 4,
     "h24": null,
     "h48": null,
     "onset": null,
@@ -16,5 +16,8 @@
     "carry12": null,
     "raw_support": null,
     "absorbing": null
-  }
+  },
+  "fingerprint_source": "exact_counts",
+  "release_id": "stage2_release_v1",
+  "discovery_sites": {}
 }

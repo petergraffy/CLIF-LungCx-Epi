@@ -1,10 +1,10 @@
 # Site-facing entry point. Run with Rscript --vanilla scripts/site.R ...
 source('scripts/deployment_lib.R')
 a<-commandArgs(trailingOnly=TRUE)
-if(length(a)<2)stop('Usage: scripts/site.R preflight|stage1|stage2-fit|stage2-evaluate CONFIG [COORDINATOR_BUNDLE]')
+if(length(a)<2)stop('Usage: scripts/site.R preflight|stage1|stage2-preflight|stage2-fit|stage2-evaluate CONFIG [COORDINATOR_BUNDLE]')
 command<-a[1];config<-normalizePath(a[2],mustWork=TRUE);Sys.setenv(CLIF_RUN_CONFIG=config)
 clif_check_environment();cfg<-deploy_config(config);site<-cfg$site_name;root<-deploy_root(cfg)
-if(!command%in%c('preflight','stage1','stage2-fit','stage2-evaluate'))stop('Unknown command.')
+if(!command%in%c('preflight','stage1','stage2-preflight','stage2-fit','stage2-evaluate'))stop('Unknown command.')
 # Source availability checks only: table contents are read by the local analysis.
 files<-list.files(cfg$tables_path,pattern='[.]parquet$',recursive=TRUE,full.names=TRUE,ignore.case=TRUE)
 bases<-tolower(sub('^clif_','',tools::file_path_sans_ext(basename(files)),ignore.case=TRUE))
@@ -17,6 +17,19 @@ if(command=='preflight'){
  cat('Site: ',site,'\nStage 1 return: ',file.path(root,'stage1_return'), '\n',sep='')
  cat('This check does not derive cohorts or contact the coordinator.\n');quit(status=0)
 }
+if(command%in%c('stage2-preflight','stage2-fit','stage2-evaluate')){
+ if(length(a)!=3L)stop('Stage2 requires the coordinator-issued bundle directory.')
+ bundle<-normalizePath(a[3],mustWork=TRUE);bm<-deploy_validate_inventory(bundle,'bundle_manifest.json')
+ if(command=='stage2-preflight'&&bm$stage!='stage2_parameters')stop('Preflight requires the Stage2 parameter bundle.')
+ if(command=='stage2-fit'&&bm$stage!='stage2_parameters')stop('Fit requires the Stage2 parameter bundle.')
+ if(command=='stage2-evaluate'&&bm$stage!='stage2_evaluation')stop('Evaluation requires the coordinator evaluation bundle.')
+ context<-deploy_stage2_context(cfg,bundle,bm,copy_caches=command!='stage2-preflight');cfg<-context$cfg;root<-context$root
+ if(command=='stage2-preflight'){
+  cat('PASS: Stage2 code/environment, approved Stage1 lineage, and all local discovery caches.\n')
+  cat('Original Stage1 preserved: ',context$original,'\nStage2 workspace: ',root,'\n',sep='');quit(status=0)
+ }
+ dir.create(file.path(root,'local'),recursive=TRUE,showWarnings=FALSE)
+}else{
 dir.create(file.path(root,'local'),recursive=TRUE,showWarnings=FALSE)
 statefile<-file.path(root,'local/deployment.json')
 state<-list(site=site,parameters=cfg$analysis,source_hash=deploy_hash(),r_lock_md5=deploy_lock_hash())
@@ -26,6 +39,7 @@ if(file.exists(statefile)){
 }else{
  if(command!='stage1')stop('Run Stage 1 locally before Stage 2.')
  deploy_json(state,statefile)
+}
 }
 deploy_env(cfg,root)
 step<-function(key,script,args=character(),python=NULL)deploy_step(root,key,script,args,python)
@@ -58,15 +72,11 @@ if(command=='stage1'){
  deploy_finish(return,'stage1',site,list(variants=DEPLOY_VARIANTS,parameters=cfg$analysis,shared_phenotypes_assigned=FALSE,local_outcome_models_fit=FALSE,python_environment=status))
  cat('\nSTAGE 1 COMPLETE. STOP HERE.\nReturn only: ',return,'\nKeep all local caches. Wait for the coordinator Stage 2 bundle.\n',sep='');quit(status=0)
 }
-if(length(a)!=3)stop('Stage 2 requires the coordinator-issued bundle directory as the third argument.')
-bundle<-normalizePath(a[3],mustWork=TRUE);bm<-deploy_validate_inventory(bundle,'bundle_manifest.json')
-if(bm$source_hash!=state$source_hash||bm$r_lock_md5!=state$r_lock_md5)stop('Coordinator bundle code/environment mismatch.')
 sites<-unlist(bm$sites);if(!site%in%sites)stop('This site is not included in the coordinator bundle.')
 deploy_env(cfg,root,sites)
 if(command=='stage2-fit'){
  if(bm$stage!='stage2_parameters')stop('Expected the coordinator Stage 2 parameter bundle.')
- local_stage1<-deploy_validate_inventory(file.path(root,'stage1_return'))
- if(bm$stage1_manifest_md5[[site]]!=unname(tools::md5sum(file.path(root,'stage1_return/return_manifest.json'))))stop('Coordinator did not use this exact Stage 1 return.')
+ local_stage1<-deploy_stage1_input(file.path(cfg$stage1_root,'stage1_return'),bm$stage1_acceptance[[site]],'primary')
  for(v in DEPLOY_VARIANTS)deploy_tree(file.path(bundle,v,'coordinator'),file.path(deploy_analysis_root(root,v),'coordinator'))
  versions<-c('full',paste0('loo_',sites))
  for(v in setdiff(DEPLOY_VARIANTS,'absorbing')){

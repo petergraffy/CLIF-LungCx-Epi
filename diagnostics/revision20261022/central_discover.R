@@ -10,14 +10,18 @@ for(site in sites){dir<-file.path(root,"exchange","discovery",site)
  all(f$site==site),all(f$feature %in% features$feature),all(f$lower>=0),all(f$upper<=1),all(f$lower<f$upper))
  manifests[[site]]<-jsonlite::fromJSON(file.path(dir,"manifest.json"));stopifnot(manifests[[site]]$spec_hash==fed_hash(fed_spec()))
  read_log<-c(read_log,file.path(dir,c("fingerprints.csv","clusters.csv","manifest.json")))
- for(cl in sort(unique(f$local_cluster))){z<-f[f$local_cluster==cl,];z<-z[match(features$feature,z$feature),];stopifnot(!anyNA(z$lower))
+ for(cl in sort(unique(f$local_cluster))){z<-f[f$local_cluster==cl,];stopifnot(!anyDuplicated(z$feature),setequal(z$feature,features$feature));z<-z[match(features$feature,z$feature),];stopifnot(!anyNA(z$lower))
  p<-numeric(nrow(features))
  for(domain in unique(features$domain))for(bin in unique(features$bin[features$domain==domain])){
- ix<-which(features$domain==domain & features$bin==bin);p[ix]<-fed_project(z$lower[ix],z$upper[ix])}
+ ix<-which(features$domain==domain & features$bin==bin);if(Sys.getenv('CLIF_FINGERPRINT_SOURCE',unset='exact_counts')=='interval_reference')p[ix]<-fed_project(z$lower[ix],z$upper[ix]) else {
+   stopifnot(all(c('count','denominator')%in%names(z)),all(z$denominator[ix]>0),all(z$count[ix]>=0),all(z$count[ix]%%1==0));p[ix]<-z$count[ix]/z$denominator[ix];stopifnot(abs(sum(p[ix])-1)<1e-8)
+  }}
  key<-paste(site,cl,sep=":");rows[[key]]<-p;meta[[key]]<-m[m$local_cluster==cl,]
  }
 }
-stopifnot(length(unique(vapply(manifests,function(m)m$method_hash,character(1))))==1)
+# Method-code hashes may differ across explicitly accepted legacy snapshots.
+# The coordinator validates their exact input inventories and common scientific specification.
+if(Sys.getenv('CLIF_ACCEPTED_LEGACY_INPUTS')!='true')stopifnot(length(unique(vapply(manifests,function(m)m$method_hash,character(1))))==1)
 x<-do.call(rbind,rows);colnames(x)<-features$feature;keys<-dplyr::bind_rows(meta)
 keys$key<-names(rows);keys$n_weight<-(keys$n_lower+keys$n_upper)/2
 keys$eligible<-!keys$small_cluster & keys$n_lower>=20 & keys$unknown_lower<.5 & keys$jaccard_upper>=.6
@@ -47,7 +51,7 @@ burden<-apply(proto[,support_ix,drop=FALSE],1,function(z)sum(z*rank,na.rm=TRUE)/
 ord<-order(burden);proto<-proto[ord,,drop=FALSE];rownames(proto)<-paste0("P",seq_len(k));lab<-match(lab,ord)
 mapdist<-as.matrix(dist(rbind(sweep(x,2,fw,"*"),sweep(proto,2,fw,"*"))))[seq_len(nrow(x)),nrow(x)+seq_len(k),drop=FALSE]
 nearest<-max.col(-mapdist,ties.method="first");distmin<-mapdist[cbind(seq_len(nrow(x)),nearest)]
-keys$phenotype<-ifelse(keys$small_cluster|keys$unknown_lower>=.5|distmin>.35,"I",rownames(proto)[nearest]);keys$distance<-distmin
+keys$phenotype<-rownames(proto)[nearest];keys$distance<-distmin
 keys$used_to_learn_prototypes<-keys$eligible
 proto_long<-as.data.frame(t(proto));proto_long$feature<-rownames(proto_long)
 proto_long<-tidyr::pivot_longer(proto_long,-feature,names_to="phenotype",values_to="probability") |> dplyr::left_join(features,by="feature")
@@ -57,7 +61,7 @@ dir.create(out,recursive=TRUE,showWarnings=FALSE)
 fed_write(proto_long,file.path(out,"prototypes.csv"));fed_write(keys,file.path(out,"local_cluster_diagnostic_mapping.csv"));fed_write(sc |> dplyr::mutate(selected=k==.env$k),file.path(out,"candidate_solutions.csv"))
 saveRDS(proto,file.path(out,"prototypes.rds"))
 fed_json(list(schema=FED_SCHEMA,consensus_id=consensus_id,version=version,training_sites=sites,held_out_site=hold,k=k,
- specification=fed_spec(),spec_hash=fed_hash(fed_spec()),reference="P1",selection=if(nzchar(requested_k))"coordinator_selected_supported_k" else "supported_silhouette_maximum",discovery_inputs=read_log,
+ specification=fed_spec(),spec_hash=fed_hash(fed_spec()),reference="P1",fingerprint_source=Sys.getenv('CLIF_FINGERPRINT_SOURCE',unset='exact_counts'),outcome_training_sites=setdiff(strsplit(Sys.getenv('CLIF_OUTCOME_SITES',unset=paste(sites,collapse=',')),',',fixed=TRUE)[[1]],hold),selection=if(nzchar(requested_k))"coordinator_selected_supported_k" else "supported_silhouette_maximum",discovery_inputs=read_log,
  source_hashes=source_hashes,assignment="frozen per-hospitalization six-hour modal profile distance; local identifiers stay local",
  coordinator_source=as.list(tools::md5sum("diagnostics/federated/central_discover.R"))),file.path(out,"frozen_manifest.json"))
 message(version,": frozen ",k," outcome-free prototypes; training sites ",paste(sites,collapse=","))

@@ -1,30 +1,154 @@
 # Site and coordinator run instructions
 
-All commands in this guide run from the **repository root**, one directory above `code/`.
+Run every command from the **repository root**, one directory above `code/`.
 
-## Sites start here
+## Stage 2 — start here if you already completed Stage 1
 
-**Run Stage 1 only. Return its aggregate results, then STOP and wait for the
-coordinator’s Stage 2 parameter bundle.** This is the same local discovery →
-central fingerprints/consensus → frozen local assignment/outcomes workflow
-rehearsed with UCMC, NU and Rush. Sites do not choose a shared phenotype count,
-use another site's private data, or run coordinator commands.
+**Sites with completed Stage 1 should now prepare for Stage 2 using the
+coordinator-issued frozen bundle and its specified code commit.** Stage 2 applies
+the shared phenotypes locally and analyzes post-landmark outcomes. Patient-level
+records and identifiers remain at your site.
 
-| Who | What to run | What happens next |
+**Still need to run Stage 1?** Go to [Stage 1 instructions below](#stage-1--for-a-site-that-has-not-yet-returned-results).
+Complete Stage 1, return its packet, and wait for coordinator admission to Stage 2.
+The coordinator will include the remaining site in the study workflow; sites do
+not learn or change the shared mapping themselves.
+
+### Before running Stage 2
+
+1. Preserve the original Stage 1 checkout, private config and **all** original
+   `output/run_<SITE>_<RUN_ID>*` folders. Do not delete caches, edit manifests,
+   change the original run ID, or rerun Stage 1 just to start Stage 2.
+2. Obtain the **released** `stage2_parameters/` folder from the coordinator.
+   It must contain `bundle_manifest.json`. Use the Git commit specified in that
+   manifest. A candidate/`NOT_RELEASED` folder is not an executable bundle.
+3. Use a separate Stage 2 checkout if the original checkout contains local fixes.
+   Copy the original config into its ignored `config/config.json`, set `repo` to
+   the Stage 2 checkout, and add `stage1_root` pointing to the original federated
+   run directory. Keep `site_name`, `analysis.run_id` and scientific settings
+   exactly as in Stage 1. The site ID is case-sensitive.
+
+Example config fields (retain all the other original fields):
+
+```json
+{
+  "repo": "/absolute/path/to/STAGE2_CHECKOUT",
+  "stage1_root": "/absolute/path/to/ORIGINAL_CHECKOUT/output/run_SITE_ORIGINAL_RUN_ID_federated"
+}
+```
+
+`stage1_root` is a directory, not the `stage1_return/` folder. It is optional when
+using the same checkout and the original run remains at its default location.
+Keep the original source tables and waterfall caches accessible at their original
+paths; the prepared caches retain those local references.
+
+Use **R 4.4.2** and **Python 3.12**. Restore the pinned R packages in the Stage 2
+checkout; `renv` does not install R itself:
+
+```sh
+Rscript --vanilla scripts/setup.R
+```
+
+You may reuse the original pinned Python environment by retaining its absolute
+`python` config path. For a new Python environment:
+
+```sh
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r config/waterfall_requirements.txt
+```
+
+On Windows use `py -3.12 -m venv .venv` and
+`.venv\Scripts\python.exe -m pip install -r config\waterfall_requirements.txt`.
+Set `python` in your private config to that executable. Do not substitute package
+versions or update `renv.lock`. [Environment details](../docs/environment.md).
+
+### A. Validate your Stage 2 setup
+
+```sh
+Rscript --vanilla scripts/site.R stage2-preflight config/config.json /absolute/path/to/stage2_parameters
+```
+
+This checks the released bundle, current code/environment, site admission,
+approved original Stage 1 manifest, original settings, and the required local
+caches. It prints the original Stage 1 directory and the new Stage 2 workspace.
+Preflight does not fit models or alter the original run.
+
+If your site is not in the bundle, stop and contact the coordinator. The coordinator-issued bundle must name your site before execution. Every
+participating site is expected to complete all Stage 2 analyses. If a cache or
+local discovery export is missing, recover the original local run; do not replace
+labels or rebuild a manifest to make the check pass.
+
+### B. Fit the frozen phenotypes and local outcomes
+
+```sh
+Rscript --vanilla scripts/site.R stage2-fit config/config.json /absolute/path/to/stage2_parameters
+```
+
+The runner creates an **isolated Stage 2 workspace**, copies and verifies the
+original local discovery caches, and records their lineage. It preserves cached
+instants and landmark membership. It does not rerun clustering, reinterpret
+source timezones, or edit Stage 1 deployment hashes. The frozen mapping is applied
+locally: every support-sufficient stay gets its closest phenotype, and
+insufficient-support stays remain explicitly represented.
+
+This pass fits separate post-landmark cause-specific Cox models for **death,
+hospice, death or hospice, and live non-hospice discharge**, plus the specified
+sensitivities and severity/simple-summary comparators. It returns aggregates for
+held-out prediction and the shared survival grid.
+
+**Return only the printed `stage2_fit_return/` directory, then STOP.** Its path is:
+
+```text
+output/run_<SITE>_<ORIGINAL_RUN_ID>_stage2_<RELEASE_ID>/stage2_fit_return/
+```
+
+Keep the entire Stage 2 workspace locally. Do not send `local/`, RDS files, source
+tables, identifiers or individual predictions. Do not run the evaluation pass
+until the coordinator sends the second bundle.
+
+### C. Evaluate after the coordinator sends the second bundle
+
+The coordinator pools the fit aggregates and returns `stage2_evaluation/` with
+frozen predictors and the common event-time grid. Then run:
+
+```sh
+Rscript --vanilla scripts/site.R stage2-evaluate config/config.json /absolute/path/to/stage2_evaluation
+```
+
+Use the same Stage 2 checkout/config and retain both bundles. Return only the
+printed **`stage2_final_return/`** directory:
+
+```text
+output/run_<SITE>_<ORIGINAL_RUN_ID>_stage2_<RELEASE_ID>/stage2_final_return/
+```
+
+The final packet includes model/supplement outputs, exact trajectory counts,
+survival risk/event counts, ROC score-bin counts and time-dependent AUC returns.
+Other-site predictors are evaluated without refitting on the held-out site.
+The coordinator pools associations and curves after receiving these returns.
+[Site return definitions](../docs/site_return_workflow.md).
+
+Stage 2 has two local passes with a coordinator exchange between them:
+
+| Who | Action | Return or next step |
 |---|---|---|
-| Each site, now | Environment setup, preflight, `stage1` | Return `stage1_return/`; stop |
-| Coordinator | Review Stage 1 returns, choose parameters, `freeze` | Send the frozen `stage2_parameters/` bundle to sites |
-| Each site, after that bundle | `stage2-fit` | Return `stage2_fit_return/` |
-| Coordinator | Freeze held-out predictors and common survival grid | Send `stage2_evaluation/` |
-| Each site | `stage2-evaluate` | Return `stage2_final_return/` |
-| Coordinator | `collect` | Pool associations, competing risks, ROC and supplemental returns |
+| Site | `stage2-preflight`, then `stage2-fit` | Send `stage2_fit_return/`; wait |
+| Coordinator | Freeze predictors and event-time grid | Send `stage2_evaluation/` |
+| Site | `stage2-evaluate` | Send `stage2_final_return/` |
+| Coordinator | Collect final packets | Pool associations, AJ curves and ROC outputs |
 
-There are **two scientific stages**. Stage 2 includes a required coordinator
-round trip: other-site prediction coefficients cannot be learned before sites
-fit the frozen phenotypes, and exact pooled AJ curves require a common event-time
-grid. Neither exchange shares patient identifiers or individual predictions.
+Completed Stage 2 steps resume with the same command, code, config and bundle.
+Read failed worker logs in the **Stage 2** workspace. Do not delete completion
+markers or mix bundles from different releases.
 
-## 1 Set up the same environment at every site
+## Stage 1 — for a site that has not yet returned results
+
+**The Stage 1 workflow remains available for the remaining site.** Use the
+coordinator-issued Stage 1 commit and run label, follow the steps below, and return
+`stage1_return/`. Stop there. The coordinator will tell you which released bundle
+to use for Stage 2 after reviewing your return; do not run coordinator commands.
+
+### 1. Set up the Stage 1 environment
 
 Use a **Git checkout** of the coordinator-issued commit (Git must be installed),
 **R 4.4.2**, and
@@ -49,7 +173,7 @@ CLIFpy 2.1.0 and its waterfall dependencies. A compiler/system dependencies may
 be needed if packages such as Arrow must build from source; inspect setup errors
 rather than substituting package versions. [Environment details](../docs/environment.md).
 
-## 2 Configure your site
+### 2. Configure your site
 
 Copy `config/config_template.json` to **`config/config.json`**. Change only:
 
@@ -66,7 +190,7 @@ respiratory_support, vitals, labs, medication_admin_continuous and
 patient_assessments. Code status and optional oncology data have explicit
 availability reporting. Stage/histology/treatment/ECOG are not inferred.
 
-## 3 Run Stage 1 and return the results
+### 3. Run Stage 1 and return the results
 
 ```sh
 Rscript --vanilla scripts/site.R preflight config/config.json
@@ -120,7 +244,10 @@ have written an immutable partial package, so simply repeating the old run ID
 may fail with `Descriptor package exists`. Updating source also requires a fresh
 run ID under the code-contract checks; do not edit deployment hashes or markers.
 
-### Refresh after the November 2026 compatibility and blood-gas fixes
+### Stage 1 refresh only when requested by the coordinator
+
+**This refresh procedure is not the Stage 2 setup. Sites with completed Stage 1
+should use the Stage 2 instructions above and preserve their original run ID.**
 
 The corrected code accepts the UCUM blood-gas unit `mm[Hg]` as `mmHg` for the
 adapted APS-plus-age comparator. It does not substitute normal values for absent
@@ -156,42 +283,12 @@ their source/ETL locally. Unknown measurements and dispositions remain explicitl
 unknown; a central aggregate upload cannot recover them. Preserve their counts
 in the supplement and cohort reconciliation.
 
-## 4 Stage 2 only after the coordinator releases parameters
-
-Do **not** use `config/active_analysis.json` or the old three-site results as your
-Stage 2 inputs. The coordinator will send a new bundle derived from the actual
-Stage 1 returns. Keep the original Stage 1 checkout and site config.
-
-```sh
-Rscript --vanilla scripts/site.R stage2-fit config/config.json /absolute/path/to/stage2_parameters
-```
-
-The runner checks that your exact Stage 1 return was used, verifies code and
-lockfile compatibility, then applies the frozen full and leave-one-site-out
-phenotype templates. Every support-sufficient stay gets the closest phenotype;
-insufficient-support stays remain in the analysis. Sites fit four post-landmark
-cause-specific Cox endpoints, reviewer sensitivities and severity/simple-summary
-comparators, and export training aggregates plus relative event-time counts.
-
-Return only the printed `stage2_fit_return/` directory. The coordinator then
-sends a frozen predictor/shared-grid bundle. Run:
-
-```sh
-Rscript --vanilla scripts/site.R stage2-evaluate config/config.json /absolute/path/to/stage2_evaluation
-```
-
-Return only the printed **`stage2_final_return/`** directory. It includes the
-complete model/supplement packet under `share/`, exact hourly/count exports,
-pooled ROC score-bin counts, and survival/tdAUC summaries. Evaluation uses frozen
-other-site predictors without held-out-site refitting. Risk-set exports include
-200 patient-cluster bootstrap count replicates for pooled AJ/KM uncertainty.
-Read [the site return guide](../docs/site_return_workflow.md) for output definitions.
 
 ## Coordinator only
 
 Sites must not run these commands. Copy `config/coordinator_template.json` to
 `config/coordinator.json` and list explicit Stage 1 return directories. Use the
-same commit/environment as sites. **No historical `sites/` folder is scanned.**
+issued Stage 2 commit/environment. **No historical `sites/` folder is scanned.**
 
 ```sh
 Rscript --vanilla scripts/coordinator.R inspect config/coordinator.json
@@ -202,7 +299,30 @@ Rscript --vanilla scripts/coordinator.R freeze config/coordinator.json
 
 `freeze` learns outcome-free full and leave-one-site-out consensus templates
 and writes `stage2_parameters/` under your configured coordinator output.
-Send that entire bundle to all listed sites. You can select a supported shared k
+Send that entire bundle to all participating sites. **All sites are expected to
+participate in the primary analysis, every sensitivity, and the outcome analyses.**
+Do not predesignate sites for exclusion because of outstanding file repairs.
+Missing or damaged discovery files are repair items; the coordinator verifies
+all required inputs before issuing the final bundle.
+
+Leave-one-site-out models are validation folds: each participating site is left
+out of training in turn and then evaluated. This does not remove any site from
+the study or from the main full-cohort analysis.
+
+`accepted_stage1` approvals bind the exact original return-manifest hash and
+source/environment identity, with a documented reason for accepting a legacy
+Stage 1 discovery snapshot. These scoped approvals do not rewrite source hashes
+or accept corrupted discovery inputs. The current Stage 2 code/environment must
+match the released bundle exactly. Source timestamp reinterpretation or cohort
+rederivation requires a new reviewed Stage 1 run, not a Stage 2 migration.
+
+The primary mapping uses exact aggregate fingerprints, equal site weighting and
+four shared phenotypes. All participating sites contribute to all discovery
+analyses; sensitivity mappings have their own selected parameters. Finalize the
+participating-site roster and required inputs before issuing the bundle. The
+remaining site still runs Stage 1 and then follows the same Stage 2 workflow.
+
+ You can select a supported shared k
 in the config; unsupported choices fail. Never choose it using outcome performance.
 At least three sites are needed so each held-out discovery still has two sites.
 Changing selected parameters after freezing requires a new coordinator output.
@@ -257,3 +377,42 @@ for comparison and synthetic tests, not site instructions for this deployment.
 Retired rehearsal runners, local result pointers, site returns, exposome data
 and old implementation snapshots are excluded from the shared tree. Use the
 coordinator-issued bundle, never historical local outputs, for Stage 2.
+
+### Source/timestamp audit only when requested
+
+If requested by the coordinator, run the standalone `site_release_audit.R`
+provided in the reconciliation tools package **from the original Stage 1
+checkout**, using its original config and R library:
+
+```sh
+Rscript --vanilla /absolute/path/to/tools/site_release_audit.R config/config.json /absolute/path/to/tools/reference_contract.json
+```
+
+Keep the tools outside that original checkout. The audit writes a separate
+`output/run_<SITE>_<RUN_ID>_release_audit/` directory and never changes the Stage 1
+packet or caches. Return that audit directory when requested. It contains code
+differences, package versions and timestamp **schema metadata**, with no patient
+rows, source-table rows, private configs or RDS caches. It diagnoses the installed
+environment without installing or updating packages.
+
+A timezone encoded in an Arrow timestamp schema describes actual instants.
+Naive timestamps require the timezone of the **source extract** and a reviewed
+conversion/DST policy. Do not infer that timezone from the hospital's location,
+the current R session, or the computer's timezone. Changes to cohort/timestamp
+code require source review; an unexplained hash cannot be reconciled by changing
+its value. Submit the actual changed source with the audit.
+
+The coordinator can accept a source-hash ordering difference only when every
+named source-file hash matches and the submitted aggregate hash reproduces from
+the submitted order. New source inventories use locale-independent ordering.
+The missing-package setup guard affects installation checks; it does not relax
+the lockfile or change the analysis. Arrow/R version differences still require
+review independently of that guard.
+
+Candidate numerical templates are not a release. Sites must wait for a complete
+validated `stage2_parameters/` bundle with its production `bundle_manifest.json`;
+folders labeled `candidate` or `NOT_RELEASED` cannot be used for `stage2-fit`.
+All sites are expected to contribute to every analysis. Missing descriptors do
+not invalidate a verified primary fingerprint, but required discovery files must
+be repaired before final release. Pending files remain documented and must never
+be made to pass by regenerating a manifest for altered results.

@@ -39,7 +39,7 @@ for(kind in c("baseline","plus_phenotype")){
 fed_write(dplyr::bind_rows(prediction),file.path(out,"prediction_coefficients.csv"))
 fed_json(list(schema=FED_SCHEMA,site=site,version=version,consensus_id=manifest$consensus_id,consensus_hash=fed_hash(manifest),
  cox_endpoints=cox_endpoints(),cox_horizon_days=28,cox_source=as.list(tools::md5sum("diagnostics/federated/cox_lib.R")),specification=model_spec(),model_spec_hash=fed_hash(model_spec()),candidate_hospitalizations=nrow(d),
- training_role=if(site%in%manifest$training_sites)"training_site" else "held_out_site",source=as.list(tools::md5sum(c("diagnostics/federated/model_lib.R","diagnostics/federated/site_outcomes.R")))),file.path(out,"manifest.json"))
+ training_role=if(site%in%(manifest$outcome_training_sites %||% manifest$training_sites))"training_site" else "held_out_site",source=as.list(tools::md5sum(c("diagnostics/federated/model_lib.R","diagnostics/federated/site_outcomes.R")))),file.path(out,"manifest.json"))
 saveRDS(list(data=d,assignment=assigned,cox=fits,predictive=predfits),file.path(private,"outcomes.rds"))
 fed_json(list(n=nrow(d),all_retained=TRUE,phenotype_counts=as.list(table(d$phenotype)),assignment_status=as.list(table(d$assignment_status))),file.path(private,"outcome_audit.json"))
 message(site," ",version," outcome pass complete; all ",nrow(d)," hospitalizations retained")

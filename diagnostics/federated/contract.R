@@ -67,6 +67,10 @@ fed_patient_features <- function(panel,ids) {
  x
 }
 fed_assign <- function(x,proto,known_hours) {
+ # Match named features explicitly across preserved caches and release platforms.
+ names_expected<-fed_features()$feature
+ stopifnot(setequal(colnames(x),names_expected),setequal(colnames(proto),names_expected),!anyDuplicated(colnames(x)),!anyDuplicated(colnames(proto)))
+ x<-x[,names_expected,drop=FALSE];proto<-proto[,names_expected,drop=FALSE]
  stopifnot(ncol(x)==ncol(proto),nrow(proto)>=1L,length(known_hours)==nrow(x),all(is.finite(x)),all(is.finite(proto)),all(is.finite(known_hours)))
  w<-fed_weights(fed_features());xx<-sweep(x,2,w,"*");pp<-sweep(proto,2,w,"*")
  dist<-outer(rowSums(xx^2),rowSums(pp^2),"+")-2*tcrossprod(xx,pp)

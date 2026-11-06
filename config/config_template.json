@@ -8,7 +8,11 @@
     "run_id": "federated_20261101_v1",
     "start_date": "2018-01-01",
     "end_date": "2025-01-01",
-    "windows": [24, 48, 72],
+    "windows": [
+      24,
+      48,
+      72
+    ],
     "seed": 20261021,
     "support_carry_hours": 6,
     "physiology_carry_hours": 6,
@@ -23,5 +27,6 @@
     "code_status_lookback_hours": 0,
     "sf_threshold": 315,
     "consensus_min_overlap": 0.5
-  }
+  },
+  "stage1_root": null
 }

@@ -4,6 +4,17 @@ if(!file.exists(file.path(clif_root,'renv.lock')))stop('Run from the repository 
 clif_library <- file.path(clif_root,'renv','library')
 clif_bootstrap <- file.path(clif_root,'renv','bootstrap')
 .libPaths(c(clif_library,clif_bootstrap,.libPaths()))
+# find.package(..., quiet=TRUE) returns character(0) for absent packages.
+# Keep DESCRIPTION reads behind an explicit scalar-path check.
+clif_package_matches <- function(package, version, finder=find.package) {
+ path<-finder(package,quiet=TRUE)
+ if(length(path)!=1L||is.na(path)||!nzchar(path))return(FALSE)
+ description<-file.path(path,'DESCRIPTION')
+ if(!file.exists(description))return(FALSE)
+ installed<-tryCatch(read.dcf(description,fields='Version')[1,'Version'],error=function(e)NA_character_)
+ if(is.na(installed)||!nzchar(installed))return(FALSE)
+ isTRUE(tryCatch(utils::compareVersion(installed,version)==0L,error=function(e)FALSE))
+}
 clif_check_environment <- function() {
  if(!requireNamespace('jsonlite',quietly=TRUE))stop('Run Rscript --vanilla scripts/setup.R first.')
  lock<-jsonlite::fromJSON('renv.lock',simplifyVector=FALSE)

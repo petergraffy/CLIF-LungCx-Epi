@@ -1,0 +1,10 @@
+source('scripts/runtime.R')
+base<-tempfile('setup_package_');dir.create(base)
+stopifnot(!clif_package_matches('absent','1.0',function(...)character(0)))
+stopifnot(!clif_package_matches('missing','1.0',function(...)base))
+writeLines(c('Package: synthetic','Version: 1.2.3'),file.path(base,'DESCRIPTION'))
+finder<-function(...)base
+stopifnot(clif_package_matches('synthetic','1.2.3',finder),!clif_package_matches('synthetic','1.2.4',finder))
+stopifnot(!clif_package_matches('synthetic','1.2.3',function(...)c(base,base)))
+unlink(base,recursive=TRUE)
+cat('PASS: missing packages and absent DESCRIPTION files are safe; installed package versions must match the lock\n')

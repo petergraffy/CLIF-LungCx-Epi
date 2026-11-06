@@ -43,9 +43,15 @@ read_run_config <- function(path = "config/config.json") {
   for (nm in c("site_name", "tables_path", "repo"))
     if (is.null(cfg[[nm]]) || !nzchar(cfg[[nm]])) stop("Missing config field: ", nm)
   # R file APIs expand ~, but quoted shell redirections do not. Resolve paths once.
-  for (nm in intersect(c('repo','tables_path','python'), names(cfg)))
-    if (is.character(cfg[[nm]]) && length(cfg[[nm]]) == 1L && nzchar(cfg[[nm]]))
-      cfg[[nm]] <- normalizePath(path.expand(cfg[[nm]]), winslash = '/', mustWork = FALSE)
+  for (nm in intersect(c('repo','tables_path','python','stage1_root'), names(cfg)))
+    if (is.character(cfg[[nm]]) && length(cfg[[nm]]) == 1L && nzchar(cfg[[nm]])) {
+      value <- path.expand(cfg[[nm]])
+      # A venv executable is often a symlink: resolving the file itself loses
+      # the venv identity and makes Python import from the base environment.
+      cfg[[nm]] <- if (nm == 'python')
+        file.path(normalizePath(dirname(value), winslash = '/', mustWork = FALSE), basename(value)) else
+        normalizePath(value, winslash = '/', mustWork = FALSE)
+    }
   cfg$analysis <- modifyList(run_defaults(), cfg$analysis %||% list())
   cfg$analysis$min_cell <- aggregate_min_cell(cfg$analysis$min_cell)
   # Retired pilot parameter: support coverage is descriptive, never eligibility.

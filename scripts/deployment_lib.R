@@ -6,7 +6,7 @@ deploy_source_files<-function() {
  git<-Sys.which('git');if(!nzchar(git))stop('Git is required for source-contract checks; use a Git checkout of the coordinator-issued commit.')
  files<-system2(git,c('ls-files','--','code','diagnostics','scripts','renv.lock','config/waterfall_requirements.txt'),stdout=TRUE,stderr=TRUE)
  if(!is.null(attr(files,'status')))stop('Unable to read the tracked source inventory. Run from a Git checkout.')
- files<-sort(files[grepl('^(code|diagnostics|scripts)/.*[.](R|py|sh|bat)$',files)|files%in%c('renv.lock','config/waterfall_requirements.txt')])
+ files<-sort(files[grepl('^(code|diagnostics|scripts)/.*[.](R|py|sh|bat)$',files)|files%in%c('renv.lock','config/waterfall_requirements.txt')],method='radix')
  if(!length(files)||any(!file.exists(files)))stop('Tracked source files are missing; restore the coordinator-issued checkout.')
  files
 }
@@ -16,6 +16,15 @@ deploy_lock_hash<-function()unname(source_text_md5('renv.lock'))
 deploy_assert_contract<-function(m){
  if(!identical(m$source_hash,deploy_hash())){
   expected<-deploy_source_inventory();received<-m$source_files_md5
+  # Older manifests serialized the same named hashes in locale-dependent order.
+  # Accept that case only when its own hash reproduces AND every source file matches.
+  ordered_match<-!is.null(received)&&setequal(names(received),names(expected))&&
+   identical(received[names(expected)],expected)&&
+   identical(m$source_hash,digest::digest(received,algo='sha256'))
+  if(ordered_match){
+   if(!identical(m$r_lock_md5,deploy_lock_hash()))stop('R lockfile contract mismatch.')
+   return(invisible(TRUE))
+  }
   changed<-if(is.null(received))'per-file provenance unavailable in this older return' else paste(sort(union(setdiff(names(received),names(expected)),names(expected)[vapply(names(expected),function(k)!identical(received[[k]],expected[[k]]),logical(1))])),collapse=', ')
   stop('Source contract mismatch: ',changed,'. Preserve the original return; use the coordinator-issued checkout and a fresh run_id. See code/README.md.')
  }
@@ -36,7 +45,7 @@ deploy_config<-function(path){
 }
 deploy_env<-function(cfg,root,sites=cfg$site_name){
  env<-c(CLIF_RUN_CONFIG=normalizePath(Sys.getenv('CLIF_RUN_CONFIG')),CLIF_FEDERATED_OUTPUT=file.path(root,'primary'),CLIF_REVISION_OUTPUT=file.path(root,'revision'),CLIF_REVISION_PRIMARY_INPUT=file.path(root,'primary'),CLIF_APACHE_OUTPUT=file.path(root,'apache'),CLIF_APACHE_PRIMARY=file.path(root,'primary'),CLIF_WATERFALL_OUTPUT=file.path(root,'waterfall'),CLIF_FEDERATED_SITES=paste(sites,collapse=','),CLIF_APACHE_SITES=paste(sites,collapse=','),CLIF_LOCAL_DEPLOYMENT='true',R_LIBS=paste(.libPaths(),collapse=.Platform$path.sep))
- env[paste0('CLIF_FEDERATED_INPUT_',cfg$site_name)]<-file.path(root,'waterfall')
+ env[paste0('CLIF_FEDERATED_INPUT_',cfg$site_name)]<-file.path(cfg$stage1_root%||%root,'waterfall')
  env[paste0('CLIF_SITE_TABLES_',cfg$site_name)]<-cfg$tables_path
  env[paste0('CLIF_APACHE_TABLES_',cfg$site_name)]<-cfg$tables_path
  do.call(Sys.setenv,as.list(env));invisible(env)
@@ -87,3 +96,70 @@ deploy_finish<-function(dir,stage,site,extra=list()){
  deploy_json(c(list(status='complete',stage=stage,site=site,source_hash=deploy_hash(),source_hash_policy='text-md5-crlf-to-lf-v1',source_files_md5=deploy_source_inventory(),r_version=as.character(getRversion()),r_lock_md5=deploy_lock_hash(),files=deploy_inventory(dir)),extra),file.path(dir,'return_manifest.json'))
 }
 deploy_analysis_root<-function(root,variant)if(variant=='primary')file.path(root,'primary') else file.path(root,'revision/sensitivities',if(variant=='absorbing')'absorbing_v2' else variant)
+
+# Explicitly scoped approvals bind original manifests; source hashes are never rewritten.
+deploy_stage1_input<-function(dir,approval=NULL,variants=DEPLOY_VARIANTS){
+ if(is.null(approval)){m<-deploy_validate_inventory(dir);if(m$stage!='stage1'||m$status!='complete')stop('Expected a completed Stage1 return.');deploy_assert_contract(m);return(m)}
+ m<-deploy_read(file.path(dir,'return_manifest.json'))
+ if(!approval$decision%in%c('accepted_legacy_discovery','same_source_contract')||!nzchar(approval$justification))stop('A documented discovery-snapshot acceptance is required.')
+ if(m$stage!='stage1'||m$status!='complete'||m$site!=approval$site||m$source_hash!=approval$source_hash||m$r_lock_md5!=approval$r_lock_md5||
+    unname(tools::md5sum(file.path(dir,'return_manifest.json')))!=approval$return_manifest_md5)stop('Original Stage1 snapshot differs from its approved lineage.')
+ for(v in variants)for(name in c('fingerprints.csv','clusters.csv','silhouette.csv','manifest.json')){
+  rel<-file.path('discovery',v,name);p<-file.path(dir,rel);expected<-m$files[[rel]]
+  if(is.null(expected)||!file.exists(p)||file.info(p)$size==0||unname(tools::md5sum(p))!=expected)stop('Required discovery input failed integrity: ',m$site,'/',rel)
+  if(grepl('[.]csv$',name)){cols<-names(readr::read_csv(p,n_max=0,show_col_types=FALSE));if(any(tolower(cols)%in%c('patient_id','hospitalization_id','t0','event_time','recorded_dttm','admission_dttm','discharge_dttm','sequence')))stop('Patient-level field in discovery input: ',rel)}
+ }
+ m
+}
+deploy_stage2_context<-function(cfg,bundle,bm,copy_caches=FALSE){
+ site<-cfg$site_name
+ if(bm$source_hash!=deploy_hash()||bm$r_lock_md5!=deploy_lock_hash())stop('Use the coordinator-issued Stage2 checkout and pinned environment.')
+ if(!site%in%unlist(bm$sites))stop('This site has not been admitted to this release. Complete Stage1 and contact the coordinator.')
+ original<-normalizePath(cfg$stage1_root%||%deploy_root(cfg),winslash='/',mustWork=TRUE)
+ approval<-bm$stage1_acceptance[[site]]
+ if(is.null(approval))stop('Bundle lacks the original Stage1 acceptance record for this site.')
+ m<-deploy_stage1_input(file.path(original,'stage1_return'),approval,'primary')
+ state<-deploy_read(file.path(original,'local/deployment.json'))
+ if(state$source_hash!=m$source_hash)stop('Original Stage1 state and return disagree; do not edit either hash.')
+ canonical<-function(x)jsonlite::toJSON(x[sort(names(x),method='radix')],auto_unbox=TRUE,null='null')
+ if(canonical(cfg$analysis)!=canonical(m$parameters))stop('Keep the original Stage1 analysis settings, site ID and run ID for Stage2.')
+ workspace_id<-bm$workspace_id%||%substr(bm$primary_consensus_id,1,12)
+ if(!grepl('^[A-Za-z0-9_-]+$',workspace_id))stop('Invalid Stage2 workspace ID.')
+ root<-file.path(cfg$repo,'output',paste0('run_',site,'_',cfg$analysis$run_id,'_stage2_',workspace_id))
+ variants<-unlist(bm$variants%||%as.list(DEPLOY_VARIANTS));audit<-list()
+ for(v in variants)for(version in c('full',paste0('loo_',unlist(bm$sites)))){
+  modeldir<-file.path(bundle,v,'coordinator',version);mp<-file.path(modeldir,'frozen_manifest.json');pp<-file.path(modeldir,'prototypes.rds')
+  if(!file.exists(mp)||!file.exists(pp))stop('Released templates are missing: ',v,'/',version)
+  fm<-deploy_read(mp);proto<-readRDS(pp)
+  if(!is.matrix(proto)||nrow(proto)!=fm$k||!ncol(proto)||any(!is.finite(proto))||any(proto<0)||anyDuplicated(rownames(proto))||anyDuplicated(colnames(proto)))stop('Invalid released prototype matrix: ',v,'/',version)
+  if(v=='primary'&&nrow(proto)!=4L)stop('This release requires four primary phenotypes.')
+  if(version!='full'&&sub('^loo_','',version)%in%unlist(fm$training_sites))stop('Held-out site leaked into template learning.')
+  if(v=='primary'&&version=='full'&&fm$consensus_id!=bm$primary_consensus_id)stop('Primary consensus identity mismatch.')
+ }
+
+ for(v in variants){
+  from<-file.path(deploy_analysis_root(original,v),'sites',site,'local/discovery.rds')
+  if(!file.exists(from))stop('Original Stage1 cache is missing for ',v,'. Preserve/recover the local Stage1 run; do not create new labels.')
+  a<-readRDS(from);d<-a$data;p<-a$panel;window<-if(v=='h24')24 else if(v=='h48')48 else 72
+  if(is.null(d)||is.null(p)||anyDuplicated(d$hospitalization_id)||nrow(p)!=window*nrow(d)||!setequal(unique(p$hospitalization_id),d$hospitalization_id))stop('Invalid original local cache: ',v)
+  if(v!='absorbing'&&any(d$time_from_landmark<=0))stop('Nonpositive post-landmark follow-up in ',v)
+  if(!is.null(a$input_root)&&!dir.exists(a$input_root))stop('Original waterfall/source caches were moved; restore their original path.')
+  audit[[v]]<-list(variant=v,n=nrow(d),cache_md5=unname(tools::md5sum(from)))
+  if(copy_caches)deploy_copy(from,file.path(deploy_analysis_root(root,v),'sites',site,'local/discovery.rds'))
+  for(name in c('fingerprints.csv','clusters.csv','silhouette.csv','manifest.json')){
+   src<-file.path(deploy_analysis_root(original,v),'sites',site,'export/discovery',name)
+   expected<-m$files[[file.path('discovery',v,name)]]
+   if(is.null(expected)||!file.exists(src)||file.info(src)$size==0||unname(tools::md5sum(src))!=expected)stop('Recover the original local discovery export for ',v,'/',name,'; it does not match the original Stage1 manifest.')
+   if(copy_caches)deploy_copy(src,file.path(deploy_analysis_root(root,v),'sites',site,'export/discovery',name))
+  }
+ }
+ cfg$stage1_root<-original
+ if(copy_caches){
+  lineage<-file.path(root,'local/stage1_lineage.json')
+  record<-list(site=site,original_return_manifest_md5=approval$return_manifest_md5,original_stage1_source_hash=m$source_hash,stage2_source_hash=deploy_hash(),primary_consensus_id=bm$primary_consensus_id,cache_audit=audit,timestamp_policy='preserve original cached instants and landmark membership; no source timestamp reinterpretation or cohort rederivation')
+  if(file.exists(lineage)){
+   old<-deploy_read(lineage);if(!identical(jsonlite::toJSON(old,auto_unbox=TRUE),jsonlite::toJSON(record,auto_unbox=TRUE)))stop('Stage2 cache lineage changed; do not mix runs.')
+  }else deploy_json(record,lineage)
+ }
+ list(cfg=cfg,root=root,original=original,cache_audit=audit)
+}

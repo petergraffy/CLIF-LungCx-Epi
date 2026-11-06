@@ -16,7 +16,8 @@ cluster eligibility/stability and respiratory features. Provisional descriptors,
 outcomes, SOFA, APACHE, code status and vasopressors are not matching features.
 Coordinator-selected k must be an eligible candidate with cross-site support.
 Null k uses the supported silhouette maximum. Full and held-out variants are
-independently frozen. No hardcoded four-phenotype requirement is introduced.
+independently frozen. The current release selects four primary phenotypes; sensitivity k values are
+recorded separately. New releases still require a supported cross-site solution.
 
 Two scientific stages require three site return points:
 
@@ -45,3 +46,19 @@ matrices and keep it available for Stage 2. There is no automatic subsampling or
 silent relaxation of bootstrap/cluster settings. Contact the coordinator if a
 site cannot complete a prespecified analysis; do not submit a partial directory
 as a complete return.
+
+Stage 2 is the first workflow in the code README. A remaining late site follows
+the retained Stage 1 instructions and waits for coordinator admission; it does
+not update the frozen mapping. Stage 2 uses a separate, release-specific local
+workspace and verifies the original manifest and local discovery exports before
+copying caches. It preserves cached instants and exposure membership without
+reinterpreting source timestamps or modifying Stage 1 source hashes.
+
+The coordinator may explicitly accept legacy Stage 1 snapshots. All participating
+sites are expected to contribute to all primary, sensitivity and outcome analyses.
+Required discovery inputs must pass their original checksums; pending files are
+repair items, not reasons to predesignate site exclusions. A missing ancillary
+descriptor does not invalidate a valid primary fingerprint. Leave-one-site-out
+validation excludes each evaluation site from training in turn; it does not
+exclude sites from the study. Current Stage 2 code and environment remain
+strictly matched to the released bundle.

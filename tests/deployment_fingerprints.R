@@ -4,7 +4,7 @@ a<-commandArgs(trailingOnly=TRUE);v<-a[1];base<-a[2]
 Sys.setenv(CLIF_REVISION_VARIANT=v)
 source(if(v=='primary')'diagnostics/federated/contract.R' else if(v=='absorbing')'diagnostics/revision20261022/absorbing_contract.R' else 'diagnostics/revision20261022/variant_contract.R')
 f<-fed_features();support<-c('ROOM_AIR','LOW_O2','HFNC','IMV')
-for(site in c('ALPHA','BETA_2','GAMMA-3')){
+for(site in strsplit(Sys.getenv('CLIF_SYNTHETIC_SITES',unset='ALPHA,BETA_2,GAMMA-3'),',',fixed=TRUE)[[1]]){
  rows<-list()
  for(cl in 1:4){
   z<-f;states<-c(joint=if(v=='support_only')support[cl] else paste0(support[cl],'|HU_CU'),support=support[cl],hypox='HU',hyper='CU',change='same')
