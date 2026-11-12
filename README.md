@@ -18,6 +18,7 @@ Supporting documentation:
 - [Reviewer requirements](docs/site_return_requirements.csv)
 - [Site return reference](docs/site_return_workflow.md)
 - [Reproducible environment](docs/environment.md)
+- [Coordinator postprocessing](postprocessing/README.md)
 
 The current workflow is a new analysis for the manuscript revision. Historical
 returns, figures and retired implementations are excluded from the shared tree
