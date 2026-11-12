@@ -1,0 +1,114 @@
+{
+  "schema": "federated-nearest-20261030-v2",
+  "consensus_id": "c0378b7f3b175bf503d6",
+  "version": "loo_OHSU",
+  "training_sites": [
+    "UCMC",
+    "NU",
+    "Rush",
+    "penn",
+    "umn",
+    "hopkins",
+    "UCSF",
+    "Emory",
+    "U_Michigan",
+    "Sunnybrook"
+  ],
+  "held_out_site": "OHSU",
+  "k": 4,
+  "specification": {
+    "schema": "revision-support_only-v1",
+    "window": 72,
+    "bin_hours": 6,
+    "seed": 20261022,
+    "k_max": 8,
+    "bootstrap_reps": 100,
+    "transport_bootstrap": 200,
+    "min_cell": 10,
+    "minimum_known_support_hours": 12,
+    "assignment_rule": "nearest_template_for_all_information_sufficient_stays; first_template_breaks_exact_ties",
+    "diagnostic_distance_flag": 0.75,
+    "diagnostic_margin_flag": 0.01,
+    "local_om": "constant substitution 2; indel 1; Ward.D2",
+    "exposure": "bounded waterfall support with RAW physiology sensitivity support_only",
+    "consensus_weight": "equal site; size within site",
+    "fingerprint": "interval-valued modal joint/channel distributions and support-change distributions",
+    "probability_min_width": 0.05,
+    "model_horizon_days": 28,
+    "ridge_lambda": 1,
+    "primary_endpoint": "28-day in-hospital death or hospice for prediction; post-landmark cause-specific hazards for association"
+  },
+  "spec_hash": "d2673621748554b10f58c41f40b61a584e7c85ea9dbda991d28edfbd4d02adcf",
+  "reference": "P1",
+  "fingerprint_source": "exact_counts",
+  "outcome_training_sites": [
+    "UCMC",
+    "NU",
+    "Rush",
+    "penn",
+    "umn",
+    "hopkins",
+    "UCSF",
+    "Emory",
+    "U_Michigan",
+    "Sunnybrook"
+  ],
+  "selection": "supported_silhouette_maximum",
+  "source_hashes": [
+    {
+      "fingerprints.csv": "e92ec89f287ad18881dfb5d3a1add94a",
+      "clusters.csv": "20438f9468d68b57f389cb2542fb833f",
+      "manifest.json": "a1d013ee5232e40c7200984cbb3bf1a8"
+    },
+    {
+      "fingerprints.csv": "ee51e9ebdf3671e358ac0e1231f3f062",
+      "clusters.csv": "d85669a01d32a4052a0b12d2a7a5030a",
+      "manifest.json": "c33f7f3fe5a50e3ff394cdf2017797f4"
+    },
+    {
+      "fingerprints.csv": "f7ab66cb8dabf0410be88c494572779d",
+      "clusters.csv": "6595802da647e94590e60fd14c717a3e",
+      "manifest.json": "0c10abe3bcae0d95bff624d8ca9e3a65"
+    },
+    {
+      "fingerprints.csv": "136d6aa147db9fbd4b3dca594a7e1088",
+      "clusters.csv": "0d1ff54ecf2183bcc72e3ec768066a09",
+      "manifest.json": "e23f6f904de1dac22c0d0c92e7ae665a"
+    },
+    {
+      "fingerprints.csv": "c88f8dad3ae042c934adbd4e8220e8c2",
+      "clusters.csv": "ad75e524220164c6b993c6f65158aafb",
+      "manifest.json": "7eef5e197cf6ae81ae7bbb545b99fbe0"
+    },
+    {
+      "fingerprints.csv": "afb3882a160294fa2ab774a9ab77c2ec",
+      "clusters.csv": "aeda1076e7ddb346d16527f7f571f28d",
+      "manifest.json": "b9dd9ec5d7d8a28afd802550ae0f5e1d"
+    },
+    {
+      "fingerprints.csv": "4ea5b1abf3fe592b4d083b10b9bece62",
+      "clusters.csv": "db65f6191dc28be80f898e2bf261be51",
+      "manifest.json": "71c88769ceea743864c541c35a5efca5"
+    },
+    {
+      "fingerprints.csv": "48ca09e92dd15f1b84ca52dbeefc1b76",
+      "clusters.csv": "4a844b8d64a5f4832c46c501aa7f6fea",
+      "manifest.json": "2734e3348d7df24cf65da68d84484845"
+    },
+    {
+      "fingerprints.csv": "1c9d49dce3a8c6e9cfb66915b0f08524",
+      "clusters.csv": "40c5c392527d7199e7e6ee49a8cd447f",
+      "manifest.json": "df19ed9660489caa2bcf99db19592da1"
+    },
+    {
+      "fingerprints.csv": "77883172c6982cbe0276e3b586aae515",
+      "clusters.csv": "e2dcc30f927f26b872c0834fe09737c9",
+      "manifest.json": "584b71d3fa63af8eb8ff2dbe17c65c9c"
+    }
+  ],
+  "assignment": "frozen per-hospitalization six-hour modal profile distance; local identifiers stay local",
+  "coordinator_source": {
+    "diagnostics/federated/central_discover.R": "7ed1d55b97ad2258ceff58691890087a"
+  },
+  "template_equivalence": "Identical to full. OHSU did not contribute to discovery. No prototypes were relearned."
+}

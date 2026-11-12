@@ -1,0 +1,6 @@
+phenotype,label
+P1,Room-air predominant
+P2,Low-flow oxygen predominant
+P3,HFNC/noninvasive support predominant
+P4,Invasive ventilation predominant
+I,Insufficient respiratory-support information

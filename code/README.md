@@ -72,6 +72,21 @@ the frozen mappings, and runs all models, sensitivities, diagnostics and exports
 It uses the **`frozen/stage2_v1/` bundle already included in the repository**.
 No local clustering is performed.
 
+### OHSU Stage 2
+
+Set `site_name` to `OHSU` in `config/config.json`. Use the same pinned
+environment and the OHSU bundle included in this checkout:
+
+```sh
+Rscript --vanilla scripts/site.R stage2-preflight config/config.json frozen/stage2_v1_ohsu
+Rscript --vanilla scripts/site.R stage2 config/config.json frozen/stage2_v1_ohsu
+```
+
+This bundle runs directly from OHSU's CLIF tables using the original frozen
+phenotype prototypes. Return only the `stage2_return` folder printed by the
+runner. If R Arrow is unavailable at OHSU, contact the coordinator for an
+OHSU-compatible fallback bundle.
+
 ### Alternative: Python fallback when R Arrow fails
 
 Use this separate route if R Arrow will not install, lacks Dataset/Parquet
